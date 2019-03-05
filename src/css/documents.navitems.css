@@ -1,0 +1,103 @@
+#nav-item-list {
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0;
+	padding: 0;
+	color: rgba(255,255,255,.5);
+	text-shadow: none;
+}
+
+#nav-item-list input.rename-page {
+	border:  1px solid rgba(255,255,255,.35);
+	background-color: rgba(255,255,255,.25);
+	text-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	padding: 3px;
+	margin-right: 3px;
+	border-radius: 4px;
+	color: white;
+}
+
+#nav-item-list i,
+#nav-item-list .indent a>span {
+	color: rgba(255,255,255,.5);
+	transition: color .2s ease;
+}
+#nav-item-list li:hover i,
+#nav-item-list li:hover a>span {
+	color: rgba(255,255,255,.9);
+}
+#nav-item-list li.selected a[data-action='preview'] {
+	text-shadow: 1px 1px 0 rgba(0,0,0,.25);
+}
+#nav-item-list .drag-handle {
+	cursor: move;
+	font-size: 24px;
+}
+#nav-item-list .indent {
+	min-width: 42px;
+}
+#nav-item-list .indent a>span:before {
+	font-size: 24px;
+	font-family: 'scormninja' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+#nav-item-list .indent .current-state-increase a {
+	cursor: e-resize;
+}
+#nav-item-list .indent .current-state-increase a > span:before {
+	content: '\e903';
+}
+#nav-item-list .indent .current-state-decrease a {
+	cursor: w-resize;
+}
+#nav-item-list .indent .current-state-decrease a > span:before {
+	content:'\e905';
+}
+#nav-item-list li:hover {
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,.1) 100%);
+}
+#nav-item-list>li,
+#nav-item-list ol>li {
+	padding: 10px 0;
+	border-bottom: 1px solid rgba(255,255,255,.5);
+}
+#nav-item-list>li>a{
+	padding-left: .3em;
+}
+#nav-item-list>li a,
+#nav-item-list ol>li a {
+	color: #fff;
+}
+#nav-item-list>li a:focus,
+#nav-item-list ol>li a:focus {
+	outline: none;
+}
+#nav-item-list>li.selected,
+#nav-item-list ol>li.selected {
+	background-color: rgba(59, 145, 184, 0.87);
+	position: relative;
+}
+#nav-item-list a[data-action='preview'] {
+	display: block;
+}
+
+#nav-item-list .nav-item {
+	align-items: center;
+}
+
+#add-documents li[data-depth='1'] a.toggle-switch {
+	margin-left: 16px !important;
+}
+#add-documents li[data-depth='2'] a.toggle-switch {
+	margin-left: 32px !important;
+}
+#add-documents li[data-depth='3'] a.toggle-switch {
+	margin-left: 48px !important;
+}

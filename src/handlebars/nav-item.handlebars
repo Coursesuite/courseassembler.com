@@ -1,0 +1,20 @@
+<div class="nav-item dn-flex dn-flex-lr">
+{{#compare state "import"}}
+	<span class="progress-bar dn-flex-1"><progress max="100" value="0"><span>0</span>%</progress></span>
+	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:CancelConversion('{{id}}');"><i class="ninja-cancel"></i></a></span>
+{{else}}{{#compare state "conversion"}}
+	<span class="conversion-spinner dn-flex dn-flex-v-center"><img src="/app/img/ring.gif" width="24" height="24" alt=""></span>
+	<span class="label dn-flex-1">Converting <em>{{title}}</em> to HTML 5 ...</span>
+	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:CancelConversion('{{id}}');"><i class="ninja-cancel"></i></a></span>
+{{else}}{{#compare state "cache"}}
+	<span class="conversion-spinner dn-flex dn-flex-v-center"><img src="/app/img/ring.gif" width="24" height="24" alt=""></span>
+	<span class="label dn-flex-1">Caching <em>{{title}}</em></span>
+	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:void(0);" onclick="CancelThis(this);"><i class="ninja-cancel"></i></a></span>
+{{else}}
+	<span class="drag-handle" title="Drag up or down to re-order item"><i class="ninja-reorder"></i></span>
+	<span class="indent"><span class="toggle-button-wrapper current-state-{{action}}"><a class="toggle-switch" data-action="item-{{action}}" href="javascript:;"><span/></a></span></span>
+	<span class="label dn-flex-1 dn-flex dn-flex-c-1"><a href="javascript:" data-action="preview">{{title}}</a></span>
+{{/compare}}{{/compare}}{{/compare}}
+</div>
+
+

@@ -1,0 +1,25 @@
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+body {
+    display: flex;
+    margin: 0;
+    background-color: #fff;
+    min-height: 100vh;
+    font-family: Helvetica, Arial, sans-serif;
+}
+iframe {
+    border: none;
+    flex: 1;
+    flex-direction:column;
+}
+footer {
+    text-align: center;
+    font-size: 10px;
+    padding: 5px;
+    background-color: #fff;
+    color: {{{navbg}}};
+}
+footer a:visited, footer a {
+    color: inherit;
+    text-decoration: underline;
+}

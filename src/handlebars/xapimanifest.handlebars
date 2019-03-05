@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<manifest>
+  <organizations default="O{{timestamp}}">
+    <organization identifier="O{{timestamp}}">
+      <title>{{option-course-name}}</title>
+      <item identifier="I{{timestamp}}" identifierref="R{{timestamp}}">
+        <title>{{option-course-name}}</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="R{{timestamp}}" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html" />
+      <file href="_package.js" />
+      <file href="_package.css" />
+      {{#each pages}}<file href="{{href}}" />
+      {{/each}}
+    </resource>
+  </resources>
+</manifest>

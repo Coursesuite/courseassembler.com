@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="template-basic" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 960 560" xml:space="preserve">
+<g class="background">
+	<rect x="17.8" y="69.6" opacity="0.75" width="924.7" height="417.7" fill="#ffffff" />
+</g>
+<g class="content">
+	<rect x="610.1" y="136.7" fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" width="162.8" height="222.7"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="137" x2="189" y2="137"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="154" x2="189" y2="154"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="171" x2="189" y2="171"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="188" x2="189" y2="188"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="205" x2="189" y2="205"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="222" x2="189" y2="222"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="239" x2="189" y2="239"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="257" x2="189" y2="257"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="274" x2="189" y2="274"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="291" x2="189" y2="291"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="308" x2="189" y2="308"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="325" x2="189" y2="325"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="342" x2="189" y2="342"/>
+	<line fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" x1="581" y1="359" x2="189" y2="359"/>
+</g>
+<g class="navigation">
+	<path class="fill" d="M26.4,17c-4.7,0-8.4,3.6-8.4,8.3V61h161V17H26.4z M112,54.5L86.3,39.7L112,24.9V54.5z" fill="#ffffff" />
+	<rect class="fill" x="189" y="17" width="584" height="44" fill="#ffffff" />
+	<path class="fill" d="M476,497H18v36.3c0,4.7,3.7,8.7,8.4,8.7H476V497z" fill="#ffffff"/>
+	<path class="fill" d="M484,497v45h450c4.7,0,9-4,9-8.7V497H484z" fill="#ffffff"/>
+	<path class="fill" d="M934,17H783v44h160V25.3C943,20.6,938.7,17,934,17z M853,54.5V24.9l25.7,14.8L853,54.5z" fill="#ffffff"/>
+</g>
+<g class="border">
+	<path fill="none" stroke="#ffffff" stroke-width="8" stroke-miterlimit="10" d="M953.2,544.2c0,4.8-3.9,8.7-8.7,8.7H15.8
+		c-4.8,0-8.7-3.9-8.7-8.7V15.7C7.2,10.9,11,7,15.8,7h928.8c4.8,0,8.7,3.9,8.7,8.7V544.2z"/>
+</g>
+</svg>

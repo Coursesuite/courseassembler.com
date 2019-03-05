@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{option-course-name}}</title>
+        <meta name="title" content="{{option-course-name}}" />
+        <meta name="description" content="{{option-course-description}}" />
+        <meta name="copyright" content="{{option-course-copyright}}" />
+        <meta name="timestamp" content="{{timestamp}}" />
+        <meta name="author" content="https://documentninja.coursesuite.ninja" />
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="_package.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Slabo+27px" rel="stylesheet">
+        <script type="text/javascript">
+        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
+        </script>
+        <script type="text/javascript" src="_package.js"></script>
+    </head>
+    <body onunload="doUnload()" onbeforeunload="doUnload()">
+    <aside class="grainy">
+        <header>
+            <h1>{{option-course-name}}</h1>
+        </header>
+        <nav id="scroll" data-simplebar>
+            <ol id="menu"></ol>
+            <footer>
+            <p>{{option-course-copyright}}</p>
+            {{#compare tier "<" 2}}<p class="watermark">Created using <a href="http://documentninja.coursesuite.ninja" target="_blank">CourseSuite Course Assembler</a>.</p>{{/compare}}
+            </footer>
+        </nav>
+    </aside>
+    <article><iframe seamless frameborder="0" class="under"></iframe>
+        <iframe seamless frameborder="0" class="over"></iframe></article>
+    </body>
+
+</html>

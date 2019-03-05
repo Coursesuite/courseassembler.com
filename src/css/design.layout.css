@@ -1,0 +1,75 @@
+#nav-selection fieldset {
+	border: none;
+	border-bottom:  1px dashed rgba(255,255,255,.5);
+	margin: .5em 0;
+	padding: .5em 0;
+}
+#nav-selection legend {
+	font-size: 1.5em;
+	font-weight:  bold;
+	padding: 0;
+	margin: 0 0 .5em;
+}
+#nav-selection p.theme-options {
+	margin-top:  -.5em;
+	background-color: rgba(255,255,255,.25);
+	border:  1px solid rgba(255,255,255,.5);
+	padding:  .5em;
+	border-radius:  4px;
+}
+
+#nav-selection .grid {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-justify-content: space-around;
+	-ms-flex-pack: distribute;
+	justify-content: space-around;
+	-webkit-align-content: flex-start;
+	-ms-flex-line-pack: start;
+	align-content: flex-start;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+#nav-selection .grid>div {
+	flex: 1 0 20%;
+}
+#nav-selection figure {
+	position: relative;
+	width: calc(1em + 160px);
+	margin: .5em auto;
+	padding: .5em;
+	border: 2px solid transparent;
+	border-radius: 4px;
+	text-align:  center;
+}
+
+@keyframes slowgrow {
+  50%  { box-shadow: 0 10px 25px rgba(0,0,0,.25); }
+}
+#nav-selection figure.selected {
+    border-color: rgb(255, 232, 0);
+    background-color: rgba(255, 255, 127, 0.85);
+    color: #000;
+    box-shadow: 0 5px 10px rgba(0,0,0,.25);
+    animation: slowgrow 2.5s ease infinite;
+}
+#nav-selection figure svg,
+#nav-selection figure img {
+	position: absolute;
+	top: .5em;left: .5em; width: 160px; height: 120px;
+	z-index: 1;
+}
+#nav-selection figure svg {
+	z-index: 2;
+}
+#nav-selection figure figcaption {
+	margin-top: calc(120px + .5em);
+}

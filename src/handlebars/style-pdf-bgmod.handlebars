@@ -1,0 +1,31 @@
+{{#if split}}
+body { margin: 0; {{#if backgroundColour}}background-color: #{{backgroundColour}}; {{/if}} }
+#page-container {
+    position: initial;
+    top: initial;
+    left: initial;
+}
+{{/if}}
+@media screen {
+    #page-container {
+        background-color: {{#if backgroundColour}}transparent !important{{else}}{{#if split}}#fff{{else}}#bbb{{/if}}{{/if}};
+        background-image: none;
+        -webkit-transition: none;
+        transition: none;
+{{#if split}}
+        bottom: initial;
+        right: initial;
+        overflow: initial;
+{{/if}}
+    }
+    .pf {
+        box-shadow: {{#if split}}none;{{else}}1px 1px 0px #999;{{/if}}
+    }
+    #sidebar {
+        background-image: none !important;
+        background-color: transparent !important;
+    }
+}
+{{#if split}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}@-webkit-keyframes fadein{from{opacity:0}to{opacity:1}}@keyframes swing{0%{transform:rotate(0deg)}10%{transform:rotate(0deg)}90%{transform:rotate(720deg)}100%{transform:rotate(720deg)}}@-webkit-keyframes swing{0%{-webkit-transform:rotate(0deg)}10%{-webkit-transform:rotate(0deg)}90%{-webkit-transform:rotate(720deg)}100%{-webkit-transform:rotate(720deg)}}@media screen{#sidebar{background-color:#fff;background-image:none}#outline{font-family:Georgia,Times,"Times New Roman",serif;font-size:13px;margin:2em 1em}#outline ul{padding:0}#outline li{list-style-type:none;margin:1em 0}#outline li>ul{margin-left:1em}#outline a,#outline a:visited,#outline a:hover,#outline a:active{line-height:1.2;color:#e8e8e8;text-overflow:ellipsis;white-space:nowrap;text-decoration:none;display:block;overflow:hidden;outline:0}#outline a:hover{color:#0cf}#page-container{background-color:{{#if backgroundColor}}transparent{{else}}#fff{{/if}};background-image:none;-webkit-transition:left 500ms;transition:left 500ms}.pf{margin:0;border-collapse:separate;box-shadow:none}.pc{display:block !important;}.pc.opened{-webkit-animation:fadein 100ms;animation:fadein 100ms}.loading-indicator.active{-webkit-animation:swing 1.5s ease-in-out .01s infinite alternate none;animation:swing 1.5s ease-in-out .01s infinite alternate none}}
+{{/if}}

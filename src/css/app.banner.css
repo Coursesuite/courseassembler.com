@@ -1,0 +1,109 @@
+/* ---------------------------
+	page header (header#banner > div.csbanner or header#banner > [whitelabel-html])
+-------------------------- */
+
+.cs-banner {
+	background-color: white;
+	padding: 0 20px;
+	line-height: 62px;
+	color: #777;
+}
+.cs-banner h1 {
+	font-size: 32px;
+	line-height: 62px;
+	font-weight: 300;
+	margin: 0;
+}
+.cs-banner img {
+	vertical-align: middle;
+	border: 0;
+}
+.cs-banner h1 span {
+	color: #000;
+}
+.cs-banner p {
+	float: right;
+	color: 16px;
+	line-height: inherit;
+	margin: 0;
+}
+.cs-banner a {
+	color: #4C5A79;
+	transition: 1s ease;
+	border-radius: 5px;
+}
+
+/* ---------------------------
+	cog, powered by
+-------------------------- */
+
+#poweredby {
+	position: fixed;
+	color: rgba(0,0,0,.5);
+	right: 22px;
+	top: 5px;
+	font-size: 10px;
+}
+#cog {
+	position: fixed;
+	z-index: 65432;
+	top: 1px;
+	right: 1px;
+}
+#cog > a {
+	position: absolute;
+	right: 0;
+	color:rgba(0,0,0,.5);
+	text-shadow:0 1px 0 #fff;
+	text-decoration:none;
+}
+#cog > div {
+	display: none;
+	position: absolute;
+	top: 23px;
+	right: 2px;
+	background-color: #f4f4f4;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0,0,0,.2);
+	padding: 0 10px;
+}
+#cog > div:before {
+	position: absolute;
+	margin-top: -10px;
+	right: 4px;
+	content: '';
+	border: 5px solid transparent;
+	border-bottom-color: #f4f4f4;
+}
+#cog p {
+	margin: 0;
+	padding: 10px;
+	font-size: 12px;
+	color: #333;
+	white-space: nowrap;
+}
+#cog p a { color: inherit; }
+#cog a, #cog a:focus {
+	outline:none;
+}
+#cog p[data-action]:before {
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	content: '\f111';
+	color: green;
+	font-size: 0.5rem;
+	margin-right: .5rem;
+}
+body.settings #cog > div {display:block;}
+
+body.no-autosplit #cog > div > p[data-action='toggle-no-autosplit'],
+body.no-autoresize #cog > div > p[data-action='toggle-no-autoresize'],
+body.mute #cog > div > p[data-action='toggle-mute'] { color: #999; }
+
+body.no-autosplit #cog > div > p[data-action='toggle-no-autosplit']:before,
+body.no-autoresize #cog > div > p[data-action='toggle-no-autoresize']:before,
+body.mute #cog > div > p[data-action='toggle-mute']:before { color: #d46161; }

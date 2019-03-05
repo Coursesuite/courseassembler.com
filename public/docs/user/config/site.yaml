@@ -1,0 +1,17 @@
+title: 'Course Assembler'
+default_lang: en
+author:
+  name: CourseSuite
+  email: info@coursesuite.com
+taxonomies:
+  - category
+  - tag
+metadata:
+  description: 'Documentation for the Course Assembler'
+summary:
+  enabled: true
+  format: short
+  size: 300
+  delimiter: '==='
+blog:
+  route: /blog

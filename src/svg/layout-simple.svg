@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="template-simple" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 960 560" xml:space="preserve">
+<g class="border">
+	<path fill="none" stroke="#ffffff" stroke-width="8" stroke-miterlimit="10" d="M953.2,544.2c0,4.8-3.9,8.7-8.7,8.7H15.8
+				c-4.8,0-8.7-3.9-8.7-8.7V15.7C7.2,10.9,11,7,15.8,7h928.8c4.8,0,8.7,3.9,8.7,8.7V544.2z"/>
+</g>
+<g class="background">
+	<rect x="17.8" y="69.6" opacity="0.5" width="924.7" height="417.7"  fill="#ffffff"/>
+</g>
+<g class="content">
+	<rect x="610.1" y="136.7" fill="none" stroke="#000000" opacity="0.5" stroke-width="8" stroke-miterlimit="10" width="162.8" height="222.7"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="137" x2="189" y2="137"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="154" x2="189" y2="154"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="171" x2="189" y2="171"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="188" x2="189" y2="188"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="205" x2="189" y2="205"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="222" x2="189" y2="222"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="239" x2="189" y2="239"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="257" x2="189" y2="257"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="274" x2="189" y2="274"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="291" x2="189" y2="291"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="308" x2="189" y2="308"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="325" x2="189" y2="325"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="342" x2="189" y2="342"/>
+	<line fill="none" stroke="#000000" stroke-width="8" opacity="0.5" stroke-miterlimit="10" x1="581" y1="359" x2="189" y2="359"/>
+</g>
+<g class="navigation">
+	<path class="fill" id="prev_2_" d="M26.4,17c-4.7,0-8.4,3.6-8.4,8.3V61h161V17H26.4z M112,54.5L86.3,39.7L112,24.9V54.5z"/>
+	<rect class="fill" id="info_2_" x="189" y="17" width="584" height="44"/>
+	<path class="fill" id="license_1_" d="M484,497v45h450c4.7,0,9-4,9-8.7V497H484z"/>
+	<path class="fill" id="next_2_" d="M934,17H783v44h160V25.3C943,20.6,938.7,17,934,17z M853,54.5V24.9l25.7,14.8L853,54.5z"/>
+</g>
+<g class="navigation">
+	<path class="fill" d="M18,497v36.3c0,4.7,3.7,8.7,8.4,8.7H476v-45H18z M43,536c-9.4,0-17-7.6-17-17s7.6-17,17-17s17,7.6,17,17S52.4,536,43,536z
+		"/>
+	<path class="fill" d="M43.1,510.8c0.5,0,0.8-0.2,1.1-0.5s0.5-0.7,0.5-1.1c0-0.5-0.2-0.9-0.5-1.2c-0.3-0.3-0.7-0.5-1.2-0.5
+		c-0.5,0-0.9,0.2-1.3,0.5c-0.3,0.3-0.5,0.7-0.5,1.2s0.2,0.8,0.5,1.2S42.6,510.8,43.1,510.8z"/>
+	<path class="fill" d="M46.6,527c-0.5-0.1-0.8-0.2-1.1-0.3c-0.2-0.1-0.4-0.3-0.6-0.5c-0.1-0.2,0-0.5-0.1-0.8c0-0.3,0.1-0.8,0.1-1.3v-9.6
+			c0-0.1-0.2-0.2-0.3-0.4c-0.1-0.1-0.3-0.2-0.5-0.2c-0.1,0-0.2,0-0.4,0.1c-0.1,0.1-0.3,0.1-0.5,0.1c-0.3,0.1-0.6,0.1-0.9,0.2
+			c-0.3,0.1-0.7,0.1-1,0.1c-0.3,0-0.6,0.1-0.9,0.1c-0.3,0-0.5,0-0.7,0.1c-0.1,0-0.2,0.1-0.3,0.2c-0.1,0.1-0.1,0.2-0.1,0.3
+			c0,0.1,0,0.2,0.1,0.3c0.1,0.1,0.2,0.2,0.3,0.2c0.5,0.1,0.9,0.1,1.1,0.2c0.3,0.1,0.5,0.3,0.6,0.6c0.1,0.3,0.3,0.7,0.3,1.2
+			c0,0.5,0.1,1.2,0.1,2.1v4.8c0,0.5-0.1,0.8-0.1,1.2c0,0.3-0.1,0.6-0.3,0.8s-0.4,0.4-0.6,0.5c-0.3,0.1-0.7,0.2-1.2,0.3
+			c-0.1,0-0.2,0.1-0.3,0.2c-0.1,0.1-0.1,0.2-0.1,0.3c0,0.1,0,0.2,0.1,0.3c0.1,0.1,0.1,0.1,0.2,0.1c0.6,0,1.1,0,1.8-0.1
+			c0.6-0.1,1.2-0.1,1.9-0.1c0.6,0,1.2,0,1.8,0.1c0.6,0.1,1,0.1,1.4,0.1c0.1,0,0.2,0,0.3-0.1c0.1-0.1,0.1-0.2,0.1-0.3
+			c0-0.1,0-0.2-0.1-0.3C46.8,527.1,46.7,527,46.6,527z"/>
+</g>
+</svg>

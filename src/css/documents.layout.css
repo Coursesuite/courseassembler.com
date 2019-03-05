@@ -1,0 +1,44 @@
+.toolbar {
+	background-color: var(--toolbar);
+	background-image: none;
+	height: 50px;
+	border-bottom: 1px solid rgba(255,255,255,.5);
+	position: relative;
+}
+	#nav-actions {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 375px;
+		height: 50px;
+		border-right: 1px solid var(--documents);
+	}
+	#fields {
+		position: absolute;
+		top: 0;
+		left: 375px;
+		width: calc(100vw - 375px);
+		height: 50px;
+	}
+		#fields .dn-flex-1 {
+			flex: 1;
+			text-align: center;
+		}
+
+#scroll-area {
+	position: absolute;
+	top: 50px;
+	left: 0;
+	width: 375px;
+	height: calc(100vh - 50px - var(--bannerHeight) - 18px);
+	border-right: 1px solid rgba(255,255,255,.5);
+}
+
+#preview {
+	position: absolute;
+	top: 50px;
+	left: 375px;
+	width: calc(100vw - 375px);
+	height: calc(100vh - 50px - var(--bannerHeight) - 18px);
+	display: flex;
+}

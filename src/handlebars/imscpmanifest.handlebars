@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This package has been created using http://document.scormification.ninja/ -->
+<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_v1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="MANIFEST-648345a17d5d94d9b6ad419e526bee21" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p2.xsd">
+  <organizations default="O{{timestamp}}">
+    <organization identifier="O{{timestamp}}" structure="hierarchical">
+      <title>{{option-course-name}}</title>
+{{#each resources}}
+        <item identifier="I{{identifier}}" isvisible="true" identifierref="R{{identifier}}">
+         <title>{{title}}</title>
+        </item>
+{{/each}}
+    </organization>
+  </organizations>
+  <resources>
+{{#each resources}}
+    <resource identifier="R{{identifier}}" type="webcontent" xml:base="{{base}}" href="{{href}}">
+{{#each files}}
+      <file href="{{href}}" />
+{{/each}}
+    </resource>
+{{/each}}
+  </resources>
+</manifest>

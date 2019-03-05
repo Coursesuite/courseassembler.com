@@ -1,0 +1,7 @@
+<svg id="basic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720">
+  <title>Basic_DropUp</title>
+  <path id="prev" d="M178,705V640H17v52.72c0,7,3.68,12.28,8.41,12.28Zm-67-11.62L85.3,671.46,111,649.54Z"/>
+  <rect id="info" x="240" y="640" width="532" height="65"/>
+  <path id="next" d="M942,692.72V640H782v65H933C937.71,705,942,699.71,942,692.72Zm-64.3-21.26L852,693.38V649.54Z"/>
+  <path d="M231,705V640H188v65Zm-4-22.61H193l8.51-11.76,8.5-11.77,8.51,11.77Z"/>
+</svg>

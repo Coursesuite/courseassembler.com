@@ -1,0 +1,20 @@
+<script type="text/javascript" id="transformScaleCenter">
+(function (win, doc, undefined) {
+    function debounce(b,f,c){var a;return function(){var d=this,e=arguments,g=c&&!a;clearTimeout(a);a=setTimeout(function(){a=null;c||b.apply(d,e)},f);g&&b.apply(d,e)}};
+    var node = doc.querySelector("#page-container img.bi"),
+        w = parseInt(win.getComputedStyle(node,null).getPropertyValue("width"),10),
+        h = parseInt(win.getComputedStyle(node,null).getPropertyValue("height"),10);
+    var scaleFn = function() {
+            var scale = Math.min(
+                    (win.innerWidth || doc.body.clientWidth) / w,
+                    (win.innerHeight || doc.body.clientHeight) / h
+                );
+            [].forEach.call(doc.querySelectorAll(".pf"), function(el) {
+                el.style.transform = "translate(-50%, -50%) " + "scale(" + scale + ") ";
+            });
+        },
+        scaleDown = debounce(scaleFn,20);
+    scaleFn();
+    win.addEventListener('resize', scaleDown);
+})(window, document);
+</script>

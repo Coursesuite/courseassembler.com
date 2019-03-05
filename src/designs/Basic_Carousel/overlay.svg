@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720">
+  <title>Basic_Carousel</title>
+  <g id="slideshow">
+    <circle cx="218.96" cy="664.66" r="24.96"/>
+    <circle cx="303.8" cy="664.66" r="24.96"/>
+    <circle cx="388.65" cy="664.66" r="24.96"/>
+    <circle cx="473.5" cy="664.66" r="24.96" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="9.98"/>
+    <circle cx="558.35" cy="664.66" r="24.96"/>
+    <circle cx="643.2" cy="664.66" r="24.96"/>
+    <circle cx="728.04" cy="664.66" r="24.96"/>
+    <path id="nav-left" d="M33,359.91a54.1,54.1,0,1,0,54.1-54.1A54.1,54.1,0,0,0,33,359.91Zm20.74,0,51.39-29.67v59.34Z"/>
+    <path id="nav-right" d="M866,305.81a54.1,54.1,0,1,0,54.1,54.1A54.1,54.1,0,0,0,866,305.81Zm-18,83.77V330.24l51.39,29.67Z"/>
+  </g>
+</svg>

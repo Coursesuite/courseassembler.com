@@ -1,0 +1,31 @@
+<!doctype html>
+    <head>
+        <title>{{option-course-name}}</title>
+        <meta name="title" content="{{option-course-name}}" />
+        <meta name="description" content="{{option-course-description}}" />
+        <meta name="copyright" content="{{option-course-copyright}}" />
+        <meta name="timestamp" content="{{timestamp}}" />
+        <meta name="author" content="http://document.scormification.ninja/" />
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="_package.css">
+        <script type="text/javascript">
+        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
+        </script>
+        <script type="text/javascript" src="_package.js"></script>
+    </head>
+    <body onunload="doUnload()" onbeforeunload="doUnload()">
+        <main>
+            <iframe seamless frameborder="0" class="under"></iframe>
+            <iframe seamless frameborder="0" class="over"></iframe>
+        </main>
+        {{#compare tier "<" 2}}<footer class="watermark">
+            <div>Created using <a href="http://documentninja.coursesuite.ninja" target="_blank">CourseSuite Course Assembler</a>.</div>
+        </footer>{{/compare}}
+        <nav>
+            <a href="javascript:left();" id="lb"><i class="dn-slide-precede"></i></a>
+            <span id="pageNumber"></span>
+            <a href="javascript:right();" id="rb"><i class="dn-slide-advance"></i></a>
+        </nav>
+        <div id="progress"><div></div></div>
+    </body>
+</html>

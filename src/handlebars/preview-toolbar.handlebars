@@ -1,0 +1,78 @@
+	<div class="pad-left" data-page-format="{{format}}" data-page-kind="{{kind}}">
+
+	{{#compare kind "plugin"}}
+		{{!-- may require some work --}}
+	{{else}}
+	<button data-fileid="{{id}}" data-action="page-bgcolour" data-popover="colour" data-label="Page background colour" data-value="{{payload.backgroundColour}}" data-init="jscolor"><i class="ninja-adjust"></i>BG colour</button>
+	{{/compare}}
+
+	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}
+	<button data-fileid="{{id}}" data-action="set-score" data-popover="range" data-value="{{score}}" data-value-max="100" data-label="Complete after percentage viewed ..." data-init="rangeslider"><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
+	{{/compare}}
+
+	{{#compare format "in" "slideshare"}}
+	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{payload.total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
+	{{/compare}}
+
+	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}
+		{{#compare kind "plugin"}}{{else}}
+	<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>
+	<span id="audioStatus">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{else}}<i class="ninja-volume_off" title="No page audio"></i>{{/if}}</span>
+		{{/compare}}
+	{{/compare}}
+
+	{{#compare kind "plugin"}}
+	{{#compare "edit" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-edit"><i class="ninja-marker"></i>Edit</button>{{/compare}}
+	{{#compare "view" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-view"><i class="ninja-eye"></i>View</button>{{/compare}}
+	{{/compare}}
+
+	{{#compare kind "image"}}
+	<span id="image-properties"></span>
+	{{/compare}}
+
+	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}
+	<span id="timeTaken"></span>
+	{{/compare}}
+
+	{{#compare format "in" "slideshare"}}
+	<span id="pageScore"></span>
+	{{/compare}}
+
+{{!-- 	{{#if supportsEdit}}
+	<button data-fileid="{{id}}" data-action="content-editable" title="Toggle editing mode (use at your own risk)"><i class="ninja-marker"></i>Edit</button>
+	{{/if}} --}}
+
+	{{#if supportsZoom}}
+	<button data-fileid="{{id}}" data-action="zoom-out" class="icon"><i class="ninja-zoom-out"></i></button>
+	<button data-fileid="{{id}}" data-action="zoom-in" class="icon"><i class="ninja-zoom-in"></i></button>
+	{{/if}}
+
+	{{#compare format "pdf"}}{{#unless payload.split}}
+	<button data-fileid="{{id}}" data-action="split"><i class="ninja-split"></i>Split</button>
+	{{/unless}}{{/compare}}
+
+	</div>
+
+	<div class="dn-flex-1 page-title text-center">
+		{{#if name}}{{name}}{{else}}(untitled){{/if}}
+	</div>
+
+	<div class="dn-flex-end pad-right">
+		<button data-fileid="{{id}}" data-action="trash" data-popover="yesno" data-label="Are you sure? (no undo)"><i class="ninja-discard"></i>Delete page</button>
+	</div>
+
+{{!--
+
+{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}<div class="grid page-score">
+	<form class="col-3-4" oninput="outp_score.value=tmpl_score.value">
+		Page completes when <input data-fileid="{{id}}" type="range" min="1" step="1" max="100" id="tmpl_score" value="{{score}}" name="tmpl_score"> <output for="tmpl_score" name="outp_score">{{score}}</output>% is {{#compare format "in" "soundcloud"}}heard{{else}}viewed{{/compare}}.
+	</form>
+	<div id="timeTaken" class="col-1-4 min"></div>
+</div>{{/compare}}{{#compare format "in" "slideshare"}}<div class="grid page-score min">
+	<form class="col-3-4" oninput="outp_score.value=tmpl_score.value">
+		Page completes when <input data-fileid="{{id}}" type="range" min="1" step="1" max="{{payload.total_slides}}" id="tmpl_score" value="{{score}}" name="tmpl_score"> <output for="tmpl_score" name="outp_score">{{score}}</output> out of {{payload.total_slides}} slides are viewed.
+	</form>
+	<div id="pageScore" class="col-1-4 min"></div>
+</div>{{/compare}}
+
+--}}

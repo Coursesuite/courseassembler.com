@@ -1,0 +1,38 @@
+:root {
+	/* containers */
+	--documents: #4fc3f7;
+	--toolbar: #44aad8;
+	--design: #7fba42;
+	--download: #4C5A79;
+
+	/* buttons */
+	--positive: #7fba42;
+	--help: #e35b28;
+	--reset: #843da2;
+	--content: darkgreen;
+	--quiz: #9b4dca;
+	--resource: #fc3;
+
+	--bgcolour: #333;
+	--audio: #dc9e1f;
+	--edit: #85d1f3;
+	--view: #a3dcf5;
+	--delete: #ff4300;
+
+	--split: #d23785;
+	--zoom: #888;
+	--score: #505bfd;
+
+	--blocking: rgba(170, 193, 204, 0.1);
+
+	/* sizes */
+	--bannerHeight:  110px;
+	--standardGutter: 10px;
+	--footerHeight:  18px;
+
+	/* z-indexes */
+	--zheader: 1;
+	--zblocking: 10;
+	--zcog: 20;
+	--zmodal: 30;
+}

@@ -1,0 +1,40 @@
+<script type="text/javascript" id="transformScaleStretch">
+ (function (win, doc, undefined) {
+    function debounce(b,f,c){var a;return function(){var d=this,e=arguments,g=c&&!a;clearTimeout(a);a=setTimeout(function(){a=null;c||b.apply(d,e)},f);g&&b.apply(d,e)}};
+
+    var pagew = parseInt(win.getComputedStyle(doc.getElementsByClassName("w0")[0], null).getPropertyValue("width"),10),
+        pageh = parseInt(win.getComputedStyle(doc.getElementsByClassName("h0")[0], null).getPropertyValue("height"),10),
+        scaled = false;
+
+    doc.body.style.overflowX = "auto";
+    [].forEach.call(doc.querySelectorAll(".pf"), function(elm) {
+        elm.style.transformStyle = "flat";
+        elm.style.transformOrigin = "top left";
+    });
+
+    var scaleDown = debounce(function() {
+          var docw = (doc.getElementById("page-mod-book-view"))
+                            ? doc.querySelector(".book_content").offsetWidth
+                            : Math.max(doc.documentElement.clientWidth, win.innerWidth || 0);
+          if (docw < pagew) {
+            doc.body.style.overflowX = "none";
+            var scale = (docw / pagew);
+            [].forEach.call(doc.querySelectorAll(".pf"), function(el, i) {
+                el.style.transform = ["scale(",scale,",",scale,")"].join("");
+                el.style.marginBottom = "-" + (pageh - (pageh * scale)) + "px";
+            });
+            scaled = true;
+          } else if (scaled) {
+            [].forEach.call(doc.querySelectorAll(".pf"), function(el) {
+                el.style.transform = "scale(1,1)";
+                el.style.marginBottom = "unset";
+            });
+            scaled = false;
+          }
+    }, 250);
+
+    win.addEventListener('resize', scaleDown);
+    scaleDown();
+
+})(window, document, parent);
+</script>

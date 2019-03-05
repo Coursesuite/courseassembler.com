@@ -1,0 +1,72 @@
+{{!--
+
+	popovers are html fragments that appear inside tip boxes and require an action from the user
+
+	they are aligned to the right edge of the triggering button
+
+	there are various types, and this file combines them all as a single handlebars function.
+	only one comparison will match, rather like a switch statement
+
+--}}
+
+{{#compare popover "audio"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<audio id="popover_audioElement" src="{{audio}}" controls></audio>
+	<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;capture=microphone" />
+	<div>
+		<button data-action="record-page-audio"><i class="ninja-mic"></i>Record</button>
+		<button data-action="upload-page-audio"><i class="ninja-upload3"></i>Upload mp3</button>
+		<button data-action="trash-page-audio"><i class="ninja-discard"></i>Remove</button>
+	</div>
+</section>
+{{/compare}}
+
+{{#compare popover "yesno"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<button onclick="handleAction();closePopover();" class="positive"><i class="ninja-thumbs-up"></i>Yes</button>
+	<button onclick="closePopover()"><i class="ninja-thumbs-down"></i>No</button>
+</section>
+{{/compare}}
+
+{{#compare popover "savecancel"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<button onclick="handleAction();closePopover();" class="positive"><i class='ninja-save-disk'></i>Save</button>
+	<button onclick="closePopover()"><i class='ninja-close'></i>Cancel</button>
+</section>
+{{/compare}}
+
+{{#compare popover "range"}}
+<header onclick="closePopover()">{{label}}</header>
+<section class="score_slider_sizing">
+	<div id="range_slider" data-value="{{value}}" data-min="1" data-max="100"></div>
+	<button onclick="popover_saveRange();"><i class="ninja-thumbs-up"></i>Save</button>
+</section>
+{{/compare}}
+
+{{#compare popover "score"}}
+<header onclick="closePopover()">{{label}}</header>
+<section class="score_slider_sizing">
+	<div id="score_slider" data-value="{{value}}" data-min="1" data-max="{{valueMax}}"></div>
+	<button onclick="popover_saveScore();"><i class="ninja-thumbs-up"></i>Save</button>
+</section>
+{{/compare}}
+
+{{#compare popover "colour"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<input type='hidden' name='color_value' value='58c3f3'>
+	<button onclick="previewPageBackground(this.value)" value="#000000" class="colour-dot black" title="Black"><i class="ninja-format_color_fill"></i></button>
+	<button onclick="previewPageBackground(this.value)" value="#555555" class="colour-dot dgrey" title="Dark grey"><i class="ninja-format_color_fill"></i></button>
+	<button onclick="previewPageBackground(this.value)" value="#bbbbbb" class="colour-dot lgrey" title="Light grey"><i class="ninja-format_color_fill"></i></button>
+	<button onclick="previewPageBackground(this.value)" value="#ffffff" class="colour-dot white" title="White"><i class="ninja-format_color_fill"></i></button>
+	<button class="jscolor colour-dot" title="Choose a colour"><i class="ninja-palette"></i></button>
+	<button onclick="popover_savePageBackground();" style="margin-left:2em"><i class="ninja-save-disk"></i>Save</button>
+	<div class="apply-all">
+    <label for="colourAll">Apply to all pages</label>
+    <input id="colourAll" type="checkbox"></input>
+    </div>
+</section>
+{{/compare}}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Course Assembler QuizBuilder</title>
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+	<script>window.addEventListener("DOMContentLoaded",function() {
+		var fileid = window.location.search.split("?")[1] || "";
+		localforage.config({name: 'DocumentNinja'});
+		localforage.getItem(fileid).then(function (obj) {
+			if (obj === null) return;
+			if (obj.payload.html === undefined) {obj.payload.html = "You didn't save your quiz!";}
+			parent.DocNinja.filePreview.Observe("QuizBuilder/view.html","a[href='#resit]","click",window.location.href);
+			var blob = new Blob([obj.payload.html],{type:"text/html"});
+			var url = URL.createObjectURL(blob);
+			window.location.href = url; // [url,"?%5B%5D,0"].join("");
+		});
+	},false);</script>
+</head>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="ninja:renderer" content="{{format}}" >
+<title>{{title}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html,body{
+	margin:0;height:100%;min-height:100%
+}
+body {
+	overflow:{{#compare format "in" "slideshare"}}auto{{else}}hidden{{/compare}};
+	position:relative;
+	{{#if payload.backgroundColor}}background-color:#{{payload.backgroundColor}};{{else}}
+	{{#compare format "in" "youtube,vimeo,slideshare"}}background-color:black;{{/compare}}
+	{{#compare format "in" "soundcloud"}}background-color:#f5f5f5;{{/compare}}
+	{{/if}}
+}
+{{#compare format "in" "slideshare"}}
+#slides{
+	position:absolute;
+}{{/compare}}</style>
+{{#compare format "in" "slideshare"}}<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+/*! picoSlides v1.0.1 | (c) 2014 Hector Quintero Casanova | Released under MIT License */
+!(function(x,c,q,y){function w(d){var e,h,g,k,f,l,m,p,r;e={"-webkit-touch-callout":"none","-webkit-user-select":"none","-khtml-user-select":"none","-moz-user-select":"none","-ms-user-select":"none","user-select":"none"};(d=d||!1)?(d.className+=" containerSlide",d.style.position="relative",d.style.display="inline-block",d.style.textAlign="center",d.style.lineHeight=0,d.style.color=a.cssFgColor,d.style.background='url("'+a.loadingImg+'") center center no-repeat '+a.cssBgColor,d.style.borderRadius=a.cssRadius,
+c(d).css(e)):(d=c.extend({display:"block",position:"absolute",width:a.cssButtonSize,height:a.cssButtonSize,opacity:a.cssOpacity,"background-color":a.cssBgColor,cursor:"pointer",color:"transparent","line-height":a.cssButtonSize,"font-size":.1,"text-align":"center","border-radius":a.cssButtonSize},e),e=parseInt(a.cssButtonSize,10),h=e/5,g={display:"inline-block",width:0,height:0,"border-top":h+"px solid transparent","border-bottom":h+"px solid transparent","vertical-align":"middle"},k={display:"inline-block",
+width:e/3,height:Math.floor(h)-Math.floor(h)%2,background:a.cssFgColor,"vertical-align":"middle"},f={display:"inline-block",width:h/3,height:.4*e,background:a.cssFgColor,"vertical-align":"middle"},p=q.createElement("img"),p.alt=a.altAttr,p.style.width="100%",p.style.height="auto",p.style.borderRadius=a.cssRadius,r=p.cloneNode(!1),p.className="firstSlide",r.style.position="absolute",r.style.top=0,r.style.left=0,r.style.visibility="hidden",r.style.opacity=0,l=q.createElement("span"),l.className="countSlide",
+l.style.display="none",l.style.position="absolute",l.style.bottom=0,l.style.left="25%",l.style.right="25%",l.style.backgroundColor="transparent",l.style.cursor="default",l.innerHTML="<span><span>1</span>/</span>",m=l.firstChild,m.style.display="inline-block",m.style.padding="0 "+a.cssPadding,m.style.lineHeight=a.cssLineHeight,m.style.fontSize=a.cssFontSize,m.style.fontFamily=a.cssFontFamily,m.style.fontWeight="bold",m.style.borderRadius=a.cssRadius+" "+a.cssRadius+" 0 0",m.style.opacity=a.cssOpacity,
+m.style.backgroundColor=a.cssBgColor,t={$skipF:c("<span/>",{"class":"controlSlide hideLastSlide skipFSlide",css:c.extend({},d,{right:a.cssSeparation,bottom:a.cssSeparation}),html:c("<span/>",{css:c.extend({},g,{"border-left":k.width+"px solid "+a.cssFgColor})}).add(c("<span/>",{css:f})).add(q.createTextNode("."))}),$skipB:c("<span/>",{"class":"controlSlide hideFirstSlide skipBSlide",css:c.extend({},d,{left:a.cssSeparation,bottom:a.cssSeparation}),html:c("<span/>",{css:f}).add(c("<span/>",{css:c.extend({},
+g,{"border-right":k.width+"px solid "+a.cssFgColor})})).add(q.createTextNode("."))}),$next:c("<span/>",{"class":"controlSlide hideLastSlide nextSlide",css:c.extend({},d,{display:"none",right:a.cssSeparation,top:"50%","margin-top":"-"+e/2+"px"}),html:c("<span/>",{css:k}).add(c("<span/>",{css:c.extend({},g,{"border-left":k.width+"px solid "+a.cssFgColor})})).add(q.createTextNode("."))}),$prev:c("<span/>",{"class":"controlSlide hideFirstSlide prevSlide",css:c.extend({},d,{left:a.cssSeparation,top:"50%",
+"margin-top":"-"+e/2+"px"}),html:c("<span/>",{css:c.extend({},g,{"border-right":k.width+"px solid "+a.cssFgColor})}).add(c("<span/>",{css:k})).add(q.createTextNode("."))}),$link:c("<a/>",{"class":"controlSlide linkSlide",target:"_blank",css:c.extend({},d,{right:a.cssSeparation,top:a.cssSeparation,"border-radius":a.cssRadius}),html:c("<img/>",{width:"auto",height:2*h,css:{"vertical-align":"middle"}}).add(q.createTextNode("."))}),count:l,first:p,slide:r})}var n,v=0,t={},a={altAttr:"",lazyAttr:"data-original",
+loadingImg:"data:image/gif;base64,R0lGODlhKwALAMIEAP///wAAAIKCggAAABRaZhRaZhRaZhRaZiH/C05FVFNDQVBFMi4wAwEAAAAh+QQJMgADACwAAAAAKwALAAADNDiyzPNQtRbhpHfWTCP/mgduYEl+Z8mlGauG1ii+7bzadBejeL64sIfvAtQJR7yioHJsJQAAIfkECTIAAwAsAAAAACsACwAAAz84sMzzcIhJaYQ1q8bBzeAHVh0njtOJlo06uiDrRKhF14K8wNpd6x4fikfSEW0YHPCYEo6WzlBUI7s8albJMAEAIfkECTIAAwAsAAAAACsACwAAAz84sszzcIBJaYQtq6xj/dPFjaRwgZ9YrsuJWhHLui+gyiT93jino7xe4wcKCluemi127ECUS8xqM7o8alaqLwEAIfkEATIAAwAsAAAAACsACwAAA0I4sszzULUWIbgYy0kjn1UmXl8HlU40iuhStUK4YvDbyjNQe7ea671T8PEDomxHX24nTFp+zEd0UNxwKtISljobJAAAOw==",
+cssButtonSize:"45px",cssPadding:"15px",cssFontSize:".9em",cssLineHeight:"1.5em",cssFontFamily:"sans-serif",cssBgColor:"transparent",cssFgColor:"white",cssSeparation:"1.5%",cssRadius:"0px",cssOpacity:.65};n=function(d,a){this.elem=d;this.$elem=c(d);this.options=a;this.metadata=this.$elem.data("options");this.sourceUrl=this.$elem.data("src");this.toLoad=-1;this.currentSlide=this.counter=null};n.prototype={base:this,defaults:{aspectRatio:.75,imgMaxWidth:0,nextTitle:"Next",prevTitle:"Previous",skipFTitle:"Skip to last slide",
+skipBTitle:"Skip to first slide",fadeDuration:0,seqLoad:!0,lazyLoad:{},linkUrl:0,linkIcon:0,linkTitle:"View on SlideShare",linkHides:!0,holderTheme:"picoSlide",apiUrl:"http://www.slideshare.net/api/oembed/2?url=",loadFirst:function(){},loadAll:function(){},timeoutErr:"The connection has timed out",missAttrErr:'Missing expected attribute "data-src"',timeout:15E3,afterSlideChange:function(){},startAt:0},init:function(){this.settings=c.extend({},this.defaults,this.options,this.metadata);w(this.elem);
+this.getCover();this.elem.thisRef=this;return this},loading:function(d){this.elem.style.backgroundImage=d?'url("'+a.loadingImg+'")':"none"},onLoadHandler:function(){var d,a;a=this.parentNode.thisRef;d=this.nextSibling;--a.toLoad;0===a.toLoad&&(a.loading(!1),a.settings.loadAll.call(a.$elem),--v,0===v&&(t=null));a.settings.seqLoad&&!this.className.match(/\blastSlide\b/)&&d.setAttribute("src",d.getAttribute("data-src"));this.onload=null},fadeInSlide:function(a,e){var h,g=this;a.className.match(/\bfirstSlide\b/)?
+(this.$elem.find("span.hideFirstSlide").hide(),this.$elem.find("span.hideLastSlide, a.controlSlide").show()):a.className.match(/\blastSlide\b/)?(this.$elem.find("span.hideLastSlide").hide(),this.$elem.find("span.hideFirstSlide, a.controlSlide").show()):(this.$elem.find("span.controlSlide").show(),this.settings.linkHides&&this.$elem.find("a.controlSlide").hide());h=c(a).index()+1;this.counter.innerHTML=h;e&&this.$elem.find("a.controlSlide").attr("href",this.settings.linkUrl+h);a.style.visibility="visible";
+c(a).fadeTo(this.settings.fadeDuration,.99,function(){var a=c(this).closest(".containerSlide").find(".countSlide").text().split("/");g.settings.afterSlideChange.call(null,g,a)});this.currentSlide.style.visibility="hidden";this.currentSlide.style.opacity=0;this.currentSlide=a},scaffolding:function(d){var e,h,g,k,f,l,m,p,r,n,b,u;g=q.createDocumentFragment();k=!1;m=d.slide_image_baseurl_suffix+"?cb="+d.version_no;p=d.slide_image_baseurl_suffix.split(/[-.]/)[1];r=Math.round(p*this.settings.aspectRatio);
+this.toLoad=n=d.total_slides;b=this;this.loading(!0);this.currentSlide=t.first.cloneNode(!1);this.currentSlide.width=p;this.currentSlide.height=r;this.currentSlide.setAttribute(a.lazyAttr,d.slide_image_baseurl+"1"+m);e=c(this.currentSlide);g.appendChild(this.currentSlide);h=t.$next[0].cloneNode(!0);h.title=this.settings.nextTitle;g.appendChild(h);this.counter=t.count.cloneNode(!0);this.counter.firstChild.appendChild(q.createTextNode(n));g.appendChild(this.counter);!1!==this.settings.linkUrl&&(0===
+this.settings.linkUrl&&(this.settings.linkUrl=this.sourceUrl+"/",k=!0),0===this.settings.linkIcon&&(this.settings.linkIcon=/^https?:\/\/[^\/]+/.exec(this.settings.linkUrl)+"/favicon.ico"),f=t.$link[0].cloneNode(!0),f.title=this.settings.linkTitle,f.href=this.settings.linkUrl,f.firstChild.src=this.settings.linkIcon,g.appendChild(f));this.elem.insertBefore(g,this.elem.firstChild);this.currentSlide.onload=function(){this.className.match(/\benabled\b/)?(--b.toLoad,b.loading(!1),1<n&&(h.style.display=
+"block",b.counter.style.display="block",b.counter=b.counter.firstChild.firstChild,c(h).one("click",function(){b.loading(!0);g=q.createDocumentFragment();l=b.settings.seqLoad?"data-src":"src";for(u=2;u<=n;u+=1)f=t.slide.cloneNode(!1),f.setAttribute(l,d.slide_image_baseurl+u+m),f.onload=b.onLoadHandler,g.appendChild(f);f.className="lastSlide";f=t.$prev[0].cloneNode(!0);f.title=b.settings.prevTitle;g.appendChild(f);0<b.settings.skipFTitle.length&&(f=t.$skipF[0].cloneNode(!0),f.title=b.settings.skipFTitle,
+g.appendChild(f));0<b.settings.skipBTitle.length&&(f=t.$skipB[0].cloneNode(!0),f.title=b.settings.skipBTitle,g.appendChild(f));b.elem.insertBefore(g,this);b.settings.seqLoad&&(e.next()[0].src=e.next()[0].getAttribute("data-src"));b.$elem.delegate(".controlSlide","click",function(){this.className.match(/\bskipFSlide\b/)?b.currentSlide.className.match(/\blastSlide\b/)||b.fadeInSlide(b.elem.children[n-1],k):this.className.match(/\bskipBSlide\b/)?b.currentSlide.className.match(/\bfirstSlide\b/)||b.fadeInSlide(b.elem.firstChild,
+k):this.className.match(/\bnextSlide\b/)?b.currentSlide.className.match(/\blastSlide\b/)||b.fadeInSlide(b.currentSlide.nextSibling,k):this.className.match(/\bprevSlide\b/)&&(b.currentSlide.className.match(/\bfirstSlide\b/)||b.fadeInSlide(b.currentSlide.previousSibling,k))})})),b.$elem.delegate(".controlSlide",{mouseenter:function(){c(this).stop(!1).animate({opacity:.99},b.settings.fadeDuration)},mouseleave:function(){c(this).stop(!1).animate({opacity:a.cssOpacity},b.settings.fadeDuration)}}),b.settings.loadFirst.call(b.$elem),
+0<b.settings.startAt&&b.elem.children[b.settings.startAt-1]&&b.fadeInSlide(b.elem.children[b.settings.startAt-1],k),this.onload=null):c(this).addClass("enabled")};"undefined"!==typeof Holder&&!1!==b.settings.holderTheme&&(e.attr("data-src","holder.js/"+e.width()+"x"+Math.round(e.width()*b.settings.aspectRatio)+"/auto/"+b.settings.holderTheme),"picoSlide"===b.settings.holderTheme&&Holder.add_theme("picoSlide",{background:a.cssBgColor,text:" "}),Holder.run({images:e[0]}));c.fn.lazyload&&!1!==b.settings.lazyLoad?
+e.lazyload(b.settings.lazyLoad):e.addClass("enabled").attr("src",e.attr(a.lazyAttr))},getCover:function(){var a,e=this;this.sourceUrl?(a=this.settings.apiUrl+this.sourceUrl+"&format=jsonp",this.settings.imgMaxWidth||(this.settings.imgMaxWidth=this.$elem.width()),a+="&maxwidth="+this.settings.imgMaxWidth,c.ajax({type:"GET",url:a,dataType:"jsonp",timeout:this.settings.timeout}).done(function(a){e.scaffolding(a)}).fail(function(a,c,d){"timeout"===c&&e.$elem.html(e.settings.timeoutErr)})):e.$elem.html(e.settings.missAttrErr)}};
+c.fn.picoSlides=function(a){w();v=this.length;return this.each(function(){(new n(this,a)).init()})};n.slideDefs=n.prototype.defaults;n.elemDefs=a;x.PicoSlides=n})(window,jQuery,document);
+</script>{{/compare}}
+<script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
+{{#compare format "vimeo"}}<script type="text/javascript" src="https://player.vimeo.com/api/player.js"></script>{{/compare}}
+{{#compare format "youtube"}}<script type="text/javascript" src="https://www.youtube.com/player_api"></script>{{/compare}}
+{{#compare format "soundcloud"}}<script type="text/javascript" src="//w.soundcloud.com/player/api.js" type="text/javascript"></script>{{/compare}}
+</head>
+<body{{#compare format "youtube"}} onunload="_poll=!1" onbeforeunload="_poll=!1"{{/compare}}>
+{{{body}}}
+{{#compare format "in" "youtube,vimeo"}}<script type="text/javascript">
+/*! fluidvids.js v2.4.1 | (c) 2014 @toddmotto | https://github.com/toddmotto/fluidvids; mods to height using resize throttler by tim, plus vertical centering using http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/ */
+(function(e,d){"function"===typeof define&&define.amd?define(d):"object"===typeof exports?module.exports=d:e.fluidvids=d()})(this,function(){function e(b){return(new RegExp("^(https?:)?//(?:"+c.players.join("|")+").*$","i")).test(b)}function d(){var b=document.createElement("div");b.innerHTML="<p>x</p><style>"+h+"</style>";k.appendChild(b.childNodes[1])}function l(){var b=document.querySelector("body").offsetHeight;[].forEach.call(document.querySelectorAll(".fluidvids-item"),function(c,a){c.style.maxHeight=
+b+"px"})}var c={selector:["iframe","object"],players:["www.youtube.com","player.vimeo.com"]},h=[".fluidvids {width: 100%; max-width: 100%; position: relative; }.fluidvids-item {","position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; max-height: "+document.documentElement.querySelector("body").offsetHeight+"px","}"].join(""),k=document.head||document.getElementsByTagName("head")[0];c.render=function(){for(var b=document.querySelectorAll(c.selector.join()),d=b.length;d--;){var a=b[d];
+if((e(a.src)||e(a.data))&&!a.getAttribute("data-fluidvids")){var f=document.createElement("div");a.parentNode.insertBefore(f,a);a.className+=(a.className?" ":"")+"fluidvids-item";a.setAttribute("data-fluidvids","loaded");f.className+="fluidvids";var h=f.style,g;g=a.width;g=parseInt(a.height,10)/parseInt(g,10)*100+"%";h.paddingTop=g;f.appendChild(a)}}};c.init=function(b){for(var e in b)c[e]=b[e];c.render();d();var a;window.addEventListener("resize",function(){a||(a=setTimeout(function(){a=null;l()},
+66))},!1)};return c});
+fluidvids.init({selector:['iframe']});
+</script>{{/compare}}
+{{#compare format "youtube"}}
+<script type="text/javascript">
+var player, _poll=!1, duration=0, init = (function(){
+	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+	return {
+		timestamp: Math.max(0,+qs[0]||0),
+		index: qs[1] ? qs[1] : -1
+	}
+})(), poll = function () {
+	if (_poll) {
+		parent.dispatchEvent(new CustomEvent("statuschange", {detail:{index: init.index, seconds: player.getCurrentTime(), duration:duration}}));
+		{{!--
+			// used do this before I discovered event dispatching, which seems better, since it can also work in the editor
+		if (parent.pages&&parent.pages[init.index]) parent.pages[init.index].status = {seconds: player.getCurrentTime(), duration:duration};
+		--}}
+		setTimeout(poll,249);
+	}
+};
+window.onYouTubeIframeAPIReady = function () {
+	player = new YT.Player('player1', {
+		{{#if videoId}}videoId: '{{videoId}}',{{/if}}
+		origin: location.origin,
+		events: {
+			'onReady':  function (event) {
+				duration = player.getDuration();
+				if (init.timestamp!==0) {
+					player.seekTo(init.timestamp);
+				}
+				player.playVideo();
+			},
+			'onStateChange': function (event) {
+				switch (event.data) {
+					case YT.PlayerState.PAUSED: case YT.PlayerState.ENDED: case YT.PlayerState.BUFFERING: _poll=!1; break;
+					case YT.PlayerState.PLAYING: _poll=1; setTimeout(poll,249); break;
+				}
+			}
+		}
+	});
+};
+</script>
+{{/compare}}
+{{#compare format "vimeo"}}
+<script type="text/javascript">
+var init = (function(){
+	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+	return {
+		timestamp: Math.max(0,+qs[0]||0),
+		index: qs[1] ? qs[1] : -1
+	}
+})(),
+	played=!1,
+	player=new Vimeo.Player(document.querySelector('#player1'));
+
+player.on('timeupdate',function(data) {
+	data["index"] = init.index;
+	parent.dispatchEvent(new CustomEvent("statuschange", {detail: data}));
+});
+player.on('play',function(data) {
+	if (!played && init.timestamp>0) {
+		player.setCurrentTime(init.timestamp);
+	}
+	played=!0;
+});
+{{!--
+	2017.11.07 - setCurrentTime before play is broken, so I have had to shim it using playing code above :(
+	player.ready().then(function() {
+	player.setCurrentTime(init.timestamp).then(function(seconds) {
+		player.play();
+	}).catch(function(error) {
+		console.log('setCurrentTime.catch', error);
+	});
+}); --}}
+</script>
+{{/compare}}
+{{#compare format "soundcloud"}}
+<script type="text/javascript">
+var init = (function(){
+	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+	return {
+		timestamp: Math.max(0,+qs[0]||0),
+		index: qs[1] ? qs[1] : -1
+	}
+})();
+doOnLoad(function () {
+	var widget = SC.Widget(document.getElementById('sc-widget')), duration = 0, played = false;
+	widget.bind(SC.Widget.Events.READY, function() {
+		widget.bind(SC.Widget.Events.PLAY, function() {
+			widget.getDuration(function (v) { duration = (v / 1000); });
+			if (init.timestamp!==0 && !played) {widget.seekTo(init.timestamp * 1000)};
+			played = true;
+		});
+		widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(event) {
+			seconds = event.currentPosition / 1000;
+			parent.dispatchEvent(new CustomEvent("statuschange", {detail:{index:init.index, seconds:seconds,duration:duration}}));
+		});
+		widget.play();
+	});
+});
+</script>
+{{/compare}}
+{{#compare format "slideshare"}}
+<script type="text/javascript">
+var init = (function(){
+	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+	return {
+		timestamp: Math.max(0,+qs[0]||0),
+		index: qs[1] ? qs[1] : -1
+	}
+})();
+doOnLoad(function () {
+	var h = document.querySelector("body").offsetHeight,
+		w = (h/3) * 4,
+		dw = document.querySelector("body").offsetWidth;
+	$("#slides")
+		.css({top:0, left:(dw/2)-(w/2), width:Math.min(w,dw) - 20, height:h - 20})
+		.picoSlides({
+			imgMaxWidth: w,
+			startAt: init.timestamp,
+			skipBTitle: "",
+			skipFTitle: "",
+			apiUrl: "//www.slideshare.net/api/oembed/2?url=",
+			afterSlideChange: function (obj, page) {
+				parent.dispatchEvent(new CustomEvent("statuschange", {detail:{index:init.index, slide: page[0], total: page[1]}}));
+			}
+		});
+});
+</script>
+{{/compare}}
+</body>
+</html>
