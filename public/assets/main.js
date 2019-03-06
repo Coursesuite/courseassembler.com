@@ -85,6 +85,7 @@ function fsPrepopulate (email, token) {
 
 // fs script loader has a callback after it loads. use it to modify pricing for local currencies.
 function fsCallbackFunction(data) {
+// console.dir(data);
 	var fn = function() {
 			var Products = data.groups[0].items;
 			[].forEach.call(document.querySelectorAll("[data-fsc-item-pricetotal-callback]"), function (node) {

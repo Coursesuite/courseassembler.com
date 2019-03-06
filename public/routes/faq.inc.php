@@ -1,5 +1,5 @@
-	<div class="uk-section uk-background-cover" data-src="/assets/wave_bg.svg" uk-img>
-		<div class="uk-container uk-light">
+	<div class="uk-section uk-padding-remove-bottom">
+		<div class="uk-container">
 			<h1>Frequently Asked Questions</h1>
 		</div>
 	</div>

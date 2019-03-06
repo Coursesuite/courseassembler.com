@@ -15,7 +15,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.7.3/localforage.min.js"></script>
         <title>Course Assembler</title>
     </head>
-    <body>
+    <body class="<?php echo str_replace('.inc.php','',$fn); ?>">
     	<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
     		<div class="uk-container uk-container-expand">
     			<nav uk-navbar>

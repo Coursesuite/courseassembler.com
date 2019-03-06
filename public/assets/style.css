@@ -81,3 +81,9 @@
 .uk-accordion-title:hover {
 	background-color: #f8f8f8;
 }
+
+body.faq, body.changelog {
+	background: white url(waves_bg.png) no-repeat top center;
+	background-position: 0 10px;
+	background-size: contain;
+}
