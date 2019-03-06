@@ -24,14 +24,13 @@
 	    id="fsc-api"
 	    src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.7.9/fastspring-builder.min.js"
 	    type="text/javascript"
-	    data-storefront="coursesuite.test.onfastspring.com/popup-assembler"
+	    data-storefront="courseassembler.test.onfastspring.com/popup-courseassembler"
 	        data-debug="false"
 	        data-data-callback="fsCallbackFunction"
-	        data-popup-closed="fsPopupClosed"
-	    >
-	</script>
-
-	<!-- script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=58ba5cc8535b950011d4059a&product=inline-share-buttons' async='async'></script -->
-	<script type='text/javascript' src='assets/main.js'></script>
+    ></script>
+	<script
+		type='text/javascript'
+		src='assets/main.js'
+	></script>
     </body>
 </html>

@@ -21,7 +21,7 @@
 	<h3 class="uk-margin-remove uk-legend">It's only $10 for 10 days <span class="my-tiny">(USD)</span></h3>
 	<p>That's the price of a ☕️ and a 🍩. <b>You can make a <i>lot</i> of courses in 10 days</b>. A licence is good for so many days, then it stops working. Longer licences have better discounts.</p>
 	<div class="uk-button-group">
-	    <button href="#" onclick="fsPrepopulate('', )" data-fsc-item-path="course-assembler" data-fsc-item-path-value="course-assembler" data-fsc-action="Reset,Add,Checkout"
+	    <button href="#" onclick="fsPrepopulate('', )" data-fsc-item-path="course-assembler-10" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout"
 	    class="uk-button uk-button-primary">
 	    	<span>Buy Licence</span>
 	    </button>
@@ -30,12 +30,11 @@
 	        <div uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
 	            <ul class="uk-nav uk-dropdown-nav">
 	                <li class="uk-nav-header">Basic Pricing</li>
-	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler" data-format="%price for 10 days" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout">$10 for 10 days</a></li>
+	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price for 10 days" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout">$10 for 10 days</a></li>
 	                <li class="uk-nav-header">Bulk Discounts</li>
 	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-30" data-format="%price for 30 days" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout">$25 for 30 days</a></li>
 	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-60" data-format="%price for 60 days" data-fsc-item-path-value="course-assembler-60" data-fsc-action="Reset,Add,Checkout">$50 for 60 days</a></li>
 	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-365" data-format="%price for 365 days" data-fsc-item-path-value="course-assembler-365" data-fsc-action="Reset,Add,Checkout">$199 for 365 days</a></li>
-	                <!-- li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assember-subscription" data-format="%price / month (Subscription)" data-fsc-item-path-value="course-assembler-subscription" data-fsc-action="Reset,Add,Checkout">$25 / Month (Subscription)</a></li -->
 	            </ul>
 	        </div>
 	    </div>
