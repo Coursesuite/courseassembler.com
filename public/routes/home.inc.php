@@ -79,7 +79,7 @@
 						</div>
 						<div class="uk-width-expand">
 							<h3>Spend your time where it counts.</h3>
-							<p>Do you editing where it's most familiar to you. Like in Google Slides, or Word. Don't let the publishing tool take over your life. Don't spend your days copying and pasting. Just drag your content on, grab the package, and get on with your day.</p>
+							<p>Do you editing where you are most comfortable: Like in Google Slides, or Word. Don't let the publishing tool take over your life. Don't spend your days copying and pasting. Just drag your content on, grab the package, and get on with your day.</p>
 						</div>
 					</div>
 				</div>
