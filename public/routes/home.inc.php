@@ -43,8 +43,8 @@
 		<div class="robot-wave ">
 		<div class="uk-container uk-margin-xlarge uk-padding-large uk-light uk-text-center">
 			<h2>The aim of this tool is to get your content e-learning ready<br><i>in a matter of minutes</i>.</h2>
-			<div class="uk-text-center">
-				<iframe class="uk-box-shadow-medium" src="https://player.vimeo.com/video/321391199" width="640" height="480" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen uk-responsive uk-video="automute: false; autoplay: false"></iframe>
+			<div>
+				<iframe class="uk-box-shadow-medium" src="https://player.vimeo.com/video/321391199" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen uk-responsive uk-video="automute: false; autoplay: false"></iframe>
 			</div>
 		</div>
 		</div>
