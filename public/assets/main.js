@@ -42,7 +42,7 @@ function writeKey(value, save, verify) {
 	});
 	if (save) localforage.setItem("licencekey", value); // set via fs store callback
 	if (verify && value) { // set when loading from localstorage
-		fetch("https://coursesuite.ninja.test/api/validatelicence/" + value, {method:'GET',headers:{'content-type':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-cache',credentials:'omit'})
+		fetch("https://dev.coursesuite.ninja/api/validatelicence/" + value, {method:'GET',headers:{'content-type':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-cache',credentials:'omit'})
 		.then(function(response) {
 			return response.json()
 		})
