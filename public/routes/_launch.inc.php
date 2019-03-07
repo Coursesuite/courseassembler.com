@@ -21,12 +21,12 @@
 	<h3 class="uk-margin-remove uk-legend">It's only $10 for 10 days <span class="my-tiny">(USD)</span></h3>
 	<p>That's the price of a ☕️ and a 🍩. <b>You can make a <i>lot</i> of courses in 10 days</b>. A licence is good for so many days, then it stops working. Longer licences have better discounts.</p>
 	<div class="uk-button-group">
-	    <button href="#" onclick="fsPrepopulate('', )" data-fsc-item-path="course-assembler-10" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout"
+	    <button href="#" data-fsc-item-path="course-assembler-10" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout"
 	    class="uk-button uk-button-primary">
 	    	<span>Buy Licence</span>
 	    </button>
 	    <div class="uk-inline">
-	        <button class="uk-button uk-button-default" type="button"><span uk-icon="icon: triangle-down"></span> More</button>
+	        <button class="uk-button uk-button-default" type="button"><span uk-icon="icon: triangle-down"></span> Pricing</button>
 	        <div uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
 	            <ul class="uk-nav uk-dropdown-nav">
 	                <li class="uk-nav-header">Basic Pricing</li>

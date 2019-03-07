@@ -4,7 +4,7 @@ ini_set("display_errors", 1);
 
 require_once('../../vendor/autoload.php');
 
-$verifier = \CourseSuite\Validator::Instance(false)->Validate($_GET);
+$verifier = (new CoursesuiteValidator(false,false))->Validate($_GET);
 $verifier->code->minified = true;
 include "variables.php";
 
