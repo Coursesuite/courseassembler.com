@@ -36,7 +36,6 @@ function checkKey() {
 }
 
 function writeKey(value, save, verify) {
-	console.log(value, save, verify);
 	[].forEach.call(document.querySelectorAll('input[name="licencekey"]'),function(el) {
 			el.value = value || '';
 	});

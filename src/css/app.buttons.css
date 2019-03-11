@@ -1,108 +1,94 @@
-/* --------------------------
-	base design
--------------------------- */
-
 button {
-	background-color: rgba(255,255,255,.75);
+	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 100%);
+	border: 1px solid #888;
+	box-shadow: 0 3px 5px rgba(0,0,0,.25);
+	color: #444;
 	border-radius: 3px;
-	padding: 0 5px 0 0;
-	box-shadow: 3px 3px 0 0 rgba(0,0,0,.1);
-	color: #333;
-	margin: 3px;
-	border: 1px solid rgba(0,0,0,.1);
-	transition: background-color .15s, color .15s;
-	white-space: nowrap;
+	padding: .25em .5em;
+	margin: .25em;
 	outline: none;
+	color: currentcolor;
+    transition: border-color .25s ease-in, color .25s ease-in;
 }
-button > i {
-	margin: 0;
-	background-color: transparent;
-	display: inline-block;
-	color: inherit;
-	padding: 5px;
-	margin-right: 5px;
-	border-radius: 3px 0 0 3px;
-	transition: background-color .15s, color .15s;
-}
-
-/* --------------------------
-	modifiers
--------------------------- */
-
-button.icon > i {
-	margin-right: 0;
-}
-
-.toolbar button {
-	border: none;
-}
-
-/* --------------------------
-	hover states
--------------------------- */
-
 button:hover {
-	background-color: rgba(241,241,241,1);
+	transition: border-color 0s, color 0s;
 }
-button:hover > i {
+button > i{
+	margin-right: .5em;
+	color: currentcolor;
+}
+
+/* --------------------------
+	banner button variant
+-------------------------- */
+
+#banner button {
+	background: none;
+	padding: .5em 1em;
+	margin: 5px;
+	border: none;
+	text-shadow: 0 1px 1px #888;
+	text-transform: uppercase;
 	color: white;
 }
-button[data-action='pop-help']:hover > i {
-	background-color: var(--help);
+#banner button[data-action='pop-help'] { background-color: var(--help);}
+#banner button[data-action='clear-storage'] { background-color: var(--reset);}
+#banner button[data-action="toggle-settings"] { background-color: #487bb9;}
+#banner button:hover { box-shadow: inset 0 0 40px rgba(255,255,255,.25);}
+
+/* --------------------------
+	colour dot variant
+-------------------------- */
+button.colour-dot {
+	width: 32px;
+	height: 32px;
+	border-radius: 4px;
+	display: inline-block;
+	background: none;
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	border-color: transparent;
 }
-button[data-action='clear-storage']:hover > i {
-	background-color: var(--reset);
-}
-button[data-action='add-content']:hover > i {
-	background-color: var(--content);
-}
-button[data-action='add-quiz']:hover > i {
-	background-color: var(--quiz);
-}
-button[data-action='import-content']:hover > i {
-	background-color: var(--resource);
+button.colour-dot > i {
+	padding: 0;
+	margin: 0 .5em;
+	text-shadow: 0 1px 0 rgba(0,0,0,.25);
+	pointer-events: none;
 }
 
-button[data-action='page-bgcolour']:hover > i {
-	background-color: var(--bgcolour);
+button:not([data-action]).colour-dot:hover > i {
+	background-color: initial !important;
 }
-button[data-action='set-score']:hover > i {
-	background-color: var(--score);
-}
-button[data-action='set-audio']:hover > i {
-	background-color: var(--audio);
-}
-button[data-action='content-editable']:hover > i,
-button[data-action='plugin-edit']:hover > i {
-	background-color: var(--edit);
-}
-button[data-action='plugin-view']:hover > i {
-	background-color: var(--view);
-}
-button[data-action='zoom-in']:hover > i,
-button[data-action='zoom-out']:hover > i {
-	background-color: var(--zoom);
-}
-button[data-action='split']:hover > i {
-	background-color: var(--split);
-}
-button[data-action='trash']:hover > i {
-	background-color: var(--delete);
-}
+button.colour-dot.black { background-color: #000000;color: white; }
+button.colour-dot.lgrey { background-color: #bbbbbb; }
+button.colour-dot.dgrey { background-color: #555555; color: white; }
+button.colour-dot.white { background-color: #ffffff; }
 
-/* popover buttons */
-div[data-source="set-score"] button:last-of-type:hover > i,
-div[data-source="page-bgcolour"] button:last-of-type:hover > i {
-	background-color: var(--positive);
-}
+/* --------------------------
+	button hover states
+-------------------------- */
 
-button[data-action="record-page-audio"]:hover > i {
-	background-color: #cf280e;
-}
-button[data-action="upload-page-audio"]:hover > i {
-	background-color: #8ebd0f;
-}
-button[data-action="trash-page-audio"]:hover > i {
-	background-color: #999;
-}
+button[data-action='add-content']:hover {border-color: var(--content);color: var(--content);}
+button[data-action='add-quiz']:hover {border-color: var(--quiz);color: var(--quiz);}
+button[data-action='import-content']:hover {border-color: var(--resource);color: var(--resource);}
 
+button[data-action='page-bgcolour']:hover {border-color: var(--bgcolour);color: var(--bgcolour);}
+button[data-action='set-score']:hover {border-color: var(--score);color: var(--score);}
+button[data-action='set-audio']:hover {border-color: var(--audio);color: var(--audio);}
+
+button[data-action='trash']:hover {border-color: var(--delete);color: var(--delete);}
+button[data-action='split']:hover {border-color: var(--split);color: var(--split);}
+button[data-action='content-editable']:hover {border-color: var(--edit);color: var(--edit);}
+
+button[data-action='plugin-edit']:hover {border-color: var(--edit);color: var(--edit);}
+button[data-action='plugin-view']:hover {border-color: var(--view);color: var(--view);}
+
+button[data-action='zoom-in']:hover, button[data-action='zoom-out']:hover {border-color: var(--zoom);color: var(--zoom);}
+
+button.positive:hover, div[data-source="set-score"] button:last-of-type:hover, div[data-source="page-bgcolour"] button:last-of-type:hover {border-color: var(--positive);color: var(--positive);}
+button.negative:hover {border-color: var(--negative);color: var(--negative);}
+
+button[data-action="record-page-audio"]:hover {border-color: #cf280e;color: #cf280e;}
+button[data-action="upload-page-audio"]:hover {border-color: #8ebd0f;color: #8ebd0f;}
+button[data-action="trash-page-audio"]:hover {border-color: #999;color: #999;}

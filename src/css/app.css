@@ -4,26 +4,38 @@
 @import url('app.banner.css');
 @import url('app.nav.css');
 @import url('app.buttons.css');
-@import url('app.cogmenu.css');
 @import url('app.modals.css');
 @import url('documents.layout.css');
 @import url('documents.navitems.css');
 @import url('documents.preview.css');
 @import url('design.layout.css');
 @import url('download.layout.css');
+@import url('buildbot.css');
 
 :root {
 	/* containers */
 	--documents:#ffffff;
 	--toolbar:#f4f4f4;
-	--design:#ffffff;
-	--download:#ffffff;
+	--design:#f4f4f4;
+	--download:#f4f4f4;
 
 	--edge: #d7d7d7;
 	--base: #20629b;
 	--selection: #ffee00;
+	--encasing: #e8e8e8;
 
 	/* buttons */
+	--button: #03c6a4;
+	--buttonShadow: #02a489;
+	--buttonRadius: 3px;
+
+	--buttonIcon: #028b74;
+	--buttonIconShadow: #016756;
+
+	--buttonText:  #fff;
+	--buttonTextShadow: #888;
+
+
 	--positive: #7fba42;
 	--help: #e35b28;
 	--reset: #843da2;
@@ -34,8 +46,8 @@
 
 	--bgcolour: #333;
 	--audio: #dc9e1f;
-	--edit: #85d1f3;
-	--view: #a3dcf5;
+	--edit: #9044c3;
+	--view: #46768b;
 	--delete: #ff4300;
 
 	--split: #d23785;
@@ -65,6 +77,9 @@
 	color: white;
 	background-color: var(--base);
 	border-bottom: 2px solid rgba(0,0,0,.2);
+}
+#banner svg {
+	margin-bottom: -4px;
 }
 #banner path {
 	fill: currentcolor;

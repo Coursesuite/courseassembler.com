@@ -73,12 +73,12 @@
 	// style containers to fit browser; additionally size internal elements if required
 	DocNinja.routines = {
 		Resize: sizeHax,
-		MoveNinja: function () {
-			$(DocNinja.options.containers).css("background-image","none").filter(".show").css({
-				"background-image": "url('" + randomElement(DocNinja.options.ninjas) + "')",
-				"background-position": randomElement(DocNinja.options.bpx) + " " + randomElement(DocNinja.options.bpy)
-			});
-		},
+		// MoveNinja: function () {
+		// 	$(DocNinja.options.containers).css("background-image","none").filter(".show").css({
+		// 		"background-image": "url('" + randomElement(DocNinja.options.ninjas) + "')",
+		// 		"background-position": randomElement(DocNinja.options.bpx) + " " + randomElement(DocNinja.options.bpy)
+		// 	});
+		// },
 		PersistSettings: function() {
 			window.gatherSettings().then(function(cache) {
 			 	// localforage.config({
@@ -199,7 +199,7 @@
 		if (0===liCount) {
 			$(DocNinja.navItems).append($("<li>",{class:"dummy-item"}).text("Nothing here yet :("));
 			localforage.removeItem("order"); // ensure that if we are adding the empty item, that cache is empty too
-		}  
+		}
 		var notDummy = DocNinja.navItems.querySelectorAll("li:not(.dummy-item)").length;
 		if (notDummy) {
 			var dummyItem = DocNinja.navItems.querySelectorAll('.dummy-item');
@@ -334,9 +334,9 @@
 				}
 			}
 		}
-		if (DocNinja.options.courseNameField.value.length == 0) DocNinja.options.courseNameField.value = "Untitled Course";
-		if (DocNinja.options.copyrightField.value.length == 0) DocNinja.options.copyrightField.value = $("<div>&copy; A Course Creator " + new Date().getFullYear() + ". All rights reserved.</div>").text();
-		if (DocNinja.options.descriptionField.value.length == 0) DocNinja.options.descriptionField.value = "This course was created in mere minutes at https://documentninja.coursesuite.ninja/";
+		if (DocNinja.options.courseNameField.value.length == 0) DocNinja.options.courseNameField.value = "I have not yet named my course";
+		if (DocNinja.options.copyrightField.value.length == 0) DocNinja.options.copyrightField.value = $("<div>&copy; Anonymous " + new Date().getFullYear() + ". All rights reserved.</div>").text();
+		if (DocNinja.options.descriptionField.value.length == 0) DocNinja.options.descriptionField.value = "This course was assembled at www.courseassembler.com";
 	}
 
  	// fyi jquery normalises e.keyCode to e.which
@@ -726,26 +726,26 @@
 			});
 
 			// load 20 ninjas in one svg, but make them into 20 svg images using spooky black magic
-			$.get("svg/poses.svg", function (data) {
-			    $(data).find("g").each(function (a,b) { // each ninja is a group
-				    var root = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-				    //root.setAttribute("style","visibility:hidden");
-				    document.body.appendChild(root); // needs to be part of body so getBBox will return, doesn't have to be visible
-					var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-					root.appendChild(g);
-					$(b).find("path").each(function(c,d){g.appendChild(d)});
-					var bbox = g.getBBox();
-					root.setAttribute("x", 0);
-					root.setAttribute("y", 0);
-					root.setAttribute("width", bbox.width);
-					root.setAttribute("height", bbox.height);
-					root.setAttribute("viewBox",[bbox.x,bbox.y,bbox.width,bbox.height].join(" "));
-					var svg = (new XMLSerializer).serializeToString(root);
-					DocNinja.options.ninjas.push("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg));
-					document.body.removeChild(root);
-			    });
-			    DocNinja.routines.MoveNinja(); // init
-			});
+			// $.get("svg/poses.svg", function (data) {
+			//     $(data).find("g").each(function (a,b) { // each ninja is a group
+			// 	    var root = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+			// 	    //root.setAttribute("style","visibility:hidden");
+			// 	    document.body.appendChild(root); // needs to be part of body so getBBox will return, doesn't have to be visible
+			// 		var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+			// 		root.appendChild(g);
+			// 		$(b).find("path").each(function(c,d){g.appendChild(d)});
+			// 		var bbox = g.getBBox();
+			// 		root.setAttribute("x", 0);
+			// 		root.setAttribute("y", 0);
+			// 		root.setAttribute("width", bbox.width);
+			// 		root.setAttribute("height", bbox.height);
+			// 		root.setAttribute("viewBox",[bbox.x,bbox.y,bbox.width,bbox.height].join(" "));
+			// 		var svg = (new XMLSerializer).serializeToString(root);
+			// 		DocNinja.options.ninjas.push("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg));
+			// 		document.body.removeChild(root);
+			//     });
+			//     DocNinja.routines.MoveNinja(); // init
+			// });
 
 			/* -----------------------------------------
 				bind download button animation

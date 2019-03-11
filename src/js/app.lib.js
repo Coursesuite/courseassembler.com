@@ -1558,11 +1558,12 @@ function globalClickConsumer(e) {
 }
 
 function changeTab(e) {
+	var tab = e.target.closest("a").dataset.tab;
 	hideOverlays();
 	e.preventDefault();
 	// DocNinja.EditHandlers.Unload (false); // unbind any editors but persist their data
 	DocNinja.options.loader.show(); // svgloader data-opening
-	classie.removeClass(document.body, "settings"); // close settings
+	document.body.classList.remove("settings"); // close settings
 	if (!DocNinja.options.MUTED) DocNinja.options.snd.play(); // ninja sword sound to match loader effect
 	DocNinja.filePreview.Reset(); // and do some garbage collection
 	// destroy_preview(); // don't need this memory overhead
@@ -1570,8 +1571,10 @@ function changeTab(e) {
 	setTimeout( function() {
 		//$(e.target).addClass("current").siblings().removeClass("current"); // select one tab header
 		// $("#"+e.target.dataset.tab).addClass("current").siblings().removeClass("current"); // select one section
-		$(document.body).removeClass("add-documents change-settings download-zip").addClass(e.target.dataset.tab);
-		DocNinja.routines.MoveNinja();
+//		$(document.body).removeClass("add-documents change-settings download-zip").addClass(tab);
+		document.body.classList.remove("add-documents","change-settings","download-zip","undefined");
+		document.body.classList.add(tab);
+//		DocNinja.routines.MoveNinja();
 		triggerResize();
 		DocNinja.options.loader.hide();
 		DocNinja.routines.PersistSettings();

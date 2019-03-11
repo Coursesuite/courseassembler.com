@@ -1,4 +1,5 @@
 (function (DocNinja, undefined) {
+
 	var _upgrade = function (value) {
 
 		// upgrade display-flex to dn-flex and subsequent styles; split/join is fastest

@@ -14,7 +14,7 @@ array_walk($designs, function($v) use (&$groupings) {
 foreach ($groupings as $group) {
 	echo "<fieldset>", "<legend>", $group, "</legend>", PHP_EOL;
 	if ($group === "Your Template") {
-		echo "<p class='theme-options'>A template has been provided for you.</p>", PHP_EOL;
+		echo "<p class='theme-options m-t-half'>A template has been provided for you.</p>", PHP_EOL;
 		echo "<div class='grid'><div><figure data-name='{$api_template}' class='selected'><img src='/app/img/api_template.jpg'><figcaption>Your template</figcaption></figure></div></div>";
 		$css = "";
 	}
@@ -29,7 +29,7 @@ foreach ($groupings as $group) {
 		$bn = basename($fold);
 		list($fn, $name) = explode('_',$bn);
 		echo "<div>","<figure data-name='{$bn}'{$css}>";
-		echo "<img src='/app/designs/{$bn}/preview.jpg'>";
+		echo "<img src='designs/{$bn}/preview.jpg'>";
 		$svg = realpath("designs/{$bn}/overlay.svg"); // returns false if not found
 		if ($svg) echo file_get_contents($svg);
 		echo "<figcaption>", trim(preg_replace('/([A-Z])/', ' $1', $name)), "</figcaption>"; // SentenceCaseName => Sentence Case Name

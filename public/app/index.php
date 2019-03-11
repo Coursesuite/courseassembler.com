@@ -92,6 +92,8 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 }
 ?>
 </head>
+<?php if ($verifier->valid) { ?>
+
 <body class="add-documents">
 
 	<section class="page-fixed-top">
@@ -125,7 +127,6 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 		<div id="scroll-area"><ol id="nav-item-list"></ol></div>
 		<div id="preview"></div>
 	</section>
-
 
 	<section id="change-settings">
 	<form id="colours">
@@ -317,5 +318,19 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.navigation.js"></script>
 	<script src="js/app.plugin.page.js"></script>
 <?php } ?>
+	<?php } else { ?>
+
+	<body class="buildbot-sad">
+
+		<header>
+			<h1>Buildbot is sad. Your licence has expired.</h1>
+		</header>
+
+		<main>
+			<img src="../assets/sad_buildbot.svg">
+		</main>
+
+	<?php } ?>
+
 	</body>
 </html>

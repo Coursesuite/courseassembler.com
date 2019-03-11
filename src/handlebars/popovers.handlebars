@@ -70,3 +70,31 @@
     </div>
 </section>
 {{/compare}}
+
+{{#compare popover "settings"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<div class="toggle-form">
+		<div>
+			<input type="checkbox" id="mute" data-action='toggle-mute' checked>
+			<label for="mute"><span></span></label>
+			<label>Interface sounds</label>
+		</div>
+		<div>
+			<input type="checkbox" id="autosplit" data-action='toggle-no-autosplit' checked>
+			<label for="autosplit"><span></span></label>
+			<label>Auto-split documents</label>
+		</div>
+		<div>
+			<input type="checkbox" id="autooptimise" data-action='toggle-no-autoresize' checked>
+			<label for="autooptimise"><span></span></label>
+			<label>Auto-optimise images</label>
+		</div>
+		<div>
+			<input type="checkbox" id="autocenter" data-action='toggle-no-autocenter' checked>
+			<label for="autocenter"><span></span></label>
+			<label>Auto-centre presentations</label>
+		</div>
+	</div>
+</section>
+{{/compare}}

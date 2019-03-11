@@ -17,10 +17,10 @@
 	padding: 0;
 	width: 250px;
 	height: 70px;
-	border: 2px solid #1ECD97;
+	border: 2px solid var(--base);
 	border-radius: 40px;
-	background: rgba(76,90,121,.5);
-	color: #1ECD97;
+	background: white;
+	color: var(--base);
 	letter-spacing: 1px;
 	font-size: 18px;
 	/* font-family: 'Montserrat', sans-serif; */
@@ -30,7 +30,7 @@
 }
 
 .progress-button button:hover {
-	background-color: #1ECD97;
+	background-color: var(--base);
 	color: #fff;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .progress-button svg.progress-circle path {
-	stroke: #1ECD97;
+	stroke: var(--base);
 	stroke-width: 5;
 }
 
@@ -100,8 +100,8 @@
 }
 
 .success.progress-button button {
-	border-color: #1ECD97;
-	background-color: #1ECD97;
+	border-color: var(--base);
+	background-color: var(--base);
 }
 
 .error.progress-button button {

@@ -95,42 +95,28 @@ body[class*='modal-'] .modal > .modal-box {
 }
 
 .modal header {
-	position: relative;
-	padding: 0;
-	margin: 0;
-    font-size: 2em;
-    line-height: 2em;
-    color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: white;
+	font-size: 2em;
+	text-shadow: 0 1px 0 rgba(0,0,0,.25);
 }
-.modal header a[data-action] {
-	position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0 10px;
-    background-color: white;
+
+.modal header a {
+	padding: 10px;
+	color: inherit;
+}
+.modal header>span>i {
+	padding: 10px;
 }
 
 .modal.add-content header {
     background-color: var(--content);
 }
-.modal.add-content header a[data-action] {
-    color: var(--content);
-}
+
 .modal.import-content header {
     background-color: var(--resource);
-    color: black;
-}
-.modal.import-content header a[data-action] {
-    color: var(--resource);
-}
-
-.modal header i {
-	line-height: inherit;
-	display:  inline-block;
-	padding: 0 .5em;
-	color:  white;
-	text-shadow: 1px 1px 0 black;
-	margin: 0 .5em 0 0;
 }
 
 .modal section.drag-to-upload .dropzone {
@@ -152,12 +138,7 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 @keyframes plip {
   50%  {transform: scale(1.05);}
 }
-.dn-popover button:not([data-action]):hover > i {
-	background-color: silver;
-}
-button.positive:hover > i {
-	background-color: var(--positive) !important;
-}
+
 
 .dn-backdrop {
 	position: fixed;
@@ -240,30 +221,6 @@ button.positive:hover > i {
 	padding: 10px;
 }
 
-.dn-popover .colour-dot {
-	width: 32px;
-	height: 32px;
-	border-color: transparent;
-	border-radius: 16px;
-	display: inline-block;
-	color: #999;
-}
-
-.dn-popover button.colour-dot:hover {
-}
-.dn-popover button.colour-dot > i {
-	margin-right: 0 !important;
-	padding: 0 0 0 .45em;
-	pointer-events: none;
-}
-.dn-popover button:not([data-action]).colour-dot:hover > i {
-	background-color: initial !important;
-}
-.dn-popover .colour-dot.black { background-color: #000000; }
-.dn-popover .colour-dot.lgrey { background-color: #bbbbbb; }
-.dn-popover .colour-dot.dgrey { background-color: #555555; }
-.dn-popover .colour-dot.white { background-color: #ffffff; }
-
 .dn-popover .apply-all {
 	width: fit-content;
 	margin-left: auto;
@@ -310,3 +267,41 @@ button.positive:hover > i {
 	import content
 -------------------------- */
 
+/* --------------------------
+	settings
+-------------------------- */
+.toggle-form {
+	text-align: left;
+	font-size: 14px;
+}
+
+.toggle-form input[type='checkbox'] {
+	opacity: 0;
+}
+.toggle-form input[type='checkbox'] + label {
+	display: inline-block;
+	background: #d06326;
+	width: 2em;
+	height: 1em;
+	margin-right: 1em;
+	border-radius: .5em;
+	position: relative;
+	cursor: pointer;
+}
+.toggle-form input[type='checkbox'] + label > span {
+	position: absolute;
+	width: .9em;
+	height: .9em;
+	margin-top: .05em;
+	margin-left: .05em;
+	border-radius: 1em;
+	background: #e8e8e8;
+	box-shadow: 1px 1px 3px rgba(0,0,0,.1);
+	transition: background-color .2s, transform .2s ease-in;
+}
+.toggle-form input[type='checkbox']:checked + label {
+	background: #138249;
+}
+.toggle-form input[type='checkbox']:checked + label > span {
+	transform:  translateX(1em);
+}

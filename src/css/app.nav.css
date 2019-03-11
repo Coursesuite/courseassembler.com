@@ -5,6 +5,9 @@
     #tabs > a {
         font-size: 0px;
     }
+    #tabs > a > span {
+        font-size: 16px;
+    }
     #tabs > a > i {
         font-size: 16px;
         text-align: center;
@@ -23,13 +26,14 @@
 #tabs a[data-tab] {
     background: none;
     outline: none;
-    width: 20%;
+    min-width: 20%;
     display: table-cell;
     position: relative;
     padding: 0 1em;
     text-align: center;
     text-decoration: none;
     letter-spacing: 1px;
+    white-space: nowrap;
 }
 
 #tabs > a > i {

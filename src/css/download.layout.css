@@ -2,15 +2,69 @@
 	settings page
 -------------------------- */
 
-.settings-panel {
-	width: 80%;
-	margin: 30px auto;
-	padding: 30px 0;
+#download-zip {
+	color: black;
+	overflow: auto;
 }
+
+.settings-panel {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	grid-gap: 1em;
+}
+.settings-panel label>small {
+	display: block;
+	color: var(--base);
+}
+.settings-panel label>small.r{color:red}
+
+.settings-panel > * {
+	padding: 1em;
+}
+
+.settings-panel input, .settings-panel textarea {
+	color: currentColor;
+	border: 1px solid var(--edge);
+	background-color: white;
+}
+
+.radio-panel [type='radio'] {
+	position: absolute;
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+.radio-panel [type='radio']+img {
+	cursor: pointer;
+	outline: 2px solid var(--edge);
+}
+.radio-panel [type='radio']:checked+img {
+	outline: 2px solid var(--base);
+}
+
+#download-zip fieldset {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+    border: 1px solid var(--edge);
+    border-image: initial;
+    margin-bottom: 1em;
+}
+#download-zip legend {
+	color: var(--base);
+	font-weight: bold;
+}
+
+
+/*
 .settings-panel .heading h2 {
 	margin: 0 0  30px 0;
 	padding:0;
-	/* font-family: "ff-providence-sans-web-pro"; */
 }
 .settings-panel .content {
 	display: table;
@@ -67,51 +121,4 @@
 }
 
 
-/* ---------------------------
-	download page
--------------------------- */
-
-#download-button-container {
-	margin: 50px auto;
-}
-
-#download-button-container .button-row {
-	display: flex;
-	justify-content: space-around;
-}
-#download-button-container .button-row > div {
-}
-#download-button-container .button-row > div:last-of-type {
-}
-
-#download-zip {
-	padding: 16px;
-}
-#download-button-container {
-	text-align: center;
-}
-
-#download-zip button.zip {
-	font-size: 1.5em;
-	border: none;
-	color: #fff;
-	padding: 16px;
-	background-color: rgba(0,0,0,.1);
-	border-radius: 16px;
-	box-shadow: 0 0 0 rgba(0,0,0,0);
-	transition: background-color 1s ease, box-shadow .3s ease;
-}
-#download-zip button.zip:hover {
-	background-color: rgba(0,0,0,.5);
-	box-shadow: 0 0 50px rgba(0,0,0,.5),
-				inset 2px 4px 3px rgba(255,255,255,.125);
-	transition: background-color .3s ease, box-shadow 5s ease;
-}
-#download-zip button.zip:focus {
-	outline: none;
-}
-#download-zip button.zip i {
-	font-size: 5em;
-	margin-bottom: 16px;
-	display: block;
-}
+*/

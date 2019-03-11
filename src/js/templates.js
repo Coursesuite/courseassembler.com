@@ -201,7 +201,7 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
 },"4":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"/app/img/ring.gif\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Converting <em>"
+  return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"img/dual-ring-loader.svg\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Converting <em>"
     + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
     + "</em> to HTML 5 ...</span>\n	<span class=\"cancel-conversion dn-flex dn-flex-v-center\"><a href=\"javascript:CancelConversion('"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
@@ -213,11 +213,11 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
 },"7":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"/app/img/ring.gif\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Caching <em>"
+  return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"img/dual_ring_loader.svg\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Caching <em>"
     + container.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"title","hash":{},"data":data}) : helper)))
     + "</em></span>\n	<span class=\"cancel-conversion dn-flex dn-flex-v-center\"><a href=\"javascript:void(0);\" onclick=\"CancelThis(this);\"><i class=\"ninja-cancel\"></i></a></span>\n";
 },"9":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<span class=\"drag-handle\" title=\"Drag up or down to re-order item\"><i class=\"ninja-reorder\"></i></span>\n	<span class=\"indent\"><span class=\"toggle-button-wrapper current-state-"
     + alias4(((helper = (helper = helpers.action || (depth0 != null ? depth0.action : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"action","hash":{},"data":data}) : helper)))
@@ -225,7 +225,23 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.action || (depth0 != null ? depth0.action : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"action","hash":{},"data":data}) : helper)))
     + "\" href=\"javascript:;\"><span/></a></span></span>\n	<span class=\"label dn-flex-1 dn-flex dn-flex-c-1\"><a href=\"javascript:\" data-action=\"preview\">"
     + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</a></span>\n";
+    + "</a></span>\n	"
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.program(12, data, 0),"data":data})) != null ? stack1 : "")
+    + "\n";
+},"10":function(container,depth0,helpers,partials,data) {
+    return "";
+},"12":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.program(13, data, 0),"data":data})) != null ? stack1 : "");
+},"13":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "\n	<span class=\"audio-hint\">"
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.mp3 : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</span>\n	";
+},"14":function(container,depth0,helpers,partials,data) {
+    return "<i class=\"ninja-volume_up\" title=\"Page has audio\"></i>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -314,6 +330,12 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
   return "<header onclick=\"closePopover()\">"
     + container.escapeExpression(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data}) : helper)))
     + "</header>\n<section>\n	<input type='hidden' name='color_value' value='58c3f3'>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#000000\" class=\"colour-dot black\" title=\"Black\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#555555\" class=\"colour-dot dgrey\" title=\"Dark grey\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#bbbbbb\" class=\"colour-dot lgrey\" title=\"Light grey\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#ffffff\" class=\"colour-dot white\" title=\"White\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button class=\"jscolor colour-dot\" title=\"Choose a colour\"><i class=\"ninja-palette\"></i></button>\n	<button onclick=\"popover_savePageBackground();\" style=\"margin-left:2em\"><i class=\"ninja-save-disk\"></i>Save</button>\n	<div class=\"apply-all\">\n    <label for=\"colourAll\">Apply to all pages</label>\n    <input id=\"colourAll\" type=\"checkbox\"></input>\n    </div>\n</section>\n";
+},"13":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<header onclick=\"closePopover()\">"
+    + container.escapeExpression(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data}) : helper)))
+    + "</header>\n<section>\n	<div class=\"toggle-form\">\n		<div>\n			<input type=\"checkbox\" id=\"mute\" data-action='toggle-mute' checked>\n			<label for=\"mute\"><span></span></label>\n			<label>Interface sounds</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"autosplit\" data-action='toggle-no-autosplit' checked>\n			<label for=\"autosplit\"><span></span></label>\n			<label>Auto-split documents</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"autooptimise\" data-action='toggle-no-autoresize' checked>\n			<label for=\"autooptimise\"><span></span></label>\n			<label>Auto-optimise images</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"autocenter\" data-action='toggle-no-autocenter' checked>\n			<label for=\"autocenter\"><span></span></label>\n			<label>Auto-centre presentations</label>\n		</div>\n	</div>\n</section>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
 
@@ -328,7 +350,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     + "\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.popover : depth0),"score",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.popover : depth0),"colour",{"name":"compare","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.popover : depth0),"colour",{"name":"compare","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.popover : depth0),"settings",{"name":"compare","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 templates['preview-html'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper;

@@ -49,6 +49,11 @@ rm -rf ../public/app
 mkdir ../public/app
 cp -R ../src/* ../public/app
 
+echo "Creating app loader"
+echo "<?php" > ../public/app/load.php
+echo "require_once('../../vendor/autoload.php');" >> ../public/app/load.php
+echo "?>" >> ../public/app/load.php
+
 echo "Cleaning root files"
 cd ../public/app
 rm compile_scripts.bash
