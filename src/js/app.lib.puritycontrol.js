@@ -638,6 +638,18 @@
 			return Handlebars.templates["wrapper-html5"]({title:obj.title,body: "<pre>" + obj.html + "</pre>"})
 		}
 
+		// InjectAnalyticsCode
+		var spook = function (obj, setup) {
+			if (setup['option-ga-id']) {
+				var doc = document.implementation.createHTMLDocument(obj.payload.name);
+				doc.documentElement.innerHTML = obj.payload.html;
+				node = doc.querySelector("head");
+				node.insertAdjacentHTML('beforeend', Handlebars.templates["script-ga"]({'trackingId':setup['option-ga-id']}));
+				obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+			}
+			return obj;
+		}
+
 		var pathname = function (url) {
 			var a = document.createElement("a");
 			a.href = url;
@@ -666,7 +678,8 @@
 			Utils: {
 				UrlPath: pathname
 			},
-			UpdateHyperlinks: _mutation
+			UpdateHyperlinks: _mutation,
+			InjectAnalyticsCode: spook
 		}
 	})(document);
 

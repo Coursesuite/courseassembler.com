@@ -146,7 +146,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 				<label for="occ">Copyright<small>optional</small></label>
 				<input type="text" size="30" placeholder="Copyright statement" name="option-course-copyright" id="occ">
 				<label for="gax">Google Analytics Id<small>optional</small></label>
-				<input type="text" size="30" placeholder="Google Analytics id (UA-XXXXXXXXX-X)" name="option-course-copyright" id="gax">
+				<input type="text" size="30" placeholder="Google Analytics id (UA-XXXXXXXXX-X)" name="option-ga-id" id="gax">
 			</section>
 
 			<div class="grid-h grid-2 m-t-regular">

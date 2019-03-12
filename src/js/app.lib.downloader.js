@@ -113,14 +113,18 @@
 									resource.files.push({
 										href: resource.base + obj.payload.name
 									});
-									fold.file(filename, Handlebars.templates["wrapper-image"](obj.payload)); // preview-image
+									obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
+									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
+									fold.file(filename,obj.payload.html);
 									resource.files.push({
 										href: resource.base + filename
 									});
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
+									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
 									DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj, resource, "imscp");
 									DocNinja.PurityControl.MayRequireJQuery(fold, obj, resource);
 								} else { // just store the html, which will already be correct
+									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
 									fold.file(filename, obj.payload.html);
 									resource.files.push({
 										href: resource.base + filename
@@ -191,15 +195,18 @@
 							}
 							if ("image"==obj.kind) { // convert it using the preview renderer
 								fold.file(obj.payload.name, obj.payload.image.split(',')[1], {base64: true});
-								fold.file(filename, Handlebars.templates["wrapper-image"](obj.payload));
+								obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
+								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
+								fold.file(filename,obj.payload.html);
 							} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 
 								// wow, surprising this even works since its adding the file to fold but not returning a promise ..
-
+								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
 								DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj);
 								DocNinja.PurityControl.MayRequireJQuery(fold, obj);
 
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
+								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
 								fold.file(filename, obj.payload.html);
 
 							} else {
