@@ -56,7 +56,7 @@ echo "?>" >> ../public/app/load.php
 
 echo "Cleaning root files"
 cd ../public/app
-rm compile_scripts.bash
+rm *.bash
 rm dockerCompileScript.sh
 rm importcss.php
 rm old_*.mp3

@@ -1,4 +1,5 @@
 <?php
+define("APP",true);
 include("load.php");
 
 $verifier = (new CoursesuiteValidator(false,false))->Validate($_GET);
@@ -127,6 +128,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 
 	<section id="change-settings">
 		<section id="nav-selection">
+			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
 			<form id="colours" class="w-80 m-lr-auto m-t-large"><input type="hidden" name="template">
 			<?php include "tab.design.php"; ?>
 			</form>
@@ -154,12 +156,12 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					<div class="grid-h grid-2">
 						<label>
 							<input type="radio" name="navlock" value="false" checked>
-							<img src="http://placehold.it/80x60/fff/333&text=any">
+							<?php include("img/any.svg"); ?>
 							<p>Learner can navigate to any page at any time</p>
 						</label>
 						<label>
 							<input type="radio" name="navlock" value="true">
-							<img src="http://placehold.it/80x60/fff/333&text=next">
+							<?php include("img/forward.svg"); ?>
 							<p>Learner must complete pages before moving on</p>
 						</label>
 					</div>
@@ -170,12 +172,12 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					<div class="grid-h grid-2">
 						<label>
 							<input type="radio" name="rule" value="false" checked>
-							<img src="http://placehold.it/80x60/fff/333&text=last">
+							<?php include("img/last.svg"); ?>
 							<p>Learner views last page (<b class="count-total">10</b>)</p>
 						</label>
 						<label>
 							<input type="radio" name="rule" value="true" data-select="show-enough">
-							<img src="http://placehold.it/80x60/fff/333&text=count">
+							<?php include("img/seen.svg"); ?>
 							<p>Learner completes <select id="count-set" name="enough-count"><option>0</option></select> out of <b class="count-total">10</b> pages.</p>
 						</label>
 					</div>
@@ -188,22 +190,22 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 				<div class="grid-h grid-4">
 					<label>
 						<input type="radio" name="api" value="scorm12" checked>
-						<img src="http://placehold.it/80x60/fff/333&text=1.2">
+						<?php include("img/scorm.svg"); ?>
 						<p>Scorm 1.2 (default)</p>
 					</label>
 					<label>
 						<input type="radio" name="api" value="scorm2004">
-						<img src="http://placehold.it/80x60/fff/333&text=2004">
+						<?php include("img/scorm.svg"); ?>
 						<p>Scorm 2004</p>
 					</label>
 					<label>
-						<input type="radio" name="api" value="imscp" id="radio-imscp">
-						<img src="http://placehold.it/80x60/fff/333&text=ims">
+						<input type="radio" name="api" value="imscp" data-compat="imscp">
+						<?php include("img/ims.svg"); ?>
 						<p>IMS Content Package</p>
 					</label>
 					<label>
-						<input type="radio" name="api" value="none" id="radio-imscp">
-						<img src="http://placehold.it/80x60/fff/333&text=none">
+						<input type="radio" name="api" value="none">
+						<?php include("img/html5.svg"); ?>
 						<p>Standalone</p>
 					</label>
 				</div>

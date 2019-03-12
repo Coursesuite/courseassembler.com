@@ -2,6 +2,13 @@
 	color: var(--base);
 }
 
+#nav-selection>h3 {
+	display: none;
+}
+#nav-selection.hidden>h3 {
+	display: block;
+}
+
 	#nav-selection fieldset {
 	    display: block;
 	    margin-inline-start: 2px;

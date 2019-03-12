@@ -1053,6 +1053,14 @@ function handlePopover(tgt) {
 	b.style.top = (rekt.y + rekt.height + 10) + "px";
 	b.style.right = "calc((100vw + .5em) - " + (rekt.x + rekt.width) + "px)";
 	document.body.appendChild(b);
+	switch (tgt.dataset.action) {
+		case "toggle-settings":
+			$("input[data-action='toggle-mute']").prop("checked", !DocNinja.options.MUTED);
+			$("input[data-action='toggle-no-autosplit']").prop("checked", DocNinja.options.AUTOSPLIT);
+			$("input[data-action='toggle-no-autoresize']").prop("checked", DocNinja.options.AUTOOPTIMISE);
+			$("input[data-action='toggle-no-autocenter']").prop("checked", DocNinja.options.AUTOCENTER);
+		break;
+	}
 	if (!DocNinja.options.MUTED) DocNinja.options.sndpop.play();
 	if ("init" in tgt.dataset) {
 		switch (tgt.dataset.init) {

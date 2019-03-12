@@ -3,32 +3,38 @@
 	list-style-position: inside;
 	margin: 0;
 	padding: 0;
-	color: rgba(255,255,255,.5);
+	color: #444;
 	text-shadow: none;
 }
 
 #nav-item-list input.rename-page {
-	border:  1px solid rgba(255,255,255,.35);
-	background-color: rgba(255,255,255,.25);
-	text-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	border:  1px solid var(--edge);
+	background-color: rgba(255,255,255,.5);
 	padding: 3px;
-	margin-right: 3px;
+	margin: -1px 4px 0 -3px;
 	border-radius: 4px;
-	color: white;
+	color: var(--base);
+	outline: none;
 }
 
-#nav-item-list i,
-#nav-item-list .indent a>span {
-	color: rgba(255,255,255,.5);
-	transition: color .2s ease;
+#nav-actions, #scroll-area {
+    border-right-color: var(--edge);
 }
-#nav-item-list li:hover i,
-#nav-item-list li:hover a>span {
-	color: rgba(255,255,255,.9);
+#nav-item-list>li, #nav-item-list ol>li, .toolbar {
+    border-bottom-color: var(--edge);
 }
-#nav-item-list li.selected a[data-action='preview'] {
-	text-shadow: 1px 1px 0 rgba(0,0,0,.25);
+#nav-item-list, #nav-item-list>li a, #nav-item-list ol>li a, #nav-item-list i, #nav-item-list .indent a>span {
+    color: #222;
 }
+
+#nav-item-list li:hover i, #nav-item-list li:hover a>span {
+    color: #444;
+}
+
+#scroll-area {
+    background-color: var(--toolbar);
+}
+
 #nav-item-list .drag-handle {
 	cursor: move;
 	font-size: 24px;
@@ -66,23 +72,18 @@
 #nav-item-list>li,
 #nav-item-list ol>li {
 	padding: 10px 0;
-	border-bottom: 1px solid rgba(255,255,255,.5);
+	border-bottom: 1px dotted var(--edge);
 }
 #nav-item-list>li>a{
 	padding-left: .3em;
 }
 #nav-item-list>li a,
 #nav-item-list ol>li a {
-	color: #fff;
+	color: #444;
 }
 #nav-item-list>li a:focus,
 #nav-item-list ol>li a:focus {
 	outline: none;
-}
-#nav-item-list>li.selected,
-#nav-item-list ol>li.selected {
-	background-color: rgba(59, 145, 184, 0.87);
-	position: relative;
 }
 #nav-item-list a[data-action='preview'] {
 	display: block;
@@ -100,4 +101,9 @@
 }
 #add-documents li[data-depth='3'] a.toggle-switch {
 	margin-left: 48px !important;
+}
+#nav-item-list>li.selected,
+#nav-item-list ol>li.selected {
+    background-color: var(--selection);
+    position: relative;
 }

@@ -1,6 +1,68 @@
 /* --------------------------
-	tabs across the top
+    tabs
 -------------------------- */
+#tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #e8e8e8;
+    text-transform: uppercase;
+}
+#tabs>*{
+    flex: none;
+    padding-left: 20px;
+    position: relative;
+}
+#tabs>a {
+    display: inline-block;
+    text-align: center;
+    padding: 9px 20px;
+    color: #999;
+    border-bottom: 2px solid transparent;
+    transition: color .1s ease-in-out;
+    line-height: 40px;
+}
+#tabs>a:hover {
+    color: #444;
+}
+#tabs::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid var(--edge);
+}
+
+/* --------------------------
+    toolbars
+-------------------------- */
+
+.toolbar {
+    color: #444;
+}
+
+/* --------------------------
+    tab active states
+-------------------------- */
+
+body.add-documents #tabs a[data-tab='add-documents'],
+body.change-settings #tabs a[data-tab='change-settings'],
+body.download-zip #tabs a[data-tab='download-zip'] {
+    color: #222;
+    border-color: var(--base);
+}
+
+body.add-documents section#add-documents,
+body.change-settings section#change-settings,
+body.download-zip section#download-zip {
+    display: block;
+}
+
+/* --------------------------
+    responsive text
+-------------------------- */
+
 @media (max-width: 1100px) {
     #tabs > a {
         font-size: 0px;
@@ -12,69 +74,6 @@
         font-size: 16px;
         text-align: center;
         padding-left: 27px;
+        margin-right: .5em;
     }
-}
-
-#tabs {
-    background-color: #fff;
-    color: black;
-    display: table;
-    width: 100%;
-    text-transform: uppercase;
-    line-height: 48px;
-}
-#tabs a[data-tab] {
-    background: none;
-    outline: none;
-    min-width: 20%;
-    display: table-cell;
-    position: relative;
-    padding: 0 1em;
-    text-align: center;
-    text-decoration: none;
-    letter-spacing: 1px;
-    white-space: nowrap;
-}
-
-#tabs > a > i {
-    pointer-events: none;
-}
-
-#tabs .btns {
-    width: 1%;
-    display: table-cell;
-    text-align: right;
-    white-space: nowrap;
-}
-
-#tabs a[data-tab]::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: calc(50% - 5px);
-    border-width: 0 10px 10px;
-    border-style: solid;
-    display: block;
-    width: 0;
-    border-color: transparent;
-}
-
-body.add-documents #tabs a[data-tab='add-documents']::after {
-    border-color: transparent transparent var(--toolbar);
-}
-body.change-settings #tabs a[data-tab='change-settings']::after {
-    border-color: transparent transparent var(--design);
-}
-body.download-zip #tabs a[data-tab='download-zip']::after {
-    border-color: transparent transparent var(--download);
-}
-
-/* --------------------------
-	tab active states
--------------------------- */
-
-body.add-documents section#add-documents,
-body.change-settings section#change-settings,
-body.download-zip section#download-zip {
-	display: block;
 }

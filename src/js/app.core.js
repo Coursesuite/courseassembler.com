@@ -173,6 +173,7 @@
 
 
 	// store the item order by just caching the whole html... significantly faster
+	// TODO: stop caching everything, rebuild nodes independantly
 	function setItemOrder() {
 		DocNinja.PurityControl.Nav.Check();
 		localforage.setItem("order", DocNinja.navItems.innerHTML);
@@ -216,11 +217,15 @@
 	//  go through various forms and serialize them; return everything combined
 	window.gatherSettings = function () {
 		var data = [];
-		$(".settings-panel").each(function(index, node) {
-			$.each($(node).closest("form").serializeArray(), function (idx, value, ar) {
-				data.push(value);
-			});
+		$.each($("form").serializeArray(), function (idx, value, ar) {
+			data.push(value);
 		});
+		// $(".settings-panel").each(function(index, node) {
+		// 	$.each($(node).closest("form").serializeArray(), function (idx, value, ar) {
+		// 		data.push(value);
+		// 	});
+		// });
+		//console.dir(data);
 		return Promise.resolve(data);
 	};
 
@@ -334,7 +339,7 @@
 				}
 			}
 		}
-		if (DocNinja.options.courseNameField.value.length == 0) DocNinja.options.courseNameField.value = "I have not yet named my course";
+		// if (DocNinja.options.courseNameField.value.length == 0) DocNinja.options.courseNameField.value = ""; // leave it blank
 		if (DocNinja.options.copyrightField.value.length == 0) DocNinja.options.copyrightField.value = $("<div>&copy; Anonymous " + new Date().getFullYear() + ". All rights reserved.</div>").text();
 		if (DocNinja.options.descriptionField.value.length == 0) DocNinja.options.descriptionField.value = "This course was assembled at www.courseassembler.com";
 	}
@@ -453,10 +458,9 @@
 		// 	DocNinja.routines.PersistSettings();
 		// });
 
-		$("input", "#basic-options").on("click", function (e) {
-			if ($(this).attr("id")==="radio-imscp") {
+		$("input", "#download-zip").on("click", function (e) {
+			if (e.target.dataset.hasOwnProperty("compat")) {
 				$("#nav-selection").addClass("hidden");
-				$("#layout-imscp").prop("checked", true).trigger("click");
 			} else {
 				$("#nav-selection").removeClass("hidden");
 			}
@@ -713,7 +717,7 @@
 			document.documentElement.style.setProperty('--bannerHeight', h);
 
 			// toggle settings and persist in body class
-			$("#cog").on("click", "a", function (e) {
+			$(document.body).on("change", "input[type='checkbox']", function (e) {
 				hideOverlays(false);
 				e.preventDefault();
 				var action = (e.currentTarget.dataset.action ? e.currentTarget.dataset.action : e.currentTarget.parentNode.dataset.action).replace("toggle-", "");
