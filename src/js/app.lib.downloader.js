@@ -253,7 +253,7 @@
 								});
 							}
 
-							if (template.indexOf("://")) {
+							if (template.indexOf("://")!==-1) {
 								// zip of template is hosted on an external location; grab it
 								new JSZip.external.Promise(function (innerResolve, innerReject) {
 								    JSZipUtils.getBinaryContent(template, function(err, data) {
@@ -286,10 +286,11 @@
 
 							} else {
 								// regular internal template, load files from urls and proces them
-								var urls = ["/app/designs/" + template + "/index.html","/app/designs/" + template + "/_package.js", "/app/designs/" + template + "/_package.css"];
+								var urls = ["designs/" + template + "/index.html","designs/" + template + "/_package.js", "designs/" + template + "/_package.css"];
 								promises = urls.map(function(url) {
 									return new Promise(function(resolve,reject) {
 										var fh = new Headers(); fh.append('pragma','no-cache'); fh.append('cache-control','no-store'); // avoid caching templates until I can work out a better version control
+										console.dir(url);
 										fetch(url, {method:'GET',headers:fh}).then(function(response) {
 											var name = response.url.split("/").pop();
 											return response.text().then(function(html) {
@@ -315,7 +316,7 @@
 							zip.file("imsmanifest.xml", Handlebars.templates[setup.api + "manifest"](setup))
 						]);
 					}).then(function () {
-						return fetch("/app/scorm/" + setup.api + ".zip");
+						return fetch("scorm/" + setup.api + ".zip");
 					}).then(function (response) {
 						return response.arrayBuffer();
 					}).then(function (buffer) {

@@ -92,3 +92,11 @@ button.negative:hover {border-color: var(--negative);color: var(--negative);}
 button[data-action="record-page-audio"]:hover {border-color: #cf280e;color: #cf280e;}
 button[data-action="upload-page-audio"]:hover {border-color: #8ebd0f;color: #8ebd0f;}
 button[data-action="trash-page-audio"]:hover {border-color: #999;color: #999;}
+
+.progress-button.disabled {
+	pointer-events: none;
+}
+.progress-button.disabled button {
+	border-color: var(--edge);
+	color: var(--edge);
+}

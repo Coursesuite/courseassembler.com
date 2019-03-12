@@ -1183,7 +1183,7 @@ function popover_saveRange() {
 
 function popover_audioUpload(file) {
 	var id = DocNinja.filePreview.CurrentFile();
-	console.log(file.type);
+	//console.log(file.type);
 	if ((file && file.type.indexOf("audio/mpeg")===-1) && file.type.indexOf("audio/mp3")===-1) return; // "audio/mp3 on chrome, audio/mpeg on firefox..."
 	var reader = new FileReader();
 	reader.onloadend = function (event) {
@@ -1217,7 +1217,7 @@ function popover_savePageBackground() {
 					obj = DocNinja.Page.ModifyPageBackgroundColour(obj, colour);
 					break;
 				default:
-					alert("UNHANLED CONDITION RED ALERT GOING TO DEFCON ZERO AARGHHseeconslefrdtls");
+					alert("UNHANLED CONDITION RED ALERT GOING TO DEFCON ZERO AARGHHseeconslefrdtls. You were not meant to see this.");
 					console.warn(obj);
 			}
 			// DocNinja.filePreview.Editing.ShowBgColour(colour);
@@ -1585,7 +1585,7 @@ function changeTab(e) {
 //		DocNinja.routines.MoveNinja();
 		triggerResize();
 		DocNinja.options.loader.hide();
-		DocNinja.routines.PersistSettings();
+		DocNinja.routines.PersistSettings("change tab");
 	}, DocNinja.options.tabSpeed );
 }
 

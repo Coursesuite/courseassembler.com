@@ -79,11 +79,12 @@
 		// 		"background-position": randomElement(DocNinja.options.bpx) + " " + randomElement(DocNinja.options.bpy)
 		// 	});
 		// },
-		PersistSettings: function() {
+		PersistSettings: function(source) {
 			window.gatherSettings().then(function(cache) {
 			 	// localforage.config({
 			 	//     name: 'DocumentNinja'
 			 	// });
+			 	//console.log("persisting settings", cache, source);
 			 	localforage.setItem("settingsCache", cache);
 			 	localforage.setItem("bodyclases", document.body.className);
 			});
@@ -143,7 +144,13 @@
 				break;
 
 			case "change-settings":
-				if (DocNinja.options.courseNameField.value.trim() == "") DocNinja.options.courseNameField.value = $("li[data-fileid]:eq(0)", DocNinja.navItems).find("a[data-action='preview']").text();
+				if (DocNinja.options.courseNameField.value.trim() === "") {
+					var courseNameMaybe = $("li[data-fileid]:eq(0)", DocNinja.navItems).find("a[data-action='preview']").text();
+					//console.dir(courseNameMaybe);
+					if (courseNameMaybe.length) {
+						DocNinja.options.courseNameField.value = courseNameMaybe;
+					}
+				}
 
 				// positionSvgPreviewIframe();
 				// update_preview();
@@ -177,7 +184,7 @@
 	function setItemOrder() {
 		DocNinja.PurityControl.Nav.Check();
 		localforage.setItem("order", DocNinja.navItems.innerHTML);
-		DocNinja.routines.PersistSettings();
+		DocNinja.routines.PersistSettings("setItemOrder");
 	}
 
 	// update the count of pages on the settings / completion area, which is based on the number of files
@@ -315,21 +322,22 @@
 
 
 	DocNinja.reloadSettingsFromCache = function(cache) {
-		if (cache) {
+		if (cache) {  //console.dir(cache);
 			for (var i=0,k=Object.keys(cache);i<k.length;i++){
 				var name = cache[k[i]].name,
 					value = cache[k[i]].value;
 
 				var $inp = $("input[name='" + name + "']");
+				//console.log(name,$inp.length,">",value,"<");
 
 				if ($inp.is(":radio")) {
 					$inp.filter("[value='" + value + "']").prop("checked", true);
 				} else {
 					$inp.val(value);
 				}
-				if (name === "option-course-description") {
-					$("#ocd").val(value);
-				}
+				// if (name === "option-course-description") {
+				// 	$("#ocd").val(value);
+				// }
 				if (name === "navbg") {
 					$inp.get(0).jscolor.fromString(value);
 					window.colourpreview($inp.get(0).jscolor);
@@ -366,7 +374,7 @@
 	} // init()
 
 	window.colourpersist = function (picker) {
-		DocNinja.routines.PersistSettings();
+		DocNinja.routines.PersistSettings("colourpersist");
 	}
 
 	// if ($("#tab-design-pro").length) $("#tab-design-pro figure:first").trigger("click");
@@ -381,15 +389,15 @@
 	// }
 
 	$("#nav-selection").on("click", "figure", function (e) {
-		$("#nav-selection figure").removeClass("selected");
-		this.classList.add("selected");
-		$("input[name='template']").val(this.dataset.name);
-		DocNinja.routines.PersistSettings();
+		selectTemplate(this.dataset.name);
+		DocNinja.routines.PersistSettings("click figure");
 	});
 
 	function selectTemplate(name) {
 		if (!name.length) return;
-		$("#nav-selection figure[data-name='" + name + "']").click();
+		$("input[name='template']").val(name);
+		$("#nav-selection figure").removeClass("selected");
+		$("#nav-selection figure").filter("[data-name='" + name + "']").addClass("selected");
 	}
 
 	// $(".design-tabs").on("click", "a", function (e) {
@@ -406,22 +414,6 @@
 	// 	e.preventDefault();
 	// 	DocNinja.EditHandlers.LoadCodeMirror(e.target.getAttribute("data-loader"));
 	// });
-
-	$("input","#basic-options").on("change", function() {
-		DocNinja.routines.PersistSettings();
-	});
-
-	// Disable preview ninja for IMS packages
-	$("input","#packageType").change(function(e) {
-		var previewButton = $("[data-destination='preview']");
-		if (e.target.id === 'radio-imscp') {
-			previewButton.addClass("disabled");
-			previewButton.attr("data-tooltip", "IMS currently not supported in SCORM Previewer :(");
-		} else {
-			previewButton.removeClass("disabled");
-			previewButton.removeAttr("data-tooltip");
-		}
-	});
 
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------
 							APPLICATION START
@@ -457,14 +449,22 @@
 		// 	// update_preview();
 		// 	DocNinja.routines.PersistSettings();
 		// });
+	// $("input","#basic-options").on("change", function() {
+	// 	DocNinja.routines.PersistSettings();
+	// });
 
-		$("input", "#download-zip").on("click", function (e) {
+		// entering a value on a form should persist the form, and check some field logic
+		$("input", "form").on("change blur", function (e) {
+			// Disable preview ninja for IMS packages
+			var previewButton = $("[data-destination='preview']");
 			if (e.target.dataset.hasOwnProperty("compat")) {
+				previewButton.addClass("disabled");
 				$("#nav-selection").addClass("hidden");
 			} else {
+				previewButton.removeClass("disabled");
 				$("#nav-selection").removeClass("hidden");
 			}
-			DocNinja.routines.PersistSettings();
+			DocNinja.routines.PersistSettings("change blur");
 		});
 
 		// tab click handlers

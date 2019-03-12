@@ -9,10 +9,11 @@ if (!empty($api_template)) {
 }
 
 // get a distinct list of folders, which are in the pattern Grouping_SentenceCaseName
-$designs = array_filter(glob(realpath(dirname(__FILE__)) . '/designs/[!_]*'), 'is_dir');
+$designs = array_filter(glob(realpath(dirname(__FILE__)) . '/designs/*'), 'is_dir'); // [!_]*
 array_walk($designs, function($v) use (&$groupings) {
-	$group = explode('_', basename($v))[0];
-	if (!in_array($group, $groupings)) $groupings[] = $group;
+	$groupings[] = basename($v);
+	// $group = explode('_', basename($v))[0];
+	// if (!in_array($group, $groupings)) $groupings[] = $group;
 });
 
 // Draw in each grouping the list of designs
@@ -33,15 +34,15 @@ foreach ($groupings as $group) {
 	}
 
 	echo "<div class='grid'>", PHP_EOL;
-	$designs = array_filter(glob(realpath(dirname(__FILE__)) . '/designs/' . $group . '_*'), 'is_dir');
-	array_walk($designs, function($fold) use (&$css) {
+	$designs = array_filter(glob(realpath(dirname(__FILE__)) . "/designs/{$group}/*"), 'is_dir');
+	array_walk($designs, function($fold) use (&$css, $group) {
 		$bn = basename($fold);
-		list($fn, $name) = explode('_',$bn);
-		echo "<div>","<figure data-name='{$bn}'{$css}>";
-		echo "<img src='designs/{$bn}/preview.jpg'>";
-		$svg = realpath("designs/{$bn}/overlay.svg"); // returns false if not found
+		$fn = rawurlencode($group) . '/' . rawurlencode($bn);
+		echo "<div>","<figure data-name='{$fn}'{$css}>";
+		echo "<img src='designs/{$fn}/preview.jpg'>";
+		$svg = realpath("designs/{$fn}/overlay.svg"); // returns false if not found
 		if (svg) include($svg);
-		echo "<figcaption>", trim(preg_replace('/([A-Z])/', ' $1', $name)), "</figcaption>"; // SentenceCaseName => Sentence Case Name
+		echo "<figcaption>", trim(preg_replace('/([A-Z])/', ' $1', $bn)), "</figcaption>"; // SentenceCaseName => Sentence Case Name
 		echo "</figure>", "</div>", PHP_EOL;
 		$css = "";
 	});
