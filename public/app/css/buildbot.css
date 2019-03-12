@@ -1,0 +1,46 @@
+body.buildbot-sad {
+	background: #20639b url(buildbot.svg) no-repeat bottom right;
+	background-size: contain;
+	overflow: hidden;
+	position: relative;
+	color: white;
+	text-shadow: 1px 1px 0 #20639b;
+}
+
+body.buildbot-sad header {
+	position: absolute;
+	top: 10vh;
+	left: 10vw;
+}
+
+body.buildbot-sad header path {
+	fill: white;
+}
+
+body.buildbot-sad main {
+	position: absolute;
+	top: 20vh;
+	left: 10vw;
+	width: 40vw;
+}
+
+body.buildbot-sad a {
+	color: inherit;
+	text-decoration: none;
+	position: relative;
+}
+body.buildbot-sad a:before {
+	content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: calc(100%);
+    bottom: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: .3s ease-in-out;
+    transition-property: right;
+}
+body.buildbot-sad a:hover::before {
+    right: 0;
+}

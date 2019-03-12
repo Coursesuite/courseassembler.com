@@ -42,6 +42,7 @@ echo "\$timestamp = '$TS';" >> variables.php
 echo "\$minified_css = 'css/app.min.$TS.css';" >> variables.php
 echo "\$minified_app = 'js/app.min.$TS.js';" >> variables.php
 echo "\$minified_head = 'js/head.min.$TS.js';" >> variables.php
+echo "\$verifier->code->minified = true;" >> variables.php
 echo "?>" >> variables.php
 
 echo "Deploying app"

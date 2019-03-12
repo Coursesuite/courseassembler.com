@@ -41,7 +41,7 @@ foreach ($groupings as $group) {
 		echo "<div>","<figure data-name='{$fn}'{$css}>";
 		echo "<img src='designs/{$fn}/preview.jpg'>";
 		$svg = realpath("designs/{$fn}/overlay.svg"); // returns false if not found
-		if (svg) include($svg);
+		if ($svg) include($svg);
 		echo "<figcaption>", trim(preg_replace('/([A-Z])/', ' $1', $bn)), "</figcaption>"; // SentenceCaseName => Sentence Case Name
 		echo "</figure>", "</div>", PHP_EOL;
 		$css = "";
