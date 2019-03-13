@@ -2,7 +2,7 @@
 define("APP",true);
 include("load.php");
 
-$verifier = (new CoursesuiteValidator(false,false))->Validate($_GET);
+$verifier = (new CoursesuiteValidator(false,true))->Validate($_GET);
 include "variables.php";
 
 $jsApp = new stdClass();
