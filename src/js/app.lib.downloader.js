@@ -121,6 +121,7 @@
 									});
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
+									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
 									DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj, resource, "imscp");
 									DocNinja.PurityControl.MayRequireJQuery(fold, obj, resource);
 								} else { // just store the html, which will already be correct
@@ -136,6 +137,7 @@
 							// append to manifest, but without the payload
 							if (obj.payload.image) delete obj.payload.image;
 							if (obj.payload.html) delete obj.payload.html;
+							if (obj.payload.mp3) delete obj.payload.mp3;
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 
 							progress += increment;
@@ -197,16 +199,19 @@
 								fold.file(obj.payload.name, obj.payload.image.split(',')[1], {base64: true});
 								obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
+								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								fold.file(filename,obj.payload.html);
 							} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 
 								// wow, surprising this even works since its adding the file to fold but not returning a promise ..
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
+								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj);
 								DocNinja.PurityControl.MayRequireJQuery(fold, obj);
 
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup);
+								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								fold.file(filename, obj.payload.html);
 
 							} else {
@@ -219,6 +224,7 @@
 							// append to manifest, but without the payload (no longer needed in memory)
 							if (obj.payload.image) delete obj.payload.image;
 							if (obj.payload.html) delete obj.payload.html;
+							if (obj.payload.mp3) delete obj.payload.mp3;
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 							progress += increment;
 							uiButtonInstance.setProgress(progress);

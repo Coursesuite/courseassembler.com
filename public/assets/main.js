@@ -12,14 +12,10 @@ function loadTyped() {
 }
 
 function launch(el) {
-	var value = el.parentNode.previousElementSibling.querySelector("input").value;
-	var key = btoa(value);
-	[['+','-'],['/','_'],['=',',']].map(function(ar) {
-		key = key.split(ar[0]).join(ar[1]);
-	});
+	var key = el.closest("fieldset").querySelector("input[type='text']").value;
 	new Promise(function(resolve,reject) {
 		if (el.closest("fieldset").querySelector("input[type='checkbox']").checked) {
-			localforage.setItem("licencekey", value).then(function() { resolve(); });
+			localforage.setItem("licencekey", key).then(function() { resolve(); });
 		} else {
 			localforage.removeItem("licencekey");
 			resolve();

@@ -33,7 +33,7 @@ button > i{
 }
 #banner button[data-action='pop-help'] { background-color: var(--help);}
 #banner button[data-action='clear-storage'] { background-color: var(--reset);}
-#banner button[data-action="toggle-settings"] { background-color: #487bb9;}
+#banner button[data-action="toggle-settings"] { background-color: var(--settings);}
 #banner button:hover { box-shadow: inset 0 0 40px rgba(255,255,255,.25);}
 
 /* --------------------------

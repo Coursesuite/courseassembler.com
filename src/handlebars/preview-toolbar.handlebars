@@ -17,7 +17,7 @@
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}
 		{{#compare kind "plugin"}}{{else}}
 	<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>
-	<span id="audioStatus">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{else}}<i class="ninja-volume_off" title="No page audio"></i>{{/if}}</span>
+	{{!-- status is now shown on the left index<span id="audioStatus">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{else}}<i class="ninja-volume_off" title="No page audio"></i>{{/if}}</span> --}}
 		{{/compare}}
 	{{/compare}}
 

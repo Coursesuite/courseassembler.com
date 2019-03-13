@@ -83,6 +83,7 @@
 		border: 2px solid transparent;
 		border-radius: 4px;
 		text-align:  center;
+		cursor: pointer;
 	}
 
 	#nav-selection figure.selected {

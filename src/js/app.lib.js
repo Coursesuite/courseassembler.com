@@ -1189,10 +1189,12 @@ function popover_audioUpload(file) {
 	reader.onloadend = function (event) {
 		localforage.getItem(id).then(function (obj) {
 			obj.payload.mp3 = event.target.result;
+			var updated = DocNinja.Navigation.Icons.Add.Audio(id);
 			document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
-			document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_up' title='Page has audio'></i>";
+			//document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_up' title='Page has audio'></i>";
 			closePopover();
 			localforage.setItem(id, obj);
+			if (updated) window.setItemOrder();
 		});
 	}
 	reader.readAsDataURL(file);
@@ -1231,10 +1233,12 @@ function popover_useRecording(mp3) {
 	var id = DocNinja.filePreview.CurrentFile();
 	localforage.getItem(id).then(function (obj) {
 		obj.payload.mp3 = mp3;
+		var updated = DocNinja.Navigation.Icons.Add.Audio(id);
 		document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
-		document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_up' title='Page has audio'></i>";
+		//document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_up' title='Page has audio'></i>";
 		closePopover();
 		localforage.setItem(id, obj);
+		if (updated) window.setItemOrder();
 	});
 }
 
@@ -1526,11 +1530,13 @@ function performAction(tgt) {
 				delete obj.payload.mp3;
 				ae.pause();
 				ae.removeAttribute("src");
+				var updated = DocNinja.Navigation.Icons.Remove.Audio(id);
 				if (ae.hasOwnProperty("currentSrc")) ae.currentSrc = undefined;
 				document.querySelector("button[data-action='set-audio']").removeAttribute("data-init");
-				document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_off' title='No page audio'></i>";
+				//document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_off' title='No page audio'></i>";
 				closePopover();
 				localforage.setItem(id,obj);
+				if (updated) window.setItemOrder();
 			});
 			break;
 

@@ -515,14 +515,30 @@
 			}
 
 			// Insert page audio mp3
-			if (obj.payload.mp3) {
-				doc.body.insertAdjacentHTML('afterbegin', Handlebars.templates["page-audio-player"]({audioSrc:obj.payload.mp3}));
-			}
+			// if (obj.payload.mp3) {
+			// 	doc.body.insertAdjacentHTML('beforeend', Handlebars.templates["page-audio-player"]({audioSrc:obj.payload.mp3}));
+			// }
 
 			// export the modified html document
 			fold.file(filename, "<!doctype html>" + doc.documentElement.outerHTML);
 			if (undefined !== resource) resource.files.push({href: resource.base + filename}); // imscp passes in resource object
 		};
+
+		// insert page audio, if applicable
+		var xfilesost = function (obj, fold, resource) {
+			if (obj.payload.mp3) {
+				var doc = document.implementation.createHTMLDocument(obj.payload.name);
+				doc.documentElement.innerHTML = obj.payload.html;
+				var src = obj.payload.mp3,
+					fn = md5(obj.payload.mp3)+".mp3";
+				fold.file(fn,src.substring(src.indexOf("base64,")+7), {base64:true});
+				doc.body.insertAdjacentHTML('beforeend', Handlebars.templates["page-audio-player"]({audioSrc:fn}));
+				obj.payload.html = "<!doctype html>" + doc.documentElement.outerHTML;
+				doc = null;
+				if (undefined !== resource) resource.files.push({href: resource.base + fn}); // imscp passes in resource object
+			}
+			return obj;
+		}
 
 		// Clean
 		var talitha_cumi= function (fileInfo) {
@@ -679,7 +695,8 @@
 				UrlPath: pathname
 			},
 			UpdateHyperlinks: _mutation,
-			InjectAnalyticsCode: spook
+			InjectAnalyticsCode: spook,
+			InjectPageAudio: xfilesost
 		}
 	})(document);
 

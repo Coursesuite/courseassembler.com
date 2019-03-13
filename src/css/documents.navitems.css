@@ -92,6 +92,9 @@
 #nav-item-list .nav-item {
 	align-items: center;
 }
+#nav-item-list span.audio-hint {
+	margin-right: 10px;
+}
 
 #add-documents li[data-depth='1'] a.toggle-switch {
 	margin-left: 16px !important;

@@ -272,7 +272,6 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 -------------------------- */
 .toggle-form {
 	text-align: left;
-	font-size: 14px;
 }
 
 .toggle-form input[type='checkbox'] {

@@ -25,24 +25,16 @@
 	--encasing: #e8e8e8;
 
 	/* buttons */
-	--button: #03c6a4;
-	--buttonShadow: #02a489;
-	--buttonRadius: 3px;
 
-	--buttonIcon: #028b74;
-	--buttonIconShadow: #016756;
-
-	--buttonText:  #fff;
-	--buttonTextShadow: #888;
-
+	--settings: #eea51d;
+	--help: #1db2ee;
+	--reset: #843da2;
 
 	--positive: #7fba42;
-	--help: #e35b28;
-	--reset: #843da2;
+
 	--content: darkgreen;
 	--quiz: #9b4dca;
 	--resource: #fc3;
-	--settings: #999;
 
 	--bgcolour: #333;
 	--audio: #dc9e1f;

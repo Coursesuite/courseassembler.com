@@ -8,8 +8,32 @@
 		return value.split("display-flex").join("dn-flex").split("flex-left-right").join("dn-flex-lr").split("label flex-1").join("label dn-flex-1 dn-flex dn-flex-c-1");
 	}
 
+	var _add_audio_icon = function (id) {
+		var icon = document.createElement("span");
+		icon.classList.add("audio-hint"); icon.innerHTML = '<i class="ninja-volume_up" title="Page has audio"></i>';
+		document.querySelector("li[data-fileid='" + id + "']>div.nav-item").appendChild(icon);
+		return true;
+	}
+
+	var _remove_audio_icon = function (id) {
+		var span= document.querySelector("li[data-fileid='" + id + "'] .audio-hint");
+		if (span) {
+			span.remove();
+			return true;
+		}
+		return false;
+	}
+
 	DocNinja.Navigation = {
-		Upgrade: _upgrade
+		Upgrade: _upgrade,
+		Icons: {
+			Add: {
+				Audio:  _add_audio_icon
+			},
+			Remove: {
+				Audio: _remove_audio_icon
+			}
+		}
 	}
 
 })(window.DocNinja = window.DocNinja || {});

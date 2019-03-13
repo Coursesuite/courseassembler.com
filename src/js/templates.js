@@ -279,9 +279,9 @@ templates['nonemanifest'] = template({"1":function(container,depth0,helpers,part
 templates['page-audio-player'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "<audio id=\"page-audio-obj\" src=\""
+  return "<style>\n#wDS3ed{background-color:white;box-shadow:0 3px 5px rgba(0,0,0,.25);border-radius:3px;position:fixed;top:85vh;left:20px;z-index:97531}\n#wDS3ed>div{background-color:silver;cursor:move;height:12px;border-radius:3px 3px 0 0}audio{margin:0}\n</style>\n<script type=\"text/javascript\">\n/* displacejs.js 1.2.4 - https://github.com/catc/displace - MIT */\n!function(t,e){\"object\"==typeof exports&&\"object\"==typeof module?module.exports=e():\"function\"==typeof define&&define.amd?define([],e):\"object\"==typeof exports?exports.displacejs=e():t.displacejs=e()}(this,function(){return function(t){function e(n){if(o[n])return o[n].exports;var s=o[n]={exports:{},id:n,loaded:!1};return t[n].call(s.exports,s,s.exports,e),s.loaded=!0,s.exports}var o={};return e.m=t,e.c=o,e.p=\"\",e(0)}([function(t,e,o){\"use strict\";function n(t){return t&&t.__esModule?t:{\"default\":t}}var s=o(1),u=n(s);t.exports=u[\"default\"]},function(t,e,o){\"use strict\";function n(t,e){if(!(t instanceof e))throw new TypeError(\"Cannot call a class as a function\")}function s(){var t=this.el,e=this.opts||r,o={};if(t.style.position=\"absolute\",this.handle=e.handle||t,e.constrain){for(var n=e.relativeTo||t.parentNode,s=t,a=0,c=0;s!==n;)s=s.parentNode,(0,u.isRelative)(s)&&(a-=s.offsetLeft,c-=s.offsetTop),s===n&&(a+=s.offsetLeft,c+=s.offsetTop);var h=a+n.offsetWidth-t.offsetWidth,f=c+n.offsetHeight-t.offsetHeight;o.xClamp=(0,u.generateClamp)(a,h),o.yClamp=(0,u.generateClamp)(c,f)}this.opts=e,this.data=o,this.events={mousedown:i.mousedown.bind(this),mouseup:i.mouseup.bind(this),touchstart:i.touchstart.bind(this),touchstop:i.touchstop.bind(this)},this.handle.addEventListener(\"mousedown\",this.events.mousedown,!1),this.handle.addEventListener(\"touchstart\",this.events.touchstart,!1)}Object.defineProperty(e,\"__esModule\",{value:!0});var u=o(2),i=o(3),r={constrain:!1,relativeTo:null,handle:null,highlightInputs:!1,onMouseDown:null,onMouseMove:null,onMouseUp:null,onTouchStart:null,onTouchMove:null,onTouchStop:null},a=function(){function t(e,o){if(n(this,t),!e)throw Error(\"Must include moveable element\");this.el=e,this.opts=o,s.call(this)}return t.prototype.reinit=function(){this.destroy(),s.call(this)},t.prototype.destroy=function(){var t=this.events;this.handle.removeEventListener(\"mousedown\",t.mousedown,!1),document.removeEventListener(\"mousemove\",t.mousemove,!1),document.removeEventListener(\"mouseup\",t.mouseup,!1),this.handle.removeEventListener(\"touchstart\",t.touchstart,!1),document.removeEventListener(\"touchmove\",t.touchmove,!1),document.removeEventListener(\"touchstop\",t.touchstop,!1)},t}();e[\"default\"]=function(t,e){return new a(t,e)}},function(t,e){\"use strict\";function o(t,e){return function(o){return Math.min(Math.max(o,t),e)}}function n(){return window.requestAnimationFrame?function(t,e,o){window.requestAnimationFrame(function(){t.style.left=e+\"px\",t.style.top=o+\"px\"})}:function(t,e,o){t.style.left=e+\"px\",t.style.top=o+\"px\"}}function s(t){return\"relative\"===window.getComputedStyle(t).position}Object.defineProperty(e,\"__esModule\",{value:!0}),e.generateClamp=o,e.generateMoveFn=n,e.isRelative=s},function(t,e,o){\"use strict\";function n(t){var e=this.opts;if(e.highlightInputs){var o=t.target.tagName.toLowerCase();if(\"input\"===o||\"textarea\"===o)return}var n=this.el,u=this.events;\"function\"==typeof e.onMouseDown&&e.onMouseDown(n,t);var i=t.clientX-n.offsetLeft,r=t.clientY-n.offsetTop;u.mousemove=s.bind(this,i,r),document.addEventListener(\"mousemove\",u.mousemove,!1),document.addEventListener(\"mouseup\",u.mouseup,!1)}function s(t,e,o){var n=this.el,s=this.opts,u=this.data;\"function\"==typeof s.onMouseMove&&s.onMouseMove(n,o);var i=o.clientX-t,r=o.clientY-e;return s.constrain&&(i=u.xClamp(i),r=u.yClamp(r)),h(n,i,r),o.preventDefault(),!1}function u(t){var e=this.el,o=this.opts,n=this.events;\"function\"==typeof o.onMouseUp&&o.onMouseUp(e,t),document.removeEventListener(\"mouseup\",n.mouseup,!1),document.removeEventListener(\"mousemove\",n.mousemove,!1)}function i(t){var e=this.opts;if(e.highlightInputs){var o=t.target.tagName.toLowerCase();if(\"input\"===o||\"textarea\"===o)return}var n=this.el,s=this.events;\"function\"==typeof e.onTouchStart&&e.onTouchStart(n,t);var u=t.targetTouches[0],i=u.clientX-n.offsetLeft,a=u.clientY-n.offsetTop;s.touchmove=r.bind(this,i,a),document.addEventListener(\"touchmove\",s.touchmove,!1),document.addEventListener(\"touchend\",s.touchstop,!1),document.addEventListener(\"touchcancel\",s.touchstop,!1)}function r(t,e,o){var n=this.el,s=this.opts,u=this.data;\"function\"==typeof s.onTouchMove&&s.onTouchMove(n,o);var i=o.targetTouches[0],r=i.clientX-t,a=i.clientY-e;return s.constrain&&(r=u.xClamp(r),a=u.yClamp(a)),h(n,r,a),o.preventDefault(),!1}function a(t){var e=this.el,o=this.opts,n=this.events;\"function\"==typeof o.onTouchStop&&o.onTouchStop(e,t),document.removeEventListener(\"touchmove\",n.touchmove,!1),document.removeEventListener(\"touchend\",n.touchstop,!1),document.removeEventListener(\"touchcancel\",n.touchstop,!1)}Object.defineProperty(e,\"__esModule\",{value:!0}),e.mousedown=n,e.mousemove=s,e.mouseup=u,e.touchstart=i,e.touchmove=r,e.touchstop=a;var c=o(2),h=(0,c.generateMoveFn)()}])});\ndocument.addEventListener(\"DOMContentLoaded\",function(e){\n	var test = document.createElement( \"div\" );\n	test.style.cssText = \"position: fixed;top: 0;left: 0;bottom: 0;right: 0;\";\n	document.documentElement.insertBefore( test, document.documentElement.firstChild );\n	var vh = test.offsetHeight;\n	document.documentElement.removeChild( test );\n	var el=document.getElementById(\"wDS3ed\"),elh = el.offsetHeight;el.style.top = (vh - elh - 20) + \"px\";\n	window.displacejs(el,{handle:el.firstElementChild});\n});\ndocument.addEventListener(\"DOMContentLoaded\",function(e){\nvar el=document.getElementById(\"wDS3ed\"),h=el.offsetHeight,b=document.body.offsetHeight;el.style.top = (b-h-20)+\"px\";\nwindow.displacejs(el,{handle:el.firstElementChild});\n});\n</script>\n<div id=\"wDS3ed\"><div></div><audio controls src=\""
     + container.escapeExpression(((helper = (helper = helpers.audioSrc || (depth0 != null ? depth0.audioSrc : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"audioSrc","hash":{},"data":data}) : helper)))
-    + "\" autoplay=\"true\"></audio>\n<style>\n.playpause {\n	position: absolute;\n	top: 10px;\n	left: 10px;\n	z-index: 99;\n	transform: scale(0.5);\n}\n.playpause label {\n  display: block;\n  box-sizing: border-box;\n  width: 0;\n  height: 74px;\n  border-color: transparent transparent transparent #202020;\n  transition: 100ms all ease;\n  cursor: pointer;\n  border-style: double;\n  border-width: 0px 0 0px 60px;\n}\n.playpause input[type=\"checkbox\"] {\n  position: absolute;\n  left: -9999px;\n}\n.playpause input[type=\"checkbox\"]:checked + label {\n  border-style: solid;\n  border-width: 37px 0 37px 60px;\n}\n.playpause input[type=\"checkbox\"]:focus + label {\n  box-shadow: 0 0 5px lightblue;\n}\n\n</style>\n<div class=\"playpause\">\n    <input type=\"checkbox\" value=\"None\" id=\"playpause\" name=\"check\" onclick=\"var ao=document.getElementById('page-audio-obj');if(ao.paused){ao.play()}else{ao.pause()}\"/>\n    <label for=\"playpause\" tabindex=1></label>\n</div>";
+    + "\" autoplay=\"true\"></audio></div>";
 },"useData":true});
 templates['plugin.quiz'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n\n    <title>quiz builder</title>\n\n   </head>\n   <body>\n\n   	quiz builder\n\n   </body>\n</html>";
@@ -414,42 +414,36 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"set-audio\" data-popover=\"audio\" data-label=\"Upload or record audio for this page\" "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.mp3 : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "><i class=\"ninja-mic\"></i>Audio</button>\n	<span id=\"audioStatus\">"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.mp3 : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.program(15, data, 0),"data":data})) != null ? stack1 : "")
-    + "</span>\n";
+    + "><i class=\"ninja-mic\"></i>Audio</button>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     return "data-init=\"initaudio\"";
 },"13":function(container,depth0,helpers,partials,data) {
-    return "<i class=\"ninja-volume_up\" title=\"Page has audio\"></i>";
-},"15":function(container,depth0,helpers,partials,data) {
-    return "<i class=\"ninja-volume_off\" title=\"No page audio\"></i>";
-},"17":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
 
   return "	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"edit","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"edit","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"view","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"view","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"18":function(container,depth0,helpers,partials,data) {
+},"14":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"plugin-edit\"><i class=\"ninja-marker\"></i>Edit</button>";
-},"20":function(container,depth0,helpers,partials,data) {
+},"16":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"plugin-view\"><i class=\"ninja-eye\"></i>View</button>";
-},"22":function(container,depth0,helpers,partials,data) {
+},"18":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"image-properties\"></span>\n";
-},"24":function(container,depth0,helpers,partials,data) {
+},"20":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"timeTaken\"></span>\n";
-},"26":function(container,depth0,helpers,partials,data) {
+},"22":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"pageScore\"></span>\n";
-},"28":function(container,depth0,helpers,partials,data) {
+},"24":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -457,21 +451,21 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-action=\"zoom-out\" class=\"icon\"><i class=\"ninja-zoom-out\"></i></button>\n	<button data-fileid=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"zoom-in\" class=\"icon\"><i class=\"ninja-zoom-in\"></i></button>\n";
-},"30":function(container,depth0,helpers,partials,data) {
+},"26":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.split : stack1),{"name":"unless","hash":{},"fn":container.program(31, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"31":function(container,depth0,helpers,partials,data) {
+  return ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.split : stack1),{"name":"unless","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"27":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "\n	<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"split\"><i class=\"ninja-split\"></i>Split</button>\n	";
-},"33":function(container,depth0,helpers,partials,data) {
+},"29":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data}) : helper)));
-},"35":function(container,depth0,helpers,partials,data) {
+},"31":function(container,depth0,helpers,partials,data) {
     return "(untitled)";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -489,19 +483,19 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\n	"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"image",{"name":"compare","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"image",{"name":"compare","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.supportsZoom : depth0),{"name":"if","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.supportsZoom : depth0),{"name":"if","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\">\n		"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(33, data, 0),"inverse":container.program(35, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(29, data, 0),"inverse":container.program(31, data, 0),"data":data})) != null ? stack1 : "")
     + "\n	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"trash\" data-popover=\"yesno\" data-label=\"Are you sure? (no undo)\"><i class=\"ninja-discard\"></i>Delete page</button>\n	</div>\n\n";
