@@ -1350,9 +1350,10 @@ function performAction(tgt) {
 
 		case "plugin-edit":
 			localforage.getItem(id, function (err, value) {
+				if (!App.Minified) value.plugin += "/src";
 				var frame = document.getElementById("preview-frame");
 				frame.removeAttribute("data-fileid");
-				frame.setAttribute("src","/app/plugins/" + value.plugin + "/edit.html?" + id);
+				frame.setAttribute("src","plugins/" + value.plugin + "/edit.html?" + id);
 			});
 			break;
 
@@ -1360,7 +1361,7 @@ function performAction(tgt) {
 			localforage.getItem(id, function (err, value) {
 				var frame = document.getElementById("preview-frame");
 				frame.removeAttribute("data-fileid");
-				frame.setAttribute("src","/app/plugins/" + value.plugin + "/view.html?" + id);
+				frame.setAttribute("src","plugins/" + value.plugin + "/view.html?" + id);
 			});
 			break;
 

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'scormninja';
-  src:  url('fonts/scormninja.eot?fwlhjd');
-  src:  url('fonts/scormninja.eot?fwlhjd#iefix') format('embedded-opentype'),
-    url('fonts/scormninja.ttf?fwlhjd') format('truetype'),
-    url('fonts/scormninja.woff?fwlhjd') format('woff'),
-    url('fonts/scormninja.svg?fwlhjd#scormninja') format('svg');
+  src:  url('fonts/scormninja.eot?3ro88h');
+  src:  url('fonts/scormninja.eot?3ro88h#iefix') format('embedded-opentype'),
+    url('fonts/scormninja.ttf?3ro88h') format('truetype'),
+    url('fonts/scormninja.woff?3ro88h') format('woff'),
+    url('fonts/scormninja.svg?3ro88h#scormninja') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,8 +24,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ninja-layout:before {
+  content: "\e86d";
+}
 .ninja-palette:before {
   content: "\e40a";
+}
+.ninja-format_align_center:before {
+  content: "\e234";
+}
+.ninja-format_align_justify:before {
+  content: "\e235";
+}
+.ninja-format_align_left:before {
+  content: "\e236";
 }
 .ninja-format_color_fill:before {
   content: "\e23a";
@@ -35,6 +47,9 @@
 }
 .ninja-play_circle_outline:before {
   content: "\e039";
+}
+.ninja-vibration:before {
+  content: "\e62d";
 }
 .ninja-volume_off:before {
   content: "\e04f";

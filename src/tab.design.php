@@ -23,7 +23,7 @@ foreach ($groupings as $group) {
 
 	if ($group === "Your Template") {
 		echo "<p class='theme-options m-t-half'>A template has been provided for you.</p>", PHP_EOL;
-		echo "<div class='grid'><div><figure data-name='{$api_template}' class='selected'><img src='/app/img/api_template.jpg'><figcaption>Your template</figcaption></figure></div></div>";
+		echo "<div class='grid'><div><figure data-name='{$api_template}' class='selected'><img src='img/api_template.jpg'><figcaption>Your template</figcaption></figure></div></div>";
 		$css = "";
 	}
 

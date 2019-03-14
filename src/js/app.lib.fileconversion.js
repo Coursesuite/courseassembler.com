@@ -302,6 +302,9 @@
 				default:
 
 					if ("zip" === subtype) {
+						if (DocNinja.Plugins.Import(drop)) {
+								liElem.parentNode.removeChild(liElem); // drop created a node we don't need anymore
+						}
 						JSZip.loadAsync(drop.result)
 						.then(function(zip) {  // which FileReader loads as an ArrayBuffer; can also dataURItoArrayBuffer(drop.result));
 
@@ -556,24 +559,25 @@
 		    // if (oembed.url.indexOf("noembed")===-1) {
 		    // 	oembed.url += "&maxwidth=" + oembed.width + "&maxheight=" + oembed.height;
 		    // }
-			if (oembed.yql) {
-				data = {
-					q: "select * from json where url = '" + endpoint + "'",
-					format: "json"
-				};
-				endpoint = 'https://query.yahooapis.com/v1/public/yql';
-			}
+			// on January 3 2019, yahoo killed off yql.
+			//if (oembed.yql) {
+				// data = {
+				// 	q: "select * from json where url = '" + endpoint + "'",
+				// 	format: "json"
+				// };
+				// endpoint = 'https://query.yahooapis.com/v1/public/yql';
+			// }
 
 			fileinfo.src = oembed;
-			console.dir(endpoint);
 			$.ajax({
 			    type: "GET",
 			    url: endpoint,
 			    data: data,
 			    dataType: oembed.dataType
 			}).done(function(obj) {
-				if (oembed.yql && !obj.query.results) return _failure(liElem, "Was not able to embed document (may be blocked, or other error at provider)");
-				if (oembed.yql) obj = obj.query.results.json;
+console.dir(obj);
+				// if (oembed.yql && !obj.query.results) return _failure(liElem, "Was not able to embed document (may be blocked, or other error at provider)");
+				// if (oembed.yql) obj = obj.query.results.json;
 				var doc,ifr,src;
 				switch (fileinfo.format) { // inject API commands to the wrappers
 					case "youtube":
@@ -709,13 +713,13 @@
 					score: 1 // non-zero, generally the page or number of seconds to wait to get a view
 				},
 				oembed = {
-					url: "",
+					url: "https://noembed.com/embed",
 					width: Math.max(1000, $(preview).width()),
 					height: Math.max(1000, $(preview).height()),
 					format: "json",
 					renderer: "wrapper-raw",
 					dataType: "jsonp",
-					yql: false
+				//	yql: false
 				},
 				og = {
 					url: "",
@@ -726,7 +730,6 @@
 				},
 				embeddable = false,
 				opengraph = false;
-
 			// google docs have a mechanism for exporting to html/pdf built in - leverage that
 			if (obj.url.indexOf(".google.com") != -1) {
 				embeddable = false;
@@ -816,16 +819,16 @@
 			} else if (obj.url.indexOf("vimeo") != -1) {
 				embeddable = true;
 				oembed.renderer = "wrapper-iframe";
-				oembed.url = "//vimeo.com/api/oembed.json";
+//				oembed.url = "//vimeo.com/api/oembed.json";
 				fileinfo.format = "vimeo";
 				fileinfo.score = 50; // julie likes a default of 50%
 
 			} else if (obj.url.indexOf("yout") != -1) {
 				embeddable = true;
-				oembed.yql = false;
+			//	oembed.yql = false;
 				oembed.renderer = "wrapper-iframe";
 				// oembed.url = "http://www.youtube.com/oembed";
-				oembed.url = "//noembed.com/embed";
+//				oembed.url = "//noembed.com/embed";
 				oembed.format = "json";
 				oembed.dataType = "json";
 				fileinfo.format = "youtube";
@@ -833,7 +836,7 @@
 
 			} else if (obj.url.indexOf("soundcloud") != -1) {
 				embeddable = true;
-				oembed.url = "http://soundcloud.com/oembed";
+//				oembed.url = "http://soundcloud.com/oembed";
 				oembed.dataType = "json";
 				oembed.renderer = "wrapper-iframe";
 				fileinfo.format = "soundcloud";
@@ -841,26 +844,27 @@
 
 			} else if (obj.url.indexOf("slideshare") != -1) {
 				embeddable = true;
-				oembed.yql = false;
+//				oembed.yql = false;
 				// oembed.url = "http://www.slideshare.net/api/oembed/2";
-				oembed.url = "https://noembed.com/embed";
+//				oembed.url = "https://noembed.com/embed";
 				oembed.format = "jsonp";
 				oembed.renderer = "wrapper-iframe";
 				fileinfo.format = "slideshare";
 
-			} else if (obj.url.indexOf("imgur") != -1) {
-				embeddable = true;
-				oembed.yql = true;
-				oembed.url = "https://api.imgur.com/oembed.json";
-				oembed.renderer = "wrapper-html5";
-				fileinfo.format = "imgur";
+// the embed you get is pretty hopeless now
+// 			} else if (obj.url.indexOf("imgur") != -1) {
+// 				embeddable = true;
+// //				oembed.yql = true;
+// 				oembed.url = "https://api.imgur.com/oembed.json";
+// 				oembed.renderer = "wrapper-html5";
+// 				fileinfo.format = "imgur";
 
 			}
 
 			// can't call http from https; we have to proxy it .,, luckily we have yql to do it for us
-			if (oembed.url.indexOf("http://")!==-1) {
-				oembed.yql = true;
-			}
+//			if (oembed.url.indexOf("http://")!==-1) {
+//				oembed.yql = true;
+//			}
 
 			if (opengraph === true) {
 				_performOpenGraphEmbed(fileinfo, og, liElem);

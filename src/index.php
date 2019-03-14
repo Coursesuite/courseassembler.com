@@ -7,6 +7,7 @@ $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
+$jsApp->Minified = $verifier->code->minified;
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 	$jsApp->Publish = $verifier->api->publish;
 	$jsApp->Bearer = $verifier->api->bearer;

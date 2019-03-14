@@ -74,8 +74,8 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "CourseSuite\\": "src"
+                "psr-0": {
+                    "CoursesuiteValidator": ""
                 }
             },
             "description": "CourseSuite API Validator",

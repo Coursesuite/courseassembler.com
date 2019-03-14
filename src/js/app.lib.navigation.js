@@ -9,19 +9,21 @@
 	}
 
 	var _add_audio_icon = function (id) {
-		var icon = document.createElement("span");
-		icon.classList.add("audio-hint"); icon.innerHTML = '<i class="ninja-volume_up" title="Page has audio"></i>';
-		document.querySelector("li[data-fileid='" + id + "']>div.nav-item").appendChild(icon);
+		var dest = document.querySelector("li[data-fileid='" + id + "']>div.nav-item");
+		if (!dest.querySelector(".audio-hint")) {
+			var icon = document.createElement("span");
+			icon.classList.add("audio-hint");
+			icon.innerHTML = '<i class="ninja-volume_up" title="Page has audio"></i>';
+			dest.appendChild(icon);
+		}
 		return true;
 	}
 
 	var _remove_audio_icon = function (id) {
-		var span= document.querySelector("li[data-fileid='" + id + "'] .audio-hint");
-		if (span) {
+		[].forEach.call(document.querySelectorAll("li[data-fileid='" + id + "'] .audio-hint"), function(span) {
 			span.remove();
-			return true;
-		}
-		return false;
+		});
+		return true;
 	}
 
 	DocNinja.Navigation = {

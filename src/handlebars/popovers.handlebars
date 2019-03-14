@@ -98,3 +98,29 @@
 	</div>
 </section>
 {{/compare}}
+
+{{#compare popover "layout"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<fieldset class="radio-panel">
+		<legend>Alignment</legend>
+		<div class="grid-h grid-3">
+			<label>
+				<input type="radio" name="alignment" value="left" checked>
+				<i class="ninja-format_align_left"></i>
+				<p>Align to top-left</p>
+			</label>
+			<label>
+				<input type="radio" name="alignment" value="center">
+				<i class="ninja-format_align_left"></i>
+				<p>Align top centre</p>
+			</label>
+			<label>
+				<input type="radio" name="alignment" value="justify">
+				<i class="ninja-format_align_justify"></i>
+				<p>Fill</p>
+			</label>
+		</div>
+	</fieldset>
+</section>
+{{/compare}}
