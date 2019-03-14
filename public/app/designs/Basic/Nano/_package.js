@@ -30,7 +30,7 @@ function isFirstLaunch(){if("API_1484_11"==_sAPI)var a=scormGetValue("cmi.entry"
 function startSessionTime(){return _timeSessionStart=new Date}
 function setSessionTime(a){var b=(new Date).getTime();a=Math.round((b-a)/1E3);a=formatTime(a);"API_1484_11"==_sAPI?scormSetValue("cmi.session_time",a):"API"==_sAPI&&scormSetValue("cmi.core.session_time",a)}
 function getBookmark(){return"API_1484_11"==_sAPI?scormGetValue("cmi.location"):"API"==_sAPI?scormGetValue("cmi.core.lesson_location"):""}
-function setBookmark(a){"API_1484_11"==_sAPI?scormSetValue("cmi.location",a+""):"API"==_sAPI&&scormSetValue("cmi.core.lesson_location",a+"")}
+function setBookmark(a){"API_1484_11"==_sAPI?scormSetValue("cmi.location",a+""):"API"==_sAPI&&scormSetValue("cmi.core.lesson_location",a+"");emitEvent('pageview',a);}
 function getSuspendData(){return"API_1484_11"==_sAPI||"API"==_sAPI?scormGetValue("cmi.suspend_data"):""}
 function setSuspendData(a){"API_1484_11"!=_sAPI&&"API"!=_sAPI||scormSetValue("cmi.suspend_data",a+"")}
 function setCompletionStatus(a){if("API_1484_11"==_sAPI)scormSetValue("cmi.completion_status",a+"");else if("API"==_sAPI&&("completed"==a||"incomplete"==a||"not attempted"==a)){var b=scormGetValue("cmi.core.lesson_status");"passed"==b||"failed"==b?"incomplete"!=a&&"not attempted"!=a||scormSetValue("cmi.core.lesson_status",a+""):scormSetValue("cmi.core.lesson_status",a+"")}}
@@ -47,6 +47,7 @@ function findAPI(a,b){for(;null==a[b]&&null!=a.parent&&a.parent!=a;)a=a.parent;a
 function getAPI(){if(null!=apiHandle)return apiHandle;findAPI(window,"API_1484_11");null==apiHandle&&null!=window.opener&&findAPI(window.opener,"API_1484_11");null==apiHandle?(findAPI(window,"API"),null==apiHandle&&null!=window.opener&&findAPI(window.opener,"API"),null!=apiHandle&&(_sAPI="API")):_sAPI="API_1484_11";return apiHandle}var _wDebug;
 function apiDebug(a){if(_bDebug){if(!_wDebug||_wDebug.closed)_wDebug=open("","debugwindow","width=800,height=700,scrollbars=yes,resizable=yes"),_wDebug.document.write("<html><head><title>Debug window</title></head><body>");_wDebug.document.write(a+"<br>")}};
 function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
+function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});document.body.dispatchEvent(event);}
 
 // create a proxy for sub-runtimes bound to pages
 function apiProxy() {

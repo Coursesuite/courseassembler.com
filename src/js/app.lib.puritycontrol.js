@@ -655,12 +655,12 @@
 		}
 
 		// InjectAnalyticsCode
-		var spook = function (obj, setup) {
+		var spook = function (obj, setup, kind) {
 			if (setup['option-ga-id']) {
 				var doc = document.implementation.createHTMLDocument(obj.payload.name);
 				doc.documentElement.innerHTML = obj.payload.html;
 				node = doc.querySelector("head");
-				node.insertAdjacentHTML('beforeend', Handlebars.templates["script-ga"]({'trackingId':setup['option-ga-id']}));
+				node.insertAdjacentHTML('beforeend', Handlebars.templates[kind](setup));
 				obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
 			}
 			return obj;

@@ -6,14 +6,16 @@
         <meta name="description" content="{{option-course-description}}" />
         <meta name="copyright" content="{{option-course-copyright}}" />
         <meta name="timestamp" content="{{timestamp}}" />
-        <meta name="author" content="https://documentninja.coursesuite.ninja" />
+        <meta name="author" content="https://www.courseassembler.com" />
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="_package.css">
+        <script crossorigin="anonymous" href="https://polyfill.io/v3/polyfill.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
         <script type="text/javascript">
         var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
         </script>
         <script type="text/javascript" src="_package.js"></script>
+        {{{analytics-code}}}
     </head>
     <body onunload="doUnload()" onbeforeunload="doUnload()" class="background">
         <div class="iframe"><iframe seamless frameborder="0" class="under"></iframe>
