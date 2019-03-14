@@ -2,9 +2,6 @@
 define("APP",true);
 include("load.php");
 
-$verifier = (new CoursesuiteValidator(false,false))->Validate($_GET);
-include "variables.php";
-
 $jsApp = new stdClass();
 $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;

@@ -36,24 +36,24 @@ uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoade
 
 cd ..
 
-echo "Creating variables include"
-echo "<?php" > variables.php
-echo "\$timestamp = '$TS';" >> variables.php
-echo "\$minified_css = 'css/app.min.$TS.css';" >> variables.php
-echo "\$minified_app = 'js/app.min.$TS.js';" >> variables.php
-echo "\$minified_head = 'js/head.min.$TS.js';" >> variables.php
-echo "\$verifier->code->minified = true;" >> variables.php
-echo "?>" >> variables.php
+echo "Creating app loader"
+echo "<?php" > load.php
+echo "require_once('../../vendor/autoload.php');" >> load.php
+echo "\$verifier = (new CoursesuiteValidator())->Validate(\$_GET);" >> load.php
+echo "\$verifier->code->minified = true;" >> load.php
+echo "\$timestamp = '$TS';" >> load.php
+echo "\$minified_css = 'css/app.min.$TS.css';" >> load.php
+echo "\$minified_app = 'js/app.min.$TS.js';" >> load.php
+echo "\$minified_head = 'js/head.min.$TS.js';" >> load.php
+echo "?>" >> load.php
 
 echo "Deploying app"
 rm -rf ../public/app
 mkdir ../public/app
 cp -R ../src/* ../public/app
 
-echo "Creating app loader"
-echo "<?php" > ../public/app/load.php
-echo "require_once('../../vendor/autoload.php');" >> ../public/app/load.php
-echo "?>" >> ../public/app/load.php
+echo "Fixing src loader"
+cat load.dev.php > load.php
 
 echo "Cleaning root files"
 cd ../public/app
@@ -62,6 +62,7 @@ rm dockerCompileScript.sh
 rm importcss.php
 rm old_*.mp3
 rm test.html
+rm load.dev.php
 
 echo "Cleaning css"
 cd css
