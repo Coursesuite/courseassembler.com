@@ -5,13 +5,12 @@
 	// ReImportNinjaFile - for reloading a single file in a published docninja packages
 	/* @returns: a promise that will resolve when it's processed all references within this file then saved it to localstorage */
 	var _ReImportNinjaFile = function (zipFolder, domDocument, fileId, fileInfo) {
-
 		return new Promise(function(reimportResolve, reimportReject) {
 
 			// img that is embedded using base64 style on a div (as opposed to an image tag) - we did this for a while, now we put the image into its own file, so over time this won't get used
 			// :not(#wDS3ed) avoids matching on a possible audio element (which has the unlikely id of wDS3ed)
-			if (fileInfo.kind === "image" && domDocument.querySelector("body > div:not(#wDS3ed)")) {
-				var imgData = domDocument.querySelector("body > div:not(#wDS3ed)").getAttribute("style");
+			if (fileInfo.kind === "image" && domDocument.querySelector("body > div[style]:not(#wDS3ed)")) {
+				var imgData = domDocument.querySelector("body > div[style]:not(#wDS3ed)").getAttribute("style");
 				imgData = "data:" + (imgData.split("url(data:")[1]);
 				imgData = imgData.split(") no-repeat center;")[0];
 				fileInfo.payload["image"] = imgData;
@@ -22,19 +21,18 @@
 			} else {
 
 				function replaceElements(elements, dom, fileInfo) { // each item in the selection criteria
-					return Promise.all(elements.map(selectElements.bind(this, dom, fileInfo)));
+					return Promise.all(elements.map(selectElements.bind(this, dom, fileInfo))); // bind sends the value as the last parameter
 				}
 
-				function selectElements(dom, element, fileInfo) { // each item in the dom document for this criteria
+				function selectElements(dom, fileInfo, element) { // each item in the dom document for this criteria
 					var  nodesArray = [].slice.call(dom.querySelectorAll(element.selector));
-					return Promise.all(nodesArray.map(processElement.bind(this, element, dom, fileInfo)));
+					return Promise.all(nodesArray.map(processElement.bind(this, element, dom, fileInfo))); // nodesArray[n] passed as last parameter
 				}
 
-				function processElement(element, dom, instance, fileInfo) { // an instance of an item
+				function processElement(element, dom, fileInfo, instance) { // an instance of an item
 					return new Promise(function(resolve,reject) {
 						var filename = unescape(instance.getAttribute(element.attribute)); // the file name of the JS or CSS or IMAGE
 						zipFolder.file(filename).async(element.type).then(function(contents) { // the contents of the JS or CSS or IMAGE
-console.log(element, filename, contents, fileInfo);
 							switch(element.kind) {
 								case "script":
 									instance.removeAttribute(element.attribute); // no more src tag
@@ -46,13 +44,11 @@ console.log(element, filename, contents, fileInfo);
 									instance.parentNode.replaceChild(style,instance);
 									break;
 								case "image":
-console.log("reimporting image", fileinfo, contents, instance);
 									var extn = filename.substr(filename.lastIndexOf(".") + 1).toLowerCase();
 									instance.setAttribute("src", "data:image/" + extn + ";base64," + contents);
 									break;
 								case "audio":
-console.log("reimporting audio", fileinfo, contents, instance);
-									fileinfo.payload["mp3"] = "data:audio/mp3;base64," + contents;
+									fileInfo.payload["mp3"] = "data:audio/mp3;base64," + contents;
 									instance.closest("#wDS3ed").remove(); // the audio object ... man we need to fix that
 									break;
 							}
