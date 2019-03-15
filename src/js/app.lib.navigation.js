@@ -10,11 +10,14 @@
 
 	var _add_audio_icon = function (id) {
 		var dest = document.querySelector("li[data-fileid='" + id + "']>div.nav-item");
-		if (!dest.querySelector(".audio-hint")) {
+		var icon = dest.querySelector(".audio-hint");
+		if (!icon) {
 			var icon = document.createElement("span");
 			icon.classList.add("audio-hint");
-			icon.innerHTML = '<i class="ninja-volume_up" title="Page has audio"></i>';
 			dest.appendChild(icon);
+		}
+		if (!icon.querySelector(".ninja-volume_up")) {
+			icon.innerHTML = '<i class="ninja-volume_up" title="Page has audio"></i>';
 		}
 		return true;
 	}
