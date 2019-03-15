@@ -1061,7 +1061,7 @@ function handlePopover(tgt) {
 			$("input[data-action='toggle-no-autocenter']").prop("checked", DocNinja.options.AUTOCENTER);
 		break;
 	}
-	if (!DocNinja.options.MUTED) DocNinja.options.sndpop.play();
+	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 	if ("init" in tgt.dataset) {
 		switch (tgt.dataset.init) {
 			case "jscolor":
@@ -1124,6 +1124,12 @@ function handlePopover(tgt) {
 	}
 }
 
+/* playing a sound that didn't involve a user interaction now throws an exception, so cope with that silently */
+function playSound(obj) {
+	Promise.resolve(obj.play()).catch(function(ex) {
+		console.dir(ex);
+	});
+}
 function handleAction(node) {
 	var tgt = (typeof node === 'undefined') ? _g_popover_target : node;
 	switch (tgt.dataset.action) {
@@ -1134,7 +1140,7 @@ function handleAction(node) {
 
 		case "add-content":
 			classie.addClass(document.body,"modal-add");
-			if (!DocNinja.options.MUTED) DocNinja.options.sndpop.play();
+			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 			break;
 		case "close-add-content":
 			classie.removeClass(document.body,"modal-add");
@@ -1142,7 +1148,7 @@ function handleAction(node) {
 
 		case "import-content":
 			classie.addClass(document.body,"modal-import");
-			if (!DocNinja.options.MUTED) DocNinja.options.sndpop.play();
+			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 			break;
 		case "close-import-content":
 			classie.removeClass(document.body,"modal-import");
@@ -1375,7 +1381,7 @@ function performAction(tgt) {
 					depth: 0,
 					payload: {}
 				};
-			if (!DocNinja.options.MUTED) DocNinja.options.sndpop.play();
+			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 			localforage.setItem(newId, fileInfo).then(function(obj) {
 				DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
 				DocNinja.PurityControl.Nav.Check();
@@ -1499,7 +1505,7 @@ function performAction(tgt) {
 				$("#nav-colour").attr("style", "");
 				DocNinja.filePreview.Reset();
 				DocNinja.navItems.innerHTML = "";
-				if (!DocNinja.options.MUTED) DocNinja.options.sndtrash.play();
+				if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndtrash);
 				DocNinja.PurityControl.Nav.Check();
 				// setItemOrder(); // overwrites "order" cache
 				// checkDummyItem();
@@ -1548,7 +1554,7 @@ function trashPage(id) {
 	localforage.removeItem(id, function (err) {
 		$("li[data-fileid='" + id + "']").remove();
 		DocNinja.filePreview.Reset();
-		if (!DocNinja.options.MUTED) DocNinja.options.sndtrash.play();
+		if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndtrash);
 		setItemOrder();
 	});
 	// delete cached image references
@@ -1579,7 +1585,7 @@ function changeTab(e) {
 	// DocNinja.EditHandlers.Unload (false); // unbind any editors but persist their data
 	DocNinja.options.loader.show(); // svgloader data-opening
 	document.body.classList.remove("settings"); // close settings
-	if (!DocNinja.options.MUTED) DocNinja.options.snd.play(); // ninja sword sound to match loader effect
+	if (!DocNinja.options.MUTED) playSound(DocNinja.options.snd); // ninja sword sound to match loader effect
 	DocNinja.filePreview.Reset(); // and do some garbage collection
 	// destroy_preview(); // don't need this memory overhead
 	$("li",DocNinja.navItems).removeClass("selected");

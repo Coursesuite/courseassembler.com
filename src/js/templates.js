@@ -213,7 +213,7 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
 },"7":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"img/dual_ring_loader.svg\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Caching <em>"
+  return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"img/dual-ring-loader.svg\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Caching <em>"
     + container.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"title","hash":{},"data":data}) : helper)))
     + "</em></span>\n	<span class=\"cancel-conversion dn-flex dn-flex-v-center\"><a href=\"javascript:void(0);\" onclick=\"CancelThis(this);\"><i class=\"ninja-cancel\"></i></a></span>\n";
 },"9":function(container,depth0,helpers,partials,data) {

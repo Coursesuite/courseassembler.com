@@ -26,7 +26,7 @@ yarn-error.log*
 /vendor
 composer.lock
 
-app.min.*.js
-app.min.*.css
-edit.min.*.js
-edit.min.*.css
+src/*/app.min.*.js
+src/*/app.min.*.css
+src/*/edit.min.*.js
+src/*/edit.min.*.css

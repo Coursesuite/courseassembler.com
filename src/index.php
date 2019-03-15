@@ -331,6 +331,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.puritycontrol.js"></script>
 	<script src="js/app.lib.filepreview.js"></script>
 	<script src="js/app.lib.downloader.js"></script>
+	<script src="plugins/Importer/plugin.js"></script>
 	<script src="js/app.core.js"></script>
 	<script src="js/app.plugin.page.js"></script>
 <?php } ?>
