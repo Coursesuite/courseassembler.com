@@ -41,8 +41,8 @@
 		}
 
 		// li.innerHTML = _nav_url(act, fileinfo.name, fileid, "import");
-		var _nav_url = function (action, title, id, state) {
-			return Handlebars.templates["nav-item"]({"action": action, "title": title, "id": id, "state": state});
+		var _nav_url = function (action, title, id, state, format, kind, hasAudio) {
+			return Handlebars.templates["nav-item"]({"action": action, "title": title, "id": id, "state": state, "format": format, "kind": kind, "audio": hasAudio});
 			// return '<span class="drag-handle"><i class="ninja-sort"></i></span><a href="javascript:;" data-action="item-' + action + '"><i class="ninja-' + action + '"></i></a><a href="javascript:;" data-action="preview">' + title + '</a>';
 		}
 		var _set_depth = function (li,depth) {
@@ -125,7 +125,7 @@
 			var act = (fileinfo.depth > 0 ? 'decrease' : 'increase');
 			// console.log(container, fileid, fileinfo, node);
 			if (!state) state = "import";
-			li.innerHTML = _nav_url(act, fileinfo.name, fileid, state);
+			li.innerHTML = _nav_url(act, fileinfo.name, fileid, state, fileinfo.format, fileinfo.kind, fileinfo.payload.hasOwnProperty("mp3"));
 			if (!node) node = null; // undefined becomes null
 			container.insertBefore(li,node); // null = insert at end, so same as appendChild
 			return li;
@@ -134,7 +134,7 @@
 		var _update = function (node, fileinfo, state) {
 			if (!node) return false;
 			var act = (fileinfo.depth && fileinfo.depth > 0 ? 'decrease' : 'increase');
-			node.innerHTML = _nav_url(act, fileinfo.name, node.getAttribute("data-fileid"), state);
+			node.innerHTML = _nav_url(act, fileinfo.name, node.getAttribute("data-fileid"), state, fileinfo.format, fileinfo.kind, fileinfo.payload.hasOwnProperty("mp3"));
 			node.setAttribute("data-state", state);
 			return node;
 		}

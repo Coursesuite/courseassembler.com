@@ -238,7 +238,7 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
     var stack1;
 
   return "\n	<span class=\"audio-hint\">"
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.mp3 : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.audio : depth0),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</span>\n	";
 },"14":function(container,depth0,helpers,partials,data) {
     return "<i class=\"ninja-volume_up\" title=\"Page has audio\"></i>";

@@ -15,7 +15,7 @@
 	<span class="indent"><span class="toggle-button-wrapper current-state-{{action}}"><a class="toggle-switch" data-action="item-{{action}}" href="javascript:;"><span/></a></span></span>
 	<span class="label dn-flex-1 dn-flex dn-flex-c-1"><a href="javascript:" data-action="preview">{{title}}</a></span>
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}{{#compare kind "plugin"}}{{else}}
-	<span class="audio-hint">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{/if}}</span>
+	<span class="audio-hint">{{#if audio}}<i class="ninja-volume_up" title="Page has audio"></i>{{/if}}</span>
 	{{/compare}}{{/compare}}
 {{/compare}}{{/compare}}{{/compare}}
 </div>
