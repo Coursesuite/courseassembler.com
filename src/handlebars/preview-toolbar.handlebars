@@ -25,7 +25,10 @@
 	{{#compare "edit" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-edit"><i class="ninja-marker"></i>Edit</button>{{/compare}}
 	{{#compare "view" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-view"><i class="ninja-eye"></i>View</button>{{/compare}}
 	{{else}}
-	<button data-popover="layout" data-label="Layout options" data-value="{{payload.layout}}"><i class="ninja-layout"></i>Layout</button>
+{{!--
+		we will eventually allow a layout button for reapplying different centering scripts to the content that supports it such as images, pdf
+		<button data-popover="layout" data-label="Layout options" data-value="{{payload.layout}}"><i class="ninja-layout"></i>Layout</button>
+--}}
 	{{/compare}}
 
 	{{#compare kind "image"}}
