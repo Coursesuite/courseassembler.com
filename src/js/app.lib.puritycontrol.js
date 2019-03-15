@@ -125,7 +125,7 @@
 			var act = (fileinfo.depth > 0 ? 'decrease' : 'increase');
 			// console.log(container, fileid, fileinfo, node);
 			if (!state) state = "import";
-			li.innerHTML = _nav_url(act, fileinfo.name, fileid, state, fileinfo.format, fileinfo.kind, fileinfo.payload.hasOwnProperty("mp3"));
+			li.innerHTML = _nav_url(act, fileinfo.name, fileid, state, fileinfo.format, fileinfo.kind, fileinfo.payload && fileinfo.payload.hasOwnProperty("mp3"));
 			if (!node) node = null; // undefined becomes null
 			container.insertBefore(li,node); // null = insert at end, so same as appendChild
 			return li;
@@ -134,7 +134,7 @@
 		var _update = function (node, fileinfo, state) {
 			if (!node) return false;
 			var act = (fileinfo.depth && fileinfo.depth > 0 ? 'decrease' : 'increase');
-			node.innerHTML = _nav_url(act, fileinfo.name, node.getAttribute("data-fileid"), state, fileinfo.format, fileinfo.kind, fileinfo.payload.hasOwnProperty("mp3"));
+			node.innerHTML = _nav_url(act, fileinfo.name, node.getAttribute("data-fileid"), state, fileinfo.format, fileinfo.kind, fileinfo.payload && fileinfo.payload.hasOwnProperty("mp3"));
 			node.setAttribute("data-state", state);
 			return node;
 		}
