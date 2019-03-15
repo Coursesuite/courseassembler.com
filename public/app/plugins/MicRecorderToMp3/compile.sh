@@ -1,5 +1,5 @@
 TS=$(date +"%Y%m%d%H%M%S")
-echo "Minifying plugin"
+echo "Minifying MicRecorderToMp3"
 
 rm edit.min*.css
 rm edit.min*.js

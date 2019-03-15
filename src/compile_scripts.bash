@@ -20,6 +20,9 @@ cd QuizBuilder/src
 
 cd ..
 cd ..
+cd ..
+
+# pwd
 
 echo "Minifying CSS"
 

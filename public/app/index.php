@@ -7,6 +7,7 @@ $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
+$jsApp->Minified = $verifier->code->minified;
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 	$jsApp->Publish = $verifier->api->publish;
 	$jsApp->Bearer = $verifier->api->bearer;
@@ -330,6 +331,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.puritycontrol.js"></script>
 	<script src="js/app.lib.filepreview.js"></script>
 	<script src="js/app.lib.downloader.js"></script>
+	<script src="plugins/Importer/plugin.js"></script>
 	<script src="js/app.core.js"></script>
 	<script src="js/app.plugin.page.js"></script>
 <?php } ?>
