@@ -35,7 +35,7 @@ rm head.min*.js
 uglifyjs --keep-fnames modernizr.custom.js --output head.min.$TS.js
 
 rm app.min*.js
-uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js templates.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js app.plugin.page.js ../plugins/Importer/plugin.js --output app.min.$TS.js
+uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js templates.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js app.plugin.page.js ../plugins/Importer/plugin.js ../plugins/Oembed/plugin.js --output app.min.$TS.js
 
 cd ..
 
