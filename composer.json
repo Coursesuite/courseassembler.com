@@ -2,7 +2,8 @@
 	"require": {
 		"coursesuite/validator": "dev-master",
 		"altorouter/altorouter": "^1.2",
-		"erusev/parsedown-extra": "^0.7.1"
+		"erusev/parsedown-extra": "^0.7.1",
+		"embed/embed": "^3.3"
 	},
 	"repositories" : [
     	{ "type": "vcs", "url": "https://frumbert@bitbucket.org/coursesuitemembers/validator.git"}
