@@ -7,6 +7,7 @@
  		<meta name="description" content="Rapidly convert your learning content to HTML5, add quizzes and video and package with a SCORM wrapper, in a matter of minutes" />
 		<meta name="keywords" content="Course Assembler, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
 		<meta name="author" content="www.coursesuite.com" />
+        <title>Course Assembler</title>
         <meta property="og:locale" content="en_AU">
         <meta property="og:type" content="website">
         <meta property="og:title" content="Course Assembler">
@@ -21,7 +22,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.7.3/localforage.min.js"></script>
-        <title>Course Assembler</title>
+		<?php include "_cookie.inc.php"; ?>
     </head>
     <body class="<?php echo str_replace('.inc.php','',$fn); ?>">
     	<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">

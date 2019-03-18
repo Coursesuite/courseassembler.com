@@ -6,6 +6,7 @@ $Router = new AltoRouter();
 $Router->map('GET','/','home.inc.php');
 $Router->map('GET','/faq','faq.inc.php');
 $Router->map('GET','/changelog','changelog.inc.php');
+$Router->map('GET','/privacy','policy.inc.php');
 
 $path = realpath("./routes");
 
