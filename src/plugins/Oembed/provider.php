@@ -15,7 +15,7 @@ require_once($path . 'vendor/autoload.php');
 header("Content-type: application/json; charset=utf-8");
 
 // only allow fetch
-//if (!(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'fetch')) die("{}");
+if (!(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'fetch')) die("{}");
 
 // properties that we care about
 $properties = ["title","description","url","type","image","code","width","height","aspectRatio","providerName"];
