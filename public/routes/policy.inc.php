@@ -1,15 +1,15 @@
 	<div class="uk-section uk-padding-remove-bottom">
 		<div class="uk-container">
-			<h1>Frequently Asked Questions</h1>
+			<h1>Privacy, Terms & Conditions</h1>
 		</div>
 	</div>
 
 	<div class="uk-container uk-margin-large">
 		<?php
 		$Parser = new Parsedown();
-		$files = get_files(APP . "/assets/faq");
+		$files = get_files(APP . "/assets/policies");
 		foreach ($files as $file) {
-			echo "<h2 class='uk-heading-divider'>", $file["name"], "</h2>", PHP_EOL;
+			echo "<h2>", $file["name"], "</h2>", PHP_EOL;
 			echo $Parser->text($file["contents"]), PHP_EOL;
 		}
 		?>

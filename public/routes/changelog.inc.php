@@ -20,7 +20,6 @@
 
 <?php
 function get_files($real_path) {
-    $path = APP . "/assets/changelog";
     $fold = new DirectoryIterator($real_path);
     $files = [];
     foreach ($fold as $fi) {
