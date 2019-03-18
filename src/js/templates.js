@@ -203,7 +203,7 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
 
   return "\n	<span class=\"conversion-spinner dn-flex dn-flex-v-center\"><img src=\"img/dual-ring-loader.svg\" width=\"24\" height=\"24\" alt=\"\"></span>\n	<span class=\"label dn-flex-1\">Converting <em>"
     + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</em> to HTML 5 ...</span>\n	<span class=\"cancel-conversion dn-flex dn-flex-v-center\"><a href=\"javascript:CancelConversion('"
+    + "</em> to HTML5</span>\n	<span class=\"cancel-conversion dn-flex dn-flex-v-center\"><a href=\"javascript:CancelConversion('"
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "');\"><i class=\"ninja-cancel\"></i></a></span>\n";
 },"6":function(container,depth0,helpers,partials,data) {
@@ -656,12 +656,16 @@ templates['style-transform-horizontal-scale'] = template({"compiler":[7,">= 4.0.
 templates['style-transform-scale-center'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<style id=\"styleTransformScaleCenter\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, -50%);\n	transform-style: flat;\n	transform-origin: center center 0px;\n	position: absolute;\n	top: 50%;\n	left: 50%;\n}\n</style>";
 },"useData":true});
-templates['wrapper-html5'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+templates['wrapper-html5'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css\">";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function";
 
   return "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>"
     + container.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</title>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<style>html,body{margin:0;height:100%;min-height:100%}</style>\n</head>\n<body>\n"
+    + "</title>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<style>html,body{margin:0;height:100%;min-height:100%;}</style>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.normalize : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n<script type=\"text/javascript\" src=\"https://polyfill.io/v3/polyfill.min.js\"></script>\n</head>\n<body>\n"
     + ((stack1 = ((helper = (helper = helpers.body || (depth0 != null ? depth0.body : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"body","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\n</body>\n</html>\n";
 },"useData":true});
@@ -719,6 +723,12 @@ templates['wrapper-iframe'] = template({"1":function(container,depth0,helpers,pa
     return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? qs[1] : -1\n	}\n})();\ndoOnLoad(function () {\n	var widget = SC.Widget(document.getElementById('sc-widget')), duration = 0, played = false;\n	widget.bind(SC.Widget.Events.READY, function() {\n		widget.bind(SC.Widget.Events.PLAY, function() {\n			widget.getDuration(function (v) { duration = (v / 1000); });\n			if (init.timestamp!==0 && !played) {widget.seekTo(init.timestamp * 1000)};\n			played = true;\n		});\n		widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(event) {\n			seconds = event.currentPosition / 1000;\n			parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, seconds:seconds,duration:duration}}));\n		});\n		widget.play();\n	});\n});\n</script>\n";
 },"33":function(container,depth0,helpers,partials,data) {
     return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? qs[1] : -1\n	}\n})();\ndoOnLoad(function () {\n	var h = document.querySelector(\"body\").offsetHeight,\n		w = (h/3) * 4,\n		dw = document.querySelector(\"body\").offsetWidth;\n	$(\"#slides\")\n		.css({top:0, left:(dw/2)-(w/2), width:Math.min(w,dw) - 20, height:h - 20})\n		.picoSlides({\n			imgMaxWidth: w,\n			startAt: init.timestamp,\n			skipBTitle: \"\",\n			skipFTitle: \"\",\n			apiUrl: \"//www.slideshare.net/api/oembed/2?url=\",\n			afterSlideChange: function (obj, page) {\n				parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, slide: page[0], total: page[1]}}));\n			}\n		});\n});\n</script>\n";
+},"35":function(container,depth0,helpers,partials,data) {
+    var stack1, helper;
+
+  return "<div class='description'>"
+    + ((stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "</div>";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -751,7 +761,8 @@ templates['wrapper-iframe'] = template({"1":function(container,depth0,helpers,pa
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"vimeo",{"name":"compare","hash":{},"fn":container.program(29, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"soundcloud",{"name":"compare","hash":{},"fn":container.program(31, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"slideshare",{"name":"compare","hash":{},"fn":container.program(33, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "</body>\n</html>\n";
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.show_description : depth0),{"name":"if","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n</body>\n</html>\n";
 },"useData":true});
 templates['wrapper-image'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
