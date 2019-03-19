@@ -1,11 +1,8 @@
 {
 	"require": {
-		"coursesuite/validator": "dev-master",
 		"altorouter/altorouter": "^1.2",
 		"erusev/parsedown-extra": "^0.7.1",
-		"embed/embed": "^3.3"
-	},
-	"repositories" : [
-    	{ "type": "vcs", "url": "https://github.com/frumbert/coursesuitevalidator.git"}
-    ]
+		"embed/embed": "^3.3",
+		"frumbert/coursesuitevalidator": "dev-master"
+	}
 }
