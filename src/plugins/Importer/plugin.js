@@ -164,6 +164,30 @@
 		], domDocument);
 	};
 
+	DocNinja.Plugins.ImportQuiz = function (obj) {
+		return new Promise(function(finalResolve, finalReject) {
+			if (obj && obj.source && obj.source === "docninja.quiz") {
+				var fileinfo = {
+					depth:0,
+					kind:"plugin",
+					name:obj.title,
+					payload: {
+						quiz: obj,
+						html: "<!DOCTYPE html><html><head><style>*{font-family:sans-serif;}</style></head><body>Please edit the quiz to begin</body></html>"
+					},
+					plugin:"QuizBuilder",
+					supports:["edit","view"]
+				}
+				finalResolve({
+					ready:true,
+					result:fileinfo
+				});
+			} else {
+				finalReject("Unable to understand this file structure.");
+			}
+		});
+	}
+
 	DocNinja.Plugins.ImportZip = function(array_buffer) {
 //console.dir(array_buffer);
 		return new Promise(function(finalResolve, finalReject) {

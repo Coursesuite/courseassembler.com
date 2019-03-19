@@ -14,7 +14,10 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
+	<!-- app scripts -->
+	<script type="text/javascript" src="templates.js"></script>
 	<script type="text/javascript" src="app.js"></script>
+	<!-- /app scripts -->
 	<script type="text/javascript">window.addEventListener("load", QuizBuilder.Init, false);</script>
 </head>
 <body>
@@ -69,7 +72,10 @@
 				<div class='column'>
 					<label for="base_colour">Button colour</label>
 					<input type="text" class="jscolor {hash:true}" id="base_colour">
-					<button id='save_button' tooltip='Settings are saved automatically'><i class="fa fa-save"></i> Save settings</button>
+					<div class='button-split text-center'>
+						<button class='button' id='save_button' disabled-tooltip='Settings are saved automatically'><i class="fa fa-save"></i> Save quiz</button>
+						<button class='button button-faded' id='export_button' tooltip='Export quiz to JSON'><i class='fa fa-hdd-o'></i></button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -136,10 +142,10 @@
 			</div>
 		</div>
 		<div class="row layout-group question-actions">
-			<div class="column">
-				<a class="button button-faded" href="#save"><i class="fa fa-save"></i> Save</a>
-				<a class="button" href="#save+add"><i class="fa fa-save"></i> Save + add new</a>
-			</div>
+			<div class="column"><span class="button-split">
+				<a class="button" href="#save"><i class="fa fa-save"></i> Save</a>
+				<a class="button button-faded" href="#save+add" title="Save this question and add a new one">+Add</a>
+			</span></div>
 			<div class="column ta-right">
 				<a class="button button-outline" href="#remove"><i class="fa fa-minus"></i> Delete question</a>
 			</div>

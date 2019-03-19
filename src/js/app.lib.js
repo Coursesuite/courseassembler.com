@@ -1,3 +1,5 @@
+function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
+
 function dec2hex(d) {return Number(d).toString(16);}
 function hex2dec(h) {return parseInt(h,16);}
 

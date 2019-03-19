@@ -213,7 +213,7 @@
 				fileinfo = {};
 				// initialOutputFormat = "html";
 
-			// console.log("_beginConversion", drop, raw, liElem, kind, subtype);
+			console.log("_beginConversion", drop, raw, liElem, kind, subtype);
 
 			if (subtype === "x-markdown") kind = "application"; // so it gets converted
 
@@ -312,7 +312,23 @@
 					break;
 
 				default:
-					if ("zip" === subtype) {
+					if ("json" === subtype) {
+						var rawJson = Base64.decode(drop.result.split("base64,")[1]);
+						if (isJSON(rawJson)) {
+							var obj = JSON.parse(rawJson);
+							DocNinja.Plugins.ImportQuiz(obj).then(function(obj) {
+								if (obj.ready) {
+									_success(liElem, obj.result);
+								} else {
+									_failure(liElem,"Unable to load quiz (maybe bad data?)");
+								}
+							}).catch(function(error) {
+								_failure(liElem,error);
+							});
+						} else {
+							_failure(liElem,"Unable to understand this file type");
+						}
+					} else if ("zip" === subtype) {
 						DocNinja.Plugins.ImportZip(drop.result)
 						.then(function (status) {
 							liElem.parentNode.removeChild(liElem); // drop created a node we don't need anymore
