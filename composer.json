@@ -6,6 +6,6 @@
 		"embed/embed": "^3.3"
 	},
 	"repositories" : [
-    	{ "type": "vcs", "url": "https://frumbert@bitbucket.org/coursesuitemembers/validator.git"}
+    	{ "type": "vcs", "url": "https://github.com/frumbert/coursesuitevalidator.git"}
     ]
 }
