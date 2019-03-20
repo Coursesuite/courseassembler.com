@@ -168,15 +168,15 @@
 		return new Promise(function(finalResolve, finalReject) {
 			if (obj && obj.source && obj.source === "docninja.quiz") {
 				var fileinfo = {
-					depth:0,
-					kind:"plugin",
-					name:obj.title,
+					depth: 0,
+					kind: "plugin",
+					name: obj.title,
 					payload: {
 						quiz: obj,
-						html: "<!DOCTYPE html><html><head><style>*{font-family:sans-serif;}</style></head><body>Please edit the quiz to begin</body></html>"
+						html: DocNinja.Plugins.QuizBuilder.Compile(obj, Handlebars.templates['quiz.renderer'])
 					},
-					plugin:"QuizBuilder",
-					supports:["edit","view"]
+					plugin: "QuizBuilder",
+					supports: ["edit","view"]
 				}
 				finalResolve({
 					ready:true,

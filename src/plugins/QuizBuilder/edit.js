@@ -214,7 +214,7 @@ var QuizBuilder = (function () {
 		localforage.getItem(fileid).then(function(obj) {
 			obj=obj||{};obj.payload=obj.payload||{};
 			obj.payload.quiz = _data_;
-			obj.payload.html = QuizBuilder.Compile();
+			obj.payload.html = parent.DocNinja.Plugins.QuizBuilder.Compile(_data_, parent.Handlebars.templates['quiz.renderer']);
 			localforage.setItem(fileid,obj).then(function() {
 				setTimeout(function(){node.setAttribute("label","Settings")},1000);
 				node.setAttribute("label","Settings ... saved");
@@ -284,7 +284,9 @@ var QuizBuilder = (function () {
 		var distractors = [],
 			required = 0;
 		[].forEach.call($("#distractors>tbody").children,function(tr,i) {
-			distractors.push({text:_trim(tr.querySelector("textarea").value)});
+			var t = _trim(tr.querySelector("textarea").value);
+			if (!t.length) return; // skip empties
+			distractors.push({text:t});
 			if (tr.querySelector("input").checked) required += Math.pow(2,i);
 		});
 		_selected_question.media = _trim($("#question_media").value);
@@ -415,35 +417,35 @@ var QuizBuilder = (function () {
 		$("#distractor_show").max = ~~$("#distractor_show").max - 1;
 	};
 
-	function _compile() {
-		if (_data_.randomise===false) { // re-order questions to natural order
-			var qq = JSON.parse(JSON.stringify(_data_.questions)); // clone node
-			qq.map(function(value,index) {
-				_data_.questions[index].order = qq[value.order];
-			});
-		}
-		var dc = _data_.colour ? _data_.colour : "#508196";
-		return Handlebars.templates["render"]({
-			tint_colour: dc,
-			quiz_json: _data_,
-			buttons: {
-				check: _data_.strings.answer,
-				next: _data_.strings.next,
-				results: _data_.strings.results,
-				resit: _data_.strings.resit
-			},
-			templates: {
-				endpage: _data_.strings.completion
-			}
-		});
-	}
+	// function _compile() {
+	// 	if (_data_.randomise===false) { // re-order questions to natural order
+	// 		var qq = JSON.parse(JSON.stringify(_data_.questions)); // clone node
+	// 		qq.map(function(value,index) {
+	// 			_data_.questions[index].order = qq[value.order];
+	// 		});
+	// 	}
+	// 	var dc = _data_.colour ? _data_.colour : "#508196";
+	// 	return Handlebars.templates["render"]({
+	// 		tint_colour: dc,
+	// 		quiz_json: _data_,
+	// 		buttons: {
+	// 			check: _data_.strings.answer,
+	// 			next: _data_.strings.next,
+	// 			results: _data_.strings.results,
+	// 			resit: _data_.strings.resit
+	// 		},
+	// 		templates: {
+	// 			endpage: _data_.strings.completion
+	// 		}
+	// 	});
+	// }
 
 	return {
 		Init: _init,
 		Bind: _bind,
 		Save: _save,
 		Export: _export,
-		Compile: _compile,
+		// Compile: _compile,
 		Questions: {
 			Load: _questions_load,
 			Add: _questions_add,
@@ -454,5 +456,6 @@ var QuizBuilder = (function () {
 				Remove: _distractor_remove
 			}
 		},
+		_raw: function () { return _data_ }
 	}
 })();
