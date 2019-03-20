@@ -331,8 +331,13 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.puritycontrol.js"></script>
 	<script src="js/app.lib.filepreview.js"></script>
 	<script src="js/app.lib.downloader.js"></script>
-	<script src="plugins/Importer/plugin.js"></script>
-	<script src="plugins/Oembed/plugin.js"></script>
+<?php
+$p = realpath('./plugins');
+$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.js$/', RecursiveRegexIterator::GET_MATCH);
+foreach ($plugins as $file) {
+	echo '<script src="plugins', substr($file[0], strlen($p)),'"></script>', PHP_EOL;
+}
+?>
 	<script src="js/app.core.js"></script>
 	<script src="js/app.plugin.page.js"></script>
 <?php } ?>
