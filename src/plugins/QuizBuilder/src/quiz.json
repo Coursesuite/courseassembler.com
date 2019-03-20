@@ -297,7 +297,7 @@
     }
   ],
   "show": 10,
-  "required": "10",
+  "required": 10,
   "randomise": true,
   "finished": false,
   "resit": false,

@@ -26,7 +26,7 @@
 		//var templateFn = (typeof template === "function") ? template : _compile_template(template);
 		return templateFn({
 			tint_colour: dc,
-			quiz_json: obj, // btoa("window.setup=" + JSON.stringify(obj) + ";"),
+			quiz_json: JSON.stringify(obj), // btoa("window.setup=" + JSON.stringify(obj) + ";"),
 			buttons: {
 				check: obj.strings.answer,
 				next: obj.strings.next,

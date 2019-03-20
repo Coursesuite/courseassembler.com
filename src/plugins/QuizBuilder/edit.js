@@ -89,7 +89,7 @@ var QuizBuilder = (function () {
 				case "checkButton_field": _data_.strings.answer = e.target.value; break;
 				case "show_field": _data_.show = ~~e.target.value; setScoreMax(); break;
 				case "score_field": _data_.required = ~~e.target.value; setScoreMax(); break;
-				case "order_field": _data_.randomise = e.target.value==="true"?true:false; break;
+				case "order_field": _data_.randomise = e.target.value==="true" ? true : false; break;
 				case "nextButton_field": _data_.strings.next = e.target.value; break;
 				case "resultsButton_field": _data_.strings.results = e.target.value; break;
 				case "results_text": _data_.strings.completion = e.target.value; break;
@@ -101,8 +101,13 @@ var QuizBuilder = (function () {
 		}, false);
 
 		function setScoreMax() {
-			$("#score_field").max = Math.min($("#show_field").value, $("#show_field").max);
-			if ($("#score_field").value>$("#score_field").max)$("#score_field").value=$("#score_field").max;
+			var max = Math.min($("#show_field").value, $("#show_field").max);
+			$("#score_field").max = max;
+			if ($("#score_field").value > max) {
+				$("#score_field").value = max;
+				var event = new Event('change');
+				$("#score_field").dispatchEvent(event);
+			};
 		}
 
 		$("#title_field").value=_data_.title;
@@ -111,7 +116,6 @@ var QuizBuilder = (function () {
 		$("#order_field").value=_data_.randomise.toString();
 		var dc = _data_.colour?_data_.colour:"#508196";
 		$("#base_colour").jscolor.fromString(dc);
-
 		$("#order_field").addEventListener("change",function() {
 			if (this.value === "false") {
 				_sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
@@ -125,18 +129,17 @@ var QuizBuilder = (function () {
 			}
 		}, false);
 
-		$("#nextButton_field").value=_data_.strings.next;
-		$("#show_field").value=_data_.show;
+		$("#nextButton_field").value = _data_.strings.next;
+		$("#show_field").value = _data_.show;
 		$("#show_field").min = 1;
 		$("#show_field").max = _data_.questions.length;
-		$("#score_field").value=_data_.required;
-		$("#score_field").min=1;
+		$("#score_field").value = _data_.required;
+		$("#score_field").min = 1;
 		setScoreMax();
-		// $("#score_field").max = Math.min($("#show_field").value, $("#show_field").max); // score can't be higher than max shown
-		$("#resultsButton_field").value=_data_.strings.results;
-		$("#resitButton_field").value=_data_.strings.resit;
-		$("#results_text").value=_data_.strings.completion;
-		$("#resit_field").checked=_data_.resit;
+		$("#resultsButton_field").value = _data_.strings.results;
+		$("#resitButton_field").value = _data_.strings.resit;
+		$("#results_text").value = _data_.strings.completion;
+		$("#resit_field").checked = _data_.resit;
 
 		var qi = $(".question-index");
 		while(qi.firstChild) qi.removeChild(qi.firstChild); // empty questions list
@@ -211,6 +214,7 @@ var QuizBuilder = (function () {
 		var node = $("div[label='Settings']");
 		node.setAttribute("label","Settings ... saving");
 		var fileid = window.location.search.split("?")[1] || "";
+console.dir(_data_);
 		localforage.getItem(fileid).then(function(obj) {
 			obj=obj||{};obj.payload=obj.payload||{};
 			obj.payload.quiz = _data_;
@@ -273,7 +277,7 @@ var QuizBuilder = (function () {
 		$("#show_field").dispatchEvent(new Event("change", {bubbles: true})); // trigger the change event to update the _data_ value
 		$("#score_field").value = _data_.questions.length; // set 'pass mark' to number of questions
 		$("#score_field").max = _data_.questions.length; // ensure 'pass mark' max value stays up to date
-		_data_.required = $("#score_field").value; // set quiz 'pass mark' when adding new question
+		_data_.required = ~~$("#score_field").value; // set quiz 'pass mark' when adding new question
 		qi.querySelector("span[data-uid=" + newq.uid + "] > a").click();
 	};
 
@@ -455,7 +459,6 @@ var QuizBuilder = (function () {
 				Add: _distractor_add,
 				Remove: _distractor_remove
 			}
-		},
-		_raw: function () { return _data_ }
+		}
 	}
 })();

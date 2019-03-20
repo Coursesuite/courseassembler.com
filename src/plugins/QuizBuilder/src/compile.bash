@@ -28,7 +28,10 @@ echo "adjust the css colour to be a handlebars variable"
 sed -i '' 's/#3273dc;/{{tint_colour}};/' output.html
 
 echo "compile into handlebars template"
-handlebars -m output.html -f ../templates.js
+# handlebars uses the name of the file to determine its template name
+mv output.html quiz.renderer.handlebars
+handlebars -m quiz.renderer.handlebars -f ../templates.js
+mv quiz.renderer.handlebars output.html
 
 # now we've built the template for internal rendering, we want to build a runtime version for debugging in - output.html
 
