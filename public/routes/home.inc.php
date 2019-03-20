@@ -14,7 +14,7 @@
 		</div>
 
 		<div class="uk-container uk-margin-large" id="more">
-			<h2 class="uk-hidden@m">I just need it done ...</h2>
+			<h2 class="uk-hidden@m">Need learning content fast?</h2>
 			<div class="uk-flex-middle" uk-grid>
 				<div class="uk-width-1-3@m uk-flex-last@m">
 					<img data-src="assets/mobile_complication.png" class="uk-hidden@s" uk-img>
@@ -89,9 +89,28 @@
 			</div>
 		</div>
 
-		<div class="uk-container uk-margin-xlarge uk-padding-large uk-text-center">
-			<hr class="uk-divider-icon">
-			<h3>For the price of a coffee and a <abbr title="- or 🍩 or 🍪, go with what makes you 😀 ...">bagel</abbr>, put your content out there already!</h3>
-			<nav uk-navbar class="my-launch-bottom"><div class="uk-navbar-center"><?php include "_launch.inc.php"; ?></div></nav>
-			<p class="uk-hidden@m uk-text-emphasis my-peek uk-box-shadow-medium uk-border-rounded">Web-based app requires a modern Desktop browser</p>
+		<div class="uk-section uk-background-muted">
+			<div class="uk-container uk-margin-large uk-padding-large uk-text-center">
+				<hr class="uk-divider-icon">
+				<h3>For the price of a coffee and a <abbr title="- or 🍩 or 🍪, go with what makes you 😀 ...">bagel</abbr>, put your content out there already!</h3>
+				<nav uk-navbar class="my-launch-bottom"><div class="uk-navbar-center"><?php include "_launch.inc.php"; ?></div></nav>
+				<p class="uk-hidden@m uk-text-emphasis my-peek uk-box-shadow-medium uk-border-rounded">Web-based app requires a modern Desktop browser</p>
+				<hr class="uk-divider-icon">
+			</div>
+		</div>
+
+		<div class="uk-section uk-background-secondary my-white-text uk-background-contain uk-background-center-left" data-src="assets/api.svg" uk-img>
+			<div class="uk-container uk-padding-large">
+				<div uk-grid>
+					<div class="uk-width-2-5">
+					</div>
+					<div class="uk-width-expand">
+						<p class="uk-text-large">One last thing!</p>
+						<p class="uk-text-small">Are you looking for something more, uh, <i>complicated</i>?</p>
+						<p>Do you this tool would be super handy in your organisation? We can tools integrate into your system and workflow using robots (actually, it's called an API). Does authentication, sub-client licencing, custom templates and seamless course publishing sound good to you? To find out more, drop your email address below and we'll contact you with more details.</p>
+						<p>
+
+					</div>
+				</div>
+			</div>
 		</div>

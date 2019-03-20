@@ -11,6 +11,10 @@
 	color:  #20629b;
 }
 
+.my-white-text {
+	color: white;
+}
+
 .my-launch {
 	background-color: #ffed01;
 	color: black !important;
