@@ -43,6 +43,7 @@ Array.prototype.find = Array.prototype.find || function(callback) {
 
 // dispatch a browser event
 function emitStatus(status) {
+	console.dir(status);
 	parent.dispatchEvent(new CustomEvent("statuschange", {detail: status}));
 }
 
@@ -81,7 +82,7 @@ function initQB(userdata, quiz) {
 			q.locked = false;
 			var source = q.distractors.map(function(a,b) {
 				a.index = b;
-				a.required = ((q.required & Math.pow(2,b)) > 0); //????
+				a.required = ((q.required & Math.pow(2,b)) > 0); // xor, e.g. (3 xor 2^index)>0
 				return a;
 			}), dest =[];
 			if (q.show < q.distractors.length) { // must randomise
@@ -294,13 +295,14 @@ function initQB(userdata, quiz) {
 	}
 
 	function navigate(e) {
+		e.preventDefault(); // stop #1 turning up on the href
 		var href = e.target.getAttribute("href");
 		if (!href) return;
 		if (href==="#results") {
 			endquiz();
 		} else {
-			var pid = ~~href.replace(/\#/,''),
-				cid = ~~document.querySelector("nav>a.active").getAttribute("href").replace(/\#/,'');
+			var pid = +href.replace(/\#/,''),
+				cid = +document.querySelector("nav>a.active").getAttribute("href").replace(/\#/,'');
 			if (pid!==cid) render(pid);
 		}
 	}
@@ -344,7 +346,7 @@ function initQB(userdata, quiz) {
 		// record which distractor(s) the user has clicked
 		document.querySelector(".answers").addEventListener("change", function (e) {
 			var slot = userdata.find(function (record) { return (questions[page].uid === record[0]); });
-			slot[1] = (e.target.getAttribute("type") === "radio") ? ~~e.target.value : [].reduce.call(document.querySelectorAll("div.answers :checked"), function(a,b) { return a + ~~b.value; }, 0);
+			slot[1] = (e.target.getAttribute("type") === "radio") ? +e.target.value : [].reduce.call(document.querySelectorAll("div.answers :checked"), function(a,b) { return a + +b.value; }, 0);
 		}, false);
 
 		var next = document.querySelector("div.actions a[href='#next']"),
@@ -352,24 +354,24 @@ function initQB(userdata, quiz) {
 
 		if (quiz.feedback === "complete" || quiz.feedback === "false") {
 			if (next) next.classList.remove("hidden");
-			submit.classList.add("hidden");
+			if (submit) submit.classList.add("hidden");
 			next.addEventListener("click", function (e) {
 				e.preventDefault();
-				var question = questions[~~e.target.dataset.index];//Why floor this?
-				if (question.locked) return;
-				question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
-					var value = ~~curr.value,
-						checked = curr.checked;
+				var question = questions[+e.target.closest(".actions").dataset.index]; // +fyi https://stackoverflow.com/a/17106702/1238884
+				if (!question.locked) {
+					question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
+						var value = +curr.value,
+							checked = curr.checked;
 
-					// find question.distractors[this one] and set .checked to curr.checked
-					question.distractors.find(function(obj) {
-						return (obj.value === value);
-					}).checked = checked;
+						// find question.distractors[this one] and set .checked to curr.checked
+						question.distractors.find(function(obj) {
+							return (obj.value === value);
+						}).checked = checked;
 
-					// return the running total of checked item values
-					return accum + (checked ? value : 0);
-				}, 0);
-
+						// return the running total of checked item values
+						return accum + (checked ? value : 0);
+					}, 0);
+				}
 				document.querySelector("nav>a.active").nextElementSibling.click();
 			}, false);
 		}
@@ -384,10 +386,10 @@ function initQB(userdata, quiz) {
 			}
 			if (submit) submit.addEventListener("click", function (e) {
 				e.preventDefault();
-				var question = questions[~~e.target.dataset.index]; //page instead?
+				var question = questions[+e.target.closest(".actions").dataset.index]; //page instead?
 				if (question.locked) return;
 				question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
-					var value = ~~curr.value,
+					var value = +curr.value,
 						checked = curr.checked;
 
 					// find question.distractors[this one] and set .checked to curr.checked
