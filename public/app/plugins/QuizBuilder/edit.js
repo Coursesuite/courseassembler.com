@@ -23,6 +23,8 @@ var QuizBuilder = (function () {
 	_templates.question={uid:"q1",media:"", order:1, text:"",show:5,required:2,distractors:[{text:""},{text:""},{text:""},{text:""},{text:""}],feedback:{none:"",positive:"",negative:""}};
 	_templates.quiz={title:"My New Quiz",questions:[_templates.question],show:1,required:1,randomise:!0,finished:!1,resit:!1,feedback:"answer",strings:{resit:"Resit quiz",answer:"Check answer",next:"Next",results:"Results",completion:"<p>Thanks for completing the quiz.</p>\n<p>Your score is <%=score%> out of <%=total%>, which means you <% if (score >= required) { %>passed<% } else { %>failed<% } %>.</p>"}};
 
+	function _trim(a,e){var c=" \n\r\t\f\x0B\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000",b;a+="";e&&(c=(e+"").replace(/([[\]().?/*{}+$^:])/g,"$1"));var d=a.length;for(b=0;b<d;b++)if(-1===c.indexOf(a.charAt(b))){a=a.substring(b);break}d=a.length;for(b=d-1;0<=b;b--)if(-1===c.indexOf(a.charAt(b))){a=a.substring(0,b+1);break}return-1===c.indexOf(a.charAt(0))?a:""};
+
 	function _fallback() {
 		return _templates.quiz;
 	}
@@ -58,6 +60,7 @@ var QuizBuilder = (function () {
 	function _bind() {
 
 		$("#save_button").addEventListener("click", QuizBuilder.Save, false);
+		$("#export_button").addEventListener("click", QuizBuilder.Export, false);
 
 		$("a[href='#default']").addEventListener("click", function (e) {
 			e.preventDefault();
@@ -85,8 +88,8 @@ var QuizBuilder = (function () {
 				case "reveal_field": _data_.feedback = e.target.value; break;
 				case "checkButton_field": _data_.strings.answer = e.target.value; break;
 				case "show_field": _data_.show = ~~e.target.value; setScoreMax(); break;
-				case "score_field": _data_.required = ~~e.target.value; setScoreMax(); console.log(_data_.required); break;
-				case "order_field": _data_.randomise = e.target.value==="true"?true:false; break;
+				case "score_field": _data_.required = ~~e.target.value; setScoreMax(); break;
+				case "order_field": _data_.randomise = e.target.value==="true" ? true : false; break;
 				case "nextButton_field": _data_.strings.next = e.target.value; break;
 				case "resultsButton_field": _data_.strings.results = e.target.value; break;
 				case "results_text": _data_.strings.completion = e.target.value; break;
@@ -98,8 +101,13 @@ var QuizBuilder = (function () {
 		}, false);
 
 		function setScoreMax() {
-			$("#score_field").max = Math.min($("#show_field").value, $("#show_field").max);
-			if ($("#score_field").value>$("#score_field").max)$("#score_field").value=$("#score_field").max;
+			var max = Math.min($("#show_field").value, $("#show_field").max);
+			$("#score_field").max = max;
+			if ($("#score_field").value > max) {
+				$("#score_field").value = max;
+				var event = new Event('change');
+				$("#score_field").dispatchEvent(event);
+			};
 		}
 
 		$("#title_field").value=_data_.title;
@@ -108,7 +116,6 @@ var QuizBuilder = (function () {
 		$("#order_field").value=_data_.randomise.toString();
 		var dc = _data_.colour?_data_.colour:"#508196";
 		$("#base_colour").jscolor.fromString(dc);
-
 		$("#order_field").addEventListener("change",function() {
 			if (this.value === "false") {
 				_sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
@@ -122,18 +129,17 @@ var QuizBuilder = (function () {
 			}
 		}, false);
 
-		$("#nextButton_field").value=_data_.strings.next;
-		$("#show_field").value=_data_.show;
+		$("#nextButton_field").value = _data_.strings.next;
+		$("#show_field").value = _data_.show;
 		$("#show_field").min = 1;
 		$("#show_field").max = _data_.questions.length;
-		$("#score_field").value=_data_.required;
-		$("#score_field").min=1;
+		$("#score_field").value = _data_.required;
+		$("#score_field").min = 1;
 		setScoreMax();
-		// $("#score_field").max = Math.min($("#show_field").value, $("#show_field").max); // score can't be higher than max shown
-		$("#resultsButton_field").value=_data_.strings.results;
-		$("#resitButton_field").value=_data_.strings.resit;
-		$("#results_text").value=_data_.strings.completion;
-		$("#resit_field").checked=_data_.resit;
+		$("#resultsButton_field").value = _data_.strings.results;
+		$("#resitButton_field").value = _data_.strings.resit;
+		$("#results_text").value = _data_.strings.completion;
+		$("#resit_field").checked = _data_.resit;
 
 		var qi = $(".question-index");
 		while(qi.firstChild) qi.removeChild(qi.firstChild); // empty questions list
@@ -186,6 +192,7 @@ var QuizBuilder = (function () {
 
 		$(".question-actions").addEventListener("click", function (e) {
 			var tgt = e.target.closest("a");
+			if (!tgt) return;
 			switch (tgt.getAttribute("href")) {
 				case "#save":
 					QuizBuilder.Questions.Save();
@@ -199,24 +206,41 @@ var QuizBuilder = (function () {
 					break;
 			}
 		},false);
-
-		qi.querySelector("a:first-of-type").click();
+		var qi = qi.querySelector("a:first-of-type");
+		if (qi) qi.click();
 	}
 
 	function _save() {
 		var node = $("div[label='Settings']");
 		node.setAttribute("label","Settings ... saving");
 		var fileid = window.location.search.split("?")[1] || "";
+console.dir(_data_);
 		localforage.getItem(fileid).then(function(obj) {
 			obj=obj||{};obj.payload=obj.payload||{};
 			obj.payload.quiz = _data_;
-			obj.payload.html = QuizBuilder.Compile();
+			obj.payload.html = parent.DocNinja.Plugins.QuizBuilder.Compile(_data_, parent.Handlebars.templates['quiz.renderer']);
 			localforage.setItem(fileid,obj).then(function() {
 				setTimeout(function(){node.setAttribute("label","Settings")},1000);
 				node.setAttribute("label","Settings ... saved");
 			}).catch(function(err){
 				console.log(err);
 			});
+		});
+	}
+
+	function _export() {
+		var fileid = window.location.search.split("?")[1] || "";
+		localforage.getItem(fileid).then(function(obj) {
+			if (obj&&obj.payload&&obj.payload.quiz) {
+				obj.payload.quiz["source"] = "docninja.quiz"; // clue for importer
+			    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj.payload.quiz,null,2));
+			    var n = document.createElement('a');
+			    n.setAttribute("href",     dataStr);
+			    n.setAttribute("download", obj.name + ".json");
+			    document.body.appendChild(n); // required for firefox
+			    n.click();
+			    n.remove();
+			}
 		});
 	}
 
@@ -253,7 +277,7 @@ var QuizBuilder = (function () {
 		$("#show_field").dispatchEvent(new Event("change", {bubbles: true})); // trigger the change event to update the _data_ value
 		$("#score_field").value = _data_.questions.length; // set 'pass mark' to number of questions
 		$("#score_field").max = _data_.questions.length; // ensure 'pass mark' max value stays up to date
-		_data_.required = $("#score_field").value; // set quiz 'pass mark' when adding new question
+		_data_.required = ~~$("#score_field").value; // set quiz 'pass mark' when adding new question
 		qi.querySelector("span[data-uid=" + newq.uid + "] > a").click();
 	};
 
@@ -264,25 +288,26 @@ var QuizBuilder = (function () {
 		var distractors = [],
 			required = 0;
 		[].forEach.call($("#distractors>tbody").children,function(tr,i) {
-			distractors.push({text:tr.querySelector("textarea").value});
+			var t = _trim(tr.querySelector("textarea").value);
+			if (!t.length) return; // skip empties
+			distractors.push({text:t});
 			if (tr.querySelector("input").checked) required += Math.pow(2,i);
 		});
-		_selected_question.media = $("#question_media").value.trim();
-		_selected_question.text = $("#question_text").value.trim();
+		_selected_question.media = _trim($("#question_media").value);
+		_selected_question.text = _trim($("#question_text").value);
 		_selected_question.required = (required>0)?required:1; // check at least one
-		console.log(~~$("#distractor_show").value);
 		_selected_question.show = ~~$("#distractor_show").value;
 		_selected_question.distractors = distractors;
-		_selected_question.feedback.positive = $("#positiveText_field").value.trim();
-		_selected_question.feedback.negative = $("#negativeText_field").value.trim();
-		_selected_question.feedback.none = $("#skippedText_field").value.trim();
+		_selected_question.feedback.positive = _trim($("#positiveText_field").value);
+		_selected_question.feedback.negative = _trim($("#negativeText_field").value);
+		_selected_question.feedback.none = _trim($("#skippedText_field").value);
 		var q = _data_.questions.findIndex(function(obj) { return obj.uid === _selected_question.uid});
 		_data_.questions[q] = _selected_question;
 		QuizBuilder.Save();
 	};
 
 	function _questions_remove() {
-		if (!_selected_question.hasOwnProperty("uid")) return; // check empty
+		if (!(_selected_question && _selected_question.hasOwnProperty("uid"))) return; // check empty
 		var q = _data_.questions.findIndex(function(obj) { return obj.uid === _selected_question.uid });
 		if (q > -1)_data_.questions.splice(q,1); // remove from questions array
 		//$("#question_details").classList.add("disabled");
@@ -295,13 +320,20 @@ var QuizBuilder = (function () {
 				return obj.uid === qButton.nextSibling.dataset.uid;
 			}
 		});
+		var remaining = false;
 		if (qButton.previousSibling !== null) {
 			qButton.previousSibling.classList.add("selected");
-		} else {
+			remaining = true;
+		} else if (qButton.nextSibling !== null) {
 			qButton.nextSibling.classList.add("selected");
+			remaining = true;
 		}
 
-		qButton.parentNode.removeChild(qButton);
+		if (remaining) {
+			qButton.parentNode.removeChild(qButton);
+		} else {
+			alert("Can't remove last question");
+		}
 		QuizBuilder.Save();
 		QuizBuilder.Questions.Load();
 	};
@@ -389,34 +421,35 @@ var QuizBuilder = (function () {
 		$("#distractor_show").max = ~~$("#distractor_show").max - 1;
 	};
 
-	function _compile() {
-		if (_data_.randomise===false) { // re-order questions to natural order
-			var qq = JSON.parse(JSON.stringify(_data_.questions)); // clone node
-			qq.map(function(value,index) {
-				_data_.questions[index].order = qq[value.order];
-			});
-		}
-		var dc = _data_.colour?_data_.colour:"#508196";
-		return Handlebars.templates["render"]({
-			tint_colour: dc,
-			quiz_json: _data_,
-			buttons: {
-				check: _data_.strings.answer,
-				next: _data_.strings.next,
-				results: _data_.strings.results,
-				resit: _data_.strings.resit
-			},
-			templates: {
-				endpage: _data_.strings.completion
-			}
-		});
-	}
+	// function _compile() {
+	// 	if (_data_.randomise===false) { // re-order questions to natural order
+	// 		var qq = JSON.parse(JSON.stringify(_data_.questions)); // clone node
+	// 		qq.map(function(value,index) {
+	// 			_data_.questions[index].order = qq[value.order];
+	// 		});
+	// 	}
+	// 	var dc = _data_.colour ? _data_.colour : "#508196";
+	// 	return Handlebars.templates["render"]({
+	// 		tint_colour: dc,
+	// 		quiz_json: _data_,
+	// 		buttons: {
+	// 			check: _data_.strings.answer,
+	// 			next: _data_.strings.next,
+	// 			results: _data_.strings.results,
+	// 			resit: _data_.strings.resit
+	// 		},
+	// 		templates: {
+	// 			endpage: _data_.strings.completion
+	// 		}
+	// 	});
+	// }
 
 	return {
 		Init: _init,
 		Bind: _bind,
 		Save: _save,
-		Compile: _compile,
+		Export: _export,
+		// Compile: _compile,
 		Questions: {
 			Load: _questions_load,
 			Add: _questions_add,
@@ -426,6 +459,6 @@ var QuizBuilder = (function () {
 				Add: _distractor_add,
 				Remove: _distractor_remove
 			}
-		},
+		}
 	}
 })();

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>New Quiz</title>
+	<link rel="stylesheet" type="text/css" href="build.css">
+	<script>window.setup={{{quiz_json}}}</script>
+	<script type="text/javascript" src="build.js"></script>
+</head>
+<body>
+	<header></header>
+	<nav></nav>
+	<main></main>
+	<script type="text/html" id="header">
+		<h1><%=title%></h1>
+	</script>
+	<script type="text/html" id="navigation">
+		<% for (var i=0; i < questions.length; i++) { %>
+		<a href="#<%=i%>" class="button"><%=(i+1)%></a>
+		<% } %>
+		<a href="#results" class="button">Results</a>
+	</script>
+	<script type="text/html" id="main">
+		<div class="question">
+			<%=data[page].media%>
+			<br>
+			<%=data[page].text%>
+		</div>
+		<div class="answers">
+			<% for (var i=0, controlType = get_control_type(data[page]); i < data[page].distractors.length; i++ ) { %>
+			<label class="control control--<%=controlType%>">
+				<input type="<%=controlType%>" name="answer" value="<%=data[page].distractors[i].value%>" <% if (data[page].distractors[i].checked) { %>checked="checked"<% } %> <% if (data[page].locked) { %>disabled="disabled"<% } %>/>
+				<div class="answer">
+					<%=data[page].distractors[i].text%>
+				</div>
+				<div class="control__indicator"></div>
+			</label>
+			<% } %>
+		</div>
+		<% if (feedback === "answer" && data[page].answer===0) { %>
+		<div class="actions" data-index="<%=page%>">
+			<p><a href="#submit" class="button">{{buttons.check}}</a> <a href="#next" class="button ">{{buttons.next}}</a></p>
+		</div>
+		<% } %>
+	</script>
+	<script type="text/html" id="endpage">
+		<p>Thanks for completing the quiz.</p>
+		<p>Your score is <%=score%> out of <%=total%>, which means you <% if (score >= required) { %>passed<% } else { %>failed<% } %>.</p>
+		<% if (score < required && resit) { %>
+		<div class="actions resit">
+			<p><a href="#resit" class="button">{{buttons.resit}}</a></p>
+		</div>
+		<% } %>
+	</script>
+</body>
+</html>

@@ -1,146 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>New Quiz</title>
-	<link rel="stylesheet" type="text/css" href="_build.css">
+var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0],_userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]")),_page_index=qs[1];
 
-<script type="text/javascript">
-
-// generic parts related only to this build
-var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : ["[]",0],
-	_userdata = JSON.parse(unescape(qs[0]?qs[0]:"[]")),
-	_page_index = qs[1];
-	window.setup = { // built dynamically using handlebars
-		title: "My Quiz",
-		questions: [
-			{
-				uid: "q1",
-				media: "<p class=\"text-center\"><img src=\"http://placehold.it/400x300/?text=Circle\"></p>",
-				text: "<h1>Question 1</h1><p>Consider the image above. In it, we have some text which may or may not be important when considering how you answer this question. You now need to determine what the shape is.</p>",
-				show: 4,
-				required: 16,
-				distractors: [
-					{text: "<p>1.1Trapezoid.</p>"},
-					{text: "<p>1.2Rectangle</p>"},
-					{text: "<p>1.3Rhomboid polynomial.</p>"},
-					{text: "<p>1.4Translated sigmoidal ellipsoid.</p>"},
-					{text: "<p>1.5 * Combobulated spline.</p>"}
-				],
-				feedback: {
-					none: 'No answer was chosen',
-					positive: '',
-					negative: 'You chose ... poorly'
-				}
-			},
-			{
-				uid: "q2",
-				media: "<p class=\"text-center\"><img src=\"http://placehold.it/400x300/?text=question+2\"></p>",
-				text: "<h1>Question 2</h1><p>Question 2's version of Corrupti dicta ratione, rerum vero perspiciatis at mollitia pariatur tenetur. Architecto natus quo aliquam, numquam illum?</p><p>Facilis reiciendis corporis ex dolor dignissimos.</p>",
-				show: 4,
-				required: 4,
-				distractors: [
-					{text: "<p>2.1Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>"},
-					{text: "<p>2.2Laboriosam, voluptatem, saepe!</p>"},
-					{text: "<p>2.3 * Temporibus quasi, quis adipisci impedit.</p>"},
-					{text: "<p>2.4Possimus aliquid atque illum nesciunt modi molestiae sunt eum.</p>"},
-					{text: "<p>2.5Sint soluta consequatur, quaerat nihil.</p>"}
-				],
-				feedback: {
-					none: 'No answer was chosen',
-					positive: '',
-					negative: 'You chose ... very poorly'
-				}
-			},
-			{
-				uid: "q3",
-				text: "<h1>Question 3</h1><p>Question 3's version of Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti dicta ratione, rerum vero perspiciatis at mollitia pariatur tenetur. Architecto natus quo aliquam, numquam illum?</p><p>Facilis reiciendis corporis ex dolor dignissimos.</p>",
-				show: 4,
-				required: 22,
-				distractors: [
-					{text: "<p>3.1Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>"},
-					{text: "<p>3.2 * Laboriosam, voluptatem, saepe!</p>"},
-					{text: "<p>3.3 * Temporibus quasi, quis adipisci impedit.</p>"},
-					{text: "<p>3.4Possimus aliquid atque illum nesciunt modi molestiae sunt eum.</p>"},
-					{text: "<p>3.5 * Sint soluta consequatur, quaerat nihil.</p>"}
-				],
-				feedback: {
-					none: 'No answer was chosen',
-					positive: '',
-					negative: 'You still chose ... poorly'
-				}
-			},
-			{
-				uid: "q4",
-				media: "<p class=\"text-center\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ZxTnogTT99k?rel=0\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe></p>",
-				text: "<h1>Question 4</h1><p>Question 4's version of Architecto natus quo aliquam, numquam illum?</p><p>Facilis reiciendis corporis ex dolor dignissimos.</p>",
-				show: 4,
-				required: 8,
-				distractors: [
-					{text: "<p>4.1Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>"},
-					{text: "<p>4.2Laboriosam, voluptatem, saepe!</p>"},
-					{text: "<p>4.3Temporibus quasi, quis adipisci impedit.</p>"},
-					{text: "<p>4.4 * Possimus aliquid atque illum nesciunt modi molestiae sunt eum.</p>"},
-					{text: "<p>4.5Sint soluta consequatur, quaerat nihil.</p>"}
-				],
-				feedback: {
-					none: 'No answer was chosen',
-					positive: 'OMG Finally! How long did it take you to answer one correctly?',
-					negative: 'Your have choses ... poerly'
-				}
-			},
-			{
-				uid: "q5",
-				media: "<p class=\"text-center\"><img src=\"http://placehold.it/400x300/?text=5+5+5+5+5\"></p>",
-				text: "<h1>Question 5</h1><p>Question 5's version of Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti dicta ratione, rerum vero perspiciatis at mollitia pariatur tenetur. Architecto natus quo aliquam, numquam illum?</p><p>Facilis reiciendis corporis ex dolor dignissimos.</p>",
-				show: 5,
-				required: 16,
-				distractors: [
-					{text: "<p>5.1Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>"},
-					{text: "<p>5.2Laboriosam, voluptatem, saepe!</p>"},
-					{text: "<p>5.3Temporibus quasi, quis adipisci impedit.</p>"},
-					{text: "<p>5.4Possimus aliquid atque illum nesciunt modi molestiae sunt eum.</p>"},
-					{text: "<p>5.5 * Sint soluta consequatur, quaerat nihil.</p>"}
-				],
-				feedback: {
-					none: 'No answer was chosen',
-					positive: '',
-					negative: 'No'
-				}
-			},
-			{
-				uid: "q6",
-				media: "",
-				text: "<h1>Question 6</h1><p>Question 6 should not randomise and always display 8 distractors.</p>",
-				show: 8,
-				required: 1,
-				distractors: [
-					{text: "<p>6.1 * This is the correct answer</p>"},
-					{text: "<p>6.2 This is a distraction</p>"},
-					{text: "<p>6.3 This is a distraction</p>"},
-					{text: "<p>6.4 This is a distraction</p>"},
-					{text: "<p>6.5 This is a distraction</p>"},
-					{text: "<p>6.6 This is a distraction</p>"},
-					{text: "<p>6.7 This is a distraction</p>"},
-					{text: "<p>6.8 This is a distraction</p>"}
-				],
-				feedback: {
-					none: 'No answer was chosen',
-					positive: '',
-					negative: 'I even put the answer in the distractor for you'
-				}
-			}
-		],
-		show: 4,
-		required: 4,
-		randomise: true,
-		resit: true,
-		finished: false,
-		feedback: "answer" // answer, complete, false
-	};
-// userdata = [["q6",1,[0,1,2,3,4,5,6,7]],["q5",0,[0,1,2,3,4]],["q1",0,[0,4,1,2]],["q3",0,[4,2,0,1]]];
-
-/* ---- begin minification ---- */
 (function(){
   var cache = {};
   this.tmpl = function tmpl(str, data){
@@ -184,6 +43,7 @@ Array.prototype.find = Array.prototype.find || function(callback) {
 
 // dispatch a browser event
 function emitStatus(status) {
+	console.dir(status);
 	parent.dispatchEvent(new CustomEvent("statuschange", {detail: status}));
 }
 
@@ -222,7 +82,7 @@ function initQB(userdata, quiz) {
 			q.locked = false;
 			var source = q.distractors.map(function(a,b) {
 				a.index = b;
-				a.required = ((q.required & Math.pow(2,b)) > 0); //????
+				a.required = ((q.required & Math.pow(2,b)) > 0); // xor, e.g. (3 xor 2^index)>0
 				return a;
 			}), dest =[];
 			if (q.show < q.distractors.length) { // must randomise
@@ -238,7 +98,7 @@ function initQB(userdata, quiz) {
 						dest.push(source[i].index);
 					}
 				}
-				
+
 				shuffle(dest);
 			} else {
 				for (var i=0; i < source.length; i++) {
@@ -435,13 +295,14 @@ function initQB(userdata, quiz) {
 	}
 
 	function navigate(e) {
+		e.preventDefault(); // stop #1 turning up on the href
 		var href = e.target.getAttribute("href");
 		if (!href) return;
 		if (href==="#results") {
 			endquiz();
 		} else {
-			var pid = ~~href.replace(/\#/,''),
-				cid = ~~document.querySelector("nav>a.active").getAttribute("href").replace(/\#/,'');
+			var pid = +href.replace(/\#/,''),
+				cid = +document.querySelector("nav>a.active").getAttribute("href").replace(/\#/,'');
 			if (pid!==cid) render(pid);
 		}
 	}
@@ -485,7 +346,7 @@ function initQB(userdata, quiz) {
 		// record which distractor(s) the user has clicked
 		document.querySelector(".answers").addEventListener("change", function (e) {
 			var slot = userdata.find(function (record) { return (questions[page].uid === record[0]); });
-			slot[1] = (e.target.getAttribute("type") === "radio") ? ~~e.target.value : [].reduce.call(document.querySelectorAll("div.answers :checked"), function(a,b) { return a + ~~b.value; }, 0);
+			slot[1] = (e.target.getAttribute("type") === "radio") ? +e.target.value : [].reduce.call(document.querySelectorAll("div.answers :checked"), function(a,b) { return a + +b.value; }, 0);
 		}, false);
 
 		var next = document.querySelector("div.actions a[href='#next']"),
@@ -493,24 +354,24 @@ function initQB(userdata, quiz) {
 
 		if (quiz.feedback === "complete" || quiz.feedback === "false") {
 			if (next) next.classList.remove("hidden");
-			submit.classList.add("hidden");
+			if (submit) submit.classList.add("hidden");
 			next.addEventListener("click", function (e) {
 				e.preventDefault();
-				var question = questions[~~e.target.dataset.index];//Why floor this?
-				if (question.locked) return;
-				question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
-					var value = ~~curr.value,
-						checked = curr.checked;
+				var question = questions[+e.target.closest(".actions").dataset.index]; // +fyi https://stackoverflow.com/a/17106702/1238884
+				if (!question.locked) {
+					question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
+						var value = +curr.value,
+							checked = curr.checked;
 
-					// find question.distractors[this one] and set .checked to curr.checked
-					question.distractors.find(function(obj) {
-						return (obj.value === value);
-					}).checked = checked;
+						// find question.distractors[this one] and set .checked to curr.checked
+						question.distractors.find(function(obj) {
+							return (obj.value === value);
+						}).checked = checked;
 
-					// return the running total of checked item values
-					return accum + (checked ? value : 0);
-				}, 0);
-
+						// return the running total of checked item values
+						return accum + (checked ? value : 0);
+					}, 0);
+				}
 				document.querySelector("nav>a.active").nextElementSibling.click();
 			}, false);
 		}
@@ -525,10 +386,10 @@ function initQB(userdata, quiz) {
 			}
 			if (submit) submit.addEventListener("click", function (e) {
 				e.preventDefault();
-				var question = questions[~~e.target.dataset.index]; //page instead?
+				var question = questions[+e.target.closest(".actions").dataset.index]; //page instead?
 				if (question.locked) return;
 				question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
-					var value = ~~curr.value,
+					var value = +curr.value,
 						checked = curr.checked;
 
 					// find question.distractors[this one] and set .checked to curr.checked
@@ -565,61 +426,3 @@ window.startQuiz = function (u) {
 }
 
 window.addEventListener('load', window.startQuiz.bind(null, _userdata), false);
-
-/* ---- end minification ----
- * e.g. use simple optimisation on
- * https://closure-compiler.appspot.com/home
-*/
-</script>
-</head>
-<body>
-
-	<header></header>
-	<nav></nav>
-	<main></main>
-
-	<script type="text/html" id="header">
-		<h1><%=title%></h1>
-	</script>
-	<script type="text/html" id="navigation">
-		<% for (var i=0; i < questions.length; i++) { %>
-		<a href="#<%=i%>" class="button"><%=(i+1)%></a>
-		<% } %>
-		<a href="#results" class="button">Results</a>
-	</script>
-	<script type="text/html" id="main">
-		<div class="question">
-			<%=data[page].media%>
-			<br>
-			<%=data[page].text%>
-		</div>
-		<div class="answers">
-			<% for (var i=0, controlType = get_control_type(data[page]); i < data[page].distractors.length; i++ ) { %>
-			<label class="control control--<%=controlType%>">
-				<input type="<%=controlType%>" name="answer" value="<%=data[page].distractors[i].value%>" <% if (data[page].distractors[i].checked) { %>checked="checked"<% } %> <% if (data[page].locked) { %>disabled="disabled"<% } %>/>
-				<div class="answer">
-					<%=data[page].distractors[i].text%>
-				</div>
-				<div class="control__indicator"></div>
-			</label>
-			<% } %>
-
-		</div>
-		<% if (feedback === "answer" && data[page].answer===0) { %>
-		<div class="actions">
-			<p><a href="#submit" class="button" data-index="<%=page%>">{{buttons.answer}}</a> <a href="#next" class="button ">{{buttons.next}}</a></p>
-		</div>
-		<% } %>
-	</script>
-	<script type="text/html" id="endpage">
-		<p>Thanks for completing the quiz.</p>
-		<p>Your score is <%=score%> out of <%=total%>, which means you <% if (score >= required) { %>passed<% } else { %>failed<% } %>.</p>
-		<% if (score < required && resit) { %>
-		<div class="actions resit">
-			<p><a href="#resit" class="button">{{buttons.resit}}</a></p>
-		</div>
-		<% } %>
-	</script>
-
-</body>
-</html>

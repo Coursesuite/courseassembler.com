@@ -1,11 +1,18 @@
+:root {
+    --buttonHover: #4dcaba; /* lightish teal */
+    --saveHilight: #efd075; /* yellowish orange */
+    --edge: #a0a9b1;
+    --tooltip: rgba(77, 202, 186, 0.95);
+    --tooltipText: black;
+}
 body {
     margin: 1rem 0
 }
 select, textarea, input[type='text'], input[type='number'] {
     background-color: white;
 }
-select {
-    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAyOSAxNCIgd2lkdGg9IjI5Ij48cGF0aCBmaWxsPSIjZDFkMWQxIiBkPSJNOS4zNzcyNyAzLjYyNWw1LjA4MTU0IDYuOTM1MjNMMTkuNTQwMzYgMy42MjUiLz48L3N2Zz4K) center right no-repeat;
+select,select:focus {
+    background: white url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAyOSAxNCIgd2lkdGg9IjI5Ij48cGF0aCBmaWxsPSIjZDFkMWQxIiBkPSJNOS4zNzcyNyAzLjYyNWw1LjA4MTU0IDYuOTM1MjNMMTkuNTQwMzYgMy42MjUiLz48L3N2Zz4K) center right no-repeat;
 }
 .button-min {
     padding: 0 1rem;
@@ -64,7 +71,8 @@ label.header {
     color: white
 }
 .question-index .saved a {
-    background-color: #4dcac0 !important;
+    background-color: var(--saveHilight) !important;
+    border-color: var(--saveHilight) !important;
     color: white !important;
 }
 .question-index .saved a:before {
@@ -94,20 +102,24 @@ textarea[noresize]:-ms-input-placeholder {
     line-height: 3
 }
 .focus-group, .layout-group {
-    border-left: .1rem solid #a0a9b1;
+    border: .1rem solid var(--edge);
+    border-top-width: 0;
     margin-left: -1.0rem;
     width: calc(100% + 2.0rem);
     padding: 0 1rem;
 }
-.focus-group:hover, .layout-group:hover {
-    background-color: #f8f8f8
+.layout-group.question-actions {
+    background-color: #f8f8f8;
+    border-bottom: .1rem solid #a9a9b1;
 }
 .layout-group:last-of-type {
     padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 .focus-group:focus-within {
     background-color: rgba(155, 77, 202, 0.1);
-    border-left-color: rgb(155, 77, 202)
+    border-left-color: rgb(155, 77, 202);
+    border-right-color: rgb(155, 77, 202);
 }
 table#distractors {
     counter-reset: distractors;
@@ -187,7 +199,7 @@ label[tooltip]{
     transform: translateX(-50%);
     border-width: 4px 6px 0 6px;
     border-style: solid;
-    border-color: rgba(155, 77, 202, 0.95) transparent transparent transparent;
+    border-color: var(--tooltip) transparent transparent transparent;
     z-index: 99;
     opacity: 0;
     transition: opacity .2s;
@@ -198,11 +210,11 @@ label[tooltip]{
     left: 50%;
     top: -6px;
     transform: translateX(-50%) translateY(-100%);
-    background: rgba(155, 77, 202, 0.95);
+    background: var(--tooltip);
     text-align: center;
     font-size: 1.25rem;
     font-weight: 300;
-    color: #fff;
+    color: var(--tooltipText);
     padding: 1rem 2rem;
     min-width: 120px;
     border-radius: 5px;
@@ -217,7 +229,7 @@ label[tooltip]{
     top: unset !important;
     bottom: -6px;
     border-width: 0 6px 4px;
-    border-color: transparent transparent rgba(155,77,202,0.95) transparent;
+    border-color: transparent transparent var(--tooltip) transparent;
 }
 [tooltip-bottom]::after {
     min-width: 160px;
@@ -233,18 +245,60 @@ div[label]:before {
     display: block;
     padding: .5rem 1.5rem;
     margin: 1rem -1rem 0;
-    background-color: #a0a9b1;
+    background-color: var(--edge);
     color: white;
 }
 a[href='#default'] {
     font-weight: normal;
     display: inline-block;
 }
-#save_button {
+/* #save_button {
     display: block;
     width: 100%;
 }
-textarea[rows] {
+ */
+ textarea[rows] {
     height: initial;
 }
 .fd-zone.over { border: 1px dashed #9b4dca; background-color: white; }
+
+
+.button:focus, .button:hover, button:focus, button:hover, input[type='button']:focus, input[type='button']:hover, input[type='reset']:focus, input[type='reset']:hover, input[type='submit']:focus, input[type='submit']:hover {
+    background-color: var(--buttonHover);
+    border-color: var(--buttonHover);
+}
+.button.button-outline:focus, .button.button-outline:hover, button.button-outline:focus, button.button-outline:hover, input[type='button'].button-outline:focus, input[type='button'].button-outline:hover, input[type='reset'].button-outline:focus, input[type='reset'].button-outline:hover, input[type='submit'].button-outline:focus, input[type='submit'].button-outline:hover {
+    background-color: transparent;
+    border-color: var(--buttonHover);
+    color: var(--buttonHover);
+}
+
+.button-split {
+    white-space: nowrap;
+    text-align: center;
+}
+.button-split > .button {
+    border-radius: 0;
+}
+.button-split > .button:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+.button-split > .button:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
+.button-split > .button:not(:first-of-type) {
+    margin-left: -.5rem;
+    padding: 0 10px;
+    background-color: rgba(155, 77, 202, 0.8)
+}
+.button-split > .button:not(:first-of-type):hover {
+    background-color: var(--buttonHover);
+    border-color: var(--buttonHover);
+}
+
+.row > .column {
+    padding-top: .5rem;
+}
+input.jscolor {
+    text-align: center;
+}
