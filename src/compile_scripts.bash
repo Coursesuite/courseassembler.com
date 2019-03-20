@@ -15,10 +15,9 @@ cd MicRecorderToMp3
 ./compile.sh
 
 cd ..
-cd QuizBuilder/src
+cd QuizBuilder
 ./compiler.bash
 
-cd ..
 cd ..
 cd ..
 
