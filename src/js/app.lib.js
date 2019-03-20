@@ -1358,7 +1358,7 @@ function performAction(tgt) {
 
 		case "plugin-edit":
 			localforage.getItem(id, function (err, value) {
-				if (!App.Minified) value.plugin += "/src";
+				//if (!App.Minified) value.plugin += "/src";
 				var frame = document.getElementById("preview-frame");
 				frame.removeAttribute("data-fileid");
 				frame.setAttribute("src","plugins/" + value.plugin + "/edit.html?" + id);
