@@ -30,3 +30,5 @@ src/*/app.min.*.js
 src/*/app.min.*.css
 src/*/edit.min.*.js
 src/*/edit.min.*.css
+
+public/app/*
