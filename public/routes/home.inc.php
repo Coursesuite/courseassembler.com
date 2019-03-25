@@ -4,6 +4,7 @@
 					<div>
 						<h1>Use <span id="typed" style="font-weight:600">word documents</span><br>to assemble learning content</h1>
 						<p class="uk-text-lead">It's like an assembly line for your content.</p>
+						<p>Build reusable course packages in no time.</p>
 						<p class="uk-margin-top-large"><a href="#more" class="uk-button uk-button-text">Find out more <span uk-icon="triangle-down"></span></a></p>
 					</div>
 					<div>
@@ -99,18 +100,4 @@
 			</div>
 		</div>
 
-		<div class="uk-section uk-background-secondary my-white-text uk-background-contain uk-background-center-left" data-src="assets/api.svg" uk-img>
-			<div class="uk-container uk-padding-large">
-				<div uk-grid>
-					<div class="uk-width-2-5">
-					</div>
-					<div class="uk-width-expand">
-						<p class="uk-text-large">One last thing!</p>
-						<p class="uk-text-small">Are you looking for something more, uh, <i>complicated</i>?</p>
-						<p>Do you this tool would be super handy in your organisation? We can tools integrate into your system and workflow using robots (actually, it's called an API). Does authentication, sub-client licencing, custom templates and seamless course publishing sound good to you? To find out more, drop your email address below and we'll contact you with more details.</p>
-						<p>
-
-					</div>
-				</div>
-			</div>
-		</div>
+		<?php include "_api.inc.php"; ?>

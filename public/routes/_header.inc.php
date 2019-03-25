@@ -22,6 +22,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.7.3/localforage.min.js"></script>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		<?php include "_cookie.inc.php"; ?>
     </head>
     <body class="<?php echo str_replace('.inc.php','',$fn); ?>">
