@@ -4,7 +4,6 @@
 					<div>
 						<h1>Use <span id="typed" style="font-weight:600">word documents</span><br>to assemble learning content</h1>
 						<p class="uk-text-lead">It's like an assembly line for your content.</p>
-						<p>Build reusable course packages in no time.</p>
 						<p class="uk-margin-top-large"><a href="#more" class="uk-button uk-button-text">Find out more <span uk-icon="triangle-down"></span></a></p>
 					</div>
 					<div>
