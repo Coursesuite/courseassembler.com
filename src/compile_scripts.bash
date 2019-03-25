@@ -11,30 +11,36 @@ handlebars handlebars/ -f js/templates.js
 
 echo "Compiling plugins"
 cd plugins
+
+# like this so its easier to count the nesting when you come back up
 cd MicRecorderToMp3
 ./compile.sh
-
 cd ..
+
 cd QuizBuilder
 ./compiler.bash
-
-cd ..
 cd ..
 
-# pwd
+cd ..
+
+pwd
 
 echo "Minifying CSS"
 
-rm css/app.min*.css
+rm -f css/app.min*.css
 php ./importcss.php -icss/app.css -ocss/app.min.$TS.css
+#probably a way to do this in awk if I stopped and thought about it
 
 echo "Minifying Scripts"
-cd js
-rm head.min*.js
-uglifyjs --keep-fnames modernizr.custom.js --output head.min.$TS.js
 
-rm app.min*.js
-uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js templates.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js app.plugin.page.js ../plugins/Importer/plugin.js ../plugins/Oembed/plugin.js --output app.min.$TS.js
+# cherry pick all files with paths that are named plugin.js or templates.js, joined on one space-separated line with reference up so uglify can see out of the js folder
+PLUGINS=$(find . -print | egrep -i '(plugin|templates).js' | awk '{print}' ORS=' ' | sed 's/\.\//\.\.\//g')
+
+# NOW go into the js folder
+cd js
+
+rm -f app.min*.js
+uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js $PLUGINS --output app.min.$TS.js
 
 cd ..
 
@@ -46,7 +52,6 @@ echo "\$verifier->code->minified = true;" >> load.php
 echo "\$timestamp = '$TS';" >> load.php
 echo "\$minified_css = 'css/app.min.$TS.css';" >> load.php
 echo "\$minified_app = 'js/app.min.$TS.js';" >> load.php
-echo "\$minified_head = 'js/head.min.$TS.js';" >> load.php
 echo "?>" >> load.php
 
 echo "Deploying app"
@@ -57,12 +62,29 @@ cp -R ../src/* ../public/app
 echo "Fixing src loader"
 cat load.dev.php > load.php
 
-echo "Cleaning root files"
+cd plugins
+cd QuizBuilder
+rm -f app.min*.css
+rm -f app.min*.js
+if [ "$(uname)" == "Darwin" ]; then
+	sed -E -i '' "s/app.min.*.css/edit.css/g" edit.html
+	sed -E -i '' "s/app.min.*.js/edit.js/g" edit.html
+else
+#elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+	sed -E --in-place='' "s/app.min.*.css/edit.css/g" edit.html
+	sed -E --in-place='' "s/app.min.*.js/edit.js/g" edit.html
+fi
+cd ..
+cd ..
+
+# ok now we need to go into app and start messing with it
 cd ../public/app
+
+echo "Cleaning root files"
 rm *.bash
 rm dockerCompileScript.sh
 rm importcss.php
-rm old_*.mp3
+rm -f old_*.mp3
 rm test.html
 rm load.dev.php
 
@@ -71,7 +93,7 @@ cd css
 rm inline.py
 rm app.css
 rm minify.css
-rm font.zip
+rm -f font.zip
 rm variables.css
 rm normalize.css
 rm CircularProgressButton.css
@@ -110,9 +132,9 @@ rm app.lib.filepreview.js
 rm app.lib.downloader.js
 rm app.lib.navigation.js
 rm app.lib.edithandler.js
-rm app.plugin.page.js
-rm modernizr.custom.js
 cd ..
+
+# todo: do the plugins scan again but pipe into rm -f
 
 echo "Removing scorm"
 cd scorm
