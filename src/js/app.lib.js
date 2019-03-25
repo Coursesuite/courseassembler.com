@@ -1552,19 +1552,37 @@ function performAction(tgt) {
 	}
 }
 
-function trashPage(id) {
+// delete cached image references
+// function decachePage(ids) {
+// 	localforage.iterate(function (value, key) {
+// 		if (key.indexOf("file://" + id + ":") !== -1) {
+// 			localforage.removeItem(key);
+// 		}
+// 	});
+// }
+
+
+// trash a page. if it has children, optionally trash those too.
+function trashPage(id, trashChildren) {
+	//var ids = [id];
+	if (typeof trashChildren !== 'undefined' && trashChildren === true) {
+		var li = document.querySelector("li[data-fileid='" + id + "']"),
+			depth = +li.dataset.depth,
+			next = li.nextElementSibling;
+		while (next && +next.dataset.depth > depth) {
+			// ids.push(next.data.fileid);
+			localforage.removeItem(next.dataset.fileid); // async
+			next = next.nextElementSibling; // increment pointer first
+			next.previousElementSibling.remove(); // NOW remove the dom node
+		}
+	}
 	localforage.removeItem(id, function (err) {
 		$("li[data-fileid='" + id + "']").remove();
 		DocNinja.filePreview.Reset();
 		if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndtrash);
 		setItemOrder();
 	});
-	// delete cached image references
-	localforage.iterate(function (value, key) {
-		if (key.indexOf("file://" + id + ":") !== -1) {
-			localforage.removeItem(key);
-		}
-	});
+	// decachePages(ids);
 }
 
 // document body click handler

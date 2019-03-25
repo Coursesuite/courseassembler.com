@@ -16,6 +16,8 @@ taxonomy:
 	*  **Left arrow / Right arrow:** Change indenting of the selected item.
 	*  **Shift + Up arrow / Down arrow:** Move the selected item up and down the list.
 	*  **Ctrl + Shift + Up arrow / Down arrow:** Move the selected item to top or bottom of the list.
+	*  **Delele or Backspace** (Double-tap key quickly) Delete selected page
+	*  **Shift + Delete or Backspace**  (Double-tap key quickly) Delete selected page and its child pages
 
 ---
 

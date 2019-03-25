@@ -663,7 +663,7 @@
 					if (kTime - pTime <= kDelta) {
 						var afterwards = $(selected).next("li").length ? $(selected).next("li").find("a[data-action='preview']").get(0) : $(selected).prev("li").length ? $(selected).prev("li").find("a[data-action='preview']").get(0) : null;
 						if (afterwards) afterwards.click(); // select next and/or previous if exists
-						trashPage(selected.dataset.fileid);
+						trashPage(selected.dataset.fileid, e.shiftKey);
 						kTime = 0;
 					}
 					pTime = kTime;
