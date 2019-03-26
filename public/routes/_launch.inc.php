@@ -26,7 +26,7 @@
 	    	<span>Buy Licence</span>
 	    </button>
 	    <div class="uk-inline">
-	        <button class="uk-button uk-button-default" type="button"><span uk-icon="icon: triangle-down"></span> Pricing</button>
+	        <button class="uk-button uk-button-default my-pricing" type="button"><span uk-icon="icon: triangle-down"></span> Pricing</button>
 	        <div uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
 	            <ul class="uk-nav uk-dropdown-nav">
 	                <li class="uk-nav-header">Basic Pricing</li>

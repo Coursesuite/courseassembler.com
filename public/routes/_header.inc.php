@@ -24,6 +24,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.7.3/localforage.min.js"></script>
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		<?php include "_cookie.inc.php"; ?>
+		<?php include "_analytics.inc.php"; ?>
     </head>
     <body class="<?php echo str_replace('.inc.php','',$fn); ?>">
     	<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
