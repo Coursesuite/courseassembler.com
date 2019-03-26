@@ -31,4 +31,5 @@ src/*/app.min.*.css
 src/*/edit.min.*.js
 src/*/edit.min.*.css
 
+# the app folder is published by the compile script, so don't check it in
 public/app/*
