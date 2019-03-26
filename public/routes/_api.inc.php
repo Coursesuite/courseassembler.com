@@ -5,7 +5,7 @@
 					</div>
 					<div class="uk-width-expand uk-background-secondary">
 						<p class="uk-text-large">Get your robots to call our robots (and they'll do lunch)</p>
-						<p>Do you this tool would be super handy in your organisation? We can <b>integrate into your system using an API</b>.</p>
+						<p>Do you think this tool would be super handy in your organisation? We can <b>integrate into your system using an API</b>.</p>
 						<p>Does authentication, sub-client licencing, custom templates and seamless course publishing sound good to you? To find out more, get in touch and we'll contact you with more details.</p>
 
 						<p><a class="uk-button uk-button-default uk-light" href="#modal-center" uk-toggle>Get in touch</a></p>
