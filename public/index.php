@@ -6,10 +6,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 require "../vendor/autoload.php";
 $Router = new AltoRouter();
 
-$Router->map('GET','/','home.inc.php');
-$Router->map('GET','/faq','faq.inc.php');
-$Router->map('GET','/changelog','changelog.inc.php');
-$Router->map('GET','/privacy','policy.inc.php');
+$Router->map('GET','/','home.inc.php', 'Home');
+$Router->map('GET','/faq','faq.inc.php', 'FAQ');
+$Router->map('GET','/changelog','changelog.inc.php', 'Changelog');
+$Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('POST','/email', 'handleContactForm');
 
 $path = realpath("./routes");
@@ -51,6 +51,7 @@ if ($match) {
         header("location:/");
         die();
 	}
+	$page_title = $match["name"];
 	require $path. '/_header.inc.php';
 	include $path . "/{$fn}";
 	require $path . '/_footer.inc.php';

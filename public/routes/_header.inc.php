@@ -7,15 +7,14 @@
  		<meta name="description" content="Rapidly convert your learning content to HTML5, add quizzes and video and package with a SCORM wrapper, in a matter of minutes" />
 		<meta name="keywords" content="Course Assembler, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
 		<meta name="author" content="www.coursesuite.com" />
-        <title>Course Assembler</title>
+        <title><?php echo $page_title; ?> - Course Assembler</title>
         <meta property="og:locale" content="en_AU">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Course Assembler">
+        <meta property="og:title" content="<?php echo $page_title; ?> - Course Assembler">
         <meta property="og:description" content="Make your content e-learning ready, add quizzes and video and package with a SCORM wrapper, in a matter of minutes.">
         <meta property="og:url" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/">
         <meta property="og:site_name" content="Course Assembler">
         <meta property="og:image" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/assets/meta_card.png">
-        <link href="https://fonts.googleapis.com/css?family=Raleway:500,600,700" rel="stylesheet"/>
         <link href="assets/style.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
