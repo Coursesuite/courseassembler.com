@@ -134,6 +134,11 @@ p.text-center {
 	text-align:  center;
 }
 
+main p.text-center img,
+main p.text-center iframe {
+	max-width: 100%;
+}
+
 .control {
 	font-size: inherit;
 	position: relative;

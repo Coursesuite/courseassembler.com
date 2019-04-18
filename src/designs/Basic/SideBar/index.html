@@ -9,11 +9,13 @@
         <meta name="author" content="https://www.courseassembler.com" />
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="_package.css">
+        {{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
         <script crossorigin="anonymous" href="https://polyfill.io/v3/polyfill.min.js"></script>
         <script type="text/javascript">
         var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
         </script>
         <script type="text/javascript" src="_package.js"></script>
+        {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         {{{analytics-code}}}
     </head>
     <body onunload="doUnload()" onbeforeunload="doUnload()" class="active">
@@ -25,8 +27,8 @@
         <nav id="scroll" data-simplebar>
             <ol id="menu"></ol>
             <footer>
-                <p>{{option-course-copyright}}</p>
-                {{#compare tier "<" 2}}<p class="watermark">Created using <a href="http://documentninja.coursesuite.ninja" target="_blank">CourseSuite Course Assembler</a>.</p>{{/compare}}
+                {{#if option-course-copyright}}<p>{{option-course-copyright}}</p>{{/if}}
+                <p class="watermark">Created using <a href="http://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>
             </footer>
         </nav>
     </aside>
@@ -38,8 +40,8 @@
     </aside>
     <main>
         <div class="iframe">
-        <iframe seamless frameborder="0" class="under"></iframe>
-        <iframe seamless frameborder="0" class="over"></iframe>
+            <iframe seamless frameborder="0" class="under"></iframe>1
+            <iframe seamless frameborder="0" class="over"></iframe>
         <div class="iframe">
     </main>
     </body>

@@ -59,7 +59,7 @@
 				fold,
 				progress = 0,
 				increment = 0.0,
-				manifest = { "creator" : "docninja", "files": [] };
+				manifest = { "creator" : "docninja", "files": [], audio: false };
 
 			window.gatherSettings() // get form data
 			.then(function(settings) { // build a model (setup)
@@ -137,7 +137,10 @@
 							// append to manifest, but without the payload
 							if (obj.payload.image) delete obj.payload.image;
 							if (obj.payload.html) delete obj.payload.html;
-							if (obj.payload.mp3) delete obj.payload.mp3;
+							if (obj.payload.mp3) {
+								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
+								delete obj.payload.mp3;
+							}
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 
 							progress += increment;
@@ -182,7 +185,7 @@
 						if (key === "settingsCache") manifest["settingsCache"] = value;
 						if (key.indexOf("file-") != -1) { // only with this prefix, in case we store other things
 							var page = {},
-								li = $("li[data-fileid='" + key + "']"), // matching li
+								li = $("li[data-fileid='" + key + "']"), // matching li, as a jQuery object
 								// obj = JSON.parse(value),
 								obj = value,
 								filename = key + ".html";
@@ -193,6 +196,7 @@
 								page["content"] = ("youtube vimeo soundcloud slideshare".indexOf(obj.format)!=-1) ? "media" : obj.kind; // media track timespent in the child frame
 								page["href"] = "data/" + filename;
 								page["depth"] = Math.max(0,+obj.depth||0); // must exist
+								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
 								setup.pages[li.index()] = page; // push to index (nth LI) so it comes out in order in the template
 							}
 							if ("image"==obj.kind) { // convert it using the preview renderer
@@ -201,8 +205,8 @@
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								fold.file(filename,obj.payload.html);
-							} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 
+							} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 								// wow, surprising this even works since its adding the file to fold but not returning a promise ..
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
@@ -224,14 +228,26 @@
 							// append to manifest, but without the payload (no longer needed in memory)
 							if (obj.payload.image) delete obj.payload.image;
 							if (obj.payload.html) delete obj.payload.html;
-							if (obj.payload.mp3) delete obj.payload.mp3;
+							if (obj.payload.mp3) {
+								manifest["audio"] = true; // flag that plyr needs to be included later on
+								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
+								delete obj.payload.mp3;
+							}
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 							progress += increment;
 							uiButtonInstance.setProgress(progress);
 						}
+
 					}).then(function (result) {
 						manifest["timestamp"] = (new Date().getTime());
 						zip.file("doc.ninja", JSON.stringify(manifest));
+						if (manifest.audio) { // include plyr to do web audio
+							['plyr.js','plyr.css','plyr.svg'].map(function(name) {
+								var p = $.ajax({url:'js/runtimes/'+name, dataType:"text"});
+								zip.file(name, p);
+							});
+						 	setup["audio"] = true;
+						}
 						setup["timestamp"] = manifest["timestamp"].toString(36);
 						setup["tier"] = App.Tier;
 
@@ -273,21 +289,21 @@
 								    return JSZip.loadAsync(bin);
 								})
 								.then(function (externalZip) {
-										promises = [];
-										externalZip.forEach(function(relativePath,file) {
-											if (relativePath.startsWith("__MACOSX")) return; // skip
-											switch (relativePath) {
-												case "index.html": // compile into handlebars templates
-												case "_package.js":
-												case "_package.css":
-													promises.push(compile_template(relativePath,file));
-													break;
-												default:
-													promises.push(transfer_file(relativePath,file));
-													break;
-											}
-										});
-										Promise.all(promises).then(outerResolve);
+									promises = [];
+									externalZip.forEach(function(relativePath,file) {
+										if (relativePath.startsWith("__MACOSX")) return; // skip
+										switch (relativePath) {
+											case "index.html": // compile into handlebars templates
+											case "_package.js":
+											case "_package.css":
+												promises.push(compile_template(relativePath,file));
+												break;
+											default:
+												promises.push(transfer_file(relativePath,file));
+												break;
+										}
+									});
+									Promise.all(promises).then(outerResolve);
 								});
 
 							} else {
@@ -311,6 +327,7 @@
 								Promise.all(promises).then(function(result){outerResolve(result)});
 							}
 						});
+
 					}).then(function(result) {
 						progress += increment;
 						uiButtonInstance.setProgress(progress);
@@ -323,12 +340,16 @@
 							zip.file("_package.css", Handlebars.templates["_package.css"](setup)),
 							zip.file("imsmanifest.xml", Handlebars.templates[setup.api + "manifest"](setup))
 						]);
+
 					}).then(function () {
 						return fetch("scorm/" + setup.api + ".zip");
+
 					}).then(function (response) {
 						return response.arrayBuffer();
+
 					}).then(function (buffer) {
-						return zip.loadAsync(buffer)
+						return zip.loadAsync(buffer);
+
 					}).then(function(loadedZip) {
 						progress += increment;
 						uiButtonInstance.setProgress(progress);
@@ -411,11 +432,27 @@
 						return Promise.all(promises);
 
 					}).then(function (p) {
-						return zip.generateAsync({type:"blob"});
+
+						// compress as best we can, it's not really important how much time this adds at this point
+						return zip.generateAsync({
+							type:"blob",
+						    compression: "DEFLATE",
+						    compressionOptions: {
+						        level: 9
+						    },
+						    comment: setup["option-course-description"]
+						}, function updateCallback(metadata) {
+						    console.log("progression: " + metadata.percent.toFixed(2) + " %");
+						    if(metadata.currentFile) {
+						        console.log("current file = " + metadata.currentFile);
+						    }
+						});
+
 					}).then(function(content) {
 						var zipname = setup["option-course-name"].replace(/\s/g,"_").replace(/[^a-z0-9_]/gi,"-");
 						uiButtonInstance.stop(1); // >0 = success
 						fnResult(content, zipname + ".zip", setup, metadata);
+
 					})
 					.catch(function(err) {
 						console.log(err);

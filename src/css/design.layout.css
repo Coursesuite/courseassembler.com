@@ -1,3 +1,25 @@
+.theme-preview-container {
+	display: flex;
+	flex-direction: row;
+}
+.theme-preview-options {
+	width:  300px;
+	border-right: 1px solid var(--edge);
+}
+#theme-preview {
+	flex: 1;
+	width: 100%;
+}
+.theme-preview-options>label {
+	display: block;
+	margin-top: 1em;
+}
+.theme-preview-options>label:first-of-type {
+	margin-top: 0;
+}
+
+
+
 #nav-selection {
 	color: var(--base);
 }

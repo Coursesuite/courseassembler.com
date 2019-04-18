@@ -2,12 +2,21 @@
 define("APP",true);
 include("load.php");
 
+foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*.json') as $json) {
+	$obj = json_decode(file_get_contents($json));
+	$themes[substr(basename($json), 0, -5)] = [
+		"name" => $obj->name,
+		"elements" => $obj->elements
+	];
+}
+
 $jsApp = new stdClass();
 $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
+$jsApp->Themes = [$themes];
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 	$jsApp->Publish = $verifier->api->publish;
 	$jsApp->Bearer = $verifier->api->bearer;
@@ -127,7 +136,19 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 		<section id="nav-selection">
 			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
 			<form id="colours" class="w-80 m-lr-auto m-t-large"><input type="hidden" name="template">
-			<?php include "tab.design.php"; ?>
+			<div class='theme-preview-container'>
+				<div class='theme-preview-options'>
+					<label for='theme-layout'>Base layout</label><select id="theme-layout"></select>
+					<label for='theme-bgc'>Background colour</label><input type='text' id='theme-bgc' name='navbg' value='#189082' class='jscolor {hash:true, onFineChange:"colourpreview(this)"}' onChange='colourpersist(this)' />
+					<label for='theme-bgi'>Background image</label><div id="theme-bgi"></div>
+					<label for='theme-fgc'>Selection colour</label><input type='text' id='theme-fgc' name='navtext' value='#ffffff' class='jscolor {hash:true, onFineChange:"colourpreview(this)"}' onChange='colourpersist(this)' />
+					<label for='theme-hi'>Thumbnail</label><div id="theme-hi"></div>
+					<label for='theme-oc'>Off canvas menu</label><input type='checkbox' id='theme-oc' value='1' checked>
+					<label for='theme-font'>Font</label><div id="theme-font"></div>
+					<label for='theme-uc'>Uppercase text</label><input type='checkbox' id='theme-uc' value='1'>
+				</div>
+				<iframe frameborder='0' id='theme-preview' name='_theme-preview'></iframe>
+			</div>
 			</form>
 		</section>
 	</section>
@@ -338,7 +359,6 @@ foreach ($plugins as $file) {
 }
 ?>
 	<script src="js/app.core.js"></script>
-	<script src="js/app.plugin.page.js"></script>
 <?php } ?>
 
 	<?php } else { ?>

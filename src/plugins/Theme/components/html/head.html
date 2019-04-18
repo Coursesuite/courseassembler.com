@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{option-course-name}}</title>
+        <meta name="title" content="{{option-course-name}}" />
+        <meta name="description" content="{{option-course-description}}" />
+        <meta name="copyright" content="{{option-course-copyright}}" />
+        <meta name="timestamp" content="{{timestamp}}" />
+        <meta name="author" content="https://www.courseassembler.com" />
+        <meta charset="utf-8">
+        {{#if embedded}}<style>{{{embedded.css}}}</style>
+        {{else}}<link rel="stylesheet" type="text/css" href="_package.css">{{/if}}
+        {{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
+        {{#if font}}<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family={{urlencode font}}">{{/if}}
+        <script crossorigin="anonymous" href="https://polyfill.io/v3/polyfill.min.js"></script>
+        <script type="text/javascript">
+        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
+        </script>
+        {{#if embedded}}<script type="text/javascript">{{{embedded.script}}}</script>
+        {{else}}<script type="text/javascript" src="_package.js"></script>{{/if}}
+        {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
+        {{{analytics-code}}}
+    </head>
+    <body onunload="doUnload()" onbeforeunload="doUnload()" class="active">
