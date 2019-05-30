@@ -105,7 +105,7 @@
 
 			if (frame !== null) {
 				var id = frame.getAttribute("data-fileid");
-				localforage.getItem(id, function (err, value) {
+				localforage.getItem(id, function preview_savecontent_save(err, value) {
 					// var data = JSON.parse(value);
 					var data = value;
 					if (command) if (command == "noborder") {
@@ -190,7 +190,7 @@
 		_observer = function (plugin,element,eventName,destination) {
 			var dest = document.querySelector("#preview-frame");
 			new MutationObserver(function(mutations) {
-			  mutations.some(function(mutation) {
+			  mutations.some(function filepreview_mutation_observer(mutation) {
 			    if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
 			    	// was plugin/view.html, went to blob:url
 			    	if (mutation.oldValue.indexOf(plugin)!==-1 && mutation.target.src.indexOf("blob")!==-1) {

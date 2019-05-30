@@ -424,7 +424,7 @@
 		triggerResize();
 
 		// for speed and simplicity, we cache the document list
-		localforage.getItem("order", function (error, value) {
+		localforage.getItem("order", function core_order_get(error, value) {
 			// console.log("order",value);
 			value = DocNinja.Navigation.Upgrade(value);
 			if (null !== value) DocNinja.navItems.insertAdjacentHTML('afterbegin', value);
@@ -432,7 +432,7 @@
 			DocNinja.PurityControl.Nav.Check();
 		});
 
-		localforage.getItem("settingsCache", function(error, value) {
+		localforage.getItem("settingsCache", function core_cache_get(error, value) {
 			if (null === value) {
 				$("button[data-action='add-content']").click();
 			} else {
@@ -626,7 +626,7 @@
 		Sortable.create(DocNinja.navItems, {
 			handle: '.drag-handle',
 			animation: 150,
-			onEnd: function (evt) {
+			onEnd: function sortable_drag_end(evt) {
 				setItemOrder(); // stores "order" cache
 			},
 		});
@@ -641,10 +641,10 @@
 		// ctrl+shift+up = move to top
 		// right/left = indent / outdent
 		var pTime=0, kDelta=256, commandKey = false;
-		$(document).bind('keyup', function (e) {
+		$(document).bind('keyup', function core_keyboard_up(e) {
 			if (e.which === 91) commandKey = false;
 		})
-		$(document).bind('keydown', function(e) {
+		$(document).bind('keydown', function core_keyboard_down(e) {
 			if (e.which === 91) commandKey = true;
 			// backspace, delete, left, up, right, down, enter
 			if (!(e.which === 8 || e.which === 46 || e.which === 37 || e.which === 38 || e.which === 39 ||  e.which === 40 || e.which === 13)) return;
@@ -652,6 +652,8 @@
 			if (e.target.nodeName === "INPUT") return;
 			var selected = document.querySelector("#nav-item-list>li.selected");
 			if (!selected) return;
+			DocNinja.options.keyCode = e.which;
+			console.log("Set keycode", DocNinja.options.keyCode);
 			switch (e.which) {
 				case 13: // enter
 					var n = $(selected).find("a[data-action='preview']");
@@ -756,7 +758,7 @@
 			----------------------------------------- */
 			[].forEach.call(document.querySelectorAll("div[data-destination]"), function (elm, idx) {
 				new UIProgressButton(elm, {
-					callback: function (instance) {
+					callback: function core_download_button_callback(instance) {
 						DocNinja.routines.Statistics(instance.el.getAttribute("data-destination")); //,App);
 					},
 					onbegin: DocNinja.Downloader.Begin
@@ -772,7 +774,7 @@
 			// localforage.getItem("settingsCache", function (err, cache) {
 			// 	DocNinja.reloadSettingsFromCache(cache);
 			// });
-			localforage.getItem("bodyclases", function (err, value) {
+			localforage.getItem("bodyclases", function core_bodyclasses(err, value) {
 				if (value) document.body.className = value;
 				DocNinja.options.MUTED = classie.hasClass(document.body, "mute");
 				DocNinja.options.AUTOSPLIT = !classie.hasClass(document.body, "no-autosplit");

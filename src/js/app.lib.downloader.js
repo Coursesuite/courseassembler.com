@@ -62,12 +62,12 @@
 				manifest = { "creator" : "docninja", "files": [], audio: false };
 
 			window.gatherSettings() // get form data
-			.then(function(settings) { // build a model (setup)
+			.then(function buildSettingsModel(settings) { // build a model (setup)
 				[].forEach.call(settings, function (setting) {
 					setup[setting.name] = setting.value;
 				});
 				return Promise.resolve(setup);
-			}).then(function(setup) { // validate the data
+			}).then(function validateSettingsModel(setup) { // validate the data
 				var seemsok = true;
 				[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (el) {
 					seemsok = seemsok && ((el.hasAttribute('data-state') && el.getAttribute('data-state')==='ready'));
@@ -81,7 +81,7 @@
 					throw new Error('Course name was not specified');
 				}
 				return Promise.resolve(setup);
-			}).then(function(setup) { // start building the download
+			}).then(function gatherResources(setup) { // start building the download
 			    localforage.length().then(function(numberOfKeys) {
 				// our progress bar increments between 0 and 1; how many items we are loading determine the number of increments
 				increment = (1 / (numberOfKeys + 2)); // 10 files = increments of 0.08333; the 2 represent two operations that occur after these files are loaded
@@ -89,7 +89,7 @@
 				if (setup.api === "imscp") { // this package has a different format, no scorm, and a different kind of manifest, and each page goes in its own folder (to be compatible with Moodle Book import format)
 					setup["timestamp"] = (new Date().getTime()).toString(36);
 					var resources = [];
-					localforage.iterate(function (value, key, iterationNumber) {
+					localforage.iterate(function imscp_iterate_localforage(value, key, iterationNumber) {
 						if (key === "order") manifest["order"] = value;
 						if (key === "settingsCache") manifest["settingsCache"] = value;
 						if (key.indexOf("file-") != -1) { // only with this prefix, in case we store other things
@@ -147,7 +147,7 @@
 							uiButtonInstance.setProgress(progress);
 						}
 
-					}).then(function (result) {
+					}).then(function imscp_sort_pages(result) {
 						// put the resources object in the order of resources.resource.order
 						return resources.sort(function (x, y) {
 							var a = safeGetProp(x, 'order', Infinity),
@@ -155,19 +155,19 @@
 							return (a - b);
 						});
 
-					}).then(function (resources) {
+					}).then(function imscp_set_resources(resources) {
 						setup["resources"] = resources;
 						return resources;
-					}).then(function() {
+					}).then(function imscp_add_manifests() {
  						progress += increment;
 						uiButtonInstance.setProgress(progress);
 						return Promise.all([
 							zip.file("imsmanifest.xml", Handlebars.templates[setup.api + "manifest"](setup)),
 							zip.file("doc.ninja", JSON.stringify(manifest))
 						]);
-					}).then(function() {
+					}).then(function imscp_generate_zip() {
 						return zip.generateAsync({type:"blob"})
-					}).then(function (content) {
+					}).then(function imscp_final_result(content) {
 						var zipname = setup["option-course-name"].replace(/\s/g,"_").replace(/[^a-z0-9_]/gi,"-");
 						uiButtonInstance.stop(1); // >0 = success
 						fnResult(content, zipname + ".zip", setup, metadata);
@@ -180,7 +180,7 @@
 
 					fold = zip.folder("data");
 
-					localforage.iterate(function (value, key, iterationNumber) {
+					localforage.iterate(function package_iterate_localforage(value, key, iterationNumber) {
 						if (key === "order") manifest["order"] = value;
 						if (key === "settingsCache") manifest["settingsCache"] = value;
 						if (key.indexOf("file-") != -1) { // only with this prefix, in case we store other things
@@ -238,7 +238,7 @@
 							uiButtonInstance.setProgress(progress);
 						}
 
-					}).then(function (result) {
+					}).then(function package_add_template(result) {
 						manifest["timestamp"] = (new Date().getTime());
 						zip.file("doc.ninja", JSON.stringify(manifest));
 						if (manifest.audio) { // include plyr to do web audio
@@ -255,7 +255,7 @@
 							template = $("#nav-selection figure.selected").attr("data-name"), // e.g. GreyOrangeButtonMenu
 							promises = [];
 
-						return new Promise(function(outerResolve, outerReject) {
+						return new Promise(function package_template_compiler(outerResolve, outerReject) {
 
 							function compile_template(name,file) {
 								return new Promise(function(resolve, reject) {
@@ -277,7 +277,7 @@
 
 							if (template.indexOf("://")!==-1) {
 								// zip of template is hosted on an external location; grab it
-								new JSZip.external.Promise(function (innerResolve, innerReject) {
+								new JSZip.external.Promise(function package_load_external_template(innerResolve, innerReject) {
 								    JSZipUtils.getBinaryContent(template, function(err, data) {
 								        if (err) {
 								            innerReject(err);
@@ -288,7 +288,7 @@
 								}).then(function (bin) {
 								    return JSZip.loadAsync(bin);
 								})
-								.then(function (externalZip) {
+								.then(function package_process_external_template(externalZip) {
 									promises = [];
 									externalZip.forEach(function(relativePath,file) {
 										if (relativePath.startsWith("__MACOSX")) return; // skip
@@ -309,7 +309,7 @@
 							} else {
 								// regular internal template, load files from urls and proces them
 								var urls = ["designs/" + template + "/index.html","designs/" + template + "/_package.js", "designs/" + template + "/_package.css"];
-								promises = urls.map(function(url) {
+								promises = urls.map(function package_process_internal_template(url) {
 									return new Promise(function(resolve,reject) {
 										var fh = new Headers(); fh.append('pragma','no-cache'); fh.append('cache-control','no-store'); // avoid caching templates until I can work out a better version control
 										fetch(url, {method:'GET',headers:fh}).then(function(response) {
@@ -324,11 +324,11 @@
 										});
 									});
 								});
-								Promise.all(promises).then(function(result){outerResolve(result)});
+								Promise.all(promises).then(function package_process_internal_resolve(result){outerResolve(result)});
 							}
 						});
 
-					}).then(function(result) {
+					}).then(function package_include_manifests(result) {
 						progress += increment;
 						uiButtonInstance.setProgress(progress);
 						if (setup['option-ga-id']) {
@@ -341,16 +341,16 @@
 							zip.file("imsmanifest.xml", Handlebars.templates[setup.api + "manifest"](setup))
 						]);
 
-					}).then(function () {
+					}).then(function package_fetch_api() {
 						return fetch("scorm/" + setup.api + ".zip");
 
-					}).then(function (response) {
+					}).then(function package_fetch_api_buffer(response) {
 						return response.arrayBuffer();
 
-					}).then(function (buffer) {
+					}).then(function package_load_api_zip(buffer) {
 						return zip.loadAsync(buffer);
 
-					}).then(function(loadedZip) {
+					}).then(function package_increment_progress(loadedZip) {
 						progress += increment;
 						uiButtonInstance.setProgress(progress);
 						return loadedZip;
@@ -370,9 +370,9 @@
 							files.push(obj.key + ".html");
 						});
 						// the things we have to do are each a promise which won't resolve until various internal promises resolve
-						var promises = files.map(function(name) {
+						var promises = files.map(function package_pdf_optimisations(name) {
 							return new Promise(function(html_resolve, html_reject) {
-								fold.file(name).async("string").then(function(str) {
+								fold.file(name).async("string").then(function package_pdf_optimisations_dom(str) {
 									var doc = document.implementation.createHTMLDocument(name);
 									doc.documentElement.innerHTML = str;
 									var pngs = []; // the pngs inside this file that we will need to convert
@@ -387,7 +387,8 @@
 									// load any found pngs and convert them to jpeg
 									var ops = pngs.map(function(src) {
 										return new Promise(function (png_resolve, png_reject) {
-											fold.file(src.png).async("uint8array").then(function(imagedata) {
+											if (src.png==="1a0ce50c6a36a71332e9899e68f313ba.png") { png_resolve(); } // that pdf loading image
+											fold.file(src.png).async("uint8array").then(function package_pdf_optimisations_png(imagedata) {
 
 												// here's one way - instance the worker and create a listener. ugh, this could run out of memory or leak or who knows.
 												/* var worker = new Worker('js/png2jpg.worker.js');
@@ -410,7 +411,7 @@
 													name: src.png,
 													image: imagedata,
 													quality: 75
-												}).then(function(response) {
+												}).then(function package_pdf_optimisations_worker(response) {
 													var blob = new Blob([response.data], {type: "image/jpeg"});
 													fold.file(src.jpg, blob);
 													//var bloburl = window.URL.createObjectURL(blob);
@@ -431,7 +432,7 @@
 						// only continue after all promises resolve
 						return Promise.all(promises);
 
-					}).then(function (p) {
+					}).then(function package_generate_zip(p) {
 
 						// compress as best we can, it's not really important how much time this adds at this point
 						return zip.generateAsync({
@@ -448,7 +449,7 @@
 						    }
 						});
 
-					}).then(function(content) {
+					}).then(function package_final_result(content) {
 						var zipname = setup["option-course-name"].replace(/\s/g,"_").replace(/[^a-z0-9_]/gi,"-");
 						uiButtonInstance.stop(1); // >0 = success
 						fnResult(content, zipname + ".zip", setup, metadata);

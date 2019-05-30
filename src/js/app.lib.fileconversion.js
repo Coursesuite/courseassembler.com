@@ -10,7 +10,7 @@
 			//localforage.setItem(this_fileid, JSON.stringify(data), function (err, value) {
 
 			if (DocNinja.options.AUTOSPLIT && data.payload.html && data.payload.html.indexOf("pdf2htmlEX") !== -1) {
-				DocNinja.Page.Split(liElem, data).then(function(result) {
+				DocNinja.Page.Split(liElem, data).then(function fileconversion_autosplit_done(result) {
 
 					// remove original LI
 					liElem.parentNode.removeChild(liElem);
@@ -60,7 +60,7 @@
 		_performConversion = function (data) {
 			var initialOutputFormat = "html",
 				// simpleHtml = 0,
-				CLOUD_CONVERT_APIKEY = "8pxT0DHRE5lpcVzildrPoEbztL9rc5Es89xG0incUfPNB93LLZueEr7zTK7PTuZmcV1hXkRMITbhjS-U1NnnzQ";
+				CLOUD_CONVERT_APIKEY = atob("OHB4VDBESFJFNWxwY1Z6aWxkclBvRWJ6dEw5cmM1RXM4OXhHMGluY1VmUE5COTNMTFp1ZUVyN3pUSzdQVHVabWNWMWhYa1JNSVRiaGpTLVUxTm5uelE=");
 
 			// if it's a format that doesn't convert well to html initially (based on trial and error)
 			// first convert it to PDF, then convert the result to HTML
@@ -213,7 +213,7 @@
 				fileinfo = {};
 				// initialOutputFormat = "html";
 
-			console.log("_beginConversion", drop, raw, liElem, kind, subtype);
+			// console.log("_beginConversion", drop, raw, liElem, kind, subtype);
 
 			if (subtype === "x-markdown") kind = "application"; // so it gets converted
 
@@ -316,7 +316,7 @@
 						var rawJson = Base64.decode(drop.result.split("base64,")[1]);
 						if (isJSON(rawJson)) {
 							var obj = JSON.parse(rawJson);
-							DocNinja.Plugins.ImportQuiz(obj).then(function(obj) {
+							DocNinja.Plugins.ImportQuiz(obj).then(function fileconversion_importquiz_done(obj) {
 								if (obj.ready) {
 									_success(liElem, obj.result);
 								} else {

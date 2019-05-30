@@ -23,7 +23,7 @@
 	}
 
 	var _remove_audio_icon = function (id) {
-		[].forEach.call(document.querySelectorAll("li[data-fileid='" + id + "'] .audio-hint"), function(span) {
+		[].forEach.call(document.querySelectorAll("li[data-fileid='" + id + "'] .audio-hint"), function (span) {
 			span.remove();
 		});
 		return true;

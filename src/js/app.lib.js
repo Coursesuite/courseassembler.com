@@ -181,7 +181,7 @@ var getSiblings = function (elem) {
 
 function safeGetProp(obj, props, defaultValue) {
   try {
-	return props.split('.').reduce(function(obj, p) {
+	return props.split('.').reduce(function lib_safeGetProp(obj, p) {
 	  return obj[p];
 	}, obj);
   } catch(e) {
@@ -1132,7 +1132,7 @@ function playSound(obj) {
 		console.dir(ex);
 	});
 }
-function handleAction(node) {
+function handleAction(node, e) {
 	var tgt = (typeof node === 'undefined') ? _g_popover_target : node;
 	switch (tgt.dataset.action) {
 		case "pop-help":
@@ -1157,7 +1157,7 @@ function handleAction(node) {
 			break;
 
 		default:
-			performAction(tgt);
+			performAction(tgt, e);
 	}
 }
 
@@ -1251,6 +1251,8 @@ function popover_useRecording(mp3) {
 }
 
 function renameNode(id, a) {
+	console.log("renameNode", id, a);
+	console.trace();
 	var p = a.parentNode,
 		text = a.textContent,
 		inp = document.createElement("input");
@@ -1266,7 +1268,8 @@ function renameNode(id, a) {
 		setItemOrder();
 		inp = null;
 		document.body.removeEventListener('click', cancelName);
-		document.getElementById('preview-frame').contentWindow.document.body.removeEventListener('click', cancelName);
+		var b = document.getElementById('preview-frame').contentWindow.document.body;
+		if (b) b.removeEventListener('click', cancelName);
 	}
 	inp.onkeydown = function (evt) {
 		evt = evt || window.event;
@@ -1290,7 +1293,8 @@ function renameNode(id, a) {
 
 
 	document.body.addEventListener('click', cancelName);
-	document.getElementById('preview-frame').contentWindow.document.body.addEventListener('click', cancelName);
+	var b = document.getElementById('preview-frame').contentWindow.document.body;
+	if (b) b.addEventListener('click', cancelName);
 
 	inp.select();
 }
@@ -1301,7 +1305,7 @@ function hideOverlays(cog) {
 	DOMTokenList.prototype.remove.apply(document.body.classList, classes);
 }
 
-function performAction(tgt) {
+function performAction(tgt, e) {
 	hideOverlays();
 	var id = tgt.closest("[data-fileid]") ? tgt.closest("[data-fileid]").dataset.fileid : DocNinja.filePreview.CurrentFile() ; // self or li or container
 	switch (tgt.getAttribute("data-action")) {
@@ -1311,9 +1315,10 @@ function performAction(tgt) {
 			if (a.timerID) { // this can misfire if you multicall performAction within 250ms!
 				clearTimeout(a.timerID);
 				a.timerID=null;
+				if (e.which > 0 && e.which < 13) { DocNinja.filePreview.Select(tgt.closest("li")); return; } // it's a mouse button, e.g. 1, 2, 3
 				renameNode(id, a);
 			} else {
-				a.timerID = setTimeout(function() {
+				a.timerID = setTimeout(function action_preview_timeout() {
 					a.timerID = null;
 					DocNinja.filePreview.Select(tgt.closest("li"));
 				},250);
@@ -1334,7 +1339,7 @@ function performAction(tgt) {
 
 		case "upload-dropbox":
 			Dropbox.choose({
-				success: function(files) {
+				success: function action_upload_dropbox_success(files) {
 					for (var i=0;i<files.length;i++) {
 						(function (file,index) { // iife closure
 							if (!file.isDir) {
@@ -1357,7 +1362,7 @@ function performAction(tgt) {
 			break;
 
 		case "plugin-edit":
-			localforage.getItem(id, function (err, value) {
+			localforage.getItem(id, function action_plugin_edit_get(err, value) {
 				//if (!App.Minified) value.plugin += "/src";
 				var frame = document.getElementById("preview-frame");
 				frame.removeAttribute("data-fileid");
@@ -1366,7 +1371,7 @@ function performAction(tgt) {
 			break;
 
 		case "plugin-view":
-			localforage.getItem(id, function (err, value) {
+			localforage.getItem(id, function action_plugin_view_get(err, value) {
 				var frame = document.getElementById("preview-frame");
 				frame.removeAttribute("data-fileid");
 				frame.setAttribute("src","plugins/" + value.plugin + "/view.html?" + id);
@@ -1455,12 +1460,12 @@ function performAction(tgt) {
 					img = new Image();
 				img.onload = function () {
 					var ratio = aspectRatio(img.naturalWidth,img.naturalHeight, ifrCache.w, ifrCache.h);
-					h.resize({source: img, width: ratio.width, height: ratio.height, quality: 0.8}, function (output) {
+					h.resize({source: img, width: ratio.width, height: ratio.height, quality: 0.8}, function action_shrink_resize_done(output) {
 						$("#blocking").remove();
 						img = null;
 						data.payload.image = output.src;
 						// localforage.setItem(id, JSON.stringify(data), function () {
-						localforage.setItem(id, data, function () {
+						localforage.setItem(id, data, function action_shrink_resize_set() {
 							DocNinja.filePreview.Reset();
 							DocNinja.filePreview.Preview(document.querySelector("li[data-fileid='" + id + "']")); // start over
 						});
@@ -1479,7 +1484,7 @@ function performAction(tgt) {
 			localforage.getItem(id, function (err, obj) { // we want the raw object again, not what is rendered
 
 				var n = document.querySelector("li[data-fileid='" + id + "']");
-				DocNinja.Page.Split(n, obj).then(function(result) {
+				DocNinja.Page.Split(n, obj).then(function action_split_done(result) {
 
 					// remove original LI
 					n.parentNode.removeChild(n);
@@ -1534,7 +1539,7 @@ function performAction(tgt) {
 
 		case "trash-page-audio":
 			var ae = document.getElementById("popover_audioElement");
-			localforage.getItem(id).then(function (obj) {
+			localforage.getItem(id).then(function action_trash_audio_get(obj) {
 				obj.payload.mp3 = undefined;
 				delete obj.payload.mp3;
 				ae.pause();
@@ -1592,7 +1597,7 @@ function globalClickConsumer(e) {
 	if ("popover" in tgt.dataset) {
 		handlePopover(tgt);
 	} else if ("action" in tgt.dataset) {
-		handleAction(tgt);
+		handleAction(tgt, e);
 	} else if ("tab" in tgt.dataset) {
 		changeTab(e);
 	}
@@ -1623,7 +1628,7 @@ function changeTab(e) {
 }
 
 function persistProperty(fileId, propertyName, propertyValue) {
-	localforage.getItem(fileId, function (err, value) {
+	localforage.getItem(fileId, function persist_property_get(err, value) {
 		var data = value || {};
 		data[propertyName] = propertyValue;
 		localforage.setItem(fileId, data);

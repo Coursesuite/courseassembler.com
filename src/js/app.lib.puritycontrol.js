@@ -56,7 +56,7 @@
 				classie.addClass(toggle, "current-state-increase");
 				toggle.querySelector("a[data-action='item-decrease']").setAttribute("data-action","item-increase");
 			}
-			localforage.getItem(fileid, function(err, value) {
+			localforage.getItem(fileid, function purity_control_setdepth_get(err, value) {
 				// var data = JSON.parse(value);
 				var data = value;
 				data.depth = depth;
