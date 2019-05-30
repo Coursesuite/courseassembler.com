@@ -43,6 +43,14 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.1/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
+<?php
+$p = realpath('./plugins');
+$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|FontPicker)\.css$/', RecursiveRegexIterator::GET_MATCH);
+foreach ($plugins as $file) {
+	echo '<link href="plugins', substr($file[0], strlen($p)),'" rel="stylesheet" type="text/css">', PHP_EOL;
+}
+?>
+
 		<style id="fiddle">#nav-selection svg path,#nav-selection svg rect {fill:#3D3590;stroke:#000000;stroke-width:4px;stroke-opacity:0.75;}$nav-selection svg circle{stroke:#3D3590}</style>
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -144,7 +152,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					<label for='theme-fgc'>Selection colour</label><input type='text' id='theme-fgc' name='navtext' value='#ffffff' class='jscolor {hash:true, onFineChange:"colourpreview(this)"}' onChange='colourpersist(this)' />
 					<label for='theme-hi'>Thumbnail</label><div id="theme-hi"></div>
 					<label for='theme-oc'>Off canvas menu</label><input type='checkbox' id='theme-oc' value='1' checked>
-					<label for='theme-font'>Font</label><div id="theme-font"></div>
+					<label for='font-picker'>Font</label><div id="font-picker"></div><input type='hidden' id='theme-font'>
 					<label for='theme-uc'>Uppercase text</label><input type='checkbox' id='theme-uc' value='1'>
 				</div>
 				<iframe frameborder='0' id='theme-preview' name='_theme-preview'></iframe>
@@ -353,7 +361,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.downloader.js"></script>
 <?php
 $p = realpath('./plugins');
-$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.js$/', RecursiveRegexIterator::GET_MATCH);
+$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates|FontPicker)\.js$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($plugins as $file) {
 	echo '<script src="plugins', substr($file[0], strlen($p)),'"></script>', PHP_EOL;
 }
