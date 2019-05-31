@@ -34,7 +34,8 @@ php ./importcss.php -icss/app.css -ocss/app.min.$TS.css
 echo "Minifying Scripts"
 
 # cherry pick all files with paths that are named plugin.js or templates.js, joined on one space-separated line with reference up so uglify can see out of the js folder
-PLUGINS=$(find . -print | egrep -i '(plugin|templates).js' | awk '{print}' ORS=' ' | sed 's/\.\//\.\.\//g')
+# to skip a file call it plugin.js.off or similar, so it doesn't end in .js
+PLUGINS=$(find . -print | egrep -i '(plugin|templates).js$' | awk '{print}' ORS=' ' | sed 's/\.\//\.\.\//g')
 
 # NOW go into the js folder
 cd js
