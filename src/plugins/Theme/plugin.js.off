@@ -6,6 +6,7 @@ function postToIframe(data,url,target){
     });
     $('#postToIframe').submit().remove();
 }
+
 $(function () {
 	var _options = $(".theme-preview-options"),
 		_iframe = $("#theme-preview"),
@@ -17,8 +18,9 @@ $(function () {
 			fgc: $("#theme-fgc").val(),
 			bgi: "", //$("#theme-bgi").dataset.src,
 			hi: "", //$("#theme-hi").dataset.src,
-			font: "",
+			font: $("#theme-font").val(),
 			menu: document.querySelector("#theme-oc").checked ? 1 : 0,
+			upper: document.querySelector("#theme-uc").checked ? 1 : 0,
 			name: $("#ocn").val(),
 			description: $("#ocd").val(),
 			copyright: $("#occ").val()
@@ -46,4 +48,13 @@ $(function () {
 		$dd.append($("option").val(key).text(obj[key].name));
 	});
 	$dd.trigger("change");
+
+	var fontPicker = new FontPicker('AIzaSyCXl4hBWUVgPAzklaSJRwrbz6StoF_LT_o', 'Open Sans', {
+		categories: ['sans-serif'],
+		sort: 'popularity'
+	}, function (e) {
+		$("#theme-font").val(e.family);
+		$dd.trigger("change");
+	});
+
 });

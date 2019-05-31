@@ -20,6 +20,7 @@ $bg_image = Lib::get("bgi");
 $h_image = Lib::get("hi");
 $font = Lib::get("font");
 $off_canvas = boolval(Lib::get("menu"));
+$ucase = boolval(Lib::get("upper"));
 $course_name = Lib::get("name", "Untitled Course");
 $course_desc = Lib::get("description", "This course was creaated by CourseAssembler");
 $course_copyright = Lib::get("copyright", "Your copyright statement.");
@@ -50,12 +51,16 @@ if ($theme = Lib::load_theme($theme_name)) {
 		"header_image" => $h_image,
 		"navtext" => $fg_colour,
 		"off_canvas" => $off_canvas,
+		"upper_case" => $ucase,
 		"background-image" => $bg_image,
 		"enough-count" => 10,
 		"rule" => "last",
 		"navlock" => 0,
 		"pages" => $nav
 	];
+	// $foo = clone (object) $data;
+	// unset($foo->embedded);
+	// var_dump($foo); exit;
 	echo Lib::render(implode(PHP_EOL, $html), $data);
 } else {
 	echo "¯\_(ツ)_/¯";
