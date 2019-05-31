@@ -1,5 +1,6 @@
 <?php
-defined("APP")?assert(1):die();
+ defined("APP")?assert(1):die();
+
 
 $css = " class='selected'";
 
@@ -11,7 +12,9 @@ if (!empty($api_template)) {
 // get a distinct list of folders, which are in the pattern Grouping_SentenceCaseName
 $designs = array_filter(glob(realpath(dirname(__FILE__)) . '/designs/*'), 'is_dir'); // [!_]*
 array_walk($designs, function($v) use (&$groupings) {
-	$groupings[] = basename($v);
+	if (substr(basename($v),0,1)!=="_") {
+		$groupings[] = basename($v);
+	}
 	// $group = explode('_', basename($v))[0];
 	// if (!in_array($group, $groupings)) $groupings[] = $group;
 });
