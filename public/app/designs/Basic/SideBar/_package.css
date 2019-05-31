@@ -53,7 +53,6 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 .dn-menu:before {
     content: "\e901";
 }
-body.active .dn-menu:before,
 .dn-menu-close:before {
     content: "\e900";
 }
@@ -160,20 +159,15 @@ body > aside > header {
     border-bottom: 1px solid rgba(255,255,255,.1);
     display: flex;
 }
-nav > footer {
-    font-size: 14px;
-    padding: 10px;
+aside footer {
+    font-size: 0.8rem;
     border-top: 1px solid rgba(255,255,255,.1);
 }
-nav > footer > p {
+aside footer p {
     margin: 0;
-    padding: 20px 10px;
+    padding: 10px;
 }
-.watermark {
-    padding; 0 10px;
-    color: rgba({{navtext}},.75);
-}
-.watermark a {
+aside footer a {
     color: inherit;
     text-decoration: underline;
 }
@@ -321,30 +315,49 @@ li.selected > div > a {
 }
 
 body > aside, body > main > div.iframe > iframe.over {
-z-index: 10;
+    z-index: 10;
 }
 body > main > div.iframe > iframe.under {
-z-index: 5;
+    z-index: 5;
 }
 @-webkit-keyframes fadeOut {
-0% {opacity: 1;}
-100% {opacity: 0;}
+    0% {opacity: 1;}
+    100% {opacity: 0;}
 }
 
 @keyframes fadeOut {
-0% {opacity: 1;}
-100% {opacity: 0;}
+    0% {opacity: 1;}
+    100% {opacity: 0;}
 }
 .fadeOut {
-z-index: 10; /* same as iframe.over */
--webkit-animation-name: fadeOut;
-animation-name: fadeOut;
--webkit-animation-duration: .1s; animation-duration: .1s;
--webkit-animation-fill-mode: both; animation-fill-mode: both;
+    z-index: 10; /* same as iframe.over */
+    -webkit-animation-name: fadeOut; animation-name: fadeOut;
+    -webkit-animation-duration: .25s; animation-duration: .25s;
+    -webkit-animation-fill-mode: both; animation-fill-mode: both;
+}
+
+body > main {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+body > main > div.iframe {
+    flex: 1;
+    position: relative;
+    background-color: white;
+    z-index: 1;
+}
+
+body > main > div.audio {
+    width: 100%;
+    height: 50px;
+    z-index: 2;
 }
 
 body > main > div.iframe > iframe {
     position: absolute;
     top: 0; left: 0;
-    width: 100%; height: 100%;
+    height: 100%; width: 100%;
 }

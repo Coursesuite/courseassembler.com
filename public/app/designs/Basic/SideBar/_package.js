@@ -97,7 +97,9 @@ function iframe(under) {
 	var over = under.previousElementSibling ? under.previousElementSibling : under.nextElementSibling ? under.nextElementSibling : null;
 	doOnce(over,animationEvent,reclassifyIframes); // triggered animation-end then removes event listener to prevent multiple binds over time
 	over.className = "fadeOut"; // starts animation
+	if (window._audio) window._audio.play();
 }
+
 function reclassifyIframes(el) {
 	var other = el.target.previousElementSibling ? el.target.previousElementSibling : el.target.nextElementSibling ? el.target.nextElementSibling : null;
 	other.className = "over"; // the element that was not faded becomes over, which cycles its z-index
@@ -106,10 +108,10 @@ function reclassifyIframes(el) {
 }
 
 function doOnce(element, eventType, callback) {
-  element.addEventListener(eventType, function(e) {
-    e.target.removeEventListener(e.type, arguments.callee);
-    return callback(e);
-  });
+	element.addEventListener(eventType, function(e) {
+		e.target.removeEventListener(e.type, arguments.callee);
+		return callback(e);
+	});
 }
 
 // find scorm API; getAPI() also sets _sAPI; apiHandle is the object reference
@@ -145,8 +147,8 @@ function toggle(event) {
 
 document.addEventListener("keydown", function (event) {
     switch (event.keyCode) {
-        case 37: left(); break;
-        case 39: right(); break;
+        case 37: event.preventDefault(); left(); break;
+        case 39: event.preventDefault(); right(); break;
     }
 });
 
@@ -175,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var liClass = (expandable == true) ? "parent":"";
 		html.push('<li class="' + liClass + '">');
 		html.push('<div>');
-		html.push('<a href="javascript:goto(' + i + ')">' + title + '</a>');
+		html.push('<a href="#" onclick="event.preventDefault();goto(' + i + ')">' + title + '</a>');
 		html.push('<span><i class="dn-incomplete"></i></span>');
 		html.push('</div>');
 		if (expandable == true) {
@@ -288,7 +290,30 @@ function load() {
     var ifr = document.querySelector("div.iframe>iframe.under");
 	ifr.setAttribute("onload","iframe(this)");
 	ifr.setAttribute("src", src);
-    // document.getElementById("content").setAttribute("src", src);
+	if (current_page.hasOwnProperty("audio")) {
+		if (!document.querySelector(".audio")) {
+			var div = document.createElement("div");
+			div.className = "audio";
+			document.querySelector("main").appendChild(div);
+			var node = document.createElement("audio");
+			node.controls = true;
+			div.appendChild(node);
+		}
+		if (window._audio === undefined) window._audio = new Plyr(document.querySelector("main>.audio>audio"),{
+			iconUrl: 'plyr.svg',
+			autoplay: false,
+			keyboard: {global:false,focused:false},
+			settings: []
+		});
+		window._audio.source = {
+			type:'audio',
+			sources:[{type:'audio/mp3',src:'data/'+current_page["audio"]}]
+		};
+	} else {
+		window._audio = undefined;
+		var audio = document.querySelector("main>.audio");
+		if (audio) audio.parentNode.removeChild(audio);
+	}
     [].forEach.call(document.querySelectorAll("#scroll li"), function (el,index) {
     	el.classList.remove("selected","open");
     	if (index===course.page) el.classList.add("selected");

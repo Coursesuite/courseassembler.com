@@ -2,12 +2,21 @@
 define("APP",true);
 include("load.php");
 
+foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*.json') as $json) {
+	$obj = json_decode(file_get_contents($json));
+	$themes[substr(basename($json), 0, -5)] = [
+		"name" => $obj->name,
+		"elements" => $obj->elements
+	];
+}
+
 $jsApp = new stdClass();
 $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
+$jsApp->Themes = [$themes];
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 	$jsApp->Publish = $verifier->api->publish;
 	$jsApp->Bearer = $verifier->api->bearer;
@@ -34,6 +43,14 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.1/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
+<?php
+$p = realpath('./plugins');
+$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|FontPicker)\.css$/', RecursiveRegexIterator::GET_MATCH);
+foreach ($plugins as $file) {
+	echo '<link href="plugins', substr($file[0], strlen($p)),'" rel="stylesheet" type="text/css">', PHP_EOL;
+}
+?>
+
 		<style id="fiddle">#nav-selection svg path,#nav-selection svg rect {fill:#3D3590;stroke:#000000;stroke-width:4px;stroke-opacity:0.75;}$nav-selection svg circle{stroke:#3D3590}</style>
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -123,6 +140,28 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 		<div id="preview"></div>
 	</section>
 
+<?php if ($settings["design"] === "dynamic") { ?>
+	<section id="change-settings">
+		<section id="nav-selection">
+			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
+			<form id="colours" class="w-80 m-lr-auto m-t-large"><input type="hidden" name="template">
+			<div class='theme-preview-container'>
+				<div class='theme-preview-options'>
+					<label for='theme-layout'>Base layout</label><select id="theme-layout"></select>
+					<label for='theme-bgc'>Background colour</label><input type='text' id='theme-bgc' name='navbg' value='#189082' class='jscolor {hash:true, onFineChange:"colourpreview(this)"}' onChange='colourpersist(this)' />
+					<label for='theme-bgi'>Background image</label><div id="theme-bgi"></div>
+					<label for='theme-fgc'>Selection colour</label><input type='text' id='theme-fgc' name='navtext' value='#ffffff' class='jscolor {hash:true, onFineChange:"colourpreview(this)"}' onChange='colourpersist(this)' />
+					<label for='theme-hi'>Thumbnail</label><div id="theme-hi"></div>
+					<label for='theme-oc'>Off canvas menu</label><input type='checkbox' id='theme-oc' value='1' checked>
+					<label for='font-picker'>Font</label><div id="font-picker"></div><input type='hidden' id='theme-font'>
+					<label for='theme-uc'>Uppercase text</label><input type='checkbox' id='theme-uc' value='1'>
+				</div>
+				<iframe frameborder='0' id='theme-preview' name='_theme-preview'></iframe>
+			</div>
+			</form>
+		</section>
+	</section>
+<?php } else { ?>
 	<section id="change-settings">
 		<section id="nav-selection">
 			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
@@ -131,6 +170,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			</form>
 		</section>
 	</section>
+<?php } ?>
 
 	<section id="download-zip">
 		<form id="settings" class="w-80 m-lr-auto m-t-large">
@@ -332,13 +372,12 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.downloader.js"></script>
 <?php
 $p = realpath('./plugins');
-$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.js$/', RecursiveRegexIterator::GET_MATCH);
+$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates|FontPicker)\.js$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($plugins as $file) {
 	echo '<script src="plugins', substr($file[0], strlen($p)),'"></script>', PHP_EOL;
 }
 ?>
 	<script src="js/app.core.js"></script>
-	<script src="js/app.plugin.page.js"></script>
 <?php } ?>
 
 	<?php } else { ?>
