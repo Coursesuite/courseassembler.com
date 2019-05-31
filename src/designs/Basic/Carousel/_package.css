@@ -177,6 +177,6 @@ z-index: 5;
 z-index: 10; /* same as iframe.over */
 -webkit-animation-name: fadeOut;
 animation-name: fadeOut;
--webkit-animation-duration: .1s; animation-duration: .1s;
+-webkit-animation-duration: .25s; animation-duration: .25s;
 -webkit-animation-fill-mode: both; animation-fill-mode: both;
 }
