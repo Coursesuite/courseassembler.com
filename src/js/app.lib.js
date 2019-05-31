@@ -987,7 +987,7 @@ function formatSeconds(seconds) {
 }
 
 function CancelThis(elem) {
-  // console.log("cancelthis", elem);
+  //  log("cancelthis", elem);
   $(elem).closest("li").remove();
   setItemOrder();
 }
@@ -1251,8 +1251,8 @@ function popover_useRecording(mp3) {
 }
 
 function renameNode(id, a) {
-	console.log("renameNode", id, a);
-	console.trace();
+	//console.log("renameNode", id, a);
+	//console.trace();
 	var p = a.parentNode,
 		text = a.textContent,
 		inp = document.createElement("input");

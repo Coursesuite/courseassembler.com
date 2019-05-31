@@ -652,8 +652,8 @@
 			if (e.target.nodeName === "INPUT") return;
 			var selected = document.querySelector("#nav-item-list>li.selected");
 			if (!selected) return;
-			DocNinja.options.keyCode = e.which;
-			console.log("Set keycode", DocNinja.options.keyCode);
+			//DocNinja.options.keyCode = e.which;
+			//console.log("Set keycode", DocNinja.options.keyCode);
 			switch (e.which) {
 				case 13: // enter
 					var n = $(selected).find("a[data-action='preview']");
