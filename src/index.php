@@ -140,6 +140,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 		<div id="preview"></div>
 	</section>
 
+<?php if ($settings["design"] === "dynamic") { ?>
 	<section id="change-settings">
 		<section id="nav-selection">
 			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
@@ -160,6 +161,16 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			</form>
 		</section>
 	</section>
+<?php } else { ?>
+	<section id="change-settings">
+		<section id="nav-selection">
+			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
+			<form id="colours" class="w-80 m-lr-auto m-t-large"><input type="hidden" name="template">
+			<?php include "tab.design.php"; ?>
+			</form>
+		</section>
+	</section>
+<?php } ?>
 
 	<section id="download-zip">
 		<form id="settings" class="w-80 m-lr-auto m-t-large">

@@ -12,3 +12,7 @@ putenv("HOME_URL=http://courseassembler.com.test/");
 require_once('../vendor/autoload.php');
 $verifier = (new CoursesuiteValidator(false,false))->Validate($_GET);
 $verifier->code->minified = false;
+
+$settings = [
+	"design" => "list",
+];
