@@ -208,12 +208,12 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					<legend>Completion</legend>
 					<div class="grid-h grid-2">
 						<label>
-							<input type="radio" name="rule" value="false" checked>
+							<input type="radio" name="rule" value="last" checked>
 							<?php include("img/last.svg"); ?>
 							<p>Learner views last page (<b class="count-total">10</b>)</p>
 						</label>
 						<label>
-							<input type="radio" name="rule" value="true" data-select="show-enough">
+							<input type="radio" name="rule" value="count" data-select="show-enough">
 							<?php include("img/seen.svg"); ?>
 							<p>Learner completes <select id="count-set" name="enough-count"><option>0</option></select> out of <b class="count-total">10</b> pages.</p>
 						</label>
