@@ -18,26 +18,37 @@
     	</fieldset>
 	</div>
 	<hr class="uk-divider-icon">
-	<h3 class="uk-margin-remove uk-legend">It's only (USD) $10 for 10 days</h3>
-	<p>That's the price of a morning coffee (and a donut). <b>You can make a <i>lot</i> of courses in 10 days</b>. A licence is good for so many days, then it stops working. Longer licences have better discounts.</p>
-	<div class="uk-button-group">
-	    <button href="#" data-fsc-item-path="course-assembler-10" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout"
-	    class="uk-button uk-button-primary">
-	    	<span>Buy Licence</span>
-	    </button>
-	    <div class="uk-inline">
-	        <button class="uk-button uk-button-default my-pricing" type="button"><span uk-icon="icon: triangle-down"></span> Show all pricing</button>
-	        <div uk-dropdown="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
-	            <ul class="uk-nav uk-dropdown-nav">
-	                <li class="uk-nav-header">Basic Pricing</li>
-	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price for 10 days" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout">$10 for 10 days</a></li>
-	                <li class="uk-nav-header">Bulk Discounts</li>
-	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-30" data-format="%price for 30 days" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout">$25 for 30 days</a></li>
-	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-60" data-format="%price for 60 days" data-fsc-item-path-value="course-assembler-60" data-fsc-action="Reset,Add,Checkout">$50 for 60 days</a></li>
-	                <li><a href="#" data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-365" data-format="%price for 365 days" data-fsc-item-path-value="course-assembler-365" data-fsc-action="Reset,Add,Checkout">$199 for 365 days</a></li>
-	            </ul>
-	        </div>
-	    </div>
-	</div>
+	<p>You need a licence to use this software: A licence is good for so many days, then it stops working. Buy only what you need, when you need.</p>
+	<table class="uk-table uk-table-small uk-table-divider uk-table-hover">
+	    <thead>
+	        <tr>
+	            <th>Licence</th>
+	            <th>Price</th>
+	            <th>Buy</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td>10 Days</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price" data-fsc-item-path-value="course-assembler-10">$10</td>
+	            <td><a href="#" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+	        </tr>
+	        <tr>
+	            <td>30 Days</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-30" data-format="%price" data-fsc-item-path-value="course-assembler-10">$25</td>
+	            <td><a href="#" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+	        </tr>
+	        <tr>
+	            <td>60 Days</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-60" data-format="%price" data-fsc-item-path-value="course-assembler-10">$50</td>
+	            <td><a href="#" data-fsc-item-path-value="course-assembler-60" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+	        </tr>
+	        <tr>
+	            <td>1 year</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-365" data-format="%price" data-fsc-item-path-value="course-assembler-10">$199</td>
+	            <td><a href="#" data-fsc-item-path-value="course-assembler-365" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+	        </tr>
+	    </tbody>
+	</table>
 
 </div>
