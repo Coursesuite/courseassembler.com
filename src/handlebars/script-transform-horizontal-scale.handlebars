@@ -1,19 +1,27 @@
-<script type="text/javascript" id="transformScaleCenter">
+<script type="text/javascript" id="transformHorizontalScale">
 (function (win, doc, undefined) {
-    function debounce(b,f,c){var a;return function(){var d=this,e=arguments,g=c&&!a;clearTimeout(a);a=setTimeout(function(){a=null;c||b.apply(d,e)},f);g&&b.apply(d,e)}};
     var node = doc.querySelector(".pf"),
-        w = parseInt(win.getComputedStyle(node,null).getPropertyValue("width"),10);
-    var scaleFn = function() {
-            var docWidth = (win.innerWidth || doc.body.clientWidth);
-            if (w > docWidth) {
-                var scale = docWidth / w;
-                [].forEach.call(doc.querySelectorAll(".pf"), function(el) {
-                    el.style.transform = "translate(-50%, 0%) " + "scale(" + scale + ") ";
-                });
-            }
-        },
-        scaleDown = debounce(scaleFn,20);
-    scaleFn();
-    win.addEventListener('resize', scaleDown);
+        w = parseInt(win.getComputedStyle(node,null).getPropertyValue("width"),10),
+        dw =  (win.innerWidth || doc.body.clientWidth),
+        scale = 1,
+        over = "auto",
+        pf = doc.querySelectorAll(".pf"),
+        container = doc.querySelector("#page-container");
+    function recalc() {
+        scale = 1;
+        dw = (win.innerWidth || doc.body.clientWidth);
+        if (w > dw) {
+            scale = dw / w;
+            over = "hidden";
+        } else {
+            over = "auto";
+        }
+        [].forEach.call(pf, function(el) {
+            el.style.transform = "translate(-50%, 0%) " + "scale(" + scale + ") ";
+        });
+        container.style.overflowX = over;
+    }
+    win.addEventListener('resize',recalc);
+    win.addEventListener('load',recalc);
 })(window, document);
 </script>

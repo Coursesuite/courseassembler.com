@@ -300,6 +300,7 @@
 				scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
 				sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
 				if (DocNinja.options.AUTOCENTER) {
+console.log("split presentation, applying transform scale center");
 					doc.querySelector("head").insertAdjacentHTML("beforeend", Handlebars.templates["style-transform-scale-center"]({backgroundColour:_pageBgColour}));
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale-center"]({}));
 				}
@@ -314,11 +315,24 @@
 // console.log("removing-style-stretch");
 						el.parentNode.removeChild(el);
 					}
-				})
-				if (!doc.querySelector("#transformScaleStretch") && !doc.querySelector('#transformScaleCenter')) { // only if we haven't already embedded one, which we might have for split presentations
-					var node = doc.querySelector("body");
-					node.insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
-// console.log("re-adding-style-stretch");
+				});
+				if (is_split && !doc.querySelector("transformHorizontalScale")) { // split = scale horizontally only
+console.log("split pdf, applying transform horizontal scale");
+					// remove previous attempts
+					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function(value) {
+						var elm = doc.querySelector(value);
+						if (elm) elm.parentNode.removeChild(elm);
+					});
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-horizontal-scale"]({}));
+					doc.querySelector("head").insertAdjacentHTML('beforeend', Handlebars.templates["style-transform-horizontal-scale"]({}));
+				} else if (!doc.querySelector("#transformScaleStretch")) { // unsplit = scale both and set negative margins
+console.log("non-split pdf, applying script transform scale");
+					// remove previous attempts
+					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function(value) {
+						var elm = doc.querySelector(value);
+						if (elm) elm.parentNode.removeChild(elm);
+					});
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
 				}
 			}
 
@@ -354,24 +368,30 @@
 
 			if (fileInfo.payload.html.indexOf("Created by pdf2htmlEX")!==-1) {
 
+				// remove generator meta tag & other junk nodes
 				var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
-				var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
 				doc.documentElement.innerHTML = fileInfo.payload.html;
 
-				// remove generator meta tag
-				node = doc.querySelector("meta[name='generator']");
-				node.parentNode.removeChild(node);
-
-				node = doc.querySelector("head");
-				var ss = doc.createElement("style");
-				ss.setAttribute("media","screen");
-				ss.setAttribute("type","text/css");
-				ss.setAttribute("id","pdf-bgmod");
-				ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:false,backgroundColour:_pageBgColour})));
-				node.appendChild(ss);
-
-				// return the modified document back to the payload
+				// remove junk nodes
+				// TODO: figure out a way to remove #sidebar, .loading-indicator,
+				[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
+					node.parentNode.removeChild(node);
+				});
+				// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
+				doc.querySelector(".loading-indicator>img").setAttribute("src","data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 				fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+
+				// mod the page background
+				var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
+				fileInfo = DocNinja.Page.ModifyPageBackgroundColour(fileInfo, _pageBgColour);
+
+				// node = doc.querySelector("head");
+				// var ss = doc.createElement("style");
+				// ss.setAttribute("media","screen");
+				// ss.setAttribute("type","text/css");
+				// ss.setAttribute("id","pdf-bgmod");
+				// ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:false,backgroundColour:_pageBgColour})));
+				// node.appendChild(ss);
 
 			}
 
@@ -384,12 +404,12 @@
 			if (typeof bgc === 'undefiend') bgc = null;
 
 			// lose all scripts, sidebar, loading indicator
-			var node = doc.querySelectorAll("head > script");
-			[].forEach.call(node, function (n) {
-				n.parentNode.removeChild(n);
-			});
-			node = doc.getElementById("sidebar"); if (node) node.parentNode.removeChild(node);
-			node = doc.querySelector(".loading-indicator"); if (node) node.parentNode.removeChild(node);
+			var node; //  = doc.querySelectorAll("head > script");
+			// [].forEach.call(node, function (n) {
+			// 	n.parentNode.removeChild(n);
+			// });
+			// node = doc.getElementById("sidebar"); if (node) node.parentNode.removeChild(node);
+			// node = doc.querySelector(".loading-indicator"); if (node) node.parentNode.removeChild(node);
 
 			// target all links to new windows
 			node = doc.querySelectorAll("a:not([target])");
@@ -399,14 +419,14 @@
 			});
 
 			// don't need scripts
-			[].forEach.call(doc.querySelectorAll("head > script"), function (node) {
-				node.parentNode.removeChild(node);
-			});
+			// [].forEach.call(doc.querySelectorAll("head > script"), function (node) {
+			// 	node.parentNode.removeChild(node);
+			// });
 
 			// don't need whatever this thing is
-			[].forEach.call(doc.querySelectorAll("div.pi"), function (node) {
-				node.parentNode.removeChild(node);
-			});
+			// [].forEach.call(doc.querySelectorAll("div.pi"), function (node) {
+			// 	node.parentNode.removeChild(node);
+			// });
 
 			// don't need fancy styles (the fade-in nonsense)
 			[].forEach.call(doc.querySelectorAll("style"), function (node) {
@@ -415,10 +435,10 @@
 				}
 			});
 
-			// remove bgmod and replace it with a modified version
-			node = doc.querySelector("#pdf-bgmod");
-			// console.log("remove pdf-bgmod", node);
-			if (node) node.parentNode.removeChild(node);
+			// remove excess junk, sidebar and loading indicator and bg-mod - not used in split documents
+			[].forEach.call(doc.querySelectorAll("meta[name='generator'], #sidebar, .loading-indicator, #pdf-bgmod, div.pi, head > script"), function (node) {
+				node.parentNode.removeChild(node);
+			});
 
 			node = doc.querySelector("head");
 			var ss = doc.createElement("style");
@@ -433,23 +453,24 @@
 		};
 
 		// InjectResizeScript
-		var colonist = function (fileInfo) {
+		// 20190605 - not used anymore in this way
+		// var colonist = function (fileInfo) {
 
-			var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
-			doc.documentElement.innerHTML = fileInfo.payload.html;
+		// 	var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
+		// 	doc.documentElement.innerHTML = fileInfo.payload.html;
 
-			// inject resize script, if we are a pdf
-			if ("pdf" === fileInfo.format || null !== doc.querySelector(".pf")) {
-				node = doc.querySelector("body");
-				node.insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
-			}
+		// 	// inject resize script, if we are a pdf
+		// 	if ("pdf" === fileInfo.format || null !== doc.querySelector(".pf")) {
+		// 		node = doc.querySelector("body");
+		// 		node.insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
+		// 	}
 
-			// return the modified document back to the payload
-			fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+		// 	// return the modified document back to the payload
+		// 	fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
 
-			return fileInfo;
+		// 	return fileInfo;
 
-		};
+		// };
 
 		// MayRequireJQuery
 		var anasazi = function(fold, obj, resource) {
@@ -487,7 +508,7 @@
 			Clean: talitha_cumi,
 			// ConvertZipForHtml: syndicate,
 			// ReImportNinjaFile: reImport,
-			InjectResizeScript: colonist,
+			// 20190605 InjectResizeScript: colonist,
 			CleanSplitPDF: smokingman,
 			Conversion: {
 				TextToHtml: _txt2html
