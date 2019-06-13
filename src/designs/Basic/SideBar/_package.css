@@ -53,6 +53,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 .dn-menu:before {
     content: "\e901";
 }
+body.active·.dn-menu:before,
 .dn-menu-close:before {
     content: "\e900";
 }

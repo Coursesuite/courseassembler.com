@@ -13,7 +13,7 @@ Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatche
 /* object-assign | (c) Sindre Sorhus | @license MIT */
 var i=Object.getOwnPropertySymbols,o=Object.prototype.hasOwnProperty,s=Object.prototype.propertyIsEnumerable;t.exports=function(){try{if(!Object.assign)return!1;var t=new String("abc");if(t[5]="de","5"===Object.getOwnPropertyNames(t)[0])return!1;for(var e={},n=0;n<10;n++)e["_"+String.fromCharCode(n)]=n;if("0123456789"!==Object.getOwnPropertyNames(e).map(function(t){return e[t]}).join(""))return!1;var r={};return"abcdefghijklmnopqrst".split("").forEach(function(t){r[t]=t}),"abcdefghijklmnopqrst"===Object.keys(Object.assign({},r)).join("")}catch(t){return!1}}()?Object.assign:function(t,e){for(var n,c,a=r(t),u=1;u<arguments.length;u++){n=Object(arguments[u]);for(var l in n)o.call(n,l)&&(a[l]=n[l]);if(i){c=i(n);for(var f=0;f<c.length;f++)s.call(n,c[f])&&(a[c[f]]=n[c[f]])}}return a}}]).default});
 
-/*! https://github.com/pieroxy/lz-string | wtfpl licence */
+/*! https://github.com/pieroxy/lz-string | mit licence */
 var LZString=function(){function x(a,g){if(!w[a]){w[a]={};for(var h=0;h<a.length;h++)w[a][a.charAt(h)]=h}return w[a][g]}var v=String.fromCharCode,w={},l={compressToBase64:function(a){if(null==a)return"";a=l._compress(a,6,function(a){return"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".charAt(a)});switch(a.length%4){default:case 0:return a;case 1:return a+"===";case 2:return a+"==";case 3:return a+"="}},decompressFromBase64:function(a){return null==a?"":""==a?null:l._decompress(a.length,
 32,function(g){return x("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",a.charAt(g))})},compressToUTF16:function(a){return null==a?"":l._compress(a,15,function(a){return v(a+32)})+" "},decompressFromUTF16:function(a){return null==a?"":""==a?null:l._decompress(a.length,16384,function(g){return a.charCodeAt(g)-32})},compressToUint8Array:function(a){a=l.compress(a);for(var g=new Uint8Array(2*a.length),h=0,c=a.length;h<c;h++){var p=a.charCodeAt(h);g[2*h]=p>>>8;g[2*h+1]=p%256}return g},
 decompressFromUint8Array:function(a){if(null===a||void 0===a)return l.decompress(a);for(var g=Array(a.length/2),h=0,c=g.length;h<c;h++)g[h]=256*a[2*h]+a[2*h+1];var p=[];g.forEach(function(a){p.push(v(a))});return l.decompress(p.join(""))},compressToEncodedURIComponent:function(a){return null==a?"":l._compress(a,6,function(a){return"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$".charAt(a)})},decompressFromEncodedURIComponent:function(a){if(null==a)return"";if(""==a)return null;
@@ -24,6 +24,15 @@ r&&f++}e=2;for(c=0;c<f;c++)b=b<<1|e&1,d==g-1?(d=0,k.push(h(b)),b=0):d++,e>>=1;fo
 for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;var e=v(n);break;case 1:n=0;q=Math.pow(2,16);for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;e=v(n);break;case 2:return""}u=c[3]=e;for(r.push(e);;){if(d>a)return"";n=0;q=Math.pow(2,m);for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;switch(e=n){case 0:n=0;q=Math.pow(2,8);for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;c[l++]=v(n);e=l-1;p--;break;case 1:n=0;q=Math.pow(2,16);
 for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;c[l++]=v(n);e=l-1;p--;break;case 2:return r.join("")}0==p&&(p=Math.pow(2,m),m++);if(c[e])e=c[e];else if(e===l)e=u+u.charAt(0);else return null;r.push(e);c[l++]=u+e.charAt(0);p--;u=e;0==p&&(p=Math.pow(2,m),m++)}}};return l}();
 "function"===typeof define&&define.amd?define(function(){return LZString}):"undefined"!==typeof module&&null!=module?module.exports=LZString:"undefined"!==typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});
+
+function resume() {
+	var data = getSuspendData();
+	return (data.length&&data.substr(0,3)==="lz;"?LZString.decompressFromUTF16(data.substr(3)):data);
+}
+function suspend(data) {
+	if (data.length>4090) data = "lz;" + LZString.compressToUTF16(data);
+	setSuspendData(data);
+}
 
 // global variables for scorm and the runtime
 var _sAPI=(parent&&parent!==self&&parent.ninjaApiProxy)?"API":"",_timeSessionStart=null,_timeout,_now,_unloaded=!1;
@@ -145,7 +154,7 @@ function toggle(event) {
 	document.body.classList.toggle("active");
 }
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", function keyListener(event) {
     switch (event.keyCode) {
         case 37: event.preventDefault(); left(); break;
         case 39: event.preventDefault(); right(); break;
@@ -153,7 +162,7 @@ document.addEventListener("keydown", function (event) {
 });
 
 // initialise on page load
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
 	document.body.classList.remove("active");
 
@@ -166,9 +175,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     scormCommit();
 
     if (!isFirstLaunch()) {
-    	var _suspend = LZString.decompressFromUTF16(getSuspendData());
+    	var _suspend = resume();
     	if (_suspend !== null && isJSON(_suspend)) {
-    		for (var d=JSON.parse(_suspend),n=0,l=d.length,r,p;n<l,r=d[n];n++) { p=findInJson(pages,"index",r.i); p["completed"]=r.c; p["timeSpent"]=r.t; p["userdata"]=r.u; }
+    		for (var d=JSON.parse(_suspend),n=0,l=d.length,r,p;n<l,r=d[n];n++) {
+    			p = findInJson(pages,"index",r.i);
+    			p["completed"]=r.c;
+    			p["timeSpent"]=r.t;
+    			p["userdata"]=r.u;
+    		}
     	}
     }
 
@@ -216,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  		this._completed = bool;
 	  		if (this._throttle) clearTimeout(this._throttle);
 	  		this._throttle = setTimeout(checkCourseCompletion,99,true);
+// console.log("page completed set", this);
 	  	}
 	  });
       Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
@@ -347,6 +362,7 @@ function checkCourseCompletion() {
         pagelength = Object.keys(pages).length,
         menu = document.getElementById("menu"),
     	setComplete = function() {
+// console.trace();
 	        if (!course.completed) {
 	            learnerWillReturn(false);
 	            if ("API_1484_11"==_sAPI) setPassFail("passed");
@@ -373,9 +389,11 @@ function checkCourseCompletion() {
         course.completed = true; //  bypass setComplete (reset score)
     }
 
-    if (course.rule == "last") {
-        if (pages[pagelength-1].completed == true) setComplete();
-    } else if (course.rule == "count") {
+// console.log("checkCourseCompletion", course, `passed=${passed}`, pages);
+
+    if (course.rule === "last") {
+        if (pages[pagelength-1].completed === true) setComplete();
+    } else if (course.rule === "count") {
         if (passed >= course.required) setComplete();
     }
     course.score = Math.round((passed / pagelength) * 100);
@@ -384,8 +402,14 @@ function checkCourseCompletion() {
     setScore(course.score/100);
 
     // persist and compress suspend data now
-    for (var i=0,j=pages.length,_suspend=[];i<j;i++) _suspend.push({i:pages[i].index,c:pages[i].completed?1:0,t:pages[i].timeSpent,u:pages[i].userdata});
-    setSuspendData(LZString.compressToUTF16(JSON.stringify(_suspend)));
+    for (var i=0,j=pages.length,_suspend=[];i<j;i++)
+    	_suspend.push({
+    		i:pages[i].index,
+    		c:pages[i].completed?1:0,
+    		t:pages[i].timeSpent,
+    		u:pages[i].userdata
+    	});
+    suspend(JSON.stringify(_suspend));
 
 }
 
