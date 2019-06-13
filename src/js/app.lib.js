@@ -1061,6 +1061,13 @@ function handlePopover(tgt) {
 			$("input[data-action='toggle-no-autosplit']").prop("checked", DocNinja.options.AUTOSPLIT);
 			$("input[data-action='toggle-no-autoresize']").prop("checked", DocNinja.options.AUTOOPTIMISE);
 			$("input[data-action='toggle-no-autocenter']").prop("checked", DocNinja.options.AUTOCENTER);
+			break;
+
+		case "page-layout":
+			$("input[value='left']").prop("checked", tgt.dataset.value === "left");
+			$("input[value='center']").prop("checked", tgt.dataset.value === "center");
+			break;
+
 		break;
 	}
 	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
@@ -1247,6 +1254,18 @@ function popover_useRecording(mp3) {
 		closePopover();
 		localforage.setItem(id, obj);
 		if (updated) window.setItemOrder();
+	});
+}
+
+function popover_setLayout(position) {
+	var id = DocNinja.filePreview.CurrentFile();
+	localforage.getItem(id).then(function (obj) {
+		obj = DocNinja.Page.ModifyDocumentCentering(obj, position);
+		closePopover();
+		var a = document.createElement("a"); a.setAttribute("file-id", id);
+		DocNinja.filePreview.Preview(a);
+		a = null;
+		localforage.setItem(id, obj);
 	});
 }
 

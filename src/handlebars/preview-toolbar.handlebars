@@ -27,7 +27,9 @@
 	{{else}}
 {{!--
 		we will eventually allow a layout button for reapplying different centering scripts to the content that supports it such as images, pdf
-		<button data-popover="layout" data-label="Layout options" data-value="{{payload.layout}}"><i class="ninja-layout"></i>Layout</button>
+	{{#if payload.split}}
+		<button data-fileid="{{id}}" data-action="page-layout" data-popover="layout" data-label="Layout options" data-value="{{payload.layout}}"><i class="ninja-layout"></i>Layout</button>
+	{{/if}}
 --}}
 	{{/compare}}
 

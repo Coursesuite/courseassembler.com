@@ -104,22 +104,22 @@
 <section>
 	<fieldset class="radio-panel">
 		<legend>Alignment</legend>
-		<div class="grid-h grid-3">
+		<div class="grid-h grid-2">
 			<label>
-				<input type="radio" name="alignment" value="left" checked>
+				<input type="radio" name="alignment" value="left" checked data-action='set-layout' onclick='popover_setLayout(this.value)'>
 				<i class="ninja-format_align_left"></i>
-				<p>Align to top-left</p>
+				<p>Left</p>
 			</label>
 			<label>
-				<input type="radio" name="alignment" value="center">
-				<i class="ninja-format_align_left"></i>
-				<p>Align top centre</p>
+				<input type="radio" name="alignment" value="center" data-action='set-layout' onclick='popover_setLayout(this.value)'>
+				<i class="ninja-format_align_center"></i>
+				<p>Centre</p>
 			</label>
-			<label>
+{{!--			<label>
 				<input type="radio" name="alignment" value="justify">
 				<i class="ninja-format_align_justify"></i>
 				<p>Fill</p>
-			</label>
+			</label> --}}
 		</div>
 	</fieldset>
 </section>
