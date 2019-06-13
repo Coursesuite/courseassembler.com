@@ -503,7 +503,7 @@ templates['style-pdf-bgmod'] = template({"1":function(container,depth0,helpers,p
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.split : depth0),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 templates['style-transform-horizontal-scale'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<style id=\"styleTransformHorizontalScale\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, 0%);\n	transform-style: flat;\n	transform-origin: top center 0px;\n	position: absolute;\n	top: 0%;\n	left: 50%;\n}\n</style>";
+    return "<style id=\"styleTransformScaleCenter\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, 0%);\n	transform-style: flat;\n	transform-origin: top center 0px;\n	position: absolute;\n	top: 0%;\n	left: 50%;\n}\n</style>";
 },"useData":true});
 templates['style-transform-scale-center'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<style id=\"styleTransformScaleCenter\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, -50%);\n	transform-style: flat;\n	transform-origin: center center 0px;\n	position: absolute;\n	top: 50%;\n	left: 50%;\n}\n</style>";
