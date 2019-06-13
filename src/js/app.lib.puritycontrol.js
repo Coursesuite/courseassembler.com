@@ -300,6 +300,7 @@
 				scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
 				sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
 				if (DocNinja.options.AUTOCENTER) {
+console.log("split presentation, applying transform scale center");
 					doc.querySelector("head").insertAdjacentHTML("beforeend", Handlebars.templates["style-transform-scale-center"]({backgroundColour:_pageBgColour}));
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale-center"]({}));
 				}
@@ -314,11 +315,24 @@
 // console.log("removing-style-stretch");
 						el.parentNode.removeChild(el);
 					}
-				})
-				if (!doc.querySelector("#transformScaleStretch") && !doc.querySelector('#transformScaleCenter')) { // only if we haven't already embedded one, which we might have for split presentations
-					var node = doc.querySelector("body");
-					node.insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
-// console.log("re-adding-style-stretch");
+				});
+				if (is_split && !doc.querySelector("transformHorizontalScale")) { // split = scale horizontally only
+console.log("split pdf, applying transform horizontal scale");
+					// remove previous attempts
+					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function(value) {
+						var elm = doc.querySelector(value);
+						if (elm) elm.parentNode.removeChild(elm);
+					});
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-horizontal-scale"]({}));
+					doc.querySelector("head").insertAdjacentHTML('beforeend', Handlebars.templates["style-transform-horizontal-scale"]({}));
+				} else if (!doc.querySelector("#transformScaleStretch")) { // unsplit = scale both and set negative margins
+console.log("non-split pdf, applying script transform scale");
+					// remove previous attempts
+					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function(value) {
+						var elm = doc.querySelector(value);
+						if (elm) elm.parentNode.removeChild(elm);
+					});
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
 				}
 			}
 
