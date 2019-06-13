@@ -222,11 +222,23 @@
 	window.checkCounters = checkCounters;
 
 	//  go through various forms and serialize them; return everything combined
+	// do basic type conversion and value patching when completion setting is set to "last"
 	window.gatherSettings = function () {
-		var data = [];
+		var data = [],
+			patch_count = false;
 		$.each($("form").serializeArray(), function (idx, value, ar) {
+			if ($.isNumeric(value.value)) value.value = parseFloat(value.value);
+			if (value.value === "false") value.value = false;
+			if (value.value === "true") value.value = true;
+			if (value.name === "rule" && value.value === "last") patch_count = true;
 			data.push(value);
 		});
+		if (patch_count) {
+			for (prop in data) {
+				if (data[prop].name === "enough-count")
+					data[prop].value = document.querySelectorAll('#count-set>option').length;
+			}
+		}
 		// $(".settings-panel").each(function(index, node) {
 		// 	$.each($(node).closest("form").serializeArray(), function (idx, value, ar) {
 		// 		data.push(value);
