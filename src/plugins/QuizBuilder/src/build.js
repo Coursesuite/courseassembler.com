@@ -1,6 +1,6 @@
 var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0],_userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]")),_page_index=qs[1];
 
-// mjohn resig's micro javascript template
+// john resig's micro javascript template
 (function(){
   var cache = {};
   this.tmpl = function tmpl(str, data){
@@ -125,7 +125,7 @@ function initQB(userdata, quiz) {
 	emitStatus({
 		index:_page_index,
 		status:'init', // ialise,
-		userdata:JSON.stringify(userdata),
+		userdata:userdata,
 		score:0,
 		required:quiz.required
 	});
@@ -287,6 +287,7 @@ function initQB(userdata, quiz) {
 						required:quiz.required
 					});
 
+					// this is just for the preview within courseassembler
 					if (window.location.href.indexOf("blob") === -1) {
 						window.location.href=[window.location.origin,window.location.pathname,"?%5B%5D,",_page_index].join("");
 					}
@@ -299,7 +300,7 @@ function initQB(userdata, quiz) {
 		emitStatus({
 			index:_page_index, // index in player
 			status:'term', // inate
-			userdata:JSON.stringify(userdata),
+			userdata:userdata,
 			score:score,
 			required:quiz.required
 		});
@@ -422,7 +423,7 @@ function initQB(userdata, quiz) {
 				emitStatus({
 					index:_page_index, // index in player
 					status:'answer',
-					userdata:JSON.stringify(userdata),
+					userdata:userdata,
 					score:calculateScore(),
 					required:quiz.required
 				});
@@ -431,7 +432,11 @@ function initQB(userdata, quiz) {
 	}
 
 	// start
-	render(0);
+	if (quiz_finished()) {
+		endquiz();
+	} else {
+		render(0);
+	}
 
 };
 

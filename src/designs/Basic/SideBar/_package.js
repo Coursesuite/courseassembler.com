@@ -106,14 +106,14 @@ function iframe(under) {
 	var over = under.previousElementSibling ? under.previousElementSibling : under.nextElementSibling ? under.nextElementSibling : null;
 	doOnce(over,animationEvent,reclassifyIframes); // triggered animation-end then removes event listener to prevent multiple binds over time
 	over.className = "fadeOut"; // starts animation
-	if (window._audio) window._audio.play();
 }
 
 function reclassifyIframes(el) {
 	var other = el.target.previousElementSibling ? el.target.previousElementSibling : el.target.nextElementSibling ? el.target.nextElementSibling : null;
 	other.className = "over"; // the element that was not faded becomes over, which cycles its z-index
 	el.target.className = "under"; // the element that faded out becomes under for next time
-	el.target.removeAttribute('src');
+	setTimeout(function(){el.target.removeAttribute('src')},99); // kill off the hidden frame to free up memory
+	if (window._audio) window._audio.play(); // play audio after the fadeout effect
 }
 
 function doOnce(element, eventType, callback) {
@@ -298,7 +298,7 @@ function load() {
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
 	if (current_page.content === "plugin") {
-		src = current_page.href + "?" + [escape(current_page.userdata || []),course.page].join(",");
+		src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
     _now = (new Date).getTime() / 1000;
