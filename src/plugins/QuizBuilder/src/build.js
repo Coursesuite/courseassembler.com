@@ -1,5 +1,6 @@
 var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0],_userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]")),_page_index=qs[1];
 
+// mjohn resig's micro javascript template
 (function(){
   var cache = {};
   this.tmpl = function tmpl(str, data){
@@ -43,13 +44,14 @@ Array.prototype.find = Array.prototype.find || function(callback) {
 
 // dispatch a browser event
 function emitStatus(status) {
-	console.dir(status);
+	// console.dir(status);
 	parent.dispatchEvent(new CustomEvent("statuschange", {detail: status}));
 }
 
 // fischer-yates algorithm
 function shuffle(a){for(var b=a.length-1;0<b;b--){var c=Math.floor(Math.random()*(b+1)),_ref=[a[c],a[b]];a[b]=_ref[0],a[c]=_ref[1]}}
 
+// a quiz question is either a radio (single choice) or checkbox (multiple choice)
 function get_control_type(question, l,f) {
 	// the number of bits is implied by the question.required
 	l = Math.floor(Math.log(question.required)/Math.LN2)+1;
@@ -85,22 +87,31 @@ function initQB(userdata, quiz) {
 				a.required = ((q.required & Math.pow(2,b)) > 0); // xor, e.g. (3 xor 2^index)>0
 				return a;
 			}), dest =[];
+
 			if (q.show < q.distractors.length) { // must randomise
+
+				// randomise the source distractor list
 				shuffle(source)
+
+				// ensure the correct answers fall in the set of possible distractors
 				for (var i=0; i < source.length; i++) {
 					if (source[i].required === true) {
 						dest.push(source[i].index);
 					}
 				}
 
+				// fill remaining space with distractors
 				for (var i=dest.length; dest.length < q.show; i++) {
-					if (dest.indexOf(source[i].index) === -1) { // fill remaining space with distractors
+					if (dest.indexOf(source[i].index) === -1) {
 						dest.push(source[i].index);
 					}
 				}
 
+				// randomise the final distractor order
 				shuffle(dest);
-			} else {
+
+			} else { // just show all distractors in natural order
+
 				for (var i=0; i < source.length; i++) {
 					dest.push(source[i].index);
 				}
@@ -134,8 +145,8 @@ function initQB(userdata, quiz) {
 			q.locked = (quiz.feedback==="answer" && val>0); // TODO: confirm lock logic
 		for (var i=0; i<ud.length; i++) {
 			var d = qd[ud[i]];
-			d.value = Math.pow(2,ud[i]); // the value of the distractor which represents its position in the
-			if ((val & d.value) > 0) d.checked = true;
+			d.value = Math.pow(2,ud[i]); // the value of the distractor; add the checked values together and compare to the required answer (no partial marking)
+			if ((val & d.value) > 0) d.checked = true; // bitwise and, e.g. 0101 & 1101 = 0101
 			nd.push(d);
 		}
 		q.distractors = nd; // overwrite with updated distractor list, in presentation order
@@ -344,9 +355,12 @@ function initQB(userdata, quiz) {
 		}
 
 		// record which distractor(s) the user has clicked
+		// set n in ["q1",n,[0,2,1]]
 		document.querySelector(".answers").addEventListener("change", function (e) {
 			var slot = userdata.find(function (record) { return (questions[page].uid === record[0]); });
-			slot[1] = (e.target.getAttribute("type") === "radio") ? +e.target.value : [].reduce.call(document.querySelectorAll("div.answers :checked"), function(a,b) { return a + +b.value; }, 0);
+			slot[1] = (e.target.getAttribute("type") === "radio") ? +e.target.value : [].reduce.call(document.querySelectorAll("div.answers :checked"), function(a,b) {
+				return a + +b.value; // a plus (cast b's value as int or zero if empty)
+			}, 0);
 		}, false);
 
 		var next = document.querySelector("div.actions a[href='#next']"),
@@ -388,6 +402,7 @@ function initQB(userdata, quiz) {
 				e.preventDefault();
 				var question = questions[+e.target.closest(".actions").dataset.index]; //page instead?
 				if (question.locked) return;
+
 				question.answer = [].reduce.call(document.querySelectorAll("div.answers input"), function (accum, curr) {
 					var value = +curr.value,
 						checked = curr.checked;
