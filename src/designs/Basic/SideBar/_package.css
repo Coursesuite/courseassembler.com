@@ -95,6 +95,7 @@ body.active·.dn-menu:before,
 body {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 body > main {
     flex: 1;
@@ -114,6 +115,10 @@ body > aside {
     display: none;
     flex-direction: column;
     min-height: 100vh;
+    position: relative;
+}
+body > aside:not(.mini) a[title='Hide menu'] {
+    font-size: 24px;
 }
 body > aside.mini {
     display: flex;
@@ -125,9 +130,13 @@ body > aside.mini {
 body > aside.mini > a:first-of-type {
     position: absolute;
     top: 10px;
+    left: 8px;
+    font-size: 24px;
+}
+body > aside.mini > a {
+    font-size: 24px;
 }
 body > aside.mini > a:not(:first-of-type) {
-    font-size: 24px;
     margin: 5px 0;
 }
 body.active > aside {

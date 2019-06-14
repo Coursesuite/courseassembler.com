@@ -4,6 +4,8 @@ d.createElement(a);return'c("'+a+'")'})+");return n}")(e,d)}function h(a){var c;
 m=/^<|^(?:a|b|button|code|div|fieldset|form|h1|h2|h3|h4|h5|h6|i|iframe|img|input|label|li|link|ol|option|p|param|q|script|select|span|strong|style|table|tbody|td|textarea|tfoot|th|thead|tr|ul)$/i,i,j;(function(){var a=b.createElement("a");a.innerHTML="<xyz></xyz>";i="hidden"in a;if(!(a=1==a.childNodes.length))a:{try{b.createElement("a")}catch(c){a=!0;break a}a=b.createDocumentFragment();a="undefined"==typeof a.cloneNode||"undefined"==typeof a.createDocumentFragment||"undefined"==typeof a.createElement}j=
 a})();var e={elements:d.elements||"abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video",shivCSS:!1!==d.shivCSS,shivMethods:!1!==d.shivMethods,type:"default",shivDocument:h};g.html5=e;h(b)})(this,document);
 
+(function(){function b(b,a){a=a||{bubbles:!1,cancelable:!1,detail:void 0};var c=document.createEvent("CustomEvent");c.initCustomEvent(b,a.bubbles,a.cancelable,a.detail);return c}if("function"===typeof window.CustomEvent)return!1;b.prototype=window.Event.prototype;window.CustomEvent=b})();
+
 Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);Element.prototype.closest||(Element.prototype.closest=function(b){var a=this;if(!document.documentElement.contains(a))return null;do{if(a.matches(b))return a;a=a.parentElement}while(null!==a);return null});
 
 /* SimpleBar.js - v2.5.1 | https://grsmto.github.io/simplebar/ | Under MIT License */
