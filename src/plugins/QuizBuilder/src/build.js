@@ -239,27 +239,30 @@ function initQB(userdata, quiz) {
 		return finished;
 	}
 
+	// Check each question and set nav feedback
+	function eval_quiz() {
+		[].forEach.call(document.querySelector("nav").children, function (node, page) {
+			if (node.getAttribute("href") === "#results") return;
+			var question = questions[page],
+				answer = userdata.find(function (record) {
+					return (question.uid === record[0]);
+				})[1];
+			question.locked = true;
+			question.answer = answer;
+			node.classList.add(question.answer===0?"none":question.answer===question.required ? "positive":"negative");
+		});
+	}
+
 	function endquiz() {
 		var check = userdata.reduce(function(a,b) {return a + (b[1]>0?1:0)}, 0); // (number of answered pages) userdata might have loaded with answers already, so is more authoritative
 		if (quiz_finished() === false) {
-			var alert = ((quiz.feedback === "false" || quiz.feedback === "complete") && check==questions.length) ? "Do you want to finish the quiz?" : "You haven't answered all the questions. Do you want to finish the quiz?";
+			var alert = (check==questions.length) ? "Do you want to finish the quiz?" : "You haven't answered all the questions. Do you want to finish the quiz?"; //(quiz.feedback === "false" || quiz.feedback === "complete") && 
 			if(!window.confirm(alert)) {
 				var node=document.querySelector("nav>a.active"), i = [].indexOf.call(node.parentNode.children, node); // find selected node index
 				return render(i);
 			}
 		}
-		if (quiz.feedback === "complete") {
-			[].forEach.call(document.querySelector("nav").children, function (node, page) {
-				if (node.getAttribute("href") === "#results") return;
-				var question = questions[page],
-					answer = userdata.find(function (record) {
-						return (question.uid === record[0]);
-					})[1];
-				question.locked = true;
-				question.answer = answer;
-				node.classList.add(question.answer===0?"none":question.answer===question.required ? "positive":"negative");
-			});
-		}
+		eval_quiz();
 		[].forEach.call(document.querySelector("nav").children, function (node, index) {
 			node.classList[node.getAttribute("href") === "#results" ? "add" : "remove"]("active");
 		});
