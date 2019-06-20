@@ -169,7 +169,8 @@
 
 			/* when you recolour a page using the colour picker overlay */
 			ModifyPageBackgroundColour: function (obj, colour) {
-				var doc = document.implementation.createHTMLDocument(obj.name);
+				var doc = document.implementation.createHTMLDocument(obj.name),
+					split = obj.payload.hasOwnProperty("split") && obj.payload.split || false;
 				doc.documentElement.innerHTML = obj.payload.html;
 				var bgmod = doc.getElementById("pdf-bgmod"),
 					node = doc.querySelector("head"),
@@ -178,7 +179,7 @@
 				ss.setAttribute("media","screen");
 				ss.setAttribute("type","text/css");
 				ss.setAttribute("id","pdf-bgmod");
-				ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:true,backgroundColour:colour})));
+				ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:split,backgroundColour:colour})));
 				node.appendChild(ss);
 				obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
 				obj.payload.backgroundColour = colour;
@@ -220,19 +221,6 @@
 					_getDominantColour(fileid, doc)
 					.then(function (res) {
 						DocNinja.Page.ModifyPageBackgroundColour(obj, res.colour);
-						// obj.payload.backgroundColour = res.colour;
-						// var bgmod = doc.getElementById("pdf-bgmod"),
-						// 	node = doc.querySelector("head"),
-						// 	ss = doc.createElement("style");
-						// if (bgmod) bgmod.parentNode.removeChild(bgmod);
-						// ss.setAttribute("media","screen");
-						// ss.setAttribute("type","text/css");
-						// ss.setAttribute("id","pdf-bgmod");
-						// ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:true,backgroundColour:obj.payload.backgroundColour})));
-						// node.appendChild(ss);
-
-						// obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
-
 						// store (for the first time) the split payload
 						localforage.setItem(res.id, obj).then(function(val){
 							val.id = fileid;
@@ -241,6 +229,34 @@
 					});
 				});
 			},
+
+			// override the positioning control of a document (left, auto-center)
+			ModifyDocumentCentering: function (obj, position) {
+				if (typeof position === "undefined") position = "left";
+				if (!obj.payload.hasOwnProperty("split")) return obj; // don't modify non-split documents
+
+				var doc = document.implementation.createHTMLDocument("foo"),
+					pagetype = obj.src&&obj.src.fetch&&obj.src.fetch.kind ? obj.src.fetch.kind : obj.type?obj.type:"";
+				doc.documentElement.innerHTML = obj.payload.html;
+
+				[].forEach.call(document.querySelectorAll("#styleTransformScaleCenter, #transformScaleStretch, #transformHorizontalScale"), function(node) {
+					node.parentNode.removeChild(node);
+				});
+
+				delete obj.payload.layout;
+				if (position === "center") {
+					obj.payload.layout = position;
+					doc.querySelector("head").insertAdjacentHTML("beforeend", Handlebars.templates["style-transform-scale-center"]({backgroundColour:obj.payload.backgroundColour}));
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale-center"]({}));
+				} else if (position === "left") {
+					obj.payload.layout = position;
+					doc.querySelector("head").insertAdjacentHTML("beforeend", Handlebars.templates["style-transform-horizontal-scale"]({backgroundColour:obj.payload.backgroundColour}));
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-horizontal-scale"]({}));
+				}
+				obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+				return obj;
+			},
+
 			Split: function(node, obj) {
 				return new Promise(function(splitResolve, splitReject) {
 
