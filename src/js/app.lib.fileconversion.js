@@ -139,7 +139,7 @@
 								fileinfo = {
 									payload: { html: xhr.responseText },
 									format: initialOutputFormat,
-									name: data.name.trimExtn(),
+									name: (data.website) ? data.name : data.name.trimExtn(),
 									kind: "file",
 									type: data.type,
 									src: data.src || {}
@@ -288,17 +288,14 @@
 
 				case "url":
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
-					DocNinja.Plugins.Oembed(raw, liElem).then(function(obj) {
-						if (obj.ready) {
-							_success(liElem, obj.result);
-						} else {
-							_performConversion(obj.result);
-						}
-					}).catch(function(error) {
-						console.dir(error);
-						_failure(liElem, "Url was not understood, not found, or was private.");
-					})
-					// _convertURL(raw, liElem)
+					fileinfo = {
+						name: raw.url.split('://')[1].split('/')[0],
+						url: raw.url,
+						website: true,
+						kind: "website",
+						fileId: this_fileid,
+					};
+					_performConversion(fileinfo);
 					break;
 
 				case "audio":
