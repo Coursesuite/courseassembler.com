@@ -115,7 +115,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			</div>
 			<div>
 				<a href="https://forms.gle/Pe7Sy1SB7CPJ2QcJ9" target="_blank"><button style="background-color: mediumseagreen;">Usage Survey</button></a>
-				<button data-action="pop-help" data-url="docs/"><i class="ninja-help"></i>Documentation</button>
+				<button data-action="pop-help" data-url="/docs"><i class="ninja-help"></i>Documentation</button>
 				<button data-action="toggle-settings" data-popover="settings" data-label="App settings"><i class="ninja-fiddle"></i>Settings</button>
 				<button data-action="clear-storage" data-popover="yesno" data-label="Reset all settings and content? (no undo)"><i class="ninja-stand-by"></i>Reset</button>
 			</div>
