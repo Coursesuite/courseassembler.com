@@ -140,6 +140,8 @@ body > header {
     height: 2px;
     overflow: hidden;
     cursor: pointer;
+    transition: height .3s ease;
+    background-color: var(--edgeDark);
 }
 
 body > header:hover {
@@ -151,6 +153,7 @@ header .info {
     padding: var(--iconMargin);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: var(--backgroundColor);
     color: var(--textColor);
     margin-top: 2px; /* height of progress graph */
@@ -165,7 +168,6 @@ body > header a {
 }
 
 .progress {
-    background-color: white;
     position: relative;
 }
 #progressgraph {
@@ -175,6 +177,7 @@ body > header a {
     transition: width .3s ease;
     background-color: var(--backgroundColor);
 }
+
 
 body > section.content {
     flex: 1;
