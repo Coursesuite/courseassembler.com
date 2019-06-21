@@ -58,6 +58,7 @@
 		};
 
 		_performConversion = function (data) {
+			console.log(data);
 			var initialOutputFormat = "html",
 				// simpleHtml = 0,
 				CLOUD_CONVERT_APIKEY = atob("OHB4VDBESFJFNWxwY1Z6aWxkclBvRWJ6dEw5cmM1RXM4OXhHMGluY1VmUE5COTNMTFp1ZUVyN3pUSzdQVHVabWNWMWhYa1JNSVRiaGpTLVUxTm5uelE=");
@@ -139,7 +140,7 @@
 								fileinfo = {
 									payload: { html: xhr.responseText },
 									format: initialOutputFormat,
-									name: data.name.trimExtn(),
+									name: (data.website) ? data.name : data.name.trimExtn(),
 									kind: "file",
 									type: data.type,
 									src: data.src || {}
@@ -218,7 +219,6 @@
 			if (subtype === "x-markdown") kind = "application"; // so it gets converted
 
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
-
 			switch (kind) {
 				case "dropbox":
 					liElem.setAttribute("data-converted","false");
@@ -288,17 +288,20 @@
 
 				case "url":
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
-					DocNinja.Plugins.Oembed(raw, liElem).then(function(obj) {
-						if (obj.ready) {
-							_success(liElem, obj.result);
-						} else {
-							_performConversion(obj.result);
-						}
-					}).catch(function(error) {
-						console.dir(error);
-						_failure(liElem, "Url was not understood, not found, or was private.");
-					})
-					// _convertURL(raw, liElem)
+					if (raw.url.indexOf("slideshare") !== -1) {
+						DocNinja.Plugins.Oembed(raw, liElem).then(function(data) {
+							_success(liElem, data.result);
+						});
+					} else {
+						fileinfo = {
+							name: raw.url.split('://')[1].split('/')[0],
+							url: raw.url,
+							website: true,
+							kind: "website",
+							fileId: this_fileid,
+						};
+						_performConversion(fileinfo);
+					}
 					break;
 
 				case "audio":

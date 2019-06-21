@@ -196,7 +196,9 @@ var QuizBuilder = (function () {
 		$("#distractorsFoot").addEventListener("click",function(e){ if(e.target.id==="addDistractor"){
 			var len = document.querySelectorAll("#distractors>tbody>tr").length;
 			$("#distractors>tbody").appendChild(QuizBuilder.Questions.Distractors.Add({required:0}, len));
-			$("#distractor_show").max = len+1;
+      var dshow = $("#distractor_show");
+      dshow.max = len+1;
+      if (dshow.value > dshow.max) dshow.value = dshow.max;
 		}},false);
 
 		$(".question-actions").addEventListener("click", function (e) {
