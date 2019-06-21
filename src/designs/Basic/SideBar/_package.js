@@ -36,17 +36,18 @@ for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;c[l++]=v(n);
 /* https://github.com/whitecube/swipy | MIT Licence */
 !function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("swipyjs",[],t):"object"==typeof exports?exports.swipyjs=t():e.swipyjs=t()}("undefined"!=typeof self?self:this,function(){return function(e){var t={};function __webpack_require__(i){if(t[i])return t[i].exports;var n=t[i]={i:i,l:!1,exports:{}};return e[i].call(n.exports,n,n.exports,__webpack_require__),n.l=!0,n.exports}return __webpack_require__.m=e,__webpack_require__.c=t,__webpack_require__.d=function(e,t,i){__webpack_require__.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:i})},__webpack_require__.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return __webpack_require__.d(t,"a",t),t},__webpack_require__.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},__webpack_require__.p="/",__webpack_require__(__webpack_require__.s=0)}([function(e,t,i){e.exports=i(1)},function(e,t,i){"use strict";function _defineProperties(e,t){for(var i=0;i<t.length;i++){var n=t[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}Object.defineProperty(t,"__esModule",{value:!0}),i.d(t,"default",function(){return n});var n=function(){function Swipy(e){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,Swipy),this.root=e,this.events=this.getDefaultEvents(),this.touch=this.getDefaultTouches(),this.bind()}var e,t,i;return e=Swipy,(t=[{key:"on",value:function(e,t){if(void 0!==this.events[e])return this.events[e].push(t),this;console.error('Swipy - Event "'+e+'" is undefined.')}},{key:"trigger",value:function(e,t){if(void 0!==this.events[e]){for(var i=0;i<this.events[e].length;i++)this.events[e][i](t,this.touch);this.touch=this.getDefaultTouches()}else console.error('Swipy - Unable to call undefined "'+e+'" event.')}},{key:"bind",value:function(){var e;this.root.addEventListener("touchstart",(e=this,function(t){e.handleTouchStart(t)}),!1),this.root.addEventListener("touchmove",function(e){return function(t){e.handleTouchMove(t)}}(this),!1)}},{key:"unbind",value:function(){var e;this.root.removeEventListener("touchstart",(e=this,function(t){e.handleTouchStart(t)})),this.root.removeEventListener("touchmove",function(e){return function(t){e.handleTouchMove(t)}}(this))}},{key:"getDefaultEvents",value:function(){return{swipetop:[],swiperight:[],swipebottom:[],swipeleft:[]}}},{key:"getDefaultTouches",value:function(){return{down:{x:null,y:null},up:{x:null,y:null},diff:{x:null,y:null}}}},{key:"handleTouchStart",value:function(e){this.touch.down.x=e.touches[0].clientX,this.touch.down.y=e.touches[0].clientY}},{key:"handleTouchMove",value:function(e){if(this.touch.down.x&&this.touch.down.y)return this.touch.up.x=e.touches[0].clientX,this.touch.up.y=e.touches[0].clientY,this.touch.diff.x=this.touch.down.x-this.touch.up.x,this.touch.diff.y=this.touch.down.y-this.touch.up.y,Math.abs(this.touch.diff.x)>Math.abs(this.touch.diff.y)?this.touch.diff.x>0?this.trigger("swipeleft",e):this.trigger("swiperight",e):this.touch.diff.y>0?this.trigger("swipetop",e):this.trigger("swipebottom",e)}}])&&_defineProperties(e.prototype,t),i&&_defineProperties(e,i),Swipy}()}])});
 
+// global variables for scorm and the runtime
+var _sAPI=(parent&&parent!==self&&parent.ninjaApiProxy)?"API":"",_timeSessionStart=null,_timeout,_now,_unloaded=!1;
+
 function resume() {
 	var data = getSuspendData();
 	return (data.length&&data.substr(0,3)==="lz;"?LZString.decompressFromUTF16(data.substr(3)):data);
 }
+
 function suspend(data) {
 	if (data.length>4090) data = "lz;" + LZString.compressToUTF16(data);
 	setSuspendData(data);
 }
-
-// global variables for scorm and the runtime
-var _sAPI=(parent&&parent!==self&&parent.ninjaApiProxy)?"API":"",_timeSessionStart=null,_timeout,_now,_unloaded=!1;
 
 // scorm 1.2 / 2004 common runtime / utils
 function learnerWillReturn(a){"API_1484_11"==_sAPI?a?scormSetValue("cmi.exit","suspend"):scormSetValue("cmi.exit","normal"):"API"==_sAPI&&(a?scormSetValue("cmi.core.exit","suspend"):scormSetValue("cmi.core.exit",""))}
@@ -127,6 +128,7 @@ function reclassifyIframes(el) {
 	if (window._audio) window._audio.play(); // play audio after the fadeout effect
 }
 
+// self unbinding event listener
 function doOnce(element, eventType, callback) {
 	element.addEventListener(eventType, function(e) {
 		e.target.removeEventListener(e.type, arguments.callee);
@@ -138,7 +140,7 @@ function doOnce(element, eventType, callback) {
 var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI();
 scormInitialize();
 
-// clamping
+// clamping (constraining a number to a boundary)
 Math.clip = function(n,i,x){return Math.max(i,Math.min(n,x));}
 
 // public method called by body unload event(s)
@@ -161,10 +163,12 @@ function right() {
     goto(course.page+1);
 }
 
+// adds or removes an "active" class on the body, usually to trigger css changes
 function toggle(event) {
 	document.body.classList.toggle("active");
 }
 
+// register keypresses to cause navigation
 document.addEventListener("keydown", function keyListener(event) {
     switch (event.keyCode) {
         case 37: event.preventDefault(); left(); break;
@@ -172,6 +176,16 @@ document.addEventListener("keydown", function keyListener(event) {
     }
 });
 
+// register touch-drags to cause navigation
+var swipy = new Swipy(document.body);
+swipy.on('swipeleft',function(event,touches) {
+	right(); // pull to the left means I want to see next
+});
+swipy.on('swiperight',function(event,touches) {
+	left(); // pull to the right means I want to see previous
+})
+
+// toggle going into or coming out of full-screen
 function fullscreen() {
 	if (screenfull.isFullscreen) {
 		[].forEach.call(document.querySelectorAll(".ca-minimize"), function(el) {
@@ -188,7 +202,7 @@ function fullscreen() {
 	}
 }
 
-// make sure css vars load in IE
+// make sure css vars load in IE (cssvars ponyfill)
 cssVars({
   include: 'link[rel=stylesheet]',
   onlyLegacy: true
@@ -212,14 +226,15 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     	if (_suspend !== null && isJSON(_suspend)) {
     		for (var d=JSON.parse(_suspend),n=0,l=d.length,r,p;n<l,r=d[n];n++) {
     			p = findInJson(pages,"index",r.i);
-    			p._completed = (r.c===1); // need to set the underlying property
-    			//p["completed"]=(r.c===1);
-    			p["timeSpent"]=r.t;
-    			p["userdata"]=r.u;
+    			p._completed = (r.c===1); // need to set the underlying property, ensure its boolean
+    			p["timeSpent"]=r.t; // number
+    			p["userdata"]=r.u; // array
     		}
     	}
     }
 
+    // return html that builds one li node
+    // as this process may return unclosed tags, we can't use createElement
     function li(i,title,expandable) {
 		var html = [];
 		var liClass = (expandable == true) ? "parent":"";
@@ -236,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		return html.join("");
     }
 
-    // nested list with icons
+    // nested list / menu from a flat array
     var menu = [];
     for (var i=0;i<pages.length;i++) {
       var p = pages[i],
@@ -255,6 +270,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
       if (r) {
         menu.push(li(i,p.title,false));
       }
+
+      // setting a completed property on this node should trigger a course completion check
 	  Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
 	  	enumerable: true,
 	  	get: function () {
@@ -266,6 +283,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 	  		this._throttle = setTimeout(checkCourseCompletion,99,true);
 	  	}
 	  });
+
+	  // setting a status on this node might need to update other properties
       Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
       	enumerable: true,
 		get: function () {
@@ -298,7 +317,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 	    }
 	  });
     }
-    document.getElementById("menu").innerHTML = menu.join("");
+    var node = document.getElementById("menu");
+    if (node) node.innerHTML = menu.join("");
 
 	if (!screenfull.enabled) {
 		[].forEach.call(document.querySelectorAll("a[href='javascript:fullscreen()']"),function(el) {
@@ -360,6 +380,7 @@ function load() {
 			keyboard: {global:false,focused:false},
 			settings: ['speed','loop']
 		});
+
 		window._audio.source = {
 			type:'audio',
 			sources:[{type:'audio/mp3',src:'data/'+current_page["audio"]}]
@@ -373,15 +394,38 @@ function load() {
     	el.classList.remove("selected","open");
     	if (index===course.page) el.classList.add("selected");
     });
-    var li = document.querySelector("#scroll li.selected"),
-    	pli = li.parentNode.closest("li");
-    if (pli) pli.classList.add("open");
-    if (li.querySelector("ol")) li.classList.add("open");
-    document.getElementById("pagenumber").textContent = course.page+1;
+    var li = document.querySelector("#scroll li.selected");
+    if (li) {
+    	var pli = li.parentNode.closest("li");
+	    if (pli) pli.classList.add("open");
+	    if (li.querySelector("ol")) li.classList.add("open");
+	}
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
+    showCurrentPageNumber();
+    showCompleltionGraph();
+    showCurrentPageTitle();
     if (["media","plugin"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
     checkCourseCompletion();
     checkNavigation();
+}
+
+function showCurrentPageTitle() {
+	var n = document.getElementById("pagetitle");
+	if (n) n.textContent = pages[course.page].title;
+}
+
+function showCompleltionGraph() {
+	var n = document.getElementById("progressgraph");
+	if (!n) return;
+	var pc = Math.min(100,Math.ceil((course.page / (pages.length - 1)) * 100));
+	n.style.width = pc + "%";
+}
+
+function showCurrentPageNumber() {
+	var n = document.getElementById("pagenumber"),
+		o = document.getElementById("pagetotal");
+	if (n) n.textContent = course.page +1;
+	if (o) o.textContent = pages.length;
 }
 
 // increment time spent on a page
@@ -420,7 +464,7 @@ function checkCourseCompletion() {
         if (pages[i].timeSpent > pages[i].score) pages[i]._completed = true;  // !! set underlying property value to avoid recursion
         if (pages[i].completed) {
             passed++;
-            menu.querySelectorAll("li")[i].classList.add("completed");
+            if (menu) menu.querySelectorAll("li")[i].classList.add("completed");
         }
     }
 
