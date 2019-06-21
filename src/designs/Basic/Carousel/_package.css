@@ -138,6 +138,30 @@ body {
 
 body > header {
     height: 2px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+body > header:hover {
+    height: calc(var(--iconSize) + 1em);
+}
+
+header .info {
+    font-size: var(--iconSize);
+    padding: var(--iconMargin);
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
+    margin-top: 2px; /* height of progress graph */
+}
+header .info .small {
+    font-size: 0.8rem;
+}
+
+body > header a {
+    text-decoration: underline !important;
+    color: inherit;
 }
 
 .progress {
