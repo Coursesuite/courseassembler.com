@@ -389,6 +389,7 @@ function load() {
 	ifr.setAttribute("onload","iframe(this)");
 	ifr.setAttribute("src", src);
 	if (current_page.hasOwnProperty("audio")) {
+		document.body.classList.add("has-audio");
 		if (!document.querySelector(".audio")) {
 			var div = document.createElement("div");
 			div.className = "audio";
@@ -409,6 +410,7 @@ function load() {
 			sources:[{type:'audio/mp3',src:'data/'+current_page["audio"]}]
 		};
 	} else {
+		document.body.classList.remove("has-audio");
 		window._audio = undefined;
 		var audio = document.querySelector("main>.audio");
 		if (audio) audio.parentNode.removeChild(audio);
