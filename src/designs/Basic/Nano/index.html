@@ -1,35 +1,42 @@
 <!doctype html>
     <head>
         <title>{{option-course-name}}</title>
+        <meta charset="utf-8">
         <meta name="title" content="{{option-course-name}}" />
         <meta name="description" content="{{option-course-description}}" />
         <meta name="copyright" content="{{option-course-copyright}}" />
         <meta name="timestamp" content="{{timestamp}}" />
-        <meta name="author" content="http://document.scormification.ninja/" />
-        <meta charset="utf-8">
+        <meta name="author" content="https://www.courseassembler.com" />
         <link rel="stylesheet" type="text/css" href="_package.css">
-        <script crossorigin="anonymous" href="https://polyfill.io/v3/polyfill.min.js"></script>
+        {{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
+        <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
         <script type="text/javascript">
-        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
+        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
+            pages = {{{json pages}}};
         </script>
         <script type="text/javascript" src="_package.js"></script>
+        {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         {{{analytics-code}}}
     </head>
     <body onunload="doUnload()" onbeforeunload="doUnload()">
-        <main>
-            <div class="iframe">
-                <iframe seamless frameborder="0" class="under"></iframe>
-                <iframe seamless frameborder="0" class="over"></iframe>
+        <header>
+            <div class="progress"><div id="progressgraph"></div></div>
+            <div class="info">
+                <div id="pagetitle"></div>
+                <div class="small">Created using <a href="http://www.courseassembler.com" target="_blank">Course Assembler</a>.</div>
             </div>
-        </main>
-        {{#compare tier "<" 2}}<footer class="watermark">
-            <div>Created using <a href="http://documentninja.coursesuite.ninja" target="_blank">CourseSuite Course Assembler</a>.</div>
-        </footer>{{/compare}}
-        <nav id="nav">
-            <a href="javascript:left();" id="lb"><i class="dn-slide-precede"></i></a>
-            <span id="pageNumber"></span>
-            <a href="javascript:right();" id="rb"><i class="dn-slide-advance"></i></a>
-        </nav>
-        <div id="progress"><div></div></div>
+        </header>
+        <section class="content">
+            <div class="iframe">
+                <iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                <iframe seamless frameborder="0" class="over" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+            </div>
+            <nav>
+                <a href="javascript:left()" id="lb" title="Go to the previous page"><i class="ca-arrow-left"></i></a>
+                <div class="small">Page <span id="pagenumber"></span> of <span id="pagetotal"></span></div>
+                <a href="javascript:fullscreen();" title="Toggle fullscreen"><i class="ca-maximize"></i></a>
+                <a href="javascript:right()" id="rb" title="Go to the next page"><i class="ca-arrow-right"></i></a>
+            </nav>
+        </section>
     </body>
 </html>
