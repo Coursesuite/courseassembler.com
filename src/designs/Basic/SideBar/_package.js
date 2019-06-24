@@ -336,6 +336,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 					this.completed = true;
 				}
 			}
+			showCompletionGraph();
 	    }
 	  });
     }
@@ -426,7 +427,6 @@ function load() {
 	}
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showCurrentPageNumber();
-    showCompleltionGraph();
     showCurrentPageTitle();
     if (["media","plugin"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
     checkCourseCompletion();
@@ -438,8 +438,16 @@ function showCurrentPageTitle() {
 	if (n) n.textContent = pages[course.page].title;
 }
 
-function showCompleltionGraph() {
-	var n, pc = Math.min(100,Math.ceil((course.page / (pages.length - 1)) * 100));
+function showCompletionGraph() {
+	function amount(item) {
+		return item.completed ? 1 : 0;
+	}
+	function sum(prev, next) {
+		return prev + next;
+	}
+	var n,
+		compl = pages.map(amount).reduce(sum),
+		pc = Math.min(100,Math.ceil((compl / (pages.length - 1)) * 100));
 
 	n = document.getElementById("progressgraph");
 	if (n) n.style.width = pc + "%";
@@ -447,6 +455,7 @@ function showCompleltionGraph() {
 	n = document.getElementById("progressnumber");
 	if (n) n.textContent = pc;
 }
+
 
 function showCurrentPageNumber() {
 	var n = document.getElementById("pagenumber"),
