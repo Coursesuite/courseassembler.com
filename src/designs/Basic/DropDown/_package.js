@@ -522,8 +522,8 @@ function checkCourseCompletion() {
 function checkNavigation() {
 	var n = (course.page===Object.keys(pages).length-1), rb = document.querySelector('#rb'),
 		p = (0===course.page), lb = document.querySelector('#lb');
-	if (n) { rb.setAttribute("disabled",true)}else{rb.removeAttribute("disabled")}
-	if (p) { lb.setAttribute("disabled",true)}else{lb.removeAttribute("disabled")}
+	if (n && rb) { rb.setAttribute("disabled",true)}else if (rb) {rb.removeAttribute("disabled")}
+	if (p && lb) { lb.setAttribute("disabled",true)}else if (lb){lb.removeAttribute("disabled")}
 }
 
 // DEPRECIATED: sets the time spent on a page and checks to see if this causes a completion
