@@ -58,7 +58,6 @@
 		};
 
 		_performConversion = function (data) {
-			console.log(data);
 			var initialOutputFormat = "html",
 				// simpleHtml = 0,
 				CLOUD_CONVERT_APIKEY = atob("OHB4VDBESFJFNWxwY1Z6aWxkclBvRWJ6dEw5cmM1RXM4OXhHMGluY1VmUE5COTNMTFp1ZUVyN3pUSzdQVHVabWNWMWhYa1JNSVRiaGpTLVUxTm5uelE=");
@@ -117,10 +116,7 @@
 			var xhr = new XMLHttpRequest(); // ie10+
 			xhr.open('POST', 'https://api.cloudconvert.com/convert?' + qs, true);
 			xhr.onload = function() {
-
 				if (xhr.status == 200) {
-
-					// console.log("xhr",xhr);
 					if (initialOutputFormat == "pdf") {
 
 						// NOW we have to do it again, except to HTML this time
@@ -288,11 +284,14 @@
 
 				case "url":
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
-					if (raw.url.indexOf("slideshare") !== -1) {
-						DocNinja.Plugins.Oembed(raw, liElem).then(function(data) {
+					DocNinja.Plugins.Oembed(raw, liElem).then(function(data) {
+						if (!data.result.payload) {
+							_performConversion(data.result);
+						} else {
 							_success(liElem, data.result);
-						});
-					} else {
+						}
+					}).catch(function(er) {
+						console.log(er);
 						fileinfo = {
 							name: raw.url.split('://')[1].split('/')[0],
 							url: raw.url,
@@ -301,7 +300,7 @@
 							fileId: this_fileid,
 						};
 						_performConversion(fileinfo);
-					}
+					});
 					break;
 
 				case "audio":

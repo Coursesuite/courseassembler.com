@@ -377,6 +377,21 @@ console.log("non-split pdf, applying script transform scale");
 				[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
 					node.parentNode.removeChild(node);
 				});
+				// Replace inserted youtube with embeded (only for presentations)
+				if (fileInfo.src.indexOf('docs.google.com/document') === -1) {
+					[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
+						if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
+							var embedLink = node.href.replace('watch?v=','embed/');
+							var iframe = doc.createElement('iframe');
+							var div = node.querySelector('div');
+							iframe.src = embedLink;
+							iframe.style = div.style.cssText;
+							iframe.classList = div.classList;
+							node.parentNode.appendChild(iframe);
+							node.parentNode.removeChild(node);
+						}
+					});
+				}
 				// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
 				doc.querySelector(".loading-indicator>img").setAttribute("src","data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 				fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;

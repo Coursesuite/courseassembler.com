@@ -106,7 +106,7 @@
 						break;
 					case "spreadsheets":
 					case "document":
-						url += "export?format=html";
+						url += "export?format=pdf";
 						break;
 					default:
 						reject("Unknown Google document (perhaps it was not sharable?)");
@@ -121,6 +121,7 @@
 						extn: "pdf",
 						type: Mime.get("pdf"),
 						fileId: node.getAttribute("data-fileid"),
+						website: false,
 						filename: fileinfo.name + ".pdf", // not important, but cloudconvert needs a filename when it isn't handed a blob
 					}
 				});
