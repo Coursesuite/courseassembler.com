@@ -9,49 +9,46 @@
         <meta name="author" content="https://www.courseassembler.com/" />
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="_package.css">
+        {{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
         <script crossorigin="anonymous" href="https://polyfill.io/v3/polyfill.min.js"></script>
         <script type="text/javascript">
-        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} }, pages = {{{json pages}}};
+        var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
+            pages = {{{json pages}}};
         </script>
         <script type="text/javascript" src="_package.js"></script>
+        {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         {{{analytics-code}}}
     </head>
     <body onunload="doUnload()" onbeforeunload="doUnload()">
+        <nav>
+            <div class="precede"><a href="javascript:left();" id="lb"><i class="ca-arrow-left"></i></a></div>
+            <div class="menu"><a href="javascript:toggle();"><i class="ca-menu"></i></a></div>
+            <div id="pagetitle"></div>
+            <div class="zoom"><a href="javascript:fullscreen();" title="Toggle fullscreen"><i class="ca-maximize"></i></a></div>
+            <div class="advance"><a href="javascript:right();" id="rb"><i class="ca-arrow-right"></i></a></div>
+        </nav>
         <main>
-            <nav>
-                <div class="precede">
-                    <a href="javascript:left();" id="lb"><i class="dn-nav-precede"></i></a>
-                </div>
-                <div class="menu">
-                    <a href="javascript:toggle();"><i class="dn-menu"></i></a>
-                </div>
-                <div id="pageTitle">
-
-                </div>
-                <div class="advance">
-                    <a href="javascript:right();" id="rb"><i class="dn-nav-advance"></i></a>
-                </div>
-            </nav>
             <div class="iframe">
                 <iframe seamless frameborder="0" class="under"></iframe>
                 <iframe seamless frameborder="0" class="over"></iframe>
             </div>
         </main>
-
-        <script type="text/html" id="popup">
         <aside>
             <header>
-                <h1>{{{option-course-name}}}</h1>
+                <div class="title">
+                    <h1>{{option-course-name}}</h1>
+                </div>
             </header>
-            <nav id="scroll" data-simplebar>
+            <nav id="scroll" data-simplebar class="flex-1">
                 <ol id="menu"></ol>
-                <footer>
-                    <p>{{{option-course-copyright}}}</p>
-                    {{#compare tier "<" 2}}<p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">CourseSuite Course Assembler</a>.</p>{{/compare}}
-                </footer>
             </nav>
+            <footer>
+                <div>
+                    {{#if option-course-copyright}}<p>{{option-course-copyright}}</p>{{/if}}
+                    <p class="watermark">Created using <a href="http://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>
+                </div>
+            </footer>
         </aside>
-        </script>
-
     </body>
+
 </html>

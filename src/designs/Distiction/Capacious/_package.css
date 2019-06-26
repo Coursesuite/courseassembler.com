@@ -1,0 +1,490 @@
+/* ===============================================================================
+    css normalise
+================================================================================== */
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}body{margin:0;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;margin:0.67em 0;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:bold;}dfn{font-style:italic;}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em;}pre{white-space:pre-wrap;}q{quotes:"\201C" "\201D" "\2018" "\2019";}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-0.5em;}sub{bottom:-0.25em;}img{border:0;}svg:not(:root){overflow:hidden;}figure{margin:0;}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em;}legend{border:0;padding:0;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,select{text-transform:none;}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer;}button[disabled],html input[disabled]{cursor:default;}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+/* ------------------------------------------------------------------------------- */
+
+
+/* ===============================================================================
+    icons /embedded fonts
+================================================================================== */
+
+@font-face {
+  font-family: 'course-assembler';
+  src:
+    url('data:font/opentype;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMghi/7UAAAC8AAAAYGNtYXDSYtLuAAABHAAAAGxnYXNwAAAAEAAAAYgAAAAIZ2x5ZqmBQSIAAAGQAAAKeGhlYWQTeoKPAAAMCAAAADZoaGVhA98B8wAADEAAAAAkaG10eB8BAH0AAAxkAAAASGxvY2EWOBNqAAAMrAAAACZtYXhwABcAUQAADNQAAAAgbmFtZbvH7lcAAAz0AAAB8nBvc3QAAwAAAAAO6AAAACAAAwHvAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpEAHg/+AAIAHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAUAAAABAAEAADAAAAAQAg6QTpBukO6RD//f//AAAAAAAg6QDpBukI6RD//f//AAH/4xcEFwMXAhcBAAMAAQAAAAAAAAAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAACACsAAAHVAasAJgBNAAABBwYUFxYyPwEVFBYzMjY9ATQmNS4BJzgBMS4BJy4BKwEiBhUUFjMDNzY0JyYiDwE1NCYjIgYdARQWFR4BFzgBMR4BMx4BOwEyNjU0JiMBjXEHBwYSBnEMCQkMAQECAgEEAgIEAoAJDAwJzXEHBwYSBnEMCQkMAQECAgEEAgIEAoAJDAwJAYBxBhIGBgZxTQgNDQiAAwQCAQQBAgIBAQENCQgN/qtxBhIGBgZxTAkNDQmAAgQCAgMCAQMBAQ0ICQ0AAgAxAAYBzwGkACYATgAAATc2NCcmIg8BNTQmIyIGHQEUFhceARc4ATEeARcyFjsBMjY1NCYjATcVFBYzMjY9ATQmJy4BJzgBMS4BIy4BKwEiBhUUFjsBBwYUFxYyNwFecQYGBhIGcQ0ICQ0BAQECAgEEAQIEA4AIDQ0I/qRxDQgJDQEBAQICAQQBAgQDgAgNDQhNcQYGBhIGARVxBxEGBwdxTQkMDAmAAgQCAgQBAgIBAQwJCQz+8XFMCQ0NCYACBAICAwIBAwEBDQgJDXEGEgYGBgACABL/+AH9AeYABQAwAAA/ARc3FwE3FAYHBgcGIicmJyYnJjQ3Njc+ATM1IgYHBgcGFBcWFxYXFjI3Njc+ATUjZjRM5DP+6eccHx4mJU8mJh0eDw8PDx4cSiYxXSUlExMTEyUmLy9iLy8lJSUw5jRN5DT+6YAoSx8dDw8PDx0eJiZOJiYeHR41JSUlMC9jLzAlJhMSEhMmJF8yAAACABL/+AHuAdQAGwA3AAABJicmIgcGBwYHBhQXFhcWFxYyNzY3Njc+AScmAwYHBiInJicmJyY0NzY3Njc2MhcWFxYXFhQHBgG2Ji8wYjAvJiUTExMTJSYvL2IvLyUnExMBExNJHiYlTyYmHR4PDw8PHh0mJk8lJh4eDw4ODwGcJhITExImJTAvYy8wJSYTEhITJiUwL2MvMP7dHQ8PDw8dHiYmTiYmHh4ODw8OHh4lJk4mJgADAAD/5gIAAeYAHQA7AEMAAAUiJy4BJyY1NDc+ATc2MzEyFx4BFxYVFAcOAQcGIzUyNz4BNzY1NCcuAScmIzEiBw4BBwYVFBceARcWMyc1MxUzByczAQA1Ly5GFBQUFEYuLzU1Ly5GFBQUFEYuLzUqJiU4EBAQEDglJioqJiU4EBAQEDglJiozZk2AgE0aFRRFLy41NS8vRRQUFBRFLy81NS4vRRQVNBAQNyYlKislJTgQEBAQOCUlKyolJjcQEMyAgICAAAAAAAMAAP/mAgAB5gAdADwARAAANzQ3PgE3NjMyFx4BFxYVMRQHDgEHBiMiJy4BJyY1MxQXHgEXFjMyNz4BNzY1MTQnLgEnJiMiBw4BBwYVMTczFSMVJzcVABQURi4vNTUvLkYUFBQURi4vNTUvLkYUFDMQEDglJioqJiU4EBAQEDglJioqJiU4EBDNgICAgOY1Ly9FFBQUFEUvLzU1Li9FFBUVFEUvLjUqJSY3EBAQEDcmJSorJSU4EBAQEDglJSs0Z02AgEwAAAAAAwAA/+YCAAHmAB0AOwBDAAAlFAcOAQcGIyInLgEnJjUxNDc+ATc2MzIXHgEXFhUlIgcOAQcGFRQXHgEXFjMxMjc+ATc2NTQnLgEnJiMDJzcXNxcHJwIAFBRGLi81NS8uRhQUFBRGLi81NS8uRhQU/wAqJiU4EBAQEDglJioqJiU4EBAQEDglJioSWyRJSCVtEuY1Li9FFBUVFEUvLjU1Ly9FFBQUFEUvLzXNEBA4JSUrKiUmNxAQEBA3JiUqKyUlOBAQ/vJbJEhIJG0SAAAAAAMAAP/mAgAB5gAdADsAQwAABSInLgEnJjU0Nz4BNzYzMTIXHgEXFhUUBw4BBwYjEzQnLgEnJiMiBw4BBwYVMRQXHgEXFjMyNz4BNzY1JTcXBxcHJzcBADUvLkYUFBQURi4vNTUvLkYUFBQURi4vNc0QEDglJioqJiU4EBAQEDglJioqJiU4EBD+8lskSEgkbRIaFRRFLy41NS8vRRQUFBRFLy81NS4vRRQVAQArJSU4EBAQEDglJSsqJSY3EBAQEDcmJSoSWyRJSCRsEgAAAAADAAD/5gIAAeYAHQA8AEMAAAEyFx4BFxYVFAcOAQcGIzEiJy4BJyY1NDc+ATc2MwMUFx4BFxYzMjc+ATc2NTE0Jy4BJyYjIgcOAQcGFTEFByc3JzcXAQA1Ly5GFBQUFEYuLzU1Ly5GFBQUFEYuLzXNEBA4JSYqKiYlOBAQEBA4JSYqKiYlOBAQAQ5bJEhHI20B5hQURS8vNTUuL0UUFRUURS8uNTUvL0UUFP8AKiUmNxAQEBA3JiUqKyUlOBAQEBA4JSUrElokSEkkbQADAAD/5gIAAeYAHQA7AEIAADc0Nz4BNzYzMhceARcWFTEUBw4BBwYjIicuAScmNQUyNz4BNzY1NCcuAScmIzEiBw4BBwYVFBceARcWMxMXBycHJzcAFBRGLi81NS8uRhQUFBRGLi81NS8uRhQUAQAqJiU4EBAQEDglJioqJiU4EBAQEDglJioSWyRJSCVt5jUvL0UUFBQURS8vNTUuL0UUFRUURS8uNcwQEDcmJSorJSU4EBAQEDglJSsqJSY3EBABDVokSEgkbAAAAAADAAD/5gIAAeYAHQA7AEIAACUUBw4BBwYjIicuAScmNTE0Nz4BNzYzMhceARcWFSM0Jy4BJyYjIgcOAQcGFTEUFx4BFxYzMjc+ATc2NQcjNTM1FwcCABQURi4vNTUvLkYUFBQURi4vNTUvLkYUFDMQEDglJioqJiU4EBAQEDglJioqJiU4EBDNgICAgOY1Li9FFBUVFEUvLjU1Ly9FFBQUFEUvLzUrJSU4EBAQEDglJSsqJSY3EBAQEDcmJSozZ0yAgAAAAwAA/+YCAAHmAB0AOwBCAAABMhceARcWFRQHDgEHBiMxIicuAScmNTQ3PgE3NjMVIgcOAQcGFRQXHgEXFjMxMjc+ATc2NTQnLgEnJiMXFSM1IzcXAQA1Ly5GFBQUFEYuLzU1Ly5GFBQUFEYuLzUqJiU4EBAQEDglJioqJiU4EBAQEDglJiozZk2AgAHmFBRFLy81NS4vRRQVFRRFLy41NS8vRRQUMxAQOCUlKyolJjcQEBAQNyYlKislJTgQEM2AgICAAAMAAAAzAgABmgADAAgADAAAEyEVIRUhFSE1FSEVIQACAP4AAgD+AAIA/gABmjRmMzOaMwAE//3/6gH9AeoAHAA5AD8ARAAANy4BNTQ3PgE3NjMyFhcxHgEVFAcOAQcGIyImJzElPgE1NCcuAScmIyIGBzEOARUUFx4BFxYzMjY3MSc1MxUjNTUzFSM1SyQqFBRGLi81Nl8jIScUFEYuLzU0XCIBRhwgEBA4JSYqKkscHCAQEDglJioqSxyrNDQ0NDEjXzc1Li9FFBUqJSJcMzUvL0UUFCYhJRtLKislJTgQECAcHEorKiUmNxARIRx3M5pnmTMzAAAAAQAAAAIZmiS+lqFfDzz1AAsCAAAAAADZLpQUAAAAANkulBT//f/mAgAB6gAAAAgAAgAAAAAAAAABAAAB4P/gAAACAP/9AAACAAABAAAAAAAAAAAAAAAAAAAAEgIAAAAAAAAAAAAAAAEAAAACAAArAgAAMQIAABICAAASAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgD//QAAAAAACgAUAB4AhgDwAT4BmAH8AmACyAMwA5YD/AReBMAE2gU8AAAAAQAAABIATwAEAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABABAAAAABAAAAAAACAAcAsQABAAAAAAADABAAUQABAAAAAAAEABAAxgABAAAAAAAFAAsAMAABAAAAAAAGABAAgQABAAAAAAAKABoA9gADAAEECQABACAAEAADAAEECQACAA4AuAADAAEECQADACAAYQADAAEECQAEACAA1gADAAEECQAFABYAOwADAAEECQAGACAAkQADAAEECQAKADQBEGNvdXJzZS1hc3NlbWJsZXIAYwBvAHUAcgBzAGUALQBhAHMAcwBlAG0AYgBsAGUAclZlcnNpb24gMi4xAFYAZQByAHMAaQBvAG4AIAAyAC4AMWNvdXJzZS1hc3NlbWJsZXIAYwBvAHUAcgBzAGUALQBhAHMAcwBlAG0AYgBsAGUAcmNvdXJzZS1hc3NlbWJsZXIAYwBvAHUAcgBzAGUALQBhAHMAcwBlAG0AYgBsAGUAclJlZ3VsYXIAUgBlAGcAdQBsAGEAcmNvdXJzZS1hc3NlbWJsZXIAYwBvAHUAcgBzAGUALQBhAHMAcwBlAG0AYgBsAGUAckZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=') format('truetype'),
+    url('data:application/font-woff;charset=utf-8;base64,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') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ca-"], [class*=" ca-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'course-assembler' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ca-maximize:before {
+  content: "\e900";
+}
+.ca-minimize:before {
+  content: "\e901";
+}
+.ca-checked:before {
+  content: "\e902";
+}
+.ca-unchecked:before {
+  content: "\e903";
+}
+.ca-arrow-down:before {
+  content: "\e904";
+}
+.ca-arrow-left:before {
+  content: "\e906";
+}
+.ca-arrow-right:before {
+  content: "\e90c";
+}
+.ca-arrow-up:before {
+  content: "\e90d";
+}
+.ca-cheveron-down:before {
+  content: "\e908";
+}
+.ca-cheveron-left:before {
+  content: "\e909";
+}
+.ca-cheveron-right:before {
+  content: "\e90a";
+}
+.ca-cheveron-up:before {
+  content: "\e90b";
+}
+.ca-information:before {
+  content: "\e910";
+}
+.ca-menu:before {
+  content: "\e90e";
+}
+
+/* ------------------------------------------------------------------------------- */
+
+
+/* ===============================================================================
+    core colour variables (uses a javascript ponyfill for var support in IE)
+================================================================================== */
+:root {
+    --backgroundColor: #ffffff;
+    --selection: #7fbd94;
+    --fontFamily: 'Open Sans';
+
+    --textColor: #666;
+    --textShadow: rgba(255,255,255,.1);
+    --textHover: #3d7650;
+    --selectionText: #fff;
+
+    --edgeLight: rgba(255,255,255,.1);
+    --edgeDark: rgba(0,0,0,.1);
+
+    --iconSize: 24px;
+    --iconMargin: 4px;
+    --asideSmallWidth: calc(var(--iconSize) + (2 * var(--iconMargin)));
+    --asideLargeWidth: 250px;
+
+    --headerBackground: #3d7650;
+    --footerBackground: transparent;
+    --headerText: white;
+
+    --scrollbarTrack: #3d7650;
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    utilities
+================================================================================== */
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+.icons {
+    width: var(--asideWidth);
+    font-size: var(--iconSize);
+}
+.icons [class^="ca-"], .icons [class*=" ca-"] {
+    margin: var(--iconMargin);
+}
+.flex-1 {
+    flex: 1;
+}
+
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    overall layout
+================================================================================== */
+body {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+body > main {
+    flex: 1;
+    position: relative;
+}
+main > iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+}
+
+a,a:visited,a:active {
+    color: var(--textColor);
+    text-decoration: none;
+    outline: none;
+    transition: color .2s ease;
+}
+
+aside header a:focus, aside footer a:focus { outline: none; }
+
+a:hover {
+    color: var(--textHover);
+}
+
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    Styles relating to the side bar
+================================================================================== */
+body > aside {
+    display: none;
+    width: var(--asideLargeWidth);
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
+    text-shadow: 1px 1px 1px var(--textShadow);
+    height: 100vh;
+    flex-direction: column;
+    font-family: var(--fontFamily),sans-serif;
+    background-position: top center;
+    background-image: linear-gradient(to right, white 60%, rgba(0,0,0,.125) 100%);
+}
+
+body > aside.small {
+    display: flex;
+    justify-content: space-between;
+    width: var(--asideSmallWidth);
+    text-align: center;
+}
+
+body > aside.small .icons a {
+    margin: var(--iconMargin) 0;
+}
+
+body.active > aside.large { display: flex; }
+body.active > aside.small { display: none; }
+
+aside.large header, aside.large header a {
+  color: var(--headerText);
+}
+
+aside.large header .icons {
+    padding: var(--iconMargin);
+    text-align: right;
+    font-size: 16px;
+}
+aside.large header .title {
+    padding: 25px;
+}
+aside.large header h1 {
+    font-weight: normal;
+    margin: 0;
+}
+aside.small header {
+    padding-top: 10px;
+}
+
+aside.large header {
+    font-family: 'Open Sans Condensed','Open Sans', sans-serif;
+    border-bottom: 1px solid var(--edgeDark);
+    background-color: var(--headerBackground);
+}
+
+aside.large footer {
+    padding:  10px;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--edgeDark);
+    background-color: var(--footerBackground);
+}
+
+aside.large footer a {
+    text-decoration: underline;
+}
+
+aside.large footer p.watermark {
+    font-size: 0.7rem;
+}
+
+body > aside.small a[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+}
+/* ------------------------------------------------------------------------------- */
+
+
+.progress-container {
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+.progress-container .graph-parent {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255,255,255,.5);
+}
+#progressgraph {
+  background-color: white;
+  position: absolute;
+  top: 0; left: 0; height: 1px;
+}
+
+
+
+/* ===============================================================================
+    left hand (expanded) menu items
+================================================================================== */
+ol {
+    list-style-position: inside;
+    padding: 0;
+    margin: 0;
+}
+li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li > div {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px 0;
+}
+
+li:not(.selected):hover a,
+li:not(.selected):hover > div {
+  color: var(--textHover);
+}
+
+li > div > span {
+    padding-right: 10px;
+}
+
+li.selected > div > span {
+    padding-right: 8px;
+}
+
+/* completion icon: over-ride icon rather than replacing class */
+li.completed > div i.checkmark:before {
+    content: "\e902" !important;
+}
+
+li > div > a {
+    flex: 1;
+    padding: 5px;
+}
+li > ol > li > div {
+    padding-left: 15px;
+    font-weight: 100;
+}
+li > ol {
+    display: none;
+}
+li.open > ol {
+    display: block;
+}
+li.parent > div a:before {
+  content: "+ ";
+}
+li.parent.open > div a:before {
+  content: "- ";
+}
+
+li.selected > div {
+    background-color: var(--selection);
+}
+li.selected > div > a {
+    color: inherit;
+}
+li.selected > div {
+  color: var(--selectionText);
+  text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    SimpleBar.js - v2.5.1 | https://grsmto.github.io/simplebar/ | Under MIT License
+================================================================================== */
+[data-simplebar] {
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch; /* Trigger native scrolling for mobile, if not supported, plugin is used. */
+}
+
+[data-simplebar="init"] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.simplebar-scroll-content {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    min-width: 100%;
+    -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+}
+
+.simplebar-content {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    min-height: 100%;
+}
+
+.simplebar-track {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 11px;
+}
+
+.simplebar-scrollbar {
+    position: absolute;
+    right: 2px;
+    border-radius: 7px;
+    min-height: 10px;
+    width: 7px;
+    opacity: 0;
+    -webkit-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+    background: var(--scrollbarTrack);
+    background-clip: padding-box;
+}
+
+.simplebar-track:hover .simplebar-scrollbar {
+    /* When hovered, remove all transitions from drag handle */
+    opacity: 0.5;
+    -webkit-transition: opacity 0 linear;
+    transition: opacity 0 linear;
+}
+
+.simplebar-track .simplebar-scrollbar.visible {
+    opacity: 0.5;
+}
+
+.simplebar-track.horizontal {
+    left: 0;
+    width: auto;
+    height: 11px;
+}
+
+.simplebar-track.vertical {
+    top: 0;
+}
+
+.horizontal.simplebar-track .simplebar-scrollbar {
+    right: auto;
+    top: 2px;
+    height: 7px;
+    min-height: 0;
+    min-width: 10px;
+    width: auto;
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    styles that relate to the content iframes that fade over the top of each other when changing pages
+================================================================================== */
+body > main > div.iframe > iframe.over {
+    z-index: 10;
+}
+
+body > main > div.iframe > iframe.under {
+    z-index: 5;
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.fadeOut {
+    z-index: 10; /* same as iframe.over */
+    -webkit-animation-name: fadeOut; animation-name: fadeOut;
+    -webkit-animation-duration: .25s; animation-duration: .25s;
+    -webkit-animation-fill-mode: both; animation-fill-mode: both;
+}
+
+body > main {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+body > main > div.iframe {
+    flex: 1;
+    position: relative;
+    background-color: white;
+    z-index: 1;
+}
+
+body > main > div.iframe > iframe {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%; width: 100%;
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    audio player (uses plyr.io)
+================================================================================== */
+body > main > div.audio {
+    width: 100%;
+    height: 50px;
+    z-index: 2;
+}
+/* ------------------------------------------------------------------------------- */

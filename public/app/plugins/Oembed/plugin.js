@@ -28,6 +28,7 @@
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
+				fileinfo.format = "soundcloud";
 				resolve({
 					ready: true,
 					result: fileinfo
@@ -50,6 +51,7 @@
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
+				fileinfo.format = "vimeo";
 				resolve({
 					ready: true,
 					result: fileinfo
@@ -74,6 +76,7 @@
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
+				fileinfo.format = "youtube";
 				resolve({
 					ready: true,
 					result: fileinfo
@@ -143,6 +146,7 @@
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
+				fileinfo.format = "imgur";
 				resolve({
 					ready: true,
 					result: fileinfo
@@ -164,6 +168,7 @@
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
+				fileinfo.format = "slideshare";
 				resolve({
 					ready: true,
 					result: fileinfo

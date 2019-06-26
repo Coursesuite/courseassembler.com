@@ -41,7 +41,7 @@ PLUGINS=$(find . -print | egrep -i '(plugin|templates).js$' | awk '{print}' ORS=
 cd js
 
 rm -f app.min*.js
-uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js $PLUGINS --output app.min.$TS.js
+uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js $PLUGINS --output app.min.$TS.js --source-map
 
 cd ..
 
