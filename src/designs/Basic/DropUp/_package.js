@@ -451,7 +451,7 @@ function showCompletionGraph() {
 	}
 	var n,
 		compl = pages.map(amount).reduce(sum),
-		pc = Math.min(100,Math.floor((compl / (pages.length - 1)) * 100));
+		pc = Math.floor((compl / pages.length) * 100);
 
 	n = document.getElementById("progressgraph");
 	if (n) n.style.width = pc + "%";
