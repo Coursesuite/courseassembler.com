@@ -236,7 +236,7 @@ cssVars({
 // initialise on page load
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
-	document.body.classList.add("active"); // start big
+	document.body.classList.remove("active"); // start small
 
     var _suspend = "",
         _lastPage = +getBookmark() || 0; // convertnum ~ http://stackoverflow.com/a/7540412/1238884
