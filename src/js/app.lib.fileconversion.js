@@ -165,7 +165,7 @@
 							name: data.name.trimExtn(),
 							kind: "file",
 							type: data.type,
-							src: data.src || {}
+							src: data.src || '',
 						};
 						_finishConversion({
 							status: "ready",
@@ -193,6 +193,7 @@
 			if ("error" === obj.status) {
 				return _failure(liElem, obj.error);
 			} else {
+				obj.fileInfo.fileId = obj.fileId;
 				obj.fileInfo = DocNinja.PurityControl.Clean(obj.fileInfo);
 				return _success(liElem, obj.fileInfo);
 			}
@@ -344,9 +345,7 @@
 								fileId: this_fileid
 							});
 						});
-
 					} else { // zip was not subtype, try a standard conversion
-
 						// else store and process the conversion result of the dropped file
 						liElem.setAttribute("data-converted","false");
 						DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");
@@ -369,17 +368,25 @@
 					mime = Mime.get(extn); // trust the extension more than the mime (becasue windows is bad at mime types) .. also means we get predictable results for application/zip variants
 					var mimetype = mime.split("/"),
 						reader = new FileReader(),
-						li = document.createElement("li");
+						keeper = new FileReader(),
+						li = document.createElement("li"),
+						fileId = DocNinja.PurityControl.Nav.GetFileId(index);
 					li.innerHTML = file.name;
-					li.setAttribute("data-fileid", DocNinja.PurityControl.Nav.GetFileId(index)); // "file-" + (new Date().getTime()).toString(36));
+					li.setAttribute("data-fileid", fileId); // "file-" + (new Date().getTime()).toString(36));
 					DocNinja.navItems.appendChild(li);
 					reader.onload = function (e) {
 						_beginConversion(reader, {"files":[{name: file.name, type: mime} ]}, li, mimetype[0],mimetype[1]);
 						reader = null;
 					}
+					keeper.onload = function (e) {
+						localforage.setItem(fileId + '-original', keeper.result);
+					}
 					if ("zip"===mimetype[1]) {
 						reader.readAsArrayBuffer(file); // JSZip can accept ArrayBuffer
 					} else {
+						if (mimetype[1].indexOf('presentationml') !== -1) { // keep presentation in localstorage as arraybuffer for reading later
+							keeper.readAsArrayBuffer(file);
+						}
 						reader.readAsDataURL(file); // base64
 					}
 				}(files[i],i));

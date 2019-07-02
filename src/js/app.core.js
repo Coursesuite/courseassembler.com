@@ -516,7 +516,6 @@
 		--------------------------------------------------------------------------------------------------------------------------------------------------------- */
 		if (window.File && window.FileList && window.FileReader) { // if we allow dropping and acccessing the data
 			if ((new XMLHttpRequest()).upload) { // not that we upload, this is an opera-incompatibility-check
-
 				var dragHandler = {};
 				//	thisObj = undefined;
 				dragHandler.IsOver = false;
@@ -538,49 +537,50 @@
 					dragHandler.IsOver = false;
 				};
 
-				dragHandler.LoadFile = function (elem, obj) {
-					(function (li, file) {
-						DocNinja.PurityControl.Nav.Update(li, {"name": "Reading file..."}, "import");
-						var graph = li.querySelector("progress");
-						var graphSpan = graph.getElementsByTagName("span")[0];
+				dragHandler.LoadFile = function (obj) {
+					DocNinja.fileConversion.HandleUpload([obj]);
+					// (function (li, file) {
+					// 	DocNinja.PurityControl.Nav.Update(li, {"name": "Reading file..."}, "import");
+					// 	var graph = li.querySelector("progress");
+					// 	var graphSpan = graph.getElementsByTagName("span")[0];
 
-						var mime = file.type, // might be blank, i.e. Chrome on Windows as of 20151102; more info http://stackoverflow.com/questions/11182968
-							extn = file.name.substr(file.name.lastIndexOf(".") + 1).toLowerCase();
-						// if (0===mime.length)
-						mime = Mime.get(extn); // trust the extension more than the mime (becasue windows is bad at mime types) .. also means we get predictable results for application/zip variants
-						var mimetype = mime.split("/"),
-							reader = new FileReader();
-						reader.onerror = errorHandler;
-						reader.onprogress = function (e) {
-							if (e.lengthComputable) {
-								var pc = Math.round((e.loaded / e.total) * 100);
-								graph.setAttribute("value", pc);
-								graphSpan.innerHTML = pc;
-							}
-						};
-						reader.onabort = function(e) {
-							li.remove();
+					// 	var mime = file.type, // might be blank, i.e. Chrome on Windows as of 20151102; more info http://stackoverflow.com/questions/11182968
+					// 		extn = file.name.substr(file.name.lastIndexOf(".") + 1).toLowerCase();
+					// 	// if (0===mime.length)
+					// 	mime = Mime.get(extn); // trust the extension more than the mime (becasue windows is bad at mime types) .. also means we get predictable results for application/zip variants
+					// 	var mimetype = mime.split("/"),
+					// 		reader = new FileReader();
+					// 	reader.onerror = errorHandler;
+					// 	reader.onprogress = function (e) {
+					// 		if (e.lengthComputable) {
+					// 			var pc = Math.round((e.loaded / e.total) * 100);
+					// 			graph.setAttribute("value", pc);
+					// 			graphSpan.innerHTML = pc;
+					// 		}
+					// 	};
+					// 	reader.onabort = function(e) {
+					// 		li.remove();
 
-						};
-						reader.onloadstart = function(e) { // start
-						};
-						reader.onload = function(e) { // finish
+					// 	};
+					// 	reader.onloadstart = function(e) { // start
+					// 	};
+					// 	reader.onload = function(e) { // finish
 
-							// seems like something here is lost, since li no longer is attached to the DOM befre/after conversion
-							// console-log(isInDOMTree(li),li); says it is attached before the onload, but now it seems to be detached again somehow.
-							// looks like you can only drag one file at a time.
+					// 		// seems like something here is lost, since li no longer is attached to the DOM befre/after conversion
+					// 		// console-log(isInDOMTree(li),li); says it is attached before the onload, but now it seems to be detached again somehow.
+					// 		// looks like you can only drag one file at a time.
 
-							graph.remove();
-							(function (fc) {
-								fc.BeginConversion(reader, {files:[{name: file.name, type: mime} ]}, li, mimetype[0], mimetype[1]);
-							}(DocNinja.fileConversion));
-						}
-						if ("zip"===mimetype[1]) {
-							reader.readAsArrayBuffer(file); // obj.files[0]); // JSZip can accept ArrayBuffer
-						} else {
-							reader.readAsDataURL(file); // obj.files[0]); // base64
-						}
-					}(elem, obj));
+					// 		graph.remove();
+					// 		(function (fc) {
+					// 			fc.BeginConversion(reader, {files:[{name: file.name, type: mime} ]}, li, mimetype[0], mimetype[1]);
+					// 		}(DocNinja.fileConversion));
+					// 	}
+					// 	if ("zip"===mimetype[1]) {
+					// 		reader.readAsArrayBuffer(file); // obj.files[0]); // JSZip can accept ArrayBuffer
+					// 	} else {
+					// 		reader.readAsDataURL(file); // obj.files[0]); // base64
+					// 	}
+					// }(elem, obj)); //elem
 
 				}
 				dragHandler.Drop = function (e) {
@@ -593,13 +593,13 @@
 					if (e.dataTransfer.files.length) {
 						for (var i=0;i<e.dataTransfer.files.length;i++) {
 
-							var li = DocNinja.PurityControl.Nav.Add(DocNinja.navItems, DocNinja.PurityControl.Nav.GetFileId(i), {"depth": 0, "name": "Analysing file ..."});
+							// var li = DocNinja.PurityControl.Nav.Add(DocNinja.navItems, DocNinja.PurityControl.Nav.GetFileId(i), {"depth": 0, "name": "Analysing file ..."});
 
 							// var li = document.createElement("li");
 							// li.setAttribute("data-fileid", DocNinja.PurityControl.Nav.GetFileId(i));
 							// DocNinja.navItems.appendChild(li);
 //							(function (_file) { // shouldn't need the closure here
-							dragHandler.LoadFile(li, e.dataTransfer.files[i]);
+							dragHandler.LoadFile(e.dataTransfer.files[i]); //li, 
 //							}());
 						}
 					} else {

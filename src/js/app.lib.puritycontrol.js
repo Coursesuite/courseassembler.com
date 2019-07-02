@@ -377,8 +377,9 @@ console.log("non-split pdf, applying script transform scale");
 				[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
 					node.parentNode.removeChild(node);
 				});
-				// Replace inserted youtube with embeded (only for presentations)
-				if (fileInfo.src.indexOf('docs.google.com/document') === -1) {
+
+				// (Google slides) Replace video image links with embeded video 
+				if (fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
 					[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
 						if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
 							var embedLink = node.href.replace('watch?v=','embed/');
@@ -392,6 +393,41 @@ console.log("non-split pdf, applying script transform scale");
 						}
 					});
 				}
+				// console.log(fileinfo);
+				// (PresentationML) Replace video images with embedded video
+				if (fileinfo.type.indexOf('presentationml') !== -1) {
+					var buffer = localforage.getItem(fileInfo.fileId + '-original').then(function(data) {
+						JSZip.loadAsync(data)
+						.then(function(obj) {
+							var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
+							Object.keys(obj.files).forEach(function(key) {
+								if (regex.test(key)) {
+									obj.files[key].async('text').then(function(xmlText) {
+										var xmlObj = tXml(xmlText);
+										var vPicEls = tXml.filter(xmlObj, function(el) {
+											var containsNvpr;       
+											if (el.tagName === 'p:pic') { 						// need p:nvPicPr > p:nvPr to confirm video
+												el.children.forEach(function(child) {
+													if (child.tagName === 'p:nvPicPr') {
+														child.children.forEach(function(grandchild) {
+															if (grandchild.tagName === "p:nvPr") {
+																containsNvpr = true; // this method is not working
+															}
+														});
+													}
+												});
+											}
+											return containsNvpr;
+										});
+										console.log(vPicEls);
+									});
+								}
+							});
+
+						});
+					});
+				}
+
 				// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
 				doc.querySelector(".loading-indicator>img").setAttribute("src","data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 				fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
