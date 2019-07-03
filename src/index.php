@@ -44,6 +44,14 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
 <?php
+// alternate bug tracker to sentry.io
+if (false) { ?>
+		<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>
+		<script>window.bugsnagClient = bugsnag('f76cf5ad15cc64817fbf675a994d5438')</script>
+<?php } ?>
+		<script src="https://browser.sentry-cdn.com/5.3.0/bundle.min.js" crossorigin="anonymous"></script>
+		<script>window.addEventListener('DOMContentLoaded', function() { Sentry.init({ dsn: 'https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310' }); });</script>
+<?php
 $p = realpath('./plugins');
 $plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|FontPicker)\.css$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($plugins as $file) {
