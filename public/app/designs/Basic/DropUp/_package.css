@@ -275,7 +275,7 @@ li.selected > div > span {
 }
 
 /* completion icon: over-ride icon rather than replacing class */
-li.completed i.checkmark:before {
+li.completed > div i.checkmark:before {
     content: "\e902" !important;
 }
 
