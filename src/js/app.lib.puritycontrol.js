@@ -378,7 +378,7 @@ console.log("non-split pdf, applying script transform scale");
 					node.parentNode.removeChild(node);
 				});
 
-				// (Google slides) Replace video image links with embeded video 
+				// (Google slides) Replace video image links with embeded video
 				if (fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
 					[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
 						if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
@@ -394,98 +394,123 @@ console.log("non-split pdf, applying script transform scale");
 					});
 				}
 				// (PresentationML) Replace video images with embedded video
+
+				var getVidInfo = function(xmlobj) {
+					return new Promise(function(resolve, reject) {
+						var pArray = [];
+						var videoObjs = [];
+						var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
+						Object.keys(xmlobj.files).forEach(function(key, index) {
+							if (regex.test(key)) {
+								var slide = xmlobj.files[key].name.substring(xmlobj.files[key].name.lastIndexOf('/')+1).split('.')[0];
+								pArray.push(new Promise(function(res, rej) {
+									xmlobj.files[key].async('text').then(function(xmlText) {
+										var xmlObj = tXml(xmlText);
+										var vPicEls = tXml.filter(xmlObj, function(el) {
+											if (el.tagName === 'p:pic') {
+												var vid = {name:slide};
+												var containsVid = false;
+												el.children.forEach(function(child, index) {
+													if (child.tagName === 'p:spPr') { // Geometry
+														child.children.some(function(grandchild) {
+															if (grandchild.tagName === 'a:xfrm') {
+																grandchild.children.forEach(function(ggchild, index) {
+																	if (ggchild.tagName === 'a:off') {
+																		vid.width = emuToPix(ggchild.attributes.x);
+																		vid.height = emuToPix(ggchild.attributes.y);
+																	}
+																	if (ggchild.tagName === 'a:ext') {
+																		vid.x = emuToPix(ggchild.attributes.cx);
+																		vid.y = emuToPix(ggchild.attributes.cy);
+																	}
+																});
+																return true;
+															}
+														});
+													}
+													if (child.tagName === 'p:nvPicPr') { // video id
+														child.children.some(function(grandchild) {
+															if (grandchild.tagName === "p:nvPr") {
+																if (grandchild.children) {
+																	grandchild.children.some(function(ggchild) {
+																		if (ggchild.tagName === "a:videoFile") {
+																			vid.rId = ggchild.attributes["r:link"];
+																			containsVid = true;
+																			return true;
+																		}
+																	});
+																}
+																return true;
+															}
+														});
+													}
+												});
+												if (containsVid) videoObjs.push(vid);
+											}
+										});
+										res();
+									});
+								}));
+							}
+						});
+						Promise.all(pArray).then(function() {
+							resolve({xml:xmlobj, vidObj:videoObjs});
+						});
+					});
+				}
+
+				var getVidEmbed = function(xmlobj, videoObjs) {
+					return new Promise(function(resolve, reject) {
+						var pArray = [];
+						var regex = RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
+						Object.keys(xmlobj.files).forEach(function(key) {
+							if (regex.test(key)) {
+								pArray.push(new Promise(function(res,rej) {
+									xmlobj.files[key].async('text').then(function(xmlText) {
+										var xmlObj = tXml(xmlText);
+										videoObjs.forEach(function(vobj) {
+											xmlObj[0].children[0].children.forEach(function(rel) {
+												if (rel.attributes['Id'] === vobj.rId) {
+													if (rel.attributes['Target'].startsWith('http')) {
+														vobj.embed = rel.attributes['Target'];
+													}
+												}
+											})
+										});
+										res();
+									});
+								}));
+							}
+						});
+						Promise.all(pArray).then(function(){
+							resolve(videoObjs);
+						});
+					});
+				}
+
+
 				if (fileinfo.type.indexOf('presentationml') !== -1) {
 					var buffer = localforage.getItem(fileInfo.fileId + '-original').then(function(data) {
 						JSZip.loadAsync(data)
 						.then(function(obj) {
-							var videoObjs = [];
-							var vidPromise = new Promise(function(resolve, reject) {
-								var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
-								// Extract info about videos
-								Object.keys(obj.files).forEach(function(key) {
-									if (regex.test(key)) {
-										var slide = obj.files[key].name.substring(obj.files[key].name.lastIndexOf('/')+1).split('.')[0];
-										obj.files[key].async('text').then(function(xmlText) {
-											var xmlObj = tXml(xmlText);
-											var vPicEls = tXml.filter(xmlObj, function(el) {
-												if (el.tagName === 'p:pic') {
-													var vid = {name:slide};
-													var containsVid = false;
-													el.children.forEach(function(child) {
-														if (child.tagName === 'p:spPr') { // Geometry
-															child.children.some(function(grandchild) {
-																if (grandchild.tagName === 'a:xfrm') {
-																	grandchild.children.forEach(function(ggchild) {
-																		if (ggchild.tagName === 'a:off') {
-																			vid.width = emuToPix(ggchild.attributes.x);
-																			vid.height = emuToPix(ggchild.attributes.y);
-																		}
-																		if (ggchild.tagName === 'a:ext') {
-																			vid.x = emuToPix(ggchild.attributes.cx);
-																			vid.y = emuToPix(ggchild.attributes.cy);
-																		}
-																	});
-																	return true;
-																}
-															});
-														}
-														if (child.tagName === 'p:nvPicPr') {
-															child.children.some(function(grandchild) {
-																if (grandchild.tagName === "p:nvPr") {
-																	if (grandchild.children) {
-																		grandchild.children.some(function(ggchild) {
-																			if (ggchild.tagName === "a:videoFile") {
-																				vid.rId = ggchild.attributes["r:link"];
-																				containsVid = true;;
-																				return true; 	
-																			}
-																		});
-																	}
-																}
-															});
-														}
-													});
-													if (containsVid) videoObjs.push(vid);
-												}
-											});
-										});
-									}
-								});
-								var regex = RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
-								// Get video embed code
-								Object.keys(obj.files).forEach(function(key) {
-									if (regex.test(key)) {
-										obj.files[key].async('text').then(function(xmlText) {
-											var xmlObj = tXml(xmlText);
-											videoObjs.forEach(function(vobj) {
-												xmlObj[0].children[0].children.forEach(function(rel) {
-													if (rel.attributes['Id'] === vobj.rId) {
-														if (rel.attributes['Target'].startsWith('http')) {
-															vobj.embed = rel.attributes['Target'];
-														}
-													}
-												})
-											});
-										});
-									}
-								});
-								resolve();
-							}); // Figure out how to get ^^^^This stuff^^^^ to execute before vvvvThis stuffvvvv
-							vidPromise.then(function(val) {
+							// Extract video info and embed code
+							getVidInfo(obj).then(function(obj) {
+								return getVidEmbed(obj.xml, obj.vidObj);
+							}).then(function(vobjs) {
 								var imgEl = doc.querySelector("#page-container img.bi");
-								videoObjs.forEach(function(obj) {
-									if (obj.embed) {
-										var vidEl = doc.createElement('iframe')
-										vidEl.height = obj.height;
-										vidEl.width = obj.width;
-										vidEl.src = obj.embed;
+								for (var i = 0; i<vobjs.length;i++) {
+									if (vobjs[i].embed) {
+										var vidEl = doc.createElement('iframe');
+										vidEl.height = vobjs[i].height;
+										vidEl.width = vobjs[i].width;
+										vidEl.src = vobjs[i].embed;
 										vidEl.style.position = 'absolute';
-										vidEl.style.top = obj.y;
-										vidEl.style.left = obj.x;
-										imgEl.insertAdjacentElement('afterend', vidEl);
+										vidEl.style.top = vobjs[i].y;
+										vidEl.style.left = vobjs[i].x;
+										imgEl.insertAdjacentElement('beforebegin', vidEl); // literally the only thing that doesnt work
 									}
-								});
-							});
+								}
+							})
 						});
 					});
 				}
