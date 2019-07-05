@@ -300,7 +300,6 @@
 				scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
 				sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
 				if (DocNinja.options.AUTOCENTER) {
-console.log("split presentation, applying transform scale center");
 					doc.querySelector("head").insertAdjacentHTML("beforeend", Handlebars.templates["style-transform-scale-center"]({backgroundColour:_pageBgColour}));
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale-center"]({}));
 				}
@@ -310,25 +309,22 @@ console.log("split presentation, applying transform scale center");
 					sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
 				}
 				// search for old scripts (non-identified)
-				[].forEach.call(doc.querySelectorAll("script"),function(el) {
+				[].forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
 					if (el.textContent && el.textContent.indexOf("scale(1,1) translateY(0px)")!==-1) {
-// console.log("removing-style-stretch");
 						el.parentNode.removeChild(el);
 					}
 				});
 				if (is_split && !doc.querySelector("transformHorizontalScale")) { // split = scale horizontally only
-console.log("split pdf, applying transform horizontal scale");
 					// remove previous attempts
-					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function(value) {
+					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function splitRemoveOldTransforms(value) {
 						var elm = doc.querySelector(value);
 						if (elm) elm.parentNode.removeChild(elm);
 					});
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-horizontal-scale"]({}));
 					doc.querySelector("head").insertAdjacentHTML('beforeend', Handlebars.templates["style-transform-horizontal-scale"]({}));
 				} else if (!doc.querySelector("#transformScaleStretch")) { // unsplit = scale both and set negative margins
-console.log("non-split pdf, applying script transform scale");
 					// remove previous attempts
-					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function(value) {
+					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function nonSplitRemoveOldTransforms(value) {
 						var elm = doc.querySelector(value);
 						if (elm) elm.parentNode.removeChild(elm);
 					});
@@ -382,7 +378,7 @@ console.log("non-split pdf, applying script transform scale");
 				if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/document') === -1) {
 					[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
 						if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
-							var embedLink = node.href.replace('watch?v=','embed/');
+							var embedLink = node.href.replace('watch?v=','embed/').replace('http://','https://');
 							var iframe = doc.createElement('iframe');
 							var div = node.querySelector('div');
 							iframe.src = embedLink;
