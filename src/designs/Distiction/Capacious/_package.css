@@ -140,6 +140,7 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 body > main {
     flex: 1;
