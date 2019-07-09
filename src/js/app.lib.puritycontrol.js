@@ -365,133 +365,149 @@ console.log("non-split pdf, applying script transform scale");
 
 		// Clean
 		var talitha_cumi= function (fileInfo) {
+			return new Promise(function(fullResolve, fullReject) {
+				if (fileInfo.payload.html.indexOf("Created by pdf2htmlEX")!==-1) {
 
-			if (fileInfo.payload.html.indexOf("Created by pdf2htmlEX")!==-1) {
+					// remove generator meta tag & other junk nodes
+					var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
+					doc.documentElement.innerHTML = fileInfo.payload.html;
 
-				// remove generator meta tag & other junk nodes
-				var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
-				doc.documentElement.innerHTML = fileInfo.payload.html;
-
-				// remove junk nodes
-				// TODO: figure out a way to remove #sidebar, .loading-indicator,
-				[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
-					node.parentNode.removeChild(node);
-				});
-
-				// (Google slides) Replace video image links with embeded video
-				if (fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
-					[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
-						if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
-							var embedLink = node.href.replace('watch?v=','embed/');
-							var iframe = doc.createElement('iframe');
-							var div = node.querySelector('div');
-							iframe.src = embedLink;
-							iframe.style = div.style.cssText;
-							iframe.classList = div.classList;
-							node.parentNode.appendChild(iframe);
-							node.parentNode.removeChild(node);
-						}
+					// remove junk nodes
+					// TODO: figure out a way to remove #sidebar, .loading-indicator,
+					[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
+						node.parentNode.removeChild(node);
 					});
-				}
-				// (PresentationML) Replace video images with embedded video
 
-				var getVidInfo = function(xmlobj) {
-					return new Promise(function(resolve, reject) {
-						var pArray = [];
-						var videoObjs = [];
-						var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
-						Object.keys(xmlobj.files).forEach(function(key, index) {
-							if (regex.test(key)) {
-								var slide = xmlobj.files[key].name.substring(xmlobj.files[key].name.lastIndexOf('/')+1).split('.')[0];
-								pArray.push(new Promise(function(res, rej) {
-									xmlobj.files[key].async('text').then(function(xmlText) {
-										var xmlObj = tXml(xmlText);
-										var vPicEls = tXml.filter(xmlObj, function(el) {
-											if (el.tagName === 'p:pic') {
-												var vid = {name:slide};
-												var containsVid = false;
-												el.children.forEach(function(child, index) {
-													if (child.tagName === 'p:spPr') { // Geometry
-														child.children.some(function(grandchild) {
-															if (grandchild.tagName === 'a:xfrm') {
-																grandchild.children.forEach(function(ggchild, index) {
-																	if (ggchild.tagName === 'a:off') {
-																		vid.width = emuToPix(ggchild.attributes.x);
-																		vid.height = emuToPix(ggchild.attributes.y);
-																	}
-																	if (ggchild.tagName === 'a:ext') {
-																		vid.x = emuToPix(ggchild.attributes.cx);
-																		vid.y = emuToPix(ggchild.attributes.cy);
-																	}
-																});
-																return true;
-															}
-														});
-													}
-													if (child.tagName === 'p:nvPicPr') { // video id
-														child.children.some(function(grandchild) {
-															if (grandchild.tagName === "p:nvPr") {
-																if (grandchild.children) {
-																	grandchild.children.some(function(ggchild) {
-																		if (ggchild.tagName === "a:videoFile") {
-																			vid.rId = ggchild.attributes["r:link"];
-																			containsVid = true;
-																			return true;
+					// (Google slides) Replace video image links with embeded video
+					if (fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
+						[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
+							if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
+								var embedLink = node.href.replace('watch?v=','embed/');
+								var iframe = doc.createElement('iframe');
+								var div = node.querySelector('div');
+								iframe.src = embedLink;
+								iframe.style = div.style.cssText;
+								iframe.classList = div.classList;
+								node.parentNode.appendChild(iframe);
+								node.parentNode.removeChild(node);
+							}
+						});
+					}
+
+
+					// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
+					doc.querySelector(".loading-indicator>img").setAttribute("src","data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
+					fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+
+					// mod the page background
+					var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
+					fileInfo = DocNinja.Page.ModifyPageBackgroundColour(fileInfo, _pageBgColour);
+
+					// node = doc.querySelector("head");
+					// var ss = doc.createElement("style");
+					// ss.setAttribute("media","screen");
+					// ss.setAttribute("type","text/css");
+					// ss.setAttribute("id","pdf-bgmod");
+					// ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:false,backgroundColour:_pageBgColour})));
+					// node.appendChild(ss);
+
+
+					// (PresentationML) Replace video images with embedded video
+					var getVidInfo = function(xmlobj) {
+						return new Promise(function(resolve, reject) {
+							var pArray = [];
+							var videoObjs = [];
+							var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
+							Object.keys(xmlobj.files).forEach(function(key, index) {
+								if (regex.test(key)) {
+									var slide = xmlobj.files[key].name.substring(xmlobj.files[key].name.lastIndexOf('/')+1).split('.')[0];
+									pArray.push(new Promise(function(res, rej) {
+										xmlobj.files[key].async('text').then(function(xmlText) {
+											var xmlObj = tXml(xmlText);
+											var vPicEls = tXml.filter(xmlObj, function(el) {
+												if (el.tagName === 'p:pic') {
+													var vid = {name:slide};
+													var containsVid = false;
+													el.children.forEach(function(child, index) {
+														if (child.tagName === 'p:spPr') { // Geometry
+															child.children.some(function(grandchild) {
+																if (grandchild.tagName === 'a:xfrm') {
+																	grandchild.children.forEach(function(ggchild, index) {
+																		if (ggchild.tagName === 'a:off') {
+																			vid.x = emuToPix(ggchild.attributes.x);
+																			vid.y = emuToPix(ggchild.attributes.y);
+																		}
+																		if (ggchild.tagName === 'a:ext') {
+																			vid.width = emuToPix(ggchild.attributes.cx);
+																			vid.height = emuToPix(ggchild.attributes.cy);
 																		}
 																	});
+																	return true;
 																}
-																return true;
-															}
-														});
-													}
-												});
-												if (containsVid) videoObjs.push(vid);
-											}
-										});
-										res();
-									});
-								}));
-							}
-						});
-						Promise.all(pArray).then(function() {
-							resolve({xml:xmlobj, vidObj:videoObjs});
-						});
-					});
-				}
-
-				var getVidEmbed = function(xmlobj, videoObjs) {
-					return new Promise(function(resolve, reject) {
-						var pArray = [];
-						var regex = RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
-						Object.keys(xmlobj.files).forEach(function(key) {
-							if (regex.test(key)) {
-								pArray.push(new Promise(function(res,rej) {
-									xmlobj.files[key].async('text').then(function(xmlText) {
-										var xmlObj = tXml(xmlText);
-										videoObjs.forEach(function(vobj) {
-											xmlObj[0].children[0].children.forEach(function(rel) {
-												if (rel.attributes['Id'] === vobj.rId) {
-													if (rel.attributes['Target'].startsWith('http')) {
-														vobj.embed = rel.attributes['Target'];
-													}
+															});
+														}
+														if (child.tagName === 'p:nvPicPr') { // video id
+															child.children.some(function(grandchild) {
+																if (grandchild.tagName === "p:nvPr") {
+																	if (grandchild.children) {
+																		grandchild.children.some(function(ggchild) {
+																			if (ggchild.tagName === "a:videoFile") {
+																				vid.rId = ggchild.attributes["r:link"];
+																				containsVid = true;
+																				return true;
+																			}
+																		});
+																	}
+																	return true;
+																}
+															});
+														}
+													});
+													if (containsVid) videoObjs.push(vid);
 												}
-											})
+											});
+											res();
 										});
-										res();
-									});
-								}));
-							}
+									}));
+								}
+							});
+							Promise.all(pArray).then(function() {
+								resolve({xml:xmlobj, vidObj:videoObjs});
+							});
 						});
-						Promise.all(pArray).then(function(){
-							resolve(videoObjs);
+					}
+
+					var getVidEmbed = function(xmlobj, videoObjs) {
+						return new Promise(function(resolve, reject) {
+							var pArray = [];
+							var regex = RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
+							Object.keys(xmlobj.files).forEach(function(key) {
+								if (regex.test(key)) {
+									pArray.push(new Promise(function(res,rej) {
+										xmlobj.files[key].async('text').then(function(xmlText) {
+											var xmlObj = tXml(xmlText);
+											videoObjs.forEach(function(vobj) {
+												xmlObj[0].children[0].children.forEach(function(rel) {
+													if (rel.attributes['Id'] === vobj.rId) {
+														if (rel.attributes['Target'].startsWith('http')) {
+															vobj.embed = rel.attributes['Target'];
+														}
+													}
+												})
+											});
+											res();
+										});
+									}));
+								}
+							});
+							Promise.all(pArray).then(function(){
+								resolve(videoObjs);
+							});
 						});
-					});
-				}
+					}
 
-
-				if (fileinfo.type.indexOf('presentationml') !== -1) {
-					var buffer = localforage.getItem(fileInfo.fileId + '-original').then(function(data) {
-						JSZip.loadAsync(data)
+					if (fileInfo.type && fileInfo.type.indexOf('presentationml') !== -1) {
+						JSZip.loadAsync(fileInfo.original.split('base64,').pop(), {base64: true})
 						.then(function(obj) {
 							// Extract video info and embed code
 							getVidInfo(obj).then(function(obj) {
@@ -505,35 +521,27 @@ console.log("non-split pdf, applying script transform scale");
 										vidEl.width = vobjs[i].width;
 										vidEl.src = vobjs[i].embed;
 										vidEl.style.position = 'absolute';
-										vidEl.style.top = vobjs[i].y;
-										vidEl.style.left = vobjs[i].x;
-										imgEl.insertAdjacentElement('beforebegin', vidEl); // literally the only thing that doesnt work
+										vidEl.style.top = vobjs[i].y +"px";
+										vidEl.style.left = vobjs[i].x + "px";
+										imgEl.parentNode.appendChild(vidEl);
 									}
 								}
-							})
+								fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+								fileInfo.original = ''; //dont need the original anymore
+								fullResolve(fileInfo);
+							});
 						});
-					});
+					} else {
+						fileInfo.original = ''; //dont need the original anymore
+						fullResolve(fileInfo);
+					}
+
+
+				} else {
+					fileInfo.original = ''; //dont need the original anymore
+					fullResolve(fileInfo);
 				}
-
-				// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
-				doc.querySelector(".loading-indicator>img").setAttribute("src","data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
-				fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
-
-				// mod the page background
-				var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
-				fileInfo = DocNinja.Page.ModifyPageBackgroundColour(fileInfo, _pageBgColour);
-
-				// node = doc.querySelector("head");
-				// var ss = doc.createElement("style");
-				// ss.setAttribute("media","screen");
-				// ss.setAttribute("type","text/css");
-				// ss.setAttribute("id","pdf-bgmod");
-				// ss.appendChild(doc.createTextNode(Handlebars.templates["style-pdf-bgmod"]({split:false,backgroundColour:_pageBgColour})));
-				// node.appendChild(ss);
-
-			}
-
-			return fileInfo;
+			});
 		};
 
 		// CleanSplitPDF
