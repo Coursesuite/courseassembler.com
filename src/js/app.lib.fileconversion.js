@@ -139,7 +139,8 @@
 									name: (data.website) ? data.name : data.name.trimExtn(),
 									kind: "file",
 									type: data.type,
-									src: data.src || {}
+									src: data.src || {},
+									original: data.original
 								};
 								_finishConversion({
 									status: "ready",
@@ -165,7 +166,8 @@
 							name: data.name.trimExtn(),
 							kind: "file",
 							type: data.type,
-							src: data.src || {}
+							src: data.src || '',
+							original: data.original
 						};
 						_finishConversion({
 							status: "ready",
@@ -193,8 +195,13 @@
 			if ("error" === obj.status) {
 				return _failure(liElem, obj.error);
 			} else {
-				obj.fileInfo = DocNinja.PurityControl.Clean(obj.fileInfo);
-				return _success(liElem, obj.fileInfo);
+				obj.fileInfo.fileId = obj.fileId;
+				DocNinja.PurityControl.Clean(obj.fileInfo).then(function(info) { //obj.fileInfo = 
+					obj.fileInfo = info;
+					console.log(info)
+					return _success(liElem, obj.fileInfo);
+				});
+				//return _success(liElem, obj.fileInfo);
 			}
 		};
 
@@ -228,7 +235,8 @@
 						name: raw.files[0].name,
 						url: raw.files[0].url,
 						type: Mime.get( raw.files[0].name.split(".").pop().toLowerCase() ), // could be done inside _performConversion I guess
-						fileId: this_fileid // string ref to dom node
+						fileId: this_fileid, // string ref to dom node
+						original: drop
 					});
 					break;
 
@@ -277,7 +285,7 @@
 						payload: { html: rawHtml },
 						format: raw.files[0].type.replace(/text\//,""),
 						name: raw.files[0].name.trimExtn(),
-						kind: "file"
+						kind: "file",
 					}
 					return _success(liElem, fileinfo);
 					break;
@@ -298,6 +306,7 @@
 							website: true,
 							kind: "website",
 							fileId: this_fileid,
+							original: drop.result
 						};
 						_performConversion(fileinfo);
 					});
@@ -344,9 +353,7 @@
 								fileId: this_fileid
 							});
 						});
-
 					} else { // zip was not subtype, try a standard conversion
-
 						// else store and process the conversion result of the dropped file
 						liElem.setAttribute("data-converted","false");
 						DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");
@@ -355,7 +362,8 @@
 							name: raw.files[0].name,
 							type: raw.files[0].type,
 							blob: dataURItoBlob(drop.result),  // convert the base64 string to a Blob
-							fileId: this_fileid // string ref to dom node
+							fileId: this_fileid, // string ref to dom node
+							original: drop.result
 						});
 					};
 			}
@@ -369,14 +377,16 @@
 					mime = Mime.get(extn); // trust the extension more than the mime (becasue windows is bad at mime types) .. also means we get predictable results for application/zip variants
 					var mimetype = mime.split("/"),
 						reader = new FileReader(),
-						li = document.createElement("li");
+						li = document.createElement("li"),
+						fileId = DocNinja.PurityControl.Nav.GetFileId(index);
 					li.innerHTML = file.name;
-					li.setAttribute("data-fileid", DocNinja.PurityControl.Nav.GetFileId(index)); // "file-" + (new Date().getTime()).toString(36));
+					li.setAttribute("data-fileid", fileId); // "file-" + (new Date().getTime()).toString(36));
 					DocNinja.navItems.appendChild(li);
 					reader.onload = function (e) {
 						_beginConversion(reader, {"files":[{name: file.name, type: mime} ]}, li, mimetype[0],mimetype[1]);
 						reader = null;
 					}
+
 					if ("zip"===mimetype[1]) {
 						reader.readAsArrayBuffer(file); // JSZip can accept ArrayBuffer
 					} else {
