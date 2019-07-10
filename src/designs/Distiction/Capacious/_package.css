@@ -466,7 +466,6 @@ body > main {
 @supports (-webkit-overflow-scrolling: touch) {
   /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
   body > main > div.iframe {
-    height:1px; min-height: 100%;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
