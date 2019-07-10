@@ -137,6 +137,7 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 body > main {
     flex: 1;
@@ -236,6 +237,97 @@ aside.large footer p.watermark {
 body > aside.small a[disabled] {
     pointer-events: none;
     opacity: 0.5;
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    mobile navigation (pops out side menu)
+================================================================================== */
+body > nav.mobile,
+body > aside.mobile {
+  font-size: 24px;
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-color: transparent;
+  background-image: none;
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  height: 48px;
+  width: 48px;
+  transition: transform .3s ease;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+nav.mobile a, aside.mobile a {
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 24px;
+  box-shadow: 0 0 5px rgba(0,0,0,.2);
+  background-color: var(--headerBackground);
+  color: var(--headerText, var(--textColor));
+  padding: 4px;
+  outline: none;
+}
+
+body.has-audio > nav.mobile {
+  transform: translateY(-50px);
+}
+body.active aside.mobile {
+  transform: translateX(calc(var(--asideLargeWidth) - 32px));
+}
+
+body > nav.mobile {
+  align-items: flex-end;
+  justify-content: flex-end;
+  bottom: 0; right: 0;
+  top: auto; left: auto;
+}
+
+@media (hover: none) {
+  body {
+    font-size: 12px;
+  }
+  aside.mobile, nav.mobile {
+    display: block;
+  }
+  aside.large header .icons {
+    display: none;
+  }
+  aside.large header .title {
+    padding: 4px;
+  }
+  aside.large header h1 {
+      font-weight: bold;
+      margin: 0;
+  }
+  aside.large footer,aside.large footer p {
+    padding: 2px;
+    font-size: 12px;
+    margin: 0;
+  }
+  body.active nav.mobile { /* turn off mobile nav when menu visible */
+    transform: translateX(48px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) and (hover:none) {
+  aside.large header h1 {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) and (hover:none) {
+  body {
+    font-size: 16px;
+  }
 }
 /* ------------------------------------------------------------------------------- */
 
@@ -431,6 +523,14 @@ body > main {
     position: relative;
     display: flex;
     flex-direction: column;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
+  body > main > div.iframe {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 body > main > div.iframe {

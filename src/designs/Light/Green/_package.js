@@ -236,7 +236,13 @@ cssVars({
 // initialise on page load
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
-	document.body.classList.add("active"); // start big
+	if (navigator.userAgent.toLowerCase().indexOf("mobile/")!==-1) {
+		document.body.classList.add("is-mobile");
+		document.body.classList.remove("active"); // start small
+		[].forEach.call(document.querySelectorAll("body > .mobile"), function (el) { el.style.display = "flex"; });
+	} else {
+		document.body.classList.add("active"); // start big
+	}
 
     var _suspend = "",
         _lastPage = +getBookmark() || 0; // convertnum ~ http://stackoverflow.com/a/7540412/1238884
@@ -381,6 +387,9 @@ function goto(n,init) {
 
 // load a page into the player; if the iframe implements a "setTimeSpent()" function, call that
 function load() {
+	if (document.body.classList.contains("is-mobile")) {
+		document.body.classList.remove("active"); // hide menu on nav if mobile
+	}
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
 	if (current_page.content === "plugin") {
@@ -451,7 +460,7 @@ function showCompletionGraph() {
 	}
 	var n,
 		compl = pages.map(amount).reduce(sum),
-		pc = Math.min(100,Math.ceil((compl / (pages.length - 1)) * 100));
+		pc = Math.floor((compl / pages.length) * 100);
 
 	n = document.getElementById("progressgraph");
 	if (n) n.style.width = pc + "%";

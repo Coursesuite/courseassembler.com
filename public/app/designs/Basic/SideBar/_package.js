@@ -236,7 +236,7 @@ cssVars({
 // initialise on page load
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
-	document.body.classList.add("active"); // start big
+	document.body.classList.remove("active"); // start small
 
     var _suspend = "",
         _lastPage = +getBookmark() || 0; // convertnum ~ http://stackoverflow.com/a/7540412/1238884
@@ -451,7 +451,7 @@ function showCompletionGraph() {
 	}
 	var n,
 		compl = pages.map(amount).reduce(sum),
-		pc = Math.min(100,Math.ceil((compl / (pages.length - 1)) * 100));
+		pc = Math.floor((compl / pages.length) * 100);
 
 	n = document.getElementById("progressgraph");
 	if (n) n.style.width = pc + "%";

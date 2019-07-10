@@ -275,7 +275,7 @@ li.selected > div > span {
 }
 
 /* completion icon: over-ride icon rather than replacing class */
-li.completed i.checkmark:before {
+li.completed > div i.checkmark:before {
     content: "\e902" !important;
 }
 
@@ -422,6 +422,14 @@ div.iframe > iframe.under {
     -webkit-animation-name: fadeOut; animation-name: fadeOut;
     -webkit-animation-duration: .25s; animation-duration: .25s;
     -webkit-animation-fill-mode: both; animation-fill-mode: both;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
+  div.iframe {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 div.iframe {
