@@ -196,9 +196,8 @@
 				return _failure(liElem, obj.error);
 			} else {
 				obj.fileInfo.fileId = obj.fileId;
-				DocNinja.PurityControl.Clean(obj.fileInfo).then(function(info) { //obj.fileInfo = 
+				DocNinja.PurityControl.Clean(obj.fileInfo).then(function(info) { //obj.fileInfo =
 					obj.fileInfo = info;
-					console.log(info)
 					return _success(liElem, obj.fileInfo);
 				});
 				//return _success(liElem, obj.fileInfo);

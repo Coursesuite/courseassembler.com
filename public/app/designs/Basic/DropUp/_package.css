@@ -424,6 +424,14 @@ div.iframe > iframe.under {
     -webkit-animation-fill-mode: both; animation-fill-mode: both;
 }
 
+@supports (-webkit-overflow-scrolling: touch) {
+  /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
+  div.iframe {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 div.iframe {
     flex: 1;
     position: relative;

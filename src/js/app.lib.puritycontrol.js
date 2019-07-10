@@ -376,10 +376,10 @@
 		}
 
 		// Clean
-		var talitha_cumi= function (fileInfo) {
+		var talitha_cumi = function (fileInfo) {
 			return new Promise(function(fullResolve, fullReject) {
-				if (fileInfo.payload.html.indexOf("Created by pdf2htmlEX")!==-1) {
 
+				if (fileInfo.payload.html.indexOf("pdf2htmlEX")!==-1) { // Created by
 					// remove generator meta tag & other junk nodes
 					var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
 					doc.documentElement.innerHTML = fileInfo.payload.html;
@@ -391,7 +391,7 @@
 					});
 
 					// Replace inserted youtube with embeded (only for presentations)
-					if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/presentation') === -1) {
+					if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
 						[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
 							if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
 								var embedLink = node.href.replace('watch?v=','embed/').replace('http://','https://');

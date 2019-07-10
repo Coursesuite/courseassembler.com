@@ -189,12 +189,27 @@ main {
 body > section.content {
     flex: 1;
     position: relative;
+    height: 100%;
 }
 
 div.iframe {
     position: absolute;
     top: 0; left: 0;
     width: 100vw; height: 100%;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  .swipe-zone {
+    position: absolute;
+    z-index: 19; /* less than nav */
+    bottom: 0;
+    right: 0;
+    width: 50vw;
+    height: 25vh;
+  }
+  body.has-audio .swipe-zone {
+      bottom: calc(50px + .5em);
+  }
 }
 
 section.content nav {
@@ -269,6 +284,14 @@ div.iframe > iframe.under {
     -webkit-animation-name: fadeOut; animation-name: fadeOut;
     -webkit-animation-duration: .25s; animation-duration: .25s;
     -webkit-animation-fill-mode: both; animation-fill-mode: both;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
+  div.iframe {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 div.iframe {
