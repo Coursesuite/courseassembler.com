@@ -198,7 +198,6 @@
 				obj.fileInfo.fileId = obj.fileId;
 				DocNinja.PurityControl.Clean(obj.fileInfo).then(function(info) { //obj.fileInfo = 
 					obj.fileInfo = info;
-					console.log(info)
 					return _success(liElem, obj.fileInfo);
 				});
 				//return _success(liElem, obj.fileInfo);
@@ -348,7 +347,7 @@
 						.catch(function (error) {
 							_finishConversion({
 								status: "error",
-								error: "Sorry, I didn't understand the files inside that zip.\nError: " + message,
+								error: "Sorry, I didn't understand the files inside that zip.\nError: " + error,
 								fileInfo: null,
 								fileId: this_fileid
 							});
