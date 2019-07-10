@@ -384,27 +384,27 @@
 					var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
 					doc.documentElement.innerHTML = fileInfo.payload.html;
 
-				// remove junk nodes
-				// TODO: figure out a way to remove #sidebar, .loading-indicator,
-				[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
-					node.parentNode.removeChild(node);
-				});
-
-				// Replace inserted youtube with embeded (only for presentations)
-				if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/presentation') === -1) {
-					[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
-						if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
-							var embedLink = node.href.replace('watch?v=','embed/').replace('http://','https://');
-							var iframe = doc.createElement('iframe');
-							var div = node.querySelector('div');
-							iframe.src = embedLink;
-							iframe.style = div.style.cssText;
-							iframe.classList = div.classList;
-							node.parentNode.appendChild(iframe);
-							node.parentNode.removeChild(node);
-						}
+					// remove junk nodes
+					// TODO: figure out a way to remove #sidebar, .loading-indicator,
+					[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
+						node.parentNode.removeChild(node);
 					});
-				}
+
+					// Replace inserted youtube with embeded (only for presentations)
+					if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/presentation') === -1) {
+						[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
+							if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
+								var embedLink = node.href.replace('watch?v=','embed/').replace('http://','https://');
+								var iframe = doc.createElement('iframe');
+								var div = node.querySelector('div');
+								iframe.src = embedLink;
+								iframe.style = div.style.cssText;
+								iframe.classList = div.classList;
+								node.parentNode.appendChild(iframe);
+								node.parentNode.removeChild(node);
+							}
+						});
+					}
 
 					// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
 					doc.querySelector(".loading-indicator>img").setAttribute("src","data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
@@ -414,7 +414,7 @@
 					var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
 					fileInfo = DocNinja.Page.ModifyPageBackgroundColour(fileInfo, _pageBgColour);
 
-					// (PresentationML) Replace video images with embedded video
+						// (PresentationML) Replace video images with embedded video
 					var getVidInfo = function(xmlobj) {
 						return new Promise(function(resolve, reject) {
 							var pArray = [];
@@ -529,18 +529,17 @@
 									}
 								}
 								fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
-								fileInfo.original = ''; //dont need the original anymore
+								fileInfo.original = undefined; //dont need the original anymore
 								fullResolve(fileInfo);
 							});
 						});
 					} else {
-						fileInfo.original = ''; //dont need the original anymore
+						fileInfo.original = undefined; //dont need the original anymore
 						fullResolve(fileInfo);
 					}
 
-
 				} else {
-					fileInfo.original = ''; //dont need the original anymore
+					fileInfo.original = undefined; //dont need the original anymore
 					fullResolve(fileInfo);
 				}
 			});
