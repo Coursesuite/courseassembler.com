@@ -297,37 +297,39 @@
 			var is_split = (obj.payload.split&&obj.payload.split===true) || false;
 			var scr, sty;
 			if (is_split &&((destination !== "imscp") && (pagetype.indexOf("powerpoint")!==-1||pagetype.indexOf("presentation")!==-1))) {
-				scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
-				sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
+				doc = autowash(doc);
+// scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
+// sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
 				if (DocNinja.options.AUTOCENTER) {
 					doc.querySelector("head").insertAdjacentHTML("beforeend", Handlebars.templates["style-transform-scale-center"]({backgroundColour:_pageBgColour}));
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale-center"]({}));
 				}
 			} else if ("pdf" === obj.format || null !== doc.querySelector(".pf")) {
-				if (destination === "imscp") { // might still need to remove powerpoint scripts, then re-add the scaleStretch script - ugh!
-					scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
-					sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
-				}
+				doc = autowash(doc);
+// if (destination === "imscp") { // might still need to remove powerpoint scripts, then re-add the scaleStretch script - ugh!
+// 	scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
+// 	sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
+// }
 				// search for old scripts (non-identified)
-				[].forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
-					if (el.textContent && el.textContent.indexOf("scale(1,1) translateY(0px)")!==-1) {
-						el.parentNode.removeChild(el);
-					}
-				});
-				if (is_split && !doc.querySelector("transformHorizontalScale")) { // split = scale horizontally only
+// [].forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
+// 	if (el.textContent && el.textContent.indexOf("scale(1,1) translateY(0px)")!==-1) {
+// 		el.parentNode.removeChild(el);
+// 	}
+// });
+				if (is_split && !doc.querySelector("#transformHorizontalScale")) { // split = scale horizontally only
 					// remove previous attempts
-					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function splitRemoveOldTransforms(value) {
-						var elm = doc.querySelector(value);
-						if (elm) elm.parentNode.removeChild(elm);
-					});
+// ["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function splitRemoveOldTransforms(value) {
+// 	var elm = doc.querySelector(value);
+// 	if (elm) elm.parentNode.removeChild(elm);
+// });
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-horizontal-scale"]({}));
 					doc.querySelector("head").insertAdjacentHTML('beforeend', Handlebars.templates["style-transform-horizontal-scale"]({}));
 				} else if (!doc.querySelector("#transformScaleStretch")) { // unsplit = scale both and set negative margins
 					// remove previous attempts
-					["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch"].forEach(function nonSplitRemoveOldTransforms(value) {
-						var elm = doc.querySelector(value);
-						if (elm) elm.parentNode.removeChild(elm);
-					});
+// ["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch","#transformHorizontalScale"].forEach(function nonSplitRemoveOldTransforms(value) {
+// 	var elm = doc.querySelector(value);
+// 	if (elm) elm.parentNode.removeChild(elm);
+// });
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
 				}
 			}
@@ -341,6 +343,20 @@
 			fold.file(filename, "<!doctype html>" + doc.documentElement.outerHTML);
 			if (undefined !== resource) resource.files.push({href: resource.base + filename}); // imscp passes in resource object
 		};
+
+		// clean up old transform tags and script
+		var autowash = function (doc) {
+			[].forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
+				if (el.textContent && el.textContent.indexOf("scale(1,1) translateY(0px)")!==-1) {
+					el.parentNode.removeChild(el);
+				}
+			});
+			["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch","#transformHorizontalScale"].forEach(function autowashRemoveOldTransforms(value) {
+				var elm = doc.querySelector(value);
+				if (elm) elm.parentNode.removeChild(elm);
+			});
+			return doc;
+		}
 
 		// insert page audio, if applicable
 		// normally audio rendered by template, not embedded in page, but we need to zip the payload mp3
