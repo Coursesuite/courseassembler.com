@@ -184,6 +184,7 @@ body > section.content {
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 100%;
 }
 nav {
     width: var(--asideSmallWidth);
