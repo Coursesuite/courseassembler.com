@@ -731,16 +731,18 @@
 			document.documentElement.style.setProperty('--bannerHeight', h);
 
 			// toggle settings and persist in body class
-			$(document.body).on("change", "input[type='checkbox']", function (e) {
-				hideOverlays(false);
-				e.preventDefault();
-				var action = (e.currentTarget.dataset.action ? e.currentTarget.dataset.action : e.currentTarget.parentNode.dataset.action).replace("toggle-", "");
-				document.body.classList.toggle(action);
-				localforage.setItem("bodyclases", document.body.className);
-				DocNinja.options.MUTED = classie.hasClass(document.body, "mute");
-				DocNinja.options.AUTOSPLIT = !classie.hasClass(document.body, "no-autosplit");
-				DocNinja.options.AUTOOPTIMISE = !classie.hasClass(document.body, "no-autoresize"),
-				DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter");
+			$(document.body).on("change", "input[type='checkbox']", function settings_toggle (e) {
+				if (e.currentTarget.dataset.action) {
+					hideOverlays(false);
+					e.preventDefault();
+					var action = (e.currentTarget.dataset.action ? e.currentTarget.dataset.action : e.currentTarget.parentNode.dataset.action).replace("toggle-", "");
+					document.body.classList.toggle(action);
+					localforage.setItem("bodyclases", document.body.className);
+					DocNinja.options.MUTED = classie.hasClass(document.body, "mute");
+					DocNinja.options.AUTOSPLIT = !classie.hasClass(document.body, "no-autosplit");
+					DocNinja.options.AUTOOPTIMISE = !classie.hasClass(document.body, "no-autoresize"),
+					DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter");
+				}
 			});
 
 			// load 20 ninjas in one svg, but make them into 20 svg images using spooky black magic
@@ -793,6 +795,8 @@
 				DocNinja.options.AUTOOPTIMISE = !classie.hasClass(document.body, "no-autoresize");
 				DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter");
 			});
+
+
 
 		});
 
