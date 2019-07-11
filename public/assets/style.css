@@ -91,3 +91,13 @@ body.faq, body.changelog {
 	background-position: 0 10px;
 	background-size: contain;
 }
+
+.uk-navbar-nav .uk-badge {
+    font-size: 0.7em;
+    min-width: 16px;
+    height: 16px;
+    margin-top: -1em;
+    margin-left: 1em;
+    background-color: #f8a82d;
+    color: black;
+}

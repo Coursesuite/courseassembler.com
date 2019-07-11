@@ -59,6 +59,19 @@ if ($match) {
   header("HTTP/1.0 404 Not Found");
 }
 
-
+// count the number of files changed in a directory in the given time
+function badge($fold, $ago = "-1 week") {
+	$path = realpath("./assets") . $fold;
+	$week = strtotime($ago);
+	$count = 0;
+	foreach (new DirectoryIterator($path) as $value) {
+		if ($value->isFile() && $value->getExtension()==="md" && $value->getMTime() >= $week) {
+			$count++;
+		}
+	}
+	if ($count>0) {
+		echo "<span class='uk-badge' title='New items in last 7 days'>{$count}</span>";
+	}
+}
 
 ?>
