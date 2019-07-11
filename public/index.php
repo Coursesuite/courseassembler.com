@@ -65,8 +65,13 @@ function badge($fold, $ago = "-1 week") {
 	$week = strtotime($ago);
 	$count = 0;
 	foreach (new DirectoryIterator($path) as $value) {
-		if ($value->isFile() && $value->getExtension()==="md" && $value->getMTime() >= $week) {
-			$count++;
+		if ($value->isFile() && $value->getExtension()==="md") {
+            $name = substr($value->getFilename(), 0, -3); // file name without .md extension
+            $date = strtotime($name); // "2017-05-24 00:00:00.md" => 1495584000
+            if ($date >= $week) {
+				// } && $value->getMTime() >= $week) {
+				$count++;
+			}
 		}
 	}
 	if ($count>0) {
