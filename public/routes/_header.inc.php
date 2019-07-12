@@ -36,7 +36,7 @@
 					<div class="uk-navbar-right uk-visible@m">
 						<ul class="uk-navbar-nav">
 							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
-							<li><a href="/faq">Faq<?php badge('/faq'); ?></a></li>
+							<li><a href="/faq">Faq</a></li>
 							<li><a href="/changelog">Changelog<?php badge('/changelog'); ?></a></li>
 							<li><a href="/docs">Documentation</a></li>
 						</ul>
