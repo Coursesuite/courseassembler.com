@@ -11,7 +11,7 @@
 	{{/compare}}
 
 	{{#compare format "in" "slideshare"}}
-	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{payload.total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
+	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
 	{{/compare}}
 
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}
