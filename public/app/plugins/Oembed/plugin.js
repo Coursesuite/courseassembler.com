@@ -155,6 +155,7 @@
 			});
 		},
 		"slideshare": function (oembed, fileinfo) {
+			// console.log("slideshare", oembed, fileinfo);
 			return new Promise(function (resolve,reject) {
 				var doc = document.implementation.createHTMLDocument(oembed.title);
 				doc.documentElement.innerHTML = oembed.code;
@@ -170,6 +171,8 @@
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
 				fileinfo.format = "slideshare";
+				fileinfo.total_slides = ~~oembed.total_slides;
+				fileinfo.score = ~~oembed.total_slides;
 				resolve({
 					ready: true,
 					result: fileinfo
