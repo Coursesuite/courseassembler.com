@@ -390,9 +390,9 @@
 						node.parentNode.removeChild(node);
 					});
 
-					// Replace inserted youtube with embeded (only for presentations)
+					// Replace inserted youtube with embeded for google presentations
 					if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
-						[].forEach.call(doc.querySelectorAll('a.l'), function(node) {
+						[].forEach.call(doc.querySelectorAll('a.l'), function google_slides_video_embed(node) {
 							if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
 								var embedLink = node.href.replace('watch?v=','embed/').replace('http://','https://');
 								var iframe = doc.createElement('iframe');
@@ -420,21 +420,21 @@
 							var pArray = [];
 							var videoObjs = [];
 							var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
-							Object.keys(xmlobj.files).forEach(function(key, index) {
+							Object.keys(xmlobj.files).forEach(function each_pptx_file(key, index) {
 								if (regex.test(key)) {
 									var slide = xmlobj.files[key].name.substring(xmlobj.files[key].name.lastIndexOf('/')+1).split('.')[0];
-									pArray.push(new Promise(function(res, rej) {
-										xmlobj.files[key].async('text').then(function(xmlText) {
+									pArray.push(new Promise(function slide_read_promise(res, rej) {
+										xmlobj.files[key].async('text').then(function read_slide_xml(xmlText) {
 											var xmlObj = tXml(xmlText);
-											var vPicEls = tXml.filter(xmlObj, function(el) {
+											var vPicEls = tXml.filter(xmlObj, function get_slide_vid_details(el) {
 												if (el.tagName === 'p:pic') {
 													var vid = {name:slide};
 													var containsVid = false;
-													el.children.forEach(function(child, index) {
+													el.children.forEach(function get_slide_spPr_el(child, index) {
 														if (child.tagName === 'p:spPr') { // Geometry
-															child.children.some(function(grandchild) {
+															child.children.some(function get_slide_xfrm_el(grandchild) {
 																if (grandchild.tagName === 'a:xfrm') {
-																	grandchild.children.forEach(function(ggchild, index) {
+																	grandchild.children.forEach(function get_slide_vid_geometry(ggchild, index) {
 																		if (ggchild.tagName === 'a:off') {
 																			vid.x = emuToPix(ggchild.attributes.x);
 																			vid.y = emuToPix(ggchild.attributes.y);
@@ -449,10 +449,10 @@
 															});
 														}
 														if (child.tagName === 'p:nvPicPr') { // video id
-															child.children.some(function(grandchild) {
+															child.children.some(function get_slide_vid_el(grandchild) {
 																if (grandchild.tagName === "p:nvPr") {
 																	if (grandchild.children) {
-																		grandchild.children.some(function(ggchild) {
+																		grandchild.children.some(function get_slide_vid_id(ggchild) {
 																			if (ggchild.tagName === "a:videoFile") {
 																				vid.rId = ggchild.attributes["r:link"];
 																				containsVid = true;
@@ -473,7 +473,7 @@
 									}));
 								}
 							});
-							Promise.all(pArray).then(function() {
+							Promise.all(pArray).then(function resolve_pptx_videos_obj() {
 								resolve({xml:xmlobj, vidObj:videoObjs});
 							});
 						});
@@ -483,13 +483,13 @@
 						return new Promise(function(resolve, reject) {
 							var pArray = [];
 							var regex = RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
-							Object.keys(xmlobj.files).forEach(function(key) {
+							Object.keys(xmlobj.files).forEach(function each_slide_rels(key) {
 								if (regex.test(key)) {
-									pArray.push(new Promise(function(res,rej) {
-										xmlobj.files[key].async('text').then(function(xmlText) {
+									pArray.push(new Promise(function slide_rels_promise(res,rej) {
+										xmlobj.files[key].async('text').then(function read_slide_rel(xmlText) {
 											var xmlObj = tXml(xmlText);
-											videoObjs.forEach(function(vobj) {
-												xmlObj[0].children[0].children.forEach(function(rel) {
+											videoObjs.forEach(function each_video_object(vobj) {
+												xmlObj[0].children[0].children.forEach(function get_video_link(rel) {
 													if (rel.attributes['Id'] === vobj.rId) {
 														if (rel.attributes['Target'].startsWith('http')) {
 															vobj.embed = rel.attributes['Target'];
@@ -502,7 +502,7 @@
 									}));
 								}
 							});
-							Promise.all(pArray).then(function(){
+							Promise.all(pArray).then(function resolve_video_links(){
 								resolve(videoObjs);
 							});
 						});
@@ -510,11 +510,11 @@
 
 					if (fileInfo.type && fileInfo.type.indexOf('presentationml') !== -1) {
 						JSZip.loadAsync(fileInfo.original.split('base64,').pop(), {base64: true})
-						.then(function(obj) {
+						.then(function get_video_info_obj(obj) {
 							// Extract video info and embed code
 							getVidInfo(obj).then(function(obj) {
 								return getVidEmbed(obj.xml, obj.vidObj);
-							}).then(function(vobjs) {
+							}).then(function embed_external_videos(vobjs) {
 								var imgEl = doc.querySelector("#page-container img.bi");
 								for (var i = 0; i<vobjs.length;i++) {
 									if (vobjs[i].embed) {
