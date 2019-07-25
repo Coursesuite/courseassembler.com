@@ -204,10 +204,12 @@ aside.large header .icons {
 }
 aside.large header .title {
     padding: 10px;
+    height: 68px;
 }
 aside.large header h1 {
     font-weight: normal;
     margin: 0;
+    word-break: break-word;
 }
 aside.small header {
     padding-top: 10px;
@@ -257,7 +259,7 @@ body > aside.mobile {
   z-index: 999;
   top: 0;
   left: 0;
-  height: 48px;
+  height: 68px;
   width: 48px;
   transition: transform .3s ease;
   overflow: hidden;
@@ -281,6 +283,10 @@ body.has-audio > nav.mobile {
 }
 body.active aside.mobile {
   transform: translateX(calc(var(--asideLargeWidth) - 32px));
+}
+
+#mobilefs.disabled {
+  display: none;
 }
 
 body > nav.mobile {
@@ -370,6 +376,7 @@ li.completed > div i.checkmark:before {
 li > div > a {
     flex: 1;
     padding: 10px;
+    word-break: break-word;
 }
 li > ol > li > div {
     padding-left: 15px;

@@ -240,6 +240,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		document.body.classList.add("is-mobile");
 		document.body.classList.remove("active"); // start small
 		[].forEach.call(document.querySelectorAll("body > .mobile"), function (el) { el.style.display = "flex"; });
+    if (navigator.userAgent.toLowerCase().indexOf("ipad")!==-1) {
+      document.getElementById('mobilefs').classList.add('disabled');
+    }
 	} else {
 		document.body.classList.add("active"); // start big
 	}
