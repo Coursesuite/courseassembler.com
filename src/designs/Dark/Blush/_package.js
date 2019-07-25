@@ -236,7 +236,7 @@ cssVars({
 // initialise on page load
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
-	if (navigator.userAgent.toLowerCase().indexOf("mobile/")!==-1) {
+	if (navigator.userAgent.toLowerCase().indexOf("mobile")!==-1) {
 		document.body.classList.add("is-mobile");
 		document.body.classList.remove("active"); // start small
 		[].forEach.call(document.querySelectorAll("body > .mobile"), function (el) { el.style.display = "flex"; });
