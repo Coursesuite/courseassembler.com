@@ -150,12 +150,13 @@ body > footer, body > footer a {
 }
 
 body > header {
-    position: fixed;
-    top: 0; right: 0;
     padding: var(--iconMargin);
     font-size: var(--iconSize);
     color: black;
     z-index: 99;
+}
+body > header > a {
+  float: right;
 }
 pagetitle {
     color: rgba(255,255,255,.7);

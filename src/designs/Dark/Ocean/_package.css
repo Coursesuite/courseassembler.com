@@ -204,7 +204,7 @@ aside.large header .icons {
 }
 aside.large header .title {
     padding: 10px;
-    height: 68px;
+    min-height: 68px;
 }
 aside.large header h1 {
     font-weight: normal;
@@ -260,7 +260,7 @@ body > aside.mobile {
   z-index: 999;
   top: 0;
   left: 0;
-  height: 48px;
+  height: 68px;
   width: 48px;
   transition: transform .3s ease;
   overflow: hidden;

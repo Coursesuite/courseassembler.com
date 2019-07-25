@@ -294,6 +294,13 @@ li.selected > div {
 li.selected > div > a {
     color: inherit;
 }
+
+li.parent > div a:before {
+  content: "+ ";
+}
+li.parent.open > div a:before {
+  content: "- ";
+}
 /* ------------------------------------------------------------------------------- */
 
 
