@@ -212,6 +212,9 @@ body > nav a {
     line-height: var(--asideSmallWidth);
     font-family: var(--fontFamily), sans-serif;
 }
+.title > h1 {
+    word-break: break-word;
+}
 
 body > main {
     flex: 1;
