@@ -200,6 +200,7 @@ aside.large header .title {
 aside.large header h1 {
     font-weight: normal;
     margin: 0;
+    word-break: break-word;
 }
 aside.small header {
     padding-top: 10px;
@@ -271,6 +272,7 @@ li.completed > div i.checkmark:before {
 li > div > a {
     flex: 1;
     padding: 10px;
+    word-break: break-word;
 }
 li > ol > li > div {
     padding-left: 15px;
@@ -291,6 +293,13 @@ li.selected > div {
 }
 li.selected > div > a {
     color: inherit;
+}
+
+li.parent > div a:before {
+  content: "+ ";
+}
+li.parent.open > div a:before {
+  content: "- ";
 }
 /* ------------------------------------------------------------------------------- */
 
