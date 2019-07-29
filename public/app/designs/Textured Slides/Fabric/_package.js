@@ -352,9 +352,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     var node = document.getElementById("menu");
     if (node) node.innerHTML = menu.join("");
 
-	if (!screenfull.enabled) {
+	if (!!!screenfull.enabled) {
 		[].forEach.call(document.querySelectorAll("a[href='javascript:fullscreen()']"),function(el) {
-			el.parentNode.parentNode.removeChild(el.parentNode);
+			el.parentNode.removeChild(el);
 		});
 	}
 
