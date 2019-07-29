@@ -240,9 +240,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		document.body.classList.add("is-mobile");
 		document.body.classList.remove("active"); // start small
 		[].forEach.call(document.querySelectorAll("body > .mobile"), function (el) { el.style.display = "flex"; });
-    if (navigator.userAgent.toLowerCase().indexOf("ipad")!==-1) {
-      document.getElementById('mobilefs').classList.add('disabled');
-    }
+	    if (navigator.userAgent.toLowerCase().indexOf("ipad")!==-1) {
+	      document.getElementById('mobilefs').classList.add('disabled');
+	    }
 	} else {
 		document.body.classList.add("active"); // start big
 	}
@@ -355,9 +355,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     var node = document.getElementById("menu");
     if (node) node.innerHTML = menu.join("");
 
-	if (!screenfull.enabled) {
+	if (!!!screenfull.enabled) {
 		[].forEach.call(document.querySelectorAll("a[href='javascript:fullscreen()']"),function(el) {
-			el.parentNode.parentNode.removeChild(el.parentNode);
+			el.parentNode.removeChild(el);
 		});
 	}
 
