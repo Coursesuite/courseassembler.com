@@ -273,8 +273,8 @@ nav.mobile a, aside.mobile a {
   vertical-align: middle;
   line-height: 24px;
   box-shadow: 0 0 5px rgba(0,0,0,.2);
-  background-color: var(--headerBackground);
-  color: var(--headerText, var(--textColor));
+  background-color: var(--backgroundColor);
+  color: var(--textColor);
   padding: 4px;
   outline: none;
 }
