@@ -568,7 +568,7 @@ function checkTimeSpent(n,d) {
 
 // child frames emit a statuschange custom event with the detail, rather than modifying the pages[n].status object since n might have drifted
 window.addEventListener("statuschange", function (e) {
-	if (e.detail.index && pages && pages[e.detail.index]) {
+	if (e.detail.hasOwnProperty("index") && pages && pages[e.detail.index]) {
 		pages[e.detail.index].status = e.detail;
 	}
 }, false);
