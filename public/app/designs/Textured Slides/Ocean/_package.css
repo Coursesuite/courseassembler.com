@@ -188,6 +188,7 @@ body>footer > div.information {
     font-size: 0.9rem;
     font-weight: bold;
     color: rgba(255,255,255,.75);
+    word-break: break-word;
 }
 
 body>footer .watermark {

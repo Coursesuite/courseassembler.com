@@ -146,13 +146,14 @@ body {
 }
 body>header, body>footer {
     padding: 0 var(--gutterSize);
-    height: var(--gutterSize);
+    height: auto;
 }
 body>header h1, body>footer h2 {
     padding: 0;
     margin: 0;
     font-weight: normal;
     font-size: 24px;
+    word-break: break-word;
 }
 body>footer h2 {
     font-size: 20px;

@@ -147,7 +147,12 @@ body {
 }
 body>header, body>footer {
     padding: 0 var(--gutterSize);
-    height: var(--gutterSize);
+}
+body>header {
+  height: auto;
+}
+body>header>h1 {
+  word-break: break-word;
 }
 body>footer {
     height: calc(2 * var(--gutterSize));

@@ -151,8 +151,14 @@ body>header, body>footer {
     height: var(--gutterSize);
     color: #7b2d04;
 }
+body>header {
+    height: auto;
+}
 body>header a {
     color: inherit;
+}
+body>header h1 {
+  word-break: break-word;
 }
 body>header h1, body>footer h2 {
     padding: 0;
