@@ -100,10 +100,10 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
       var _suspend = resume();
       if (_suspend !== null && isJSON(_suspend)) {
         for (var d=JSON.parse(_suspend),n=0,l=d.length,r,p;n<l,r=d[n];n++) {
-          p = findInJson(pages,"index",r.i);
-          p._completed = (r.c===1); // need to set the underlying property, ensure its boolean
-          p["timeSpent"]=r.t; // number
-          p["userdata"]=r.u; // array
+          p = findInJson(pages,"index",r.index);
+          p._completed = (r.completed===1); // need to set the underlying property, ensure its boolean
+          p["timeSpent"]=r.timeSpent; // number
+          p["userdata"]=r.userdata; // array
         }
       }
     }
@@ -259,7 +259,7 @@ function checkTimeSpent(n,d) {
 
 // child frames emit a statuschange custom event with the detail, rather than modifying the pages[n].status object since n might have drifted
 window.addEventListener("statuschange", function (e) {
-	if (e.detail.index && pages && pages[e.detail.index]) {
+	if (e.detail.hasOwnProperty("index") && pages && pages[e.detail.index]) {
 		pages[e.detail.index].status = e.detail;
 	}
 }, false);
