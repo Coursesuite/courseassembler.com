@@ -1011,7 +1011,16 @@ function CancelConversion(fileId) {
 // });
 
 window.addEventListener('statuschange', function (e) {
-  checkTimeSpent(e.detail);
+  switch(e.detail.status) {
+    case 'resit': localforage.getItem(e.detail.id, function action_plugin_view_get(err, value) {
+                    var frame = document.getElementById("preview-frame");
+                    frame.removeAttribute("data-fileid");
+                    frame.setAttribute("src","plugins/QuizBuilder/view.html?" + e.detail.id);
+                  });
+                  break;
+    default: checkTimeSpent(e.detail);break;
+  }
+  
 }, false);
 
   // TRIGGER a resize event (cause it to fire)
