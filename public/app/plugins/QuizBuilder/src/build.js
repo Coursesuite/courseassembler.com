@@ -283,11 +283,8 @@ function initQB(userdata, quiz) {
 				e.preventDefault();
 				if(window.confirm("Do you want to resit the quiz?")) {
 					emitStatus({
-						index:_page_index, // index in player
+						id: window.name,
 						status:'resit',
-						userdata:[], // blank
-						score:0,
-						required:quiz.required
 					});
 
 					// this is just for the preview within courseassembler

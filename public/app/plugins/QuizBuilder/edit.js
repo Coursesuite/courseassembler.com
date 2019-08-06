@@ -192,6 +192,19 @@ var QuizBuilder = (function () {
 		new Sortable($("#distractors>tbody"),{draggable:"tr", handle: "td:first-of-type", onEnd:function(evt) {
 			QuizBuilder.Questions.Save();
 		}});
+    
+    _data_.randomise = ($("#order_field").value==="true") ? true : false;
+
+    if (!_data_.randomise) {
+      _sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
+        [].forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
+          _data_.questions.find(function(obj) { return obj.uid === dom.dataset.uid}).order=index;
+        });
+        QuizBuilder.Save();
+      }});
+    } else {
+      if (_sortable) _sortable.destroy();
+    }
 
 		$("#distractorsFoot").addEventListener("click",function(e){ if(e.target.id==="addDistractor"){
 			var len = document.querySelectorAll("#distractors>tbody>tr").length;

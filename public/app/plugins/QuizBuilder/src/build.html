@@ -37,11 +37,14 @@
 			</label>
 			<% } %>
 		</div>
-		<% if (feedback === "answer" && !data[page].locked) { %>
 		<div class="actions" data-index="<%=page%>">
-			<p><a href="#submit" class="button">{{buttons.check}}</a> <a href="#next" class="button ">{{buttons.next}}</a></p>
-		</div>
+			<p> 
+		<% if (feedback === "answer" && !data[page].locked) { %>
+			<a href="#submit" class="button">{{buttons.check}}</a>
 		<% } %>
+			<a href="#next" class="button ">{{buttons.next}}</a>
+			</p>
+		</div>
 	</script>
 	<script type="text/html" id="endpage">
 		<p>Thanks for completing the quiz.</p>
