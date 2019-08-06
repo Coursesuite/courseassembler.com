@@ -35,6 +35,7 @@
 				frame.setAttribute("seamless", true);
 				frame.setAttribute("id", "preview-frame");
 				frame.setAttribute("data-fileid", id);
+				frame.setAttribute("name", id);
 				frame.style.flex = 1;
 				preview.appendChild(frame);
 				var data = value,
