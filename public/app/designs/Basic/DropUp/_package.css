@@ -147,7 +147,7 @@ body.active aside {
 
 aside {
     transition: transform .3s ease, opacity .3s, box-shadow .3s;
-    transform: translateY(15vh);
+    /*transform: translateY(15vh); */
     pointer-events: none;
     box-shadow: 0 5em 1em rgba(0,0,0,0);
     opacity: 0;

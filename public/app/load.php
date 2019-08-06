@@ -2,7 +2,7 @@
 require_once('../../vendor/autoload.php');
 $verifier = (new CoursesuiteValidator())->Validate($_GET);
 $verifier->code->minified = true;
-$timestamp = '20190731133138';
-$minified_css = 'css/app.min.20190731133138.css';
-$minified_app = 'js/app.min.20190731133138.js';
+$timestamp = '20190806110244';
+$minified_css = 'css/app.min.20190806110244.css';
+$minified_app = 'js/app.min.20190806110244.js';
 ?>
