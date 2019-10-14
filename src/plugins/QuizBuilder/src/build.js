@@ -1,4 +1,7 @@
-var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0],_userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]")),_page_index=qs[1];
+var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0];
+var _userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]"));
+console.log(_userdata);
+var _page_index=qs[1];
 
 // john resig's micro javascript template
 (function(){
@@ -117,7 +120,7 @@ function initQB(userdata, quiz) {
 				}
 			}
 
-			return [q.uid, 0, dest]; // question-in-order, my-value, distractors-in-order
+			return [q.uid, 0, dest, q.locked]; // question-in-order, my-value, distractors-in-order, question locked value
 		});
 
 	} // else the userdata exists, which means we already have the randomised question set
@@ -142,7 +145,7 @@ function initQB(userdata, quiz) {
 			ud = value[2], // user pre-randomised and cropped ids
 			nd = []; // new distractor array
 			q.answer = val;
-			q.locked = (quiz.feedback==="answer" && val>0); // TODO: confirm lock logic
+			q.locked = value[3]; //(quiz.feedback==="answer" && val>0); // TODO: confirm lock logic
 		for (var i=0; i<ud.length; i++) {
 			var d = qd[ud[i]];
 			d.value = Math.pow(2,ud[i]); // the value of the distractor; add the checked values together and compare to the required answer (no partial marking)
@@ -219,9 +222,12 @@ function initQB(userdata, quiz) {
 		[].forEach.call(document.querySelectorAll("div.answers input"), function (node) {
 			node.setAttribute("disabled","disabled");
 		});
-		userdata.find(function (record) {
+		userdata.find(function (record) { // will putting this in a var fuck it up?
 			return (question.uid === record[0]);
 		})[1] = question.answer;
+		userdata.find(function (record) {
+			return (question.uid === record[0]);
+		})[3] = question.locked;
 	}
 
 	function lock_quiz() {
@@ -249,6 +255,9 @@ function initQB(userdata, quiz) {
 				})[1];
 			question.locked = true;
 			question.answer = answer;
+			userdata.find(function (record) {
+				return (question.uid === record[0]);
+			})[3] = question.locked;
 			node.classList.add(question.answer===0?"none":question.answer===question.required ? "positive":"negative");
 		});
 	}
