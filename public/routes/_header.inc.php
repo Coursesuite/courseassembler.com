@@ -38,7 +38,7 @@
 							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
 							<li><a href="/faq">Faq</a></li>
 							<li><a href="/changelog">Changelog<?php badge('/changelog'); ?></a></li>
-							<li><a href="/docs">Documentation</a></li>
+							<li><a href="/docs" target="_blank">Documentation</a></li>
 						</ul>
 						<div class="uk-navbar-item">
 							<?php include "_launch.inc.php"; ?>
