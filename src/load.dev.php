@@ -1,6 +1,11 @@
 <?php
 defined('APP')?assert(true):die();
 
+session_start();
+if (!isset($_SESSION['sesskey'])) {
+	$_SESSION['sesskey'] = md5(time());
+}
+
 error_reporting(E_ERROR);
 ini_set("display_errors", 1);
 

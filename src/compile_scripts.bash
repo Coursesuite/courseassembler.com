@@ -49,6 +49,8 @@ cd ..
 echo "Creating app loader"
 echo "<?php" > load.php
 echo "require_once('../../vendor/autoload.php');" >> load.php
+echo "session_start();" >> load.php
+echo "if (!isset(\$_SESSION['sesskey'])) \$_SESSION['sesskey'] = md5(time());" >> load.php
 echo "\$verifier = (new CoursesuiteValidator())->Validate(\$_GET);" >> load.php
 echo "\$verifier->code->minified = true;" >> load.php
 echo "\$timestamp = '$TS';" >> load.php
