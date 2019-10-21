@@ -99,4 +99,4 @@
 			</div>
 		</div>
 
-		<?php include "_api.inc.php"; ?>
+		
