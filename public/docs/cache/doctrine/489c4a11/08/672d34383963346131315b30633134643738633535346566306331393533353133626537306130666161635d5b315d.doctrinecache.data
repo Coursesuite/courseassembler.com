@@ -1,0 +1,32 @@
+1572223350
+a:2:{s:7:"content";s:4786:"<p>To get any use out of the Course Assembler, we'll need some documents!</p>
+<p>Let's get started by clicking the <strong>Add content</strong> button toward the top left corner of the Assembler.</p>
+<p><img alt="Add content button" src="/docs/user/pages/01.using-the-app/01.add-documents/01.uploading-documents/AddDocuments_addContent.png" /></p>
+<p>The following popup should appear:</p>
+<p><img alt="Add content window" src="/docs/images/d/e/c/4/8/dec4828d6912267c35f9a18b811f0a327066d82c-adddcumentsaddingdocumentspopup.png" /></p>
+<p>! If you have no documents in the Assembler when you first open it (whether using it the first time or after a reset), this popup opens automatically to save time!</p>
+<p>From here, we have several options available for uploading stuff into the Assembler:</p>
+<h3>Drag and drop files</h3>
+<p>This is the simplest method - just click and drag a file from the desktop over the Assembler, then drop it into the Assembler to upload it. There's an area marked by a dotted outline, but you don't <em>have</em> to just drop it there - as long as the popup's open, you can drop it anywhere!</p>
+<p>(Keep an eye on the dotted area anyway, though - if it turns dark grey, you're all good to drop your file. If it doesn't, it's a handy indicator that your browser might not support the drag/drop method)</p>
+<p><img alt="Drag and drop a file" src="/docs/images/8/a/d/c/2/8adc220cd90eef3048619bb59b18f6555716ee50-adddocumentsdragfile.png" /></p>
+<p>If you want to upload a web page or add streaming media (YouTube, Vimeo, SoundCloud), open the web page in a new browser window and highlight the URL in your browser's address bar. Then drag that address into the Assembler and drop it in.</p>
+<p><img alt="Highlight an URL in your browser" src="/docs/images/e/c/2/8/8/ec288ba793549df632b2597bb14969fae303716a-adddocumentsurl.png" />
+<img alt="Drag and drop an URL" src="/docs/images/f/c/8/0/7/fc807f73f55c3034fffbb386dedee0de82c4c58b-adddocumentsdragurl.png" /></p>
+<h3>Upload from your computer</h3>
+<p>Use this to upload files from your PC the old fashioned way - click the dotted outline area and a window will open, allowing you to manually search for your file. Once you've got it, click on it once to select it, then click <em>Open</em> to upload it.</p>
+<p><img alt="Upload from your computer" src="/docs/images/c/5/9/a/b/c59ab35b67839f627c7890fc78c2e8299273abb5-docninjauploadcomputer.png" /></p>
+<h3>Paste in an URL</h3>
+<p>Use this to upload streaming media and web pages the old-fashioned way - copy the web page URL from your browser's address bar and paste it into the text box provided, then click the <em>Insert</em> button below to upload it.</p>
+<p><img alt="Paste in an URL" src="/docs/images/d/c/5/f/1/dc5f1235e71a76577de53a59af83dc14182dffb2-adddocumentspasteurl.png" /></p>
+<h3>Upload from the Cloud</h3>
+<p>If you have files on a cloud storage account (such as Dropbox, Google Drive, OneDrive, etc) you can use them too! Under 'Upload from the Cloud', click the <em>Choose</em> button and a popup will open, allowing you to connect a cloud storage service if supported by the Assembler (or just navigate to your files if you've already linked an account).</p>
+<p><img alt="Upload from the Cloud" src="/docs/images/e/6/4/2/a/e642a141de3122d07192bd263df2202ba45a39f8-adddocumentsuploadcloud.png" />
+<img alt="Cloud uploads" src="/docs/images/f/e/7/3/5/fe73562386e247147ec7fdf2e3df150166c1dab5-medianinjacloud.png" /></p>
+<p>Once you've found your file, click on it to select it, then click the blue <em>Select</em> button in the bottom right corner to upload it to the Assembler.</p>
+<p><img alt="Cloud storage directory" src="/docs/images/e/1/9/3/6/e1936c9ecb657007ef13f322280a2445569759e3-docninjacloudimport.png" /></p>
+<p>! For more detailed information on how to manage the cloud storage popup, see <a href="/docs/assembler/usage/other/cloud-management">Cloud storage management</a>.</p>
+<hr />
+<p>Each document will appear in the list and each item represents a 'page' in the final content package. Files are converted to HTML5 when uploaded to the Assembler - during file conversion, the left menu will change to show the conversion taking place (you can cancel it at any time by clicking the 'x' icon to the right of the file name). You can also continue working on other documents or dragging more documents onto the browser while files are still uploading.</p>
+<p><img alt="Uploading files converting to HTML5" src="/docs/user/pages/01.using-the-app/01.add-documents/01.uploading-documents/docNinja_uploadConversion.jpg" /></p>
+<p>Files are also stored in your browser forever (or until you delete them or press Reset). This means you can close your browser and come back tomorrow and the files will still be loaded and ready.</p>";s:12:"content_meta";N;}

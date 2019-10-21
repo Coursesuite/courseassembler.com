@@ -1,6 +1,6 @@
 ---
 menu: 'Download your Package'
-redirect: assembler/usage/publishing-your-package/metadata
+redirect: usage/publishing-your-package/metadata
 routable: false
 ---
 

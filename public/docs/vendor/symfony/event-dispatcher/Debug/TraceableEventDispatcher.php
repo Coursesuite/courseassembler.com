@@ -32,6 +32,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
     private $callStack;
     private $dispatcher;
     private $wrappedListeners;
+    private $orphanedEvents;
 
     public function __construct(EventDispatcherInterface $dispatcher, Stopwatch $stopwatch, LoggerInterface $logger = null)
     {
@@ -39,6 +40,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
         $this->stopwatch = $stopwatch;
         $this->logger = $logger;
         $this->wrappedListeners = [];
+        $this->orphanedEvents = [];
     }
 
     /**
@@ -191,21 +193,18 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
             return [];
         }
 
+        $calledListeners = [];
+
+        if (null !== $this->callStack) {
+            foreach ($this->callStack as $calledListener) {
+                $calledListeners[] = $calledListener->getWrappedListener();
+            }
+        }
+
         $notCalled = [];
         foreach ($allListeners as $eventName => $listeners) {
             foreach ($listeners as $listener) {
-                $called = false;
-                if (null !== $this->callStack) {
-                    foreach ($this->callStack as $calledListener) {
-                        if ($calledListener->getWrappedListener() === $listener) {
-                            $called = true;
-
-                            break;
-                        }
-                    }
-                }
-
-                if (!$called) {
+                if (!\in_array($listener, $calledListeners, true)) {
                     if (!$listener instanceof WrappedListener) {
                         $listener = new WrappedListener($listener, null, $this->stopwatch, $this);
                     }
@@ -219,9 +218,15 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
         return $notCalled;
     }
 
+    public function getOrphanedEvents(): array
+    {
+        return $this->orphanedEvents;
+    }
+
     public function reset()
     {
         $this->callStack = null;
+        $this->orphanedEvents = [];
     }
 
     /**
@@ -234,7 +239,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      */
     public function __call($method, $arguments)
     {
-        return \call_user_func_array([$this->dispatcher, $method], $arguments);
+        return $this->dispatcher->{$method}(...$arguments);
     }
 
     /**
@@ -259,6 +264,12 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
 
     private function preProcess($eventName)
     {
+        if (!$this->dispatcher->hasListeners($eventName)) {
+            $this->orphanedEvents[] = $eventName;
+
+            return;
+        }
+
         foreach ($this->dispatcher->getListeners($eventName) as $listener) {
             $priority = $this->getListenerPriority($eventName, $listener);
             $wrappedListener = new WrappedListener($listener instanceof WrappedListener ? $listener->getWrappedListener() : $listener, null, $this->stopwatch, $this);
@@ -289,10 +300,6 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
             if ($listener->wasCalled()) {
                 if (null !== $this->logger) {
                     $this->logger->debug('Notified event "{event}" to listener "{listener}".', $context);
-                }
-
-                if (!isset($this->called[$eventName])) {
-                    $this->called[$eventName] = new \SplObjectStorage();
                 }
             } else {
                 $this->callStack->detach($listener);

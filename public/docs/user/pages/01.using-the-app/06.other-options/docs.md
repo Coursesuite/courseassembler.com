@@ -2,7 +2,7 @@
 title: Other-options
 menu: 'Other options'
 slug: other
-redirect: assembler/usage/other/reset
+redirect: usage/other/reset
 routable: false
 ---
 

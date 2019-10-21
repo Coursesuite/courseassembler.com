@@ -1,0 +1,13 @@
+1572243813
+a:2:{s:7:"content";s:1177:"<p>To download your package as a zip, click on the <strong>Download zip</strong> button.</p>
+<p><img alt="Download zip" src="/docs/user/pages/01.using-the-app/04.publishing-your-package/03.download-zip/download.png" /></p>
+<p>The button will change into a small animated circle as it gathers the settings into a file for publishing, then it should either start downloading automatically or you should be prompted to save your zip file.</p>
+<p>Pressing the download button performs these steps:</p>
+<ol>
+<li>Creates HTML5 files using built-in templates that reference all the required scripts for your media type.</li>
+<li>Sets the completion requirement to the percentage watched requirement you set on the Completion tab.</li>
+<li>Generate the appropriate IMS Manifest type for the package and include all the standard data-definition files for that package type</li>
+<li>Generate a ZIP file in memory</li>
+<li>Prompt you to download that ZIP file.</li>
+</ol>
+<p>After you download the package, you can still go back to previous sections of the Assembler to make more changes and download again - the files are not "wiped" from your browser until you press the Reset link.</p>";s:12:"content_meta";N;}

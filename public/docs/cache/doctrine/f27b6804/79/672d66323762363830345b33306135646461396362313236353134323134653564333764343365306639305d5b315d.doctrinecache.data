@@ -1,0 +1,6 @@
+1571910478
+a:2:{s:7:"content";s:999:"<p>The SCORM completion status (stored in <code>cmi.core.lesson_status</code>) is initially set to not-attempted and then set to incomplete when pages load.</p>
+<p>After the media starts playing and during other events (buffering, pausing, end reached), the SCORM cmi.core.lesson_location is set to the number of seconds played.</p>
+<p>When the media plays past the location specified in the completion, <code>cmi.core.lesson_status</code> is set to completeted, and the core score fields are set to the percentage required for completion.</p>
+<p>second; the status is only set to completed, because of ambiguity in the SCORM API (and buggy implementations in some popular LMS's...)</p>
+<p>It's expected learners might close the package and return in another session, hence <code>cmi.core.exit</code> is initially set to suspend, and cleared apon course completion. A user who exits and returns should resume playback at the point they left off - thanks to <code>cmi.core.lesson_location</code>.</p>";s:12:"content_meta";N;}

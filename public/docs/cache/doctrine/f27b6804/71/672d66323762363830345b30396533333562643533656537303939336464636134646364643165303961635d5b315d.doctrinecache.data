@@ -1,0 +1,52 @@
+1571911476
+a:2:{s:7:"content";s:7898:"<p>Once you select a file from your list to view it, you'll notice a bunch of options in the thin blue bar above your content. Each item, or 'page', in your course gets these options - though some item types get different or additional options that others.</p>
+<p><img alt="Page options" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_pageOptionsBar.png" /></p>
+<p>To start with, here's the options that every item will have:</p>
+<h3>Background colour</h3>
+<p>When you import a file, the Assembler will automatically pick a background colour it thinks will look nice, depending on the content of the document. However, if you're not a fan of the Assembler's sense of decoration, you can easily change this.</p>
+<p>To change an item's background colour, click on the <strong>BG Colour</strong> button in the top left and the following popup will appear.</p>
+<p><img alt="Background colour button" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_BGColourButton.png" />
+<img alt="Background colour popup" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_BGColour.png" /></p>
+<p>From here, you can pick any of the four shades (Black, Dark grey, Light grey, White) or click the 'Choose a colour' button to pick a custom colour. You can also set the same background colour for all of your items in the Assembler if you wish, using the 'Apply to all pages' checkbox.</p>
+<p><img alt="Choosing a custom background colour" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_BGColour2.png" /></p>
+<p>When you're done, hit the <em>Save</em> button to confirm your choice.</p>
+<h3>Page title</h3>
+<p>In the middle of these options, the item title is also prominently displayed. You can rename items, but that isn't handled here anymore - go to <a href="https://guide.coursesuite.ninja/assembler/usage/add-documents/arranging-items">Arranging your items</a> to see how that works!</p>
+<h3>Deleting a page</h3>
+<p>Sometimes an item just needs to go. Courses move on; change of plans; you uploaded your dog's photo instead of your own - it happens to everyone! Don't worry though, deleting an item is also quite easy.</p>
+<p>To delete an item, click the <strong>Delete page</strong> button to the very right of the thin blue bar. You will be asked to confirm before continuing. Clicking <em>Yes</em> will immediately delete the item, while clicking <em>No</em> will cancel the action.</p>
+<p><img alt="Delete button" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_DeleteButton.png" />
+<img alt="Delete popup" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_Delete.png" /></p>
+<hr />
+<p>Depending on the type of document you're viewing, you'll also have access to some additional options:</p>
+<h3>Audio</h3>
+<p>This option appears on all items except streaming media and quizzes. It's used to add an audio file to your item to accompany the current content. It's also got quite a few options within itself, but here's what you need to know.</p>
+<p>To add an audio file, click the <strong>Audio</strong> button in the top left and the following popup will appear.</p>
+<p><img alt="Audio button" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_AudioButton.png" />
+<img alt="Audio popup" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_Audio.png" /></p>
+<p>From here, you can either play your current audio (if any is present), record your own audio or upload an MP3 file from your deskop.</p>
+<p>To record audio from your microphone, click the <em>Record</em> button. An additional area will appear at the bottom of the popup.</p>
+<p><img alt="Recording audio" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_AudioRecord.png" /></p>
+<p>Click the second <em>Record</em> button once to start recording, then click it again when you're finished. You can preview your recording using the player provided, then click <em>Accept</em> to confirm your audio.</p>
+<p>! If using this for the first time, you may get a notification from your web browser asking for permission to use your microphone. You'll need to accept it to allow recording.</p>
+<p>To upload an existing audio file from your computer, click the <em>Upload MP3</em> button. A window will open, allowing you to manually search for your file. Once you've got it, click on it once to select it, then click <em>Open</em> to import it.</p>
+<p><img alt="Upload MP3" src="/docs/images/2/6/6/7/9/266799db31991d70056718c52e6198d1d57652fb-adddocumentsaudiomp3find.png" /></p>
+<p>To download your current audio file, click the 3-dot icon that appears to the right of the player, then click the <em>Download</em> button. This will be useful if you want to edit recordings in external software before reuploading to the Assembler.</p>
+<p><img alt="Downloading audio" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_AudioDownload2.png" /></p>
+<p>To delete your audio, click the <em>Remove</em> button and it's gone. This deletes it immediately, so be sure you want it gone before clicking!</p>
+<p>On a final note, there's also a handy speaker icon to the right of the audio button to indicate whether an item has audio attached. If it's a standard icon, there's audio attached. If it's got a line through it, there's nothing here!</p>
+<p><img alt="Audio icon - audio attached" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_AudioIcon1.png" />
+<img alt="Audio icon - no audio attached" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_AudioIcon2.png" /></p>
+<h3>Completion rule</h3>
+<p>This option only appears on streaming media items. It's used to determine when the media will be marked as 'complete' as your users watch through it.</p>
+<p>To change the completion point, click on the <strong>Completion rule</strong> button in the top left and the following popup will appear.</p>
+<p><img alt="Completion rule button" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_CompletionRuleButton.png" />
+<img alt="Completion rule popup" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_CompletionRule.png" /></p>
+<p>The completion point is determined by a percentage slider and set to 50% by default (meaning the video is marked 'complete' at its halfway point). Click and drag the slider to the left or right to adjust the percentage to your preferred point.</p>
+<p>When you're done, hit the <em>Save</em> button to confirm your choice.</p>
+<h3>Split</h3>
+<p>This option only appears on multi-page documents (such as Word docs, Excel sheets and PDFs) if they're uploaded to the Assembler while 'Auto-split documents' is disabled (<a href="https://guide.coursesuite.ninja/assembler/usage/other/app-defaults">more on that here</a>). These type of documents will initially take up only one item in the Assembler, but you may prefer to have their pages broken up into individual items instead.</p>
+<p>To split a document, click on the <strong>Split</strong> button in the top left. The document will immediately be broken up into individual items, with each item listed as its own entry in the document list.</p>
+<p><img alt="Splitting documents" src="/docs/user/pages/01.using-the-app/01.add-documents/03.item-options/AddDocuments_Split.png" /></p>
+<p>When a document is split, we automatically indent all items after the first by deafult, though you can easily edit this (and also rename, rearrange and/or delete items at your leisure).</p>
+<p>!! Splitting a document cannot be undone - if you want to reverse it, you'll have to upload the original file again!</p>";s:12:"content_meta";N;}
