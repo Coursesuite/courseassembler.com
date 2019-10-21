@@ -18,7 +18,11 @@ $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
 $jsApp->Themes = [$themes];
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
-	$jsApp->Publish = $verifier->api->publish;
+	if (strpos($verifier->api->publish,"https:") === false) {
+		$jsApp->Publish = "publish.php?dest=" . rawurlencode($verifier->api->publish) . "&sesskey=" . $sesskey;
+	} else {
+		$jsApp->Publish = $verifier->api->publish;
+	}
 	$jsApp->Bearer = $verifier->api->bearer;
 	$jsApp->Method = "POST"; // or PUT
 }
@@ -318,7 +322,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class="dropzone" onclick="document.getElementById('uplControl').click()">
 				<h3>Drag and drop your content here</h3>
 				<p>Or click here to browse</p>
-				<input type="file" id="uplControl" style="display:none" onchange="manualUpload(this.files)" />
+				<input type="file" id="uplControl" style="display:none" onchange="manualUpload(this.files);this.value=null;" />
 			</div>
 		</section>
 		<p class="or"><span>or</span></p>

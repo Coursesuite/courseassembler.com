@@ -96,8 +96,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     learnerWillReturn(true);
     scormCommit();
 
-    if (!isFirstLaunch()) {
+    if (!isFirstLaunch()) { // RELAUNCHING NOT WORKING!!!
       var _suspend = resume();
+      console.dir(_suspend)
       if (_suspend !== null && isJSON(_suspend)) {
         for (var d=JSON.parse(_suspend),n=0,l=d.length,r,p;n<l,r=d[n];n++) {
           p = findInJson(pages,"index",r.index);
@@ -185,7 +186,7 @@ function load() {
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
 	if (current_page.content === "plugin") {
-		src = current_page.href + "?" + [escape(current_page.userdata || []),course.page].join(",");
+    src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
     _now = (new Date).getTime() / 1000;
