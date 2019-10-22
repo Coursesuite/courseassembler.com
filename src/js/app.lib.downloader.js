@@ -564,10 +564,11 @@ localforage.iterate(function( ... ) {
 				$span.html(_html);
 				if (this.status == 200) {
 					var obj = JSON.parse(this.responseText);
-					var popup = window.open(obj.href,'previewninja');
-					if (typeof popup == 'undefined' || popup == null) {
-						alert("We tried to popup up the window, but your browser has blocked it (check your browser location bar). Please allow popups from this site, or copy and open this link:\n\n" + obj.href);
-					}
+					popIframe(obj.href);
+					// var popup = window.open(obj.href,'previewninja');
+					// if (typeof popup == 'undefined' || popup == null) {
+					// 	alert("We tried to popup up the window, but your browser has blocked it (check your browser location bar). Please allow popups from this site, or copy and open this link:\n\n" + obj.href);
+					// }
 				}
 			}
 			xhr.onerror = function (result) {
