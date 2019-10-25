@@ -1,8 +1,8 @@
 ;(function(DocNinja, $, App, undefined) {
 	//testcomment
 	DocNinja.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx"), // https://developers.kloudless.com/applications/ninjasuite/details;
-	DocNinja.KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: DocNinja.KLOUDLESS_APP_ID}),
-	DocNinja.KLOUDLESS_OUTPUT = window.Kloudless.explorer({app_id: DocNinja.KLOUDLESS_APP_ID});
+	DocNinja.KLOUDLESS_INPUT = window.Kloudless.fileExplorer.explorer({app_id: DocNinja.KLOUDLESS_APP_ID}),
+	DocNinja.KLOUDLESS_OUTPUT = window.Kloudless.fileExplorer.explorer({app_id: DocNinja.KLOUDLESS_APP_ID});
 
 	// cache frequently used selectors
 	DocNinja.options = {
@@ -35,6 +35,8 @@
 		AUTOOPTIMISE: true,
 		AUTOSPLIT: true,
 		AUTOCENTER: true,
+		PDFTOOLS: true,
+		PDFEMBED: false,
 		loader: new SVGLoader( document.getElementById( 'loader' ), { speedIn : 199, easingIn : mina.easeinout } ),
 		snd: new Audio("swoosh_quiet.mp3"),
 		sndpop: new Audio("pop.mp3"),
@@ -599,7 +601,7 @@
 							// li.setAttribute("data-fileid", DocNinja.PurityControl.Nav.GetFileId(i));
 							// DocNinja.navItems.appendChild(li);
 //							(function (_file) { // shouldn't need the closure here
-							dragHandler.LoadFile(e.dataTransfer.files[i]); //li, 
+							dragHandler.LoadFile(e.dataTransfer.files[i]); //li,
 //							}());
 						}
 					} else {
@@ -741,7 +743,9 @@
 					DocNinja.options.MUTED = classie.hasClass(document.body, "mute");
 					DocNinja.options.AUTOSPLIT = !classie.hasClass(document.body, "no-autosplit");
 					DocNinja.options.AUTOOPTIMISE = !classie.hasClass(document.body, "no-autoresize"),
-					DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter");
+					DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter"),
+					DocNinja.options.PDFEMBED = classie.hasClass(document.body,"pdf-embed"),
+					DocNinja.options.PDFTOOLS = !classie.hasClass(document.body,"pdf-tools");
 				}
 			});
 
