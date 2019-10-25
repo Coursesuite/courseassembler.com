@@ -1070,6 +1070,8 @@ function handlePopover(tgt) {
 			$("input[data-action='toggle-no-autosplit']").prop("checked", DocNinja.options.AUTOSPLIT);
 			$("input[data-action='toggle-no-autoresize']").prop("checked", DocNinja.options.AUTOOPTIMISE);
 			$("input[data-action='toggle-no-autocenter']").prop("checked", DocNinja.options.AUTOCENTER);
+			$("input[data-action='toggle-no-pdftoolbar']").prop("checked", DocNinja.options.PDFTOOLS);
+			$("input[data-action='toggle-pdfembed']").prop("checked", DocNinja.options.PDFEMBED);
 			break;
 
 		case "page-layout":
@@ -1744,7 +1746,8 @@ function popIframe(url) {
     b.id = o;
     b.style = "position:fixed;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:" + highestZindex() + 1;
     b.appendChild(d);
-    d.style = "position:absolute;width:90%;height:90%;left:5%;top:5%";
+    d.setAttribute("allowfullscreen","true");
+    d.style = "position:absolute;width:90%;height:90%;left:5%;top:5%;box-shadow:0 10px 25px rgba(0,0,0,.5);";
     d.src = url;
     c.style = "position:absolute;top:calc(5% - 24px);left:96%;width:24px;height:24px;cursor:pointer";
     c.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path stroke=\"white\" stroke-width=\"3px\" d=\"M0 0l24 24M0 24L24 0\"/></svg>";
