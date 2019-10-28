@@ -36,7 +36,7 @@
 		AUTOSPLIT: true,
 		AUTOCENTER: true,
 		PDFTOOLS: true,
-		PDFEMBED: false,
+		PDFEMBED: true,
 		loader: new SVGLoader( document.getElementById( 'loader' ), { speedIn : 199, easingIn : mina.easeinout } ),
 		snd: new Audio("swoosh_quiet.mp3"),
 		sndpop: new Audio("pop.mp3"),
@@ -739,13 +739,39 @@
 					e.preventDefault();
 					var action = (e.currentTarget.dataset.action ? e.currentTarget.dataset.action : e.currentTarget.parentNode.dataset.action).replace("toggle-", "");
 					document.body.classList.toggle(action);
+
+					// splitting removes the code that pdf toolbar requires; so toggle various settings
+					switch (action) {
+						case "no-autosplit":
+						if (e.currentTarget.checked) {
+							document.body.classList.add("no-pdfembed", "no-pdftoolbar");
+							$("input[data-action='toggle-no-pdfembed'], input[data-action='toggle-no-pdftoolbar']").prop("checked", false);
+						}
+						break;
+
+						case "no-pdfembed":
+						if (e.currentTarget.checked) {
+							document.body.classList.add("no-autosplit");
+							document.body.classList.remove("no-pdftoolbar");
+							$("input[data-action='toggle-no-autosplit']").prop("checked", false);
+							$("input[data-action='toggle-no-pdftoolbar']").prop("checked", true);
+						}
+						break;
+
+						case "no-pdftoolbar":
+						if (e.currentTarget.checked) {
+							document.body.classList.add("no-autosplit");
+							$("input[data-action='toggle-no-autosplit']").prop("checked", false);
+						} else {
+							$("input[data-action='toggle-no-pdfembed']").prop("checked", false);
+							document.body.classList.remove("no-pdfembed");
+						}
+						break;
+
+					}
+
 					localforage.setItem("bodyclases", document.body.className);
-					DocNinja.options.MUTED = classie.hasClass(document.body, "mute");
-					DocNinja.options.AUTOSPLIT = !classie.hasClass(document.body, "no-autosplit");
-					DocNinja.options.AUTOOPTIMISE = !classie.hasClass(document.body, "no-autoresize"),
-					DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter"),
-					DocNinja.options.PDFEMBED = classie.hasClass(document.body,"pdf-embed"),
-					DocNinja.options.PDFTOOLS = !classie.hasClass(document.body,"pdf-tools");
+					setGlobalVars();
 				}
 			});
 
@@ -794,10 +820,7 @@
 			// });
 			localforage.getItem("bodyclases", function core_bodyclasses(err, value) {
 				if (value) document.body.className = value;
-				DocNinja.options.MUTED = classie.hasClass(document.body, "mute");
-				DocNinja.options.AUTOSPLIT = !classie.hasClass(document.body, "no-autosplit");
-				DocNinja.options.AUTOOPTIMISE = !classie.hasClass(document.body, "no-autoresize");
-				DocNinja.options.AUTOCENTER = !classie.hasClass(document.body, "no-autocenter");
+				setGlobalVars();
 			});
 
 

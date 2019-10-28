@@ -332,7 +332,22 @@
 // });
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-scale"]({}));
 				}
+
+				// embed the pdf toolbar, and optionally embed the file as a downloadable reference
+				// only supported if the document isn't already split
+				if (DocNinja.options.PDFTOOLS && !obj.payload.split) {
+					var opts = {},
+						pdfname = "";
+					if (DocNinja.options.PDFEMBED && obj.original && typeof obj.original !== 'undefined') {
+						pdfname = md5(obj.original) + ".pdf";
+					 	fold.file(pdfname,obj.original.substring(obj.original.indexOf("base64,")+7), {base64:true});
+						opts['pdflink'] = pdfname;
+					}
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["pdf-toolbar"](opts));
+				}
 			}
+
+
 
 			// Insert page audio mp3
 			// if (obj.payload.mp3) {
@@ -534,11 +549,14 @@
 							});
 						});
 					} else {
-						fileInfo.original = undefined; //dont need the original anymore
+						// if PDFEMBED is enabled, leave the original file in memory so we can download it later
+						if (!(fileInfo.type==="application/pdf"&&DocNinja.options.PDFEMBED)) {
+							fileInfo.original = undefined; //dont need the original anymore
+						}
 						fullResolve(fileInfo);
 					}
 
-				} else {
+				} else { // wasn't pdf
 					fileInfo.original = undefined; //dont need the original anymore
 					fullResolve(fileInfo);
 				}

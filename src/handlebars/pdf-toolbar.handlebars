@@ -1,0 +1,37 @@
+<style>
+#pdfToolbar {
+	background: -moz-linear-gradient(left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 12.5%, rgba(0,0,0,0) 25%);
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 12.5%,rgba(0,0,0,0) 25%);
+	background: linear-gradient(to right, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 12.5%,rgba(0,0,0,0) 25%);
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	padding:.5em;
+	opacity:1;
+	transition:opacity .2s ease
+}
+#pdfToolbar>a {
+	display: inline-block;
+	border: none;
+	background-color: white;
+	border-radius: 2px;
+	width: 20px;
+	height: 20px;
+	padding: 2px;
+	margin-right: 4px;
+	cursor: pointer;
+}
+</style>
+<div id="pdfToolbar" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+	<a onclick="pdf2htmlEX.defaultViewer.fit_width()" title="Fit width"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M5 4L1 8M5 12L1 8M11 4l4 4M11 12l4-4"/></svg></a>
+	<a onclick="pdf2htmlEX.defaultViewer.fit_height()" title="Fit height"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M12 5L8 1M4 5l4-4M12 11l-4 4M4 11l4 4"/></svg></a>
+	<a onclick="var s=pdf2htmlEX.defaultViewer.scale;pdf2htmlEX.defaultViewer.rescale(Math.min(2,s+0.05))" title="Zoom in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><circle cx="8" cy="8" r="4" fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10"/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M14 14l-3-3M6 8h4M8 6v4"/></svg></a>
+	<a onclick="var s=pdf2htmlEX.defaultViewer.scale;pdf2htmlEX.defaultViewer.rescale(Math.max(0,s-0.05))" title="Zoom out"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><circle cx="8" cy="8" r="4" fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10"/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M14 14l-3-3M6 8h4"/></svg></a>
+	{{#if pdflink}}<a href="{{pdflink}}" title="Download" download><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M12 10l-4 4M4 10l4 4M4 15h8M8 3v11"/></svg></a>{{/if}}
+</div>
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+	setTimeout(function(){document.getElementById('pdfToolbar').style.opacity=0},1000)
+});
+</script>

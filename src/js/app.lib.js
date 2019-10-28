@@ -1010,6 +1010,15 @@ function CancelConversion(fileId) {
 //  }
 // });
 
+function setGlobalVars() {
+	DocNinja.options.MUTED 			=  document.body.classList.contains("mute");
+	DocNinja.options.AUTOSPLIT 		= !document.body.classList.contains("no-autosplit");
+	DocNinja.options.AUTOOPTIMISE 	= !document.body.classList.contains("no-autoresize");
+	DocNinja.options.AUTOCENTER 	= !document.body.classList.contains("no-autocenter");
+	DocNinja.options.PDFEMBED 		= !document.body.classList.contains("no-pdfembed");
+	DocNinja.options.PDFTOOLS 		= !document.body.classList.contains("no-pdftoolbar");
+}
+
 window.addEventListener('statuschange', function (e) {
   switch(e.detail.status) {
     case 'resit': localforage.getItem(e.detail.id, function action_plugin_view_get(err, value) {
@@ -1071,7 +1080,7 @@ function handlePopover(tgt) {
 			$("input[data-action='toggle-no-autoresize']").prop("checked", DocNinja.options.AUTOOPTIMISE);
 			$("input[data-action='toggle-no-autocenter']").prop("checked", DocNinja.options.AUTOCENTER);
 			$("input[data-action='toggle-no-pdftoolbar']").prop("checked", DocNinja.options.PDFTOOLS);
-			$("input[data-action='toggle-pdfembed']").prop("checked", DocNinja.options.PDFEMBED);
+			$("input[data-action='toggle-no-pdfembed']").prop("checked", DocNinja.options.PDFEMBED);
 			break;
 
 		case "page-layout":
@@ -1550,6 +1559,17 @@ function performAction(tgt, e) {
 				// reset to the first tab (without animation)
 				$(document.body).removeClass("change-settings download-zip").addClass("add-documents");
 				$("button[data-action='add-content']").click();
+
+				// clearly this could be a generic routine althroughout, but this works too
+				document.body.classList.remove("no-autosplit");
+				$("input[data-action='toggle-no-autosplit']").prop("checked", true);
+
+				document.body.classList.add("no-pdfembed","no-pdftoolbar");
+				$("input[data-action='toggle-no-pdftoolbar']").prop("checked", false);
+				$("input[data-action='toggle-no-pdfembed']").prop("checked", false);
+
+				setGlobalVars();
+
 			});
 			break;
 
