@@ -310,6 +310,7 @@
 						// modify obj and save it as a copy ( avoids excess data clones)
 						var newId = id + "-" + pageNo;
 						obj.name = docName + " - Page " + pageNo;
+						if (pageNo>1) obj.original = undefined; // ensure subsequent pages don't contain the original file
 
 						// if we are supporting infinite depth, this is how you do it
 						// obj.depth = (i===0) ? currentDepth : (currentDepth+1);
