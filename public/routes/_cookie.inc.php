@@ -18,9 +18,9 @@ window.cookieconsent.initialise({
       "text": "#ffffff"
     }
   },
-  "theme": "classic",
-  "position": "top",
-  "static": true,
+  "theme": "block",
+  "position": "bottom-right",
+  "static": false,
   "content": {
     "message": "This app requires the use cookies and local storage in your browser.",
     "href": "/privacy"
