@@ -4,7 +4,7 @@
 					<div>
 						<h1>Use <span id="typed" style="font-weight:600">word documents</span><br>to assemble learning content</h1>
 						<p class="uk-text-lead">It's like an assembly line for your content.</p>
-						<iframe class="uk-margin-top uk-box-shadow-large uk-margin-auto@s" src="https://player.vimeo.com/video/321391199" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen uk-responsive uk-video="automute: false; autoplay: false"></iframe>
+						<iframe class="uk-margin-top uk-box-shadow-large uk-margin-auto@s" src="https://player.vimeo.com/video/321391199" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen uk-responsive uk-video="automute: false; autoplay: false" style="background-color:#0084b8"></iframe>
 					</div>
 					<div>
 						<img data-src="assets/hero.svg" data-width="580" data-height="425" uk-img>
@@ -52,7 +52,66 @@
 
 		<div class=" uk-background-muted uk-section">
 		<div class="uk-container">
-			<h2 class="uk-text-center uk-margin-xlarge-bottom">Responsive non-nonsense designs, no coding required, secure & private authoring.</h2>
+			<h2 class="uk-text-center">All the features you need, none of the junk you don't.</h2>
+			<div uk-grid class="uk-child-width-1-2@m uk-padding uk-padding-remove-vertical">
+				<table class="uk-table uk-table-divider">
+					<tbody>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>SCORM compliant (Moodle, ScormCloud, Blackboard, etc)</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Flexible, responsive designs</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>No coding / technical knowledge required</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Unlimited conversions (no daily limits)</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Audio support (upload or record per-page audio)</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Cloud platform intergration (import, load and save)</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="uk-table uk-table-divider">
+					<tbody>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>All the formats (not just PowerPoint)</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Secure & private authoring (we can't see your data)</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Built-in Quiz, Video & Embed support</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>No 'premium / locked' features (you get everything)</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Documentation, keyboard shortcuts, power-user friendly</td>
+						</tr>
+						<tr>
+							<td><span uk-icon="check"></span></td>
+							<td>Direct-to-platform publishing (via <a href="https://www.coursesuite.com" target="_blank">Coursesuite API</a>)</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
 			<div class="uk-child-width-1-4@m uk-child-width-1-2@s" uk-grid>
 				<div>
 					<div class="uk-card">
@@ -90,7 +149,7 @@
 							<img data-src="assets/formats.svg" data-width="270" data-height="270" uk-img>
 						</div>
 						<div class="uk-card-body">
-							Works with all your favorite formats, inluding many online sources. We'll convert it to be web friendly. Use the formats you are comfortable with.
+							Works with all your favorite formats, inluding many online sources. We'll convert it to be web friendly. Use the formats and editors you are comfortable with.
 						</div>
 					</div>
 				</div>
