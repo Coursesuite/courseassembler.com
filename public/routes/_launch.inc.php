@@ -18,7 +18,7 @@
     	</fieldset>
 	</div>
 	<hr class="uk-divider-icon">
-	<p>You need a licence to use this software: A licence is good for so many days, then it stops working. Buy only what you need, when you need.</p>
+	<p>You need a licence to use this software: A licence is good for so many days, then it stops working. <b>Buy only what you need, when you need.</b></p>
 	<table class="uk-table uk-table-small uk-table-divider uk-table-hover">
 	    <thead>
 	        <tr>
