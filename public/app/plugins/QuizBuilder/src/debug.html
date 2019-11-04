@@ -25,13 +25,14 @@ a {
 	text-decoration:  none;
 }
 a:focus {
-	box-shadow: inset 0 1px 2px rgba(10,10,10,.2);
+	-webkit-box-shadow: inset 0 1px 2px rgba(10,10,10,.2);
+	        box-shadow: inset 0 1px 2px rgba(10,10,10,.2);
     outline: 0;
 }
 a:active, a:hover {
     outline: 0;
 }
-*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+*, *:after, *:before { -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 h1 {
 	font-size: 2em;
@@ -54,7 +55,8 @@ button[disabled], html input[disabled] {
     cursor: default;
 }
 input[type="checkbox"], input[type="radio"] {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     padding: 0;
 }
 button::-moz-focus-inner, input::-moz-focus-inner {
@@ -75,10 +77,15 @@ div.question {
 
     -moz-appearance: none;
     -webkit-appearance: none;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     border: 1px solid transparent;
     border-radius: 4px;
-    box-shadow: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
     height: 2.25em;
     line-height:  1.5;
@@ -88,7 +95,9 @@ div.question {
     border-width: 1px;
     color: #363636;
     cursor: pointer;
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 
     padding-bottom: calc(.375em - 1px);
     padding-left: .75em;
@@ -102,7 +111,8 @@ div.question {
 	border: 1px solid var(--baseColour);
 	background-color: var(--baseColour);
 	color: #fff;
-	box-shadow: inset 0 0 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0 0 0px 1px #ffffff;
+	        box-shadow: inset 0 0 0px 1px #ffffff;
 }
 .button.active:focus {
 	/* box-shadow: none; */
@@ -125,6 +135,8 @@ button.hidden {
 }
 
 nav {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
 }
 
@@ -133,7 +145,9 @@ nav > a:not(:first-of-type) {
 }
 
 nav > .spacer {
-	flex-grow: 1;
+	-webkit-box-flex: 1;
+	    -ms-flex-positive: 1;
+	        flex-grow: 1;
 }
 
 p.text-center {
@@ -254,7 +268,9 @@ main p.text-center iframe {
 	left: 7px;
 	width: 6px;
 	height: 12px;
-	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
 	border: solid #fff;
 	border-width: 0 4px 4px 0;
 }
@@ -293,6 +309,19 @@ div.feedback.negative {
 	padding-left: 0;
 }
 .hidden { display:  none; }
+
+@media all and (max-width: 480px) { /* give indication that question index is overflowing */
+	body > nav {
+		overflow: auto;
+		background-attachment: local;
+		background: rgb(128,128,128);
+		background: -moz-radial-gradient(circle, rgba(128,128,128,0) 0%, rgba(255,255,255,0) 95%, rgba(128,128,128,0.5) 100%);
+		background: -webkit-radial-gradient(circle, rgba(128,128,128,0) 0%, rgba(255,255,255,0) 95%, rgba(128,128,128,0.5) 100%);
+		background: radial-gradient(circle, rgba(128,128,128,0) 0%, rgba(255,255,255,0) 95%, rgba(128,128,128,0.5) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#808080",endColorstr="#808080",GradientType=1);
+		padding: 5px 10px;
+	}
+}
 </style>
 <script type="text/javascript">window.setup={
   "title": "My New Quiz",
@@ -609,6 +638,8 @@ div.feedback.negative {
   "source": "docninja.quiz"
 }
 </script>
+	<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.2/dist/css-vars-ponyfill.min.js"></script>
 	<script>
 var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0];
 var _userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]"));
@@ -877,7 +908,7 @@ function initQB(userdata, quiz) {
 	function endquiz() {
 		var check = userdata.reduce(function(a,b) {return a + (b[1]>0?1:0)}, 0); // (number of answered pages) userdata might have loaded with answers already, so is more authoritative
 		if (quiz_finished() === false) {
-			var alert = (check==questions.length) ? "Do you want to finish the quiz?" : "You haven't answered all the questions. Do you want to finish the quiz?"; //(quiz.feedback === "false" || quiz.feedback === "complete") && 
+			var alert = (check==questions.length) ? "Do you want to finish the quiz?" : "You haven't answered all the questions. Do you want to finish the quiz?"; //(quiz.feedback === "false" || quiz.feedback === "complete") &&
 			if(!window.confirm(alert)) {
 				var node=document.querySelector("nav>a.active"), i = [].indexOf.call(node.parentNode.children, node); // find selected node index
 				return render(i);
@@ -1063,6 +1094,7 @@ function initQB(userdata, quiz) {
 
 // init quiz with an abstract copy of the setup, in case we need to re-use it
 window.startQuiz = function (u) {
+	cssVars({include:'style'});
 	initQB(u,JSON.parse(JSON.stringify(setup)));
 }
 
@@ -1100,7 +1132,7 @@ window.addEventListener('load', window.startQuiz.bind(null, _userdata), false);
 			<% } %>
 		</div>
 		<div class="actions" data-index="<%=page%>">
-			<p> 
+			<p>
 		<% if (feedback === "answer" && !data[page].locked) { %>
 			<a href="#submit" class="button">{{buttons.check}}</a>
 		<% } %>
