@@ -1,0 +1,10 @@
+1572993453
+a:2:{s:7:"content";s:1477:"<p>To save your package to a cloud storage service (such as Dropbox, Google Drive, OneDrive, etc), click on the <strong>Save to Cloud</strong> button.</p>
+<p><img alt="Save to Cloud" src="/docs/user/pages/01.using-the-app/04.publishing-your-package/04.save-to-cloud/cloud.png" /></p>
+<p>The button will change into a small animated circle as it gathers the settings into a file for publishing. When it's done, a popup will open, allowing you to connect a cloud storage service if supported by the Assembler (or just navigate to your files if you've already linked an account).</p>
+<p><img alt="Cloud storage choices" src="/docs/images/2/b/1/a/7/2b1a74cd9dc7e7c639ddf8a828d06458cf72f39a-medianinjacloud.png" /></p>
+<p>Once you've opened the location or folder where you want to save the package, you don't need to click on any of the files within it. Just click the blue <em>Select</em> button in the bottom right corner to save your file to the cloud.</p>
+<p><img alt="Cloud storage directory" src="/docs/images/c/7/c/6/6/c7c6692f9d31dfcf8eb5351a1902f319f3f9daec-medianinjacloud4.png" /></p>
+<p>! For more detailed information on how to manage the cloud storage popup, see <a href="/docs/assembler/usage/other/cloud-management">Cloud storage management</a>.</p>
+<hr />
+<p>After you save the package, you can still go back to previous sections of the Assembler to make more changes and save again - the files are not "wiped" from your browser until you press the Reset link.</p>";s:12:"content_meta";N;}

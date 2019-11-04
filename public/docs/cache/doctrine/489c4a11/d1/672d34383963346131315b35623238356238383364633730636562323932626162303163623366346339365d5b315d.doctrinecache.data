@@ -1,0 +1,20 @@
+1573280448
+a:2:{s:7:"content";s:2499:"<p>So we've added our documents, but guess what? We can also add quizzes to really test those brain cells!</p>
+<p>Let's get started by clicking the <strong>Add quiz</strong> button toward the top left corner of the Assembler.</p>
+<p><img alt="Add quiz button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/AddDocuments_addQuiz.png" /></p>
+<p>The Quiz Wizard will appear in the content area. A new item will also appear at the bottom of the document list, labelled <em>New Quiz</em>.</p>
+<p><img alt="New Quiz item in document list" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/NewQuiz.png" />
+<img alt="Quiz wizard" src="/docs/images/3/f/9/6/7/3f967231df3ab27c680e98b1ddc25a79cdd6bce9-add-documents-quiz-base3.png" /></p>
+<p>This is where you'll adjust the settings for the quiz, along with adding and customising questions. (The questions part will be blurred by default, but don't panic - it'll clear up once you select a question to edit).</p>
+<p>Both of these settings have a fair bit of information to cover, so we'll detail how they work in the next few pages.</p>
+<hr />
+<p>You'll also notice that Quiz items also feature their own unique options in the thin blue bar above the wizard. In the top left, we have the <strong>Edit</strong> and <strong>View</strong> buttons.</p>
+<p><img alt="Edit and View buttons" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/AddDocuments_EditViewButtons.png" /></p>
+<p>Clicking <em>View</em> allows you to preview how the Quiz will look when the course is run.</p>
+<p><img alt="view button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/AddDocuments_EditViewButtons2.png" />
+<img alt="Quiz preview" src="/docs/images/8/0/e/a/6/80ea63b3c9fb06db0d8e2801a047ab2ac0b09a9c-quizeditorpreview.png" /></p>
+<p>!! In order to preview the Quiz, you will need to save the quiz at least once. To do this, click any of the three <strong>Save</strong> buttons throughout the wizard.</p>
+<p><img alt="Save Settings button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/Quiz_Save1.png" /></p>
+<p><img alt="Save and Save + Add New question buttons" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/Quiz_Save2.png" /></p>
+<p>Clicking <em>Edit</em> switches you back to the wizard editor.</p>
+<p><img alt="Edit button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/AddDocuments_EditViewButtons3.png" /></p>";s:12:"content_meta";N;}

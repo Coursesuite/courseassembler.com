@@ -1,0 +1,25 @@
+1572993445
+a:2:{s:7:"content";s:3785:"<p>As a last feature before we move on, imagine this situation: you've made a course in the Course Assembler and downloaded it a while ago, but you've realised since then it could use a few changes. Some added content, a few tweaks here and there, a layout change - whatever! Point is, you still have the zip package you downloaded from back then, and you <em>really</em> don't want to make the whole course over again.</p>
+<p>Good news! We've got your back there too!</p>
+<p>Let's get started by clicking the <strong>Import...</strong> button toward the top left corner of the Assembler.</p>
+<p><img alt="Import button" src="/docs/user/pages/01.using-the-app/01.add-documents/05.importing-packages/AddDocuments_import.png" /></p>
+<p>The following popup should appear:</p>
+<p><img alt="Import window" src="/docs/images/0/5/0/4/9/050490d31027df217f4f97c6e49d8878b35d58dc-adddocumentsimportpackagespopup.png" /></p>
+<p>From here, we have several options available for importing packages into the Assembler:</p>
+<h3>Drag and drop packages</h3>
+<p>This is the simplest method - just click and drag a package from the desktop over the Assembler, then drop it into the Assembler to upload it. There's an area marked by a dotted outline, but you don't <em>have</em> to just drop it there - as long as the popup's open, you can drop it anywhere!</p>
+<p>(Keep an eye on the dotted area anyway, though - if it turns dark grey, you're all good to drop your package. If it doesn't, it's a handy indicator that your browser might not support the drag/drop method)</p>
+<p><img alt="Drag and drop a file" src="/docs/images/e/f/5/3/b/ef53b0a86bba2b868736a0def3c3f45660274078-adddocumentsdragpackage.png" /></p>
+<h3>Import from your computer</h3>
+<p>Use this to import packages from your PC the old fashioned way - click the dotted outline area and a window will open, allowing you to manually search for your package. Once you've got it, click on it once to select it, then click <em>Open</em> to import it.</p>
+<p><img alt="Upload from your computer" src="/docs/images/f/f/f/4/6/fff4686ee667e5832dd05f8ec0d8c497b73e5d53-docninjaimportcomputer.png" /></p>
+<h3>Import from the cloud</h3>
+<p>If you have packages on a cloud storage account (such as Dropbox, Google Drive, OneDrive, etc) you can use them too! Under 'Import from the Cloud', click the <em>Choose</em> button and a popup will open, allowing you to connect a cloud storage service if supported by the Assembler (or just navigate to your packages if you've already linked an account).</p>
+<p><img alt="Upload from the Cloud" src="/docs/images/8/f/1/0/0/8f100dc6390342de4dbb5a5aea79d930d557487e-adddocumentsimportcloud.png" />
+<img alt="Cloud uploads" src="/docs/images/2/1/4/1/c/2141c6c18aad25bdc99ab7f860e935cdc841f24b-medianinjacloud.png" /></p>
+<p>Once you've found your package, click on it to select it, then click the blue <em>Select</em> button in the bottom right corner to import it to the Assembler.</p>
+<p><img alt="Cloud storage directory" src="/docs/images/f/c/a/5/8/fca5827e4aa5b2ea7a5d7515cee83abac079ca6e-docninjacloudimport2.png" /></p>
+<p>! For more detailed information on how to manage the cloud storage popup, see <a href="/docs/assembler/usage/other/cloud-management">Cloud storage management</a>.</p>
+<hr />
+<p>Once you import the package, all of the package items will appear in the document list on the left hand side of the Assembler with their original settings.</p>
+<p>!! <strong>IMPORTANT:</strong> Importing packages currently does not replace any existing documents already in the Assembler, but adds to them instead. If you want to import the package exactly as it was originally saved, <a href="https://guide.coursesuite.ninja/assembler/usage/other/reset">reset the app</a> before importing your package!</p>";s:12:"content_meta";N;}

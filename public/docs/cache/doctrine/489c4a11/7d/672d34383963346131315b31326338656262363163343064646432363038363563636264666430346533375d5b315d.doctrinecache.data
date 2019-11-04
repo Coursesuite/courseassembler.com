@@ -1,0 +1,75 @@
+1572993444
+a:2:{s:7:"content";s:8699:"<p>This is the second area of the Quiz wizard, and the options here allow you to add and manage your quiz questions.</p>
+<p><img alt="Quiz Question Editor" src="/docs/images/c/c/4/b/1/cc4b146d368ad31a97d65aa04c34ea8927db8db1-quizeditorquestions.png" /></p>
+<p>! Course Assembler quizzes only support <em>Single Choice</em> and <em>Multiple Choice</em> questions - if you're looking for a quiz with more options, the <a href="https://guide.coursesuite.ninja/engine/course-landing-page/properties/quiz/question-types">Course Engine's capabilities</a> may suit your needs!</p>
+<hr />
+<h4>Questions in quiz</h4>
+<p>These are numbered buttons for ever question in your quiz. To edit a question, simply click on a button to open it below.</p>
+<p><img alt="Question number buttons" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_question_numbers.png" /></p>
+<p>If the <em>Question ordering</em> setting is using <em>Natural order</em>, you can click and drag the number buttons left and right to rearrange the order of your questions. If set to <em>Random order</em>, this functionality will not work.</p>
+<p><img alt="Question number rearranging" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_question_rearrange.gif" /></p>
+<h4>Add new question</h4>
+<p>To add a new question, click the purple '+' button to the right of this area.</p>
+<p><img alt="Add new question button" src="/docs/images/9/c/d/c/1/9cdc1bc4c5a1ea5c3665f3a807b9f39c1839218a-quizquestionadd.png" /></p>
+<p>! Don't forget to save a question before switching to another one - otherwise, changes may be lost!</p>
+<h4>Question media</h4>
+<p>This field allows you to place an optional image or video above the question text.</p>
+<p>For images, just drag and drop a picture file in this area. It will appear in this area as HTML coding - it'll look a little messy, but it'll work!</p>
+<p><img alt="Question media - dragging image file" src="/docs/images/8/5/d/a/c/85dac49a6ec4356d3e58fbdf274d80d442e521ca-quizimageembed.png" />
+<img alt="Question media - image code" src="/docs/images/c/2/6/9/b/c269b2a9282e5c90fbd9a4e2a9ad628990211191-quizimageembed2.png" />
+<img alt="Question media - image example" src="/docs/images/4/7/5/7/2/475725e46ddca6d05ef7b20f66ce29f4caf42d4a-quizimageembeddisplay.png" /></p>
+<p>For streaming media (YouTube, Vimeo, SoundCloud), copy the media's embed code, click back on this area and paste (Ctrl+V) the code into it.</p>
+<p><img alt="Question media - copying embed code" src="/docs/images/2/c/3/7/a/2c37ae80a0c6b96ed9168059f42af632672ab25a-quizvideoembed.png" />
+<img alt="Question media - embedded media code" src="/docs/images/d/0/2/7/b/d027b1e220648deb4fa1c14ed679cbf732b8032b-quizvideoembed2.png" />
+<img alt="Question media - embedded media example" src="/docs/images/0/e/1/2/0/0e120cd984e2e6f8b5981e2c276e59f0583a6a31-quizvideoembeddisplay.png" /></p>
+<p>!! You will need to use the proper HTML embed code for the media this time - standard web address URLs will not work!</p>
+<p>! If items appear odd or misaligned, you can add other HTML tags (such as &lt; center &gt; or &lt; br &gt;) into the code to fix them!</p>
+<h4>Question text</h4>
+<p>Self-explanatory - this is your question! Delete the placeholder text and replace it with your own content.</p>
+<p><img alt="Question text field" src="/docs/images/2/9/e/d/0/29ed04e3ece2edb855ce0995515bbec77a5611a3-quizquestionfield.png" /></p>
+<hr />
+<p>This next group of options allows you to set up your answers, or 'distractors' as they're referred to in the wizard:</p>
+<h4>Correct (checkbox)</h4>
+<p>Checkboxes used to designate correct choices. If a distractor is checked, users will need to select it when answering the question in order to pass it.</p>
+<p>You can check either a single distractor (for a single choice question) or check multiple distractors (for a multiple choice question).</p>
+<p><img alt="Correct checkbox" src="/docs/images/8/8/2/e/5/882e5d3fa925d2c34a442487743ee2ca77c6e48c-quizeditordistractorcorrect.png" /></p>
+<p>! If making a multiple choice question, remember that users will have to select ALL your correct distractors to pass the question - if they only pick one or the other, it will count as a fail!</p>
+<h4>Distractor text</h4>
+<p>Also self-explanatory - this is a possible answer! Delete the placeholder text and replace it with your own content.</p>
+<p><img alt="Distractor text fields" src="/docs/images/1/e/a/2/d/1ea2dc9ef293775f64a1d14460c18c1112d409fc-quizdistractorfield.png" /></p>
+<p>You can also rearrange the order of your distractors if you need to - just click and hold the mouse in the small empty area below the Correct checkbox and drag up or down the distractor list to move it to a new position.</p>
+<h4>Delete distractor</h4>
+<p>To delete a distractor, click the small 'x' button to the right of the distractor text field. The distractor will immediately be removed, so be careful!</p>
+<p><img alt="Delete distractor button" src="/docs/images/a/3/d/c/b/a3dcba17f70874d425b6c36e71c37e5d97debb82-quizeditordistractordelete.png" /></p>
+<h4>Show (number of distractors)</h4>
+<p>Determines how many of your distractors will be loaded for the question. Type in a number between 1 and the maximum amount of distractors you have.</p>
+<p>If the Show number is smaller than the number of distractors in a question, the distractors will randomise. If the Show number matches the number of distractors, they will always appear in the order you have them in the editor.</p>
+<p><img alt="Show - number field" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_distractor_show.png" /></p>
+<h4>Add new distractor</h4>
+<p>To add a new distractor, click the small '+' button to the right of the Show text field. A blank distractor will be added to the bottom of the list.</p>
+<p><img alt="Add new distractor button" src="/docs/images/2/f/e/8/f/2fe8f3e7d4cc8f026f992c7e28136a7663c9eb0c-quizeditordistractoradd.png" /></p>
+<hr />
+<p>The next group of options allows you to add short feedback messages to display once a question has been marked.</p>
+<p>These are optional - type in your own content if you want, but if not, you can leave these fields blank. These are also unique to each question, so different questions can have different feedback text.</p>
+<h4>Feedback when correct</h4>
+<p>Allows you to type a message to display on the question when you get the answer correct.</p>
+<p><img alt="Feedback when correct text field" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_feedback_correct_field.png" />
+<img alt="Feedback when correct example" src="/docs/images/9/5/d/4/f/95d4f96f03211f464b686f4ee8e4a9b34b1b999d-quizfeedbackcorrect.png" /></p>
+<h4>Feedback when incorrect</h4>
+<p>Allows you to type a message to display on the question when you get the answer incorrect.</p>
+<p><img alt="Feedback when incorrect text field" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_feedback_incorrect_field.png" />
+<img alt="Feedback when incorrect example" src="/docs/images/c/8/2/a/b/c82abca3178f836533e164b54cc78d4062146d24-quizfeedbackincorrect.png" /></p>
+<h4>Feedback when skipped</h4>
+<p>Allows you to type a message to display on the question when you skip a question ( when you go to the <em>Results</em> page and submit your whole quiz for marking without selecting an answer)</p>
+<p><img alt="Feedback when skipped text field" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_feedback_skipped_field.png" />
+<img alt="Feedback when skipped example" src="/docs/images/c/2/1/3/3/c2133cf96efcc0ace08fa270aec0c1339f80a0c8-quizfeedbackskipped.png" /></p>
+<hr />
+<h4>Save</h4>
+<p>To save your changes, click the first (smaller) purple button in the bottom left corner of this area.</p>
+<p><img alt="save button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_Save2a.png" /></p>
+<h4>Save + Add New</h4>
+<p>To save your changes and add a new question at the same time, click the second (larger) purple button in the bottom left corner of this area.</p>
+<p><img alt="Save + Add New question button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/Quiz_Save2b.png" /></p>
+<h4>Delete Question</h4>
+<p>To remove the current question, click the large white button in the bottom right corner of this area. The question will immediately be removed.</p>
+<p><img alt="Delete question button" src="/docs/user/pages/01.using-the-app/01.add-documents/04.quiz-wizard/03.questions/QuizEditor_Delete.png" /></p>";s:12:"content_meta";N;}
