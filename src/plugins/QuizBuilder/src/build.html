@@ -5,6 +5,8 @@
 	<title>New Quiz</title>
 	<link rel="stylesheet" type="text/css" href="build.css">
 	<script>window.setup={{{quiz_json}}}</script>
+	<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.2/dist/css-vars-ponyfill.min.js"></script>
 	<script type="text/javascript" src="build.js"></script>
 </head>
 <body>
@@ -38,7 +40,7 @@
 			<% } %>
 		</div>
 		<div class="actions" data-index="<%=page%>">
-			<p> 
+			<p>
 		<% if (feedback === "answer" && !data[page].locked) { %>
 			<a href="#submit" class="button">{{buttons.check}}</a>
 		<% } %>

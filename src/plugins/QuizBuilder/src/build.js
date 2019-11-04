@@ -265,7 +265,7 @@ function initQB(userdata, quiz) {
 	function endquiz() {
 		var check = userdata.reduce(function(a,b) {return a + (b[1]>0?1:0)}, 0); // (number of answered pages) userdata might have loaded with answers already, so is more authoritative
 		if (quiz_finished() === false) {
-			var alert = (check==questions.length) ? "Do you want to finish the quiz?" : "You haven't answered all the questions. Do you want to finish the quiz?"; //(quiz.feedback === "false" || quiz.feedback === "complete") && 
+			var alert = (check==questions.length) ? "Do you want to finish the quiz?" : "You haven't answered all the questions. Do you want to finish the quiz?"; //(quiz.feedback === "false" || quiz.feedback === "complete") &&
 			if(!window.confirm(alert)) {
 				var node=document.querySelector("nav>a.active"), i = [].indexOf.call(node.parentNode.children, node); // find selected node index
 				return render(i);
@@ -451,6 +451,7 @@ function initQB(userdata, quiz) {
 
 // init quiz with an abstract copy of the setup, in case we need to re-use it
 window.startQuiz = function (u) {
+	cssVars({include:'style'});
 	initQB(u,JSON.parse(JSON.stringify(setup)));
 }
 
