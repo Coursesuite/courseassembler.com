@@ -11,7 +11,7 @@
 					</ul>
 				</div>
 				<div>
-					<p>&copy; Copyright 2019 <a href="https://www.coursesuite.com">Coursesuite</a>, all rights reserved. <a href="/privacy">Policies</a> | <a href="mailto:info@courseassembler.com">Email us</a> | <a href="https://help.coursesuite.ninja" target="_blank">Support</a>.</p>
+					<p>&copy; Copyright 2019 <a href="https://www.coursesuite.com">Coursesuite</a>, all rights reserved. <a href="/privacy">Policies</a> | <a href="mailto:info@courseassembler.com">Email us</a> | <a href="https://help.coursesuite.ninja" target="_blank">Support</a> | <span uk-icon="twitter"></span> <a href="https://twitter.com/assemblercourse">@assemblercourse</a>.</p>
 				</div>
 				<div >
 					<?php include "_sharing.inc.php"; ?>

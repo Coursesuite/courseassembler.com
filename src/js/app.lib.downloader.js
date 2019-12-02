@@ -521,7 +521,6 @@ localforage.iterate(function( ... ) {
 		};
 
 		// perform a PUT/POST to the destination url
-		// perform a PUT/POST to the destination url
 		var _publishTo = function (content, name) {
 			var div = document.querySelector("div.progress-button[data-destination='publish']"),
 				$span = $(">button>span", div),
@@ -533,6 +532,7 @@ localforage.iterate(function( ... ) {
 			xhr.open(App.Method, App.Publish, true);
 			xhr.onload = function (result) {
 				$span.html(_html);
+				console.dir(result);
 				if (this.status == 200) {
 					alert("Your package has been uploaded.");
 				}
