@@ -27,6 +27,7 @@ yarn-error.log*
 composer.lock
 
 src/*/app.min.*.js
+src/*/*.map
 src/*/app.min.*.css
 src/*/edit.min.*.js
 src/*/edit.min.*.css
