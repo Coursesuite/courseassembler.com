@@ -37,7 +37,7 @@
 					<h3>Robots to the rescue!</h3>
 					<p><i>Pfft.</i> You've got this.</p>
 					<p><strong>Drag on all your documents.&nbsp;</strong>Add a Quiz using the wizard. Paste in a Vimeo link and drag the score requirement to 50%. Reorder pages to be more logical and remove those blank pages you didn't need. Pick a snazzy design, and press Export.</p>
-					<p>That's it. <strong>You're done.</strong> Hmm, don't let your boss know you're <em>that</em> efficient, they might exect you to be even faster next time!</p>
+					<p>That's it. <strong>You're done.</strong> Hmm, don't let your boss know you're <em>that</em> efficient, they might expect you to be even faster next time!</p>
 				</div>
 			</div>
 		</div>

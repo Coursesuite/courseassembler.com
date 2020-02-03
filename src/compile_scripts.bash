@@ -110,6 +110,8 @@ rm app.modals.css
 rm documents.*.css
 rm design.*.css
 rm download.*.css
+rm font.css
+rm -rf font
 cd ..
 
 echo "Cleaning help"

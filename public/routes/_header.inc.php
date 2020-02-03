@@ -4,8 +4,8 @@
 		<meta charset="utf-8"/>
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta content="width=device-width, initial-scale=1, minimum-scale=1" name="viewport"/>
-		<meta name="description" content="Rapidly convert your learning content to HTML5, add quizzes and video and package with a SCORM wrapper, all in a matter of minutes using our web-based tool." />
-		<meta name="keywords" content="pdf to scorm, docx to scorm, ppt to scorm, mp4 to scorm, powerpoint to scorm, scorm elearning, scorm authoring, scorm converter, coursesuite, scormcloud authoring, moodle scorm, scorm modules, scorm content, scorm wrapper, scorm tool, scorm packager, ppt to scorm, docx to scorm, convert pdf to html, video to scorm, google slides to scorm, google docs to scorm, scorm quiz, quiz to scorm, blackboard, moodle, d2l, rustici, scorm api, scorm2004" />
+		<meta name="description" content="Convert PDF, DOCX, PPTX, Google Docs and many more to SCORM in minutes. Add quizzes, video, and voiceovers. SCORM publishing in a matter of minutes using our web-based tool." />
+		<meta name="keywords" content="pdf to scorm, docx to scorm, ppt to scorm, mp4 to scorm, powerpoint to scorm, scorm elearning, scorm converter, coursesuite, scormcloud authoring, moodle scorm, scorm modules, scorm content, scorm wrapper, scorm tool, scorm packager, ppt to scorm, docx to scorm, convert pdf to html, video to scorm, google slides to scorm, google docs to scorm, scorm quiz, quiz to scorm, blackboard, moodle, d2l, rustici, scorm api, scorm2004" />
 		<meta name="author" content="www.coursesuite.com" />
 		<title>Course Assembler by Coursesuite - get your content e-learning SCORM ready in a matter of minutes.</title>
 		<meta property="og:locale" content="en_AU">
