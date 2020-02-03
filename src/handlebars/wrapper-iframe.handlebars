@@ -69,9 +69,9 @@ r.attr(b.lazyAttr))},getCover:function(){var a=this;if(this.sourceUrl){var b=thi
 typeof a&&d(this).data("_inst")&&d(this).data("_inst")[a])return d(this).data("_inst")[a].apply(d(this).data("_inst"),Array.prototype.slice.call(arguments,1));if("object"!==typeof a&&a)d.error("Method "+a+" does not exist on jQuery.picoSlides");else return w(),u=this.length,this.each(function(b,g){var e=(new l(this,a)).init();d(g).data({_inst:e});return e})};l.slideDefs=l.prototype.defaults;l.elemDefs=b;x.PicoSlides=l})(window,jQuery,document);
 </script>{{/compare}}
 <script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
-{{#compare format "vimeo"}}<script type="text/javascript" src="https://player.vimeo.com/api/player.js" async></script>{{/compare}}
-{{#compare format "youtube"}}<script type="text/javascript" src="https://www.youtube.com/player_api" async></script>{{/compare}}
-{{#compare format "soundcloud"}}<script type="text/javascript" src="//w.soundcloud.com/player/api.js" async></script>{{/compare}}
+{{#compare format "vimeo"}}<script type="text/javascript" src="https://player.vimeo.com/api/player.js"></script>{{/compare}}
+{{#compare format "youtube"}}<script type="text/javascript" src="https://www.youtube.com/player_api"></script>{{/compare}}
+{{#compare format "soundcloud"}}<script type="text/javascript" src="//w.soundcloud.com/player/api.js"></script>{{/compare}}
 </head>
 <body{{#compare format "youtube"}} onunload="_poll=!1" onbeforeunload="_poll=!1"{{/compare}}>
 {{{body}}}
