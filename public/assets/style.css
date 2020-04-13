@@ -120,3 +120,32 @@ body.faq, body.changelog {
     background-color: #f8a82d;
     color: black;
 }
+
+
+/* coursesuite bar at the top */
+.coursesuite-bar {
+	background-color: black;
+	color: rgba(255,255,255,.5);
+}
+.coursesuite-bar a, .coursesuite-bar a:visited {
+	color: inherit;
+	font-weight: normal;
+	border-bottom: 1px dotted rgba(255,255,255,0);
+	transition: color .2s, border-bottom-color .2s;
+	margin: 0 .5rem;
+	text-decoration: none!important;
+}
+.coursesuite-bar a:hover, .coursesuite-bar a:active {
+	color: white;
+	border-bottom-color: white;
+}
+.coursesuite-bar a:first-of-type {
+	font-weight: bold;
+}
+.coursesuite-bar .embiggen {
+	transform: rotate(0);
+	transition: transform .3s ease;
+}
+.coursesuite-bar .embiggen:hover {
+	transform: rotate(1turn);
+}

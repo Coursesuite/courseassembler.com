@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>sort</title>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+
+            <link href="https://unpkg.com/normalize.css" type="text/css" rel="stylesheet" />
+			<link rel="stylesheet" type="text/css" href="style.css">
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+            <script src="https://unpkg.com/sortablejs"></script>
+            <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+    	<main>
+    		<section class="template split-20-80">
+    			<div class="pane cover-image">
+    				<img src="https://images.unsplash.com/photo-1534190239940-9ba8944ea261?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80">
+    			</div>
+    			<div class="pane overflow light">
+    				<div class="padding">
+<h1>Sort lists</h1>
+<p>Drag these elements until they appear in the correct list.</p>
+<div class="split-50 gaps">
+	<div>
+		<h3>Flavours</h3>
+		<div id="example1" class="list-group">
+			<div class="list-group-item"><span>Item 1</span></div>
+			<div class="list-group-item"><span>Item 2</span></div>
+			<div class="list-group-item"><span>Item 3</span></div>
+			<div class="list-group-item"><span>Item 4</span></div>
+			<div class="list-group-item"><span>Item 5</span></div>
+			<div class="list-group-item"><span>Item 6</span></div>
+		</div>
+	</div>
+	<div>
+		<h3>Colours</h3>
+		<div id="example2" class="list-group">
+			<div class="list-group-item tinted"><span>Item 1</span></div>
+			<div class="list-group-item tinted"><span>Item 2</span></div>
+			<div class="list-group-item tinted"><span>Item 3</span></div>
+			<div class="list-group-item tinted"><span>Item 4</span></div>
+			<div class="list-group-item tinted"><span>Item 5</span></div>
+			<div class="list-group-item tinted"><span>Item 6</span></div>
+		</div>
+	</div>
+</div>
+					</div>
+					<div class="check">
+						<button>Check answer</button>
+					</div>
+    			</div>
+    		</section>
+    	</main>
+
+<script>
+const example1 = document.getElementById("example1");
+new Sortable(example1, {
+    animation: 150,
+    ghostClass: 'blue-background-class',
+    group: 'shared'
+});
+
+const example2 = document.getElementById("example2");
+new Sortable(example2, {
+    animation: 150,
+    ghostClass: 'blue-background-class',
+    group: 'shared'
+});
+
+</script>
+
+    </body>
+</html>

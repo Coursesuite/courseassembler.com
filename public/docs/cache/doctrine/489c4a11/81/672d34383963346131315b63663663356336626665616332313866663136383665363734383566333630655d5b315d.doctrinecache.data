@@ -1,8 +1,0 @@
-1572993453
-a:2:{s:7:"content";s:1172:"<p>!! Selecting this option does NOT download your package - you will still need to return to the Assembler and select either <strong>Download zip</strong> or <strong>Save to Cloud</strong> to do that!</p>
-<p>To test out your package and see how it will appear in a learning management system, click on the <strong>Open in Preview Ninja</strong> button.</p>
-<p><img alt="Open in Preview Ninja" src="/docs/user/pages/01.using-the-app/04.publishing-your-package/05.preview-package/preview.png" /></p>
-<p>This will launch the Preview Ninja in a new tab or window, where your course package will be uploaded for testing. You can then play the course and see how it works from a user's perspective.</p>
-<p>!! If your browser has pop-up blockers enabled, be sure to allow pop-ups for the Assembler, otherwise it will not open.</p>
-<p>After you open the Preview Ninja, you can still switch back to the Course Assembler to make more changes and preview again - the files are not "wiped" from your browser until you press the Reset link.</p>
-<p><strong>For info on how on how the Preview Ninja works, <a href="https://guide.coursesuite.ninja/previewninja">go here!</a></strong></p>";s:12:"content_meta";N;}

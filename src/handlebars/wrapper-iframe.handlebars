@@ -159,7 +159,8 @@ player.on('play',function(data) {
 {{/compare}}
 {{#compare format "soundcloud"}}
 <script type="text/javascript">
-var init = (function(){
+var player,
+	init = (function(){
 	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
 	return {
 		timestamp: Math.max(0,+qs[0]||0),
@@ -169,6 +170,7 @@ var init = (function(){
 doOnLoad(function () {
 	var widget = SC.Widget(document.getElementById('sc-widget')), duration = 0, played = false;
 	widget.bind(SC.Widget.Events.READY, function() {
+		player = widget;
 		widget.bind(SC.Widget.Events.PLAY, function() {
 			widget.getDuration(function (v) { duration = (v / 1000); });
 			if (init.timestamp!==0 && !played) {widget.seekTo(init.timestamp * 1000)};

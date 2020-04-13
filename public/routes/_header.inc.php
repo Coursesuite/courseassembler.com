@@ -4,7 +4,7 @@
 		<meta charset="utf-8"/>
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta content="width=device-width, initial-scale=1, minimum-scale=1" name="viewport"/>
-		<meta name="description" content="Convert PDF, DOCX, PPTX, Google Docs and many more to SCORM in minutes. Add quizzes, video, and voiceovers. SCORM publishing in a matter of minutes using our web-based tool." />
+		<meta name="description" content="Convert PDF, DOCX, PPTX, Google Docs and many more to SCORM in minutes. Add quizzes, video, and voiceovers. SCORM publishing in a matter of minutes using our web-based tool. Pricing starts at $10 for 10 days." />
 		<meta name="keywords" content="pdf to scorm, docx to scorm, ppt to scorm, mp4 to scorm, powerpoint to scorm, scorm elearning, scorm converter, coursesuite, scormcloud authoring, moodle scorm, scorm modules, scorm content, scorm wrapper, scorm tool, scorm packager, ppt to scorm, docx to scorm, convert pdf to html, video to scorm, google slides to scorm, google docs to scorm, scorm quiz, quiz to scorm, blackboard, moodle, d2l, rustici, scorm api, scorm2004" />
 		<meta name="author" content="www.coursesuite.com" />
 		<title>Course Assembler by Coursesuite - get your content e-learning SCORM ready in a matter of minutes.</title>
@@ -28,6 +28,16 @@
 	</head>
 	<body class="<?php echo str_replace('.inc.php','',$fn); ?>">
 		<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
+			<div class="uk-container uk-container-expand coursesuite-bar">
+				<div class=" uk-padding-small">
+					<img src="assets/coursesuite-glyph.svg" style="width:1rem" class="embiggen">
+					<a href="https://www.coursesuite.com/?from=courseassembler" target="_blank">Coursesuite</a>
+					<a href="https://www.courseassembler.com/?from=courseassembler" target="_blank">Course Assembler</a>
+					<a href="https://video.to-scorm.com/?from=courseassembler" target="_blank">Video 2 Scorm</a>
+					<a href="https://presentation.to-scorm.com/?from=courseassembler" target="_blank">Audio Presentation Ninja</a>
+					<a href="https://coursebuildr.coursesuite.ninja/app/login/?from=courseassembler" target="_blank">CourseBuilder</a>
+				</div>
+			</div>
 			<div class="uk-container uk-container-expand">
 				<nav uk-navbar>
 					<div class="uk-navbar-left">

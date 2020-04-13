@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>connect</title>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+            <link href="https://unpkg.com/normalize.css" type="text/css" rel="stylesheet" />
+            <link rel="stylesheet" type="text/css" href="connect.css">
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+            <script src="https://unpkg.com/leader-line"></script>
+            <script src="https://unpkg.com/plain-draggable"></script>
+            <script src="https://unpkg.com/anim-event"></script>
+
+
+    </head>
+
+    <body>
+        <img src="https://images.unsplash.com/photo-1509813685-e7f0e4eaf3ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60">
+        <section class="padding">
+            <h1>Connect the items</h1>
+            <p>Drag connections between these items.</p>
+            <div class="flex-row">
+                <div class="flex-4">
+                    <h3>Flavours</h3>
+                    <div id="plugs" class="boxes">
+                        <div><span>Grape</span></div>
+                        <div><span>Vanilla</span></div>
+                        <div><span>Chocolate, but not that horrible stuff that Cadbury make</span></div>
+                        <div><img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"></div>
+                        <div><span>Lemon</span></div>
+                        <div><span>Lime like you get in the packets of Starburst snakes</span></div>
+                    </div>
+                </div>
+                <div class="flex-2">
+                    <div id="connectors">
+                        <div class="connector start"></div>
+                        <div class="connector end"></div>
+
+                        <div class="connector start"></div>
+                        <div class="connector end"></div>
+
+                        <div class="connector start"></div>
+                        <div class="connector end"></div>
+
+                        <div class="connector start"></div>
+                        <div class="connector end"></div>
+
+                        <div class="connector start"></div>
+                        <div class="connector end"></div>
+
+                        <div class="connector start"></div>
+                        <div class="connector end"></div>
+                    </div>
+                    <div id="line-wrapper"></div>
+                </div>
+                <div class="flex-4">
+                    <h3>Colours</h3>
+                    <div id="sockets" class="boxes">
+                        <div data-value="4"><span>Brown</span></div>
+                        <div data-value="32"><span>Green</span></div>
+                        <div data-value="8"><img src="https://images.unsplash.com/photo-1527856263669-12c3a0af2aa6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"></div>
+                        <div data-value="1"><span>Purple</span></div>
+                        <div data-value="2"><span>Represented as a creamy white colour, even though the actual product is black</span></div>
+                        <div data-value="16"><span>Yellow</span></div>
+                    </div>
+                </div>
+            </div>
+			<div class="check">
+				<button>Check answer</button>
+			</div>
+            <div id="feedback"></div>
+        </section>
+
+<script>
+
+// terminology: a Plug is inserted into a Socket
+// plugins and sockets are point objects consisting of an X and Y position relative to the container
+
+const computedStyle = getComputedStyle(document.documentElement);
+
+const connectorsNode = document.getElementById("connectors");
+const connectors = connectorsNode.querySelectorAll(".connector.start");
+const lineWrapper = document.getElementById("line-wrapper");
+
+let current_connections = [], ends = [], snaptargets = [];
+const check_button = document.querySelector(".check>button");
+
+// gather a list of the plug nodes (left)
+const plugs = document.getElementById("plugs");
+const plugPosition = plugs.getBoundingClientRect().y - plugs.previousElementSibling.getBoundingClientRect().height; // div position - header height
+
+// randomise the order of the dom nodes for the sockets (right)
+const sockets = document.getElementById("sockets");
+for (var i = sockets.children.length; i >= 0; i--)
+    sockets.appendChild(sockets.children[Math.random() * i | 0]);
+
+const socketPosition = sockets.getBoundingClientRect().y - sockets.previousElementSibling.getBoundingClientRect().height; // looks wrong but we are looking for a negaitve offset
+
+function remToPx(rem) {
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+function wrapperPosition() {
+    lineWrapper.style.transform = 'none';
+    const rect = lineWrapper.getBoundingClientRect();
+    lineWrapper.style.transform = 'translate(' +
+        (-(rect.left + pageXOffset)) + 'px, ' +
+        (-(rect.top + pageYOffset)) + 'px)';
+}
+
+// the snap target coordinates may have changed
+// recalculate based on the position inside the container
+// then apply the updated snap targets to the existint nodes
+function resize() {
+    // recalculate the new centres for each snap
+
+    // move the start positions to the new centres
+
+    // move the snapped position ends to meet the new end positions
+
+    // update the drawn lines
+}
+
+function init() {
+    wrapperPosition();
+    let lastDraggedFrom, isSnapped;
+    for (let i=0;i<connectors.length;i++) current_connections[i] = -1; // snapindex[i]=plug, value=socket
+    Array.from(connectors).forEach(function(start, index) {
+
+        // connectors come in pairs
+        const end = start.nextElementSibling;
+
+        const plug = plugs.children[index];
+        const p_position = plug.getBoundingClientRect();
+        const p_midpoint = (p_position.y - plugPosition) + (p_position.height / 2);
+        start.style.top = "calc(" + p_midpoint + "px - .5rem)";
+        end.style.top = "calc(" + p_midpoint + "px - .5rem)";
+
+        const socket = sockets.children[index];
+        const s_position = socket.getBoundingClientRect();
+        const s_midpoint = (s_position.y - socketPosition) + (s_position.height / 2);
+
+        const div = document.createElement("div");
+        const snaptarget = {
+            element: div,
+            x: (connectorsNode.offsetWidth - remToPx(.5)),
+            y: s_midpoint,
+            i: index
+        }
+        div.classList.add("hint");
+        div.style.top = snaptarget.y - remToPx(.5) + 'px';
+        div.style.right = 0;
+        // div.style.left = snaptarget.x + 'px'; // - remToPx(.5) // 'calc(' + snaptarget.x + 'px - .125rem)';
+        connectorsNode.appendChild(div);
+
+        snaptargets.push(snaptarget);
+
+        const line = new LeaderLine(start, end, {
+            startPlug: 'none',
+            startPlugColor: computedStyle.getPropertyValue('--button-bg-alpha-10'),
+            endPlugColor: computedStyle.getPropertyValue('--button-bg-alpha-50'),
+            gradient: true,
+            path: 'fluid',
+            startSocket: 'right',
+            endSocket: 'left',
+            hide: true,
+            dropShadow: { dx:0, dy: 2, blur: 3, opacity: .2}
+        });
+
+        const draggable = new PlainDraggable(end, {
+            onMove: function (el) {
+                wrapperPosition();
+                line.position();
+                isSnapped = !!el.snapped;
+            },
+            onMoveStart: function () {
+                line.show('draw', {
+                    duration: 500,
+                    timing: 'ease-in'
+                });
+            },
+            onDragStart: function (obj) {
+                lastDraggedFrom = obj;
+                line.dash = { animation: true };
+                connectorsNode.classList.add("drop-hint");
+            },
+            onDragEnd: function (newPosition) {
+                const bb = this.containment.getBoundingClientRect();
+                const tolerance = remToPx(1.5); // must be less than possible overlap between snaptargets
+                var dropped = snaptargets.find(function(target) {
+                    const xpos = newPosition.left - bb.x;
+                    const ypos = newPosition.top - bb.y;
+                    return (Math.abs(target.x - xpos) < tolerance) && (Math.abs(target.y - ypos) < tolerance);
+                });
+                const occupied = dropped && current_connections.includes(dropped.i);
+                if (!isSnapped || occupied) {
+                    lastDraggedFrom.target.style.transform = 'none';
+                    line.hide('draw',{duration:100});
+                    this.position(); // absurdly named method for resetting the drag coordinates
+                    current_connections[index] = -1;
+                } else {
+                    current_connections[index] = dropped ? dropped.i : -1;
+                }
+                lastDraggedFrom = undefined;
+                line.dash = false;
+                connectorsNode.classList.remove("drop-hint");
+            },
+            autoScroll: true
+        });
+
+        ends.push(draggable);
+    });
+
+    // assign all draggables the same set of snaptargets
+    ends.map(function(obj) {
+        obj.snap = {
+            targets: snaptargets.map(function(o) { return o.element }),
+            center: false,
+            gravity: remToPx(1),
+            corner: 'all',
+        }
+    });
+}
+
+window.addEventListener('scroll', AnimEvent.add(resize), false);
+
+window.addEventListener('load', init, false);
+
+check_button.addEventListener('click', function () {
+    feedback.innerHTML = current_connections.map(function(obj, index) {
+
+        let plug = plugs.children[index].textContent;
+
+        let possible = Array.from(sockets.children).find(function(node, item) {
+            // console.log(node,index,item,Number(node.dataset.value),Math.pow(2,index), 1 << index);
+            return Number(node.dataset.value) === 1 << index;
+        });
+
+        let actual = obj > -1 ? sockets.children[obj].textContent : "not-set";
+
+        console.log(possible);
+
+        let socket = possible.textContent;
+
+        const str = `<p>${index} (${plug}) --> (${socket}), actual ${obj} ${actual}</p>`;
+
+        return str;
+
+    }).join("");
+}, false);
+
+
+</script>
+
+    </body>
+</html>

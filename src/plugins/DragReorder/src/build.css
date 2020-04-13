@@ -1,0 +1,318 @@
+:root {
+	--pageColour: #ffffff;
+	--baseColour: #3273dc;
+	--positiveColour: #32dc4a;
+	--negativeColour: #dc3232;
+}
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+body {
+	background-color: var(--pageColour);
+    margin: 0;
+    font-size: 16px;
+}
+a {
+	text-decoration:  none;
+}
+a:focus {
+	-webkit-box-shadow: inset 0 1px 2px rgba(10,10,10,.2);
+	        box-shadow: inset 0 1px 2px rgba(10,10,10,.2);
+    outline: 0;
+}
+a:active, a:hover {
+    outline: 0;
+}
+*, *:after, *:before { -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+h1 {
+	font-size: 2em;
+	font-weight: normal;
+}
+
+button, input {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+    line-height: normal;
+    text-transform: none;
+}
+
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+button[disabled], html input[disabled] {
+    cursor: default;
+}
+input[type="checkbox"], input[type="radio"] {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 0;
+}
+button::-moz-focus-inner, input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+header, nav, main {
+	margin:  0 10vw;
+}
+
+div.question {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.button {
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    height: 2.25em;
+    line-height:  1.5;
+
+    background-color: #fff;
+    border-color: #dbdbdb;
+    border-width: 1px;
+    color: #363636;
+    cursor: pointer;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+
+    padding-bottom: calc(.375em - 1px);
+    padding-left: .75em;
+    padding-right: .75em;
+    padding-top: calc(.375em - 1px);
+    text-align: center;
+    white-space: nowrap;
+
+}
+.button.active {
+	border: 1px solid var(--baseColour);
+	background-color: var(--baseColour);
+	color: #fff;
+	-webkit-box-shadow: inset 0 0 0px 1px #ffffff;
+	        box-shadow: inset 0 0 0px 1px #ffffff;
+}
+.button.active:focus {
+	/* box-shadow: none; */
+}
+.button.positive {
+	border: 1px solid var(--positiveColour);
+	background-color: var(--positiveColour);
+	color: #fff;
+}
+.button.negative {
+	border: 1px solid var(--negativeColour);
+	background-color: var(--negativeColour);
+	color: #fff;
+}
+.button.positive.active, .button.negative.active {
+	border: 1px solid var(--baseColour);
+}
+button.hidden {
+	display: none;
+}
+
+nav {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+nav > a:not(:first-of-type) {
+	margin-left: 4px;
+}
+
+nav > .spacer {
+	-webkit-box-flex: 1;
+	    -ms-flex-positive: 1;
+	        flex-grow: 1;
+}
+
+p.text-center {
+	text-align:  center;
+}
+
+main p.text-center img,
+main p.text-center iframe {
+	max-width: 100%;
+}
+
+.control {
+	font-size: inherit;
+	position: relative;
+	display: block;
+	margin-bottom: 30px;
+	padding-left: 30px;
+	cursor: pointer;
+}
+
+.control input {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+
+.control__indicator {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	width: 20px;
+	height: 20px;
+	background: #f4f4f4;
+}
+
+.control--radio .control__indicator {
+	border-radius: 4px;
+}
+
+/* Hover and focus states */
+.control div.answer,
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+	background: #f4f4f4;
+}
+
+/* Checked state */
+.control input:disabled:checked ~ .control__indicator,
+.control input:disabled:checked ~ .answer,
+.control input:checked ~ .control__indicator {
+	background: var(--baseColour);
+}
+
+
+.control.positive input:checked ~ .answer,
+.control.positive input:checked ~ .control__indicator {
+	background: var(--positiveColour);
+}
+.control.negative input:checked ~ .answer,
+.control.negative input:checked ~ .control__indicator {
+	background: var(--negativeColour);
+}
+
+/* Hover state whilst checked */
+.control input:checked ~ .answer,
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+	background: var(--baseColour);
+	color: #fff;
+}
+
+/* Disabled state */
+
+.control input:disabled ~ .answer,
+.control input:disabled ~ .control__indicator {
+	pointer-events: none;
+	opacity: .6;
+	background: #dbdbdb;
+}
+
+/* Check mark */
+.control__indicator:after {
+	position: absolute;
+	display: none;
+	content: '';
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+	display: block;
+}
+
+/* Radio button inner circle */
+.control--radio .control__indicator:after {
+	top: 7px;
+	left: 7px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #fff;
+}
+
+/* Check mark */
+.control__indicator:after {
+	position: absolute;
+	display: none;
+	content: '';
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+	display: block;
+}
+
+/* Checkbox tick */
+.control--checkbox .control__indicator:after {
+	top: 3px;
+	left: 7px;
+	width: 6px;
+	height: 12px;
+	-webkit-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	border: solid #fff;
+	border-width: 0 4px 4px 0;
+}
+
+/* Disabled tick colour */
+.control--checkbox input:disabled ~ .control__indicator:after {
+	border-color: #7b7b7b;
+}
+
+
+div.answer, div.feedback {
+	border-radius: 4px;
+	padding:  .25em 1em;
+}
+.control div.answer + div.feedback {
+	margin-top: .5em;
+}
+
+div.feedback.none {
+    background-color: #dbdbdb;
+    border: 1px solid #7b7b7b;
+}
+
+div.feedback.positive {
+    background-color: #c6eac6;
+    border: 1px solid #a2dda2;
+}
+div.feedback.negative {
+	background-color: #f8ecec;
+    border: 1px solid #eac7c7;
+}
+.actions p {
+	padding-left: 30px;
+}
+.actions.resit p {
+	padding-left: 0;
+}
+.hidden { display:  none; }
+
+@media all and (max-width: 480px) { /* give indication that question index is overflowing */
+	body > nav {
+		overflow: auto;
+		background-attachment: local;
+		background: rgb(128,128,128);
+		background: -moz-radial-gradient(circle, rgba(128,128,128,0) 0%, rgba(255,255,255,0) 95%, rgba(128,128,128,0.5) 100%);
+		background: -webkit-radial-gradient(circle, rgba(128,128,128,0) 0%, rgba(255,255,255,0) 95%, rgba(128,128,128,0.5) 100%);
+		background: radial-gradient(circle, rgba(128,128,128,0) 0%, rgba(255,255,255,0) 95%, rgba(128,128,128,0.5) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#808080",endColorstr="#808080",GradientType=1);
+		padding: 5px 10px;
+	}
+}

@@ -298,7 +298,7 @@ var QuizBuilder = (function () {
 		// console.log("i ended up at",i);
 		_add_question_button(qi,"q"+i);
 		newq.uid = "q" + i;
-		//newq.text = "New Question " + i + ". Replace this with your own text.";
+		newq.text = "New Question " + i + ". Replace this with your own question text.";
 		newq.order = i;
 		_data_.questions.push(newq);
 		$("#show_field").max = _data_.questions.length; // ensure 'show questions' max value stays up to date
@@ -377,9 +377,9 @@ var QuizBuilder = (function () {
 			show: 5,
 			required: 2,
 			distractors: [
-				{text: ""},
-				{text: ""},
-				{text: ""},
+				{text: "Replace this with a wrong answer"},
+				{text: "Replace this with the correct answer"},
+				{text: "Another answer ..."},
 				{text: ""},
 				{text: ""}
 			],
