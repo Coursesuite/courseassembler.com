@@ -1,7 +1,7 @@
-var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0];
+
+var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : ["[]",0];
 var _userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]"));
-console.log(_userdata);
-var _page_index=qs[1];
+var _page_index = qs[1] ? +qs[1] : -1;
 
 // john resig's micro javascript template
 (function(){
