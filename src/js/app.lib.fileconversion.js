@@ -219,6 +219,7 @@
 			// console.log("_beginConversion", drop, raw, liElem, kind, subtype);
 
 			if (subtype === "x-markdown") kind = "application"; // so it gets converted
+			if (kind === "url" && raw.url && raw.url.indexOf("<iframe ")!==-1) kind = "iframe";
 
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
 			switch (kind) {
@@ -319,6 +320,21 @@
 						fileInfo: null,
 						fileId: this_fileid
 					});
+					break;
+
+				case "iframe":
+					var tmp = document.createElement("div");
+					tmp.innerHTML = raw.url;
+					var src = tmp.firstChild.src;
+					fileinfo = {
+						payload: {
+							src: src
+						},
+						format: "text/html",
+						name: "Embedded Document",
+						kind: "iframe"
+					}
+					return _success(liElem, fileinfo);
 					break;
 
 				default:

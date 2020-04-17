@@ -108,7 +108,13 @@
 										base: index + "/",
 										files: []
 									}
-								if ("image"==obj.kind) { // convert it using the preview renderer
+								if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
+									obj.payload.html =  Handlebars.templates["wrapper-redirect"](obj.payload);
+									fold.file(filename, obj.payload.html);
+									resource.files.push({
+										href: resource.base + filename
+									});
+								} else if ("image"==obj.kind) { // convert it using the preview renderer
 									fold.file(obj.payload.name, obj.payload.image.split(',')[1], {base64: true});
 									resource.files.push({
 										href: resource.base + obj.payload.name
@@ -199,7 +205,11 @@
 								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
 								setup.pages[li.index()] = page; // push to index (nth LI) so it comes out in order in the template
 							}
-							if ("image"==obj.kind) { // convert it using the preview renderer
+							if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
+								obj.payload.html =  Handlebars.templates["wrapper-redirect"](obj.payload);
+								fold.file(filename, obj.payload.html);
+
+							} else if ("image"==obj.kind) { // convert it using the preview renderer
 								fold.file(obj.payload.name, obj.payload.image.split(',')[1], {base64: true});
 								obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');

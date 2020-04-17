@@ -23,6 +23,7 @@
 			$("body").append($("<div id='blocking'>"));
 			$("#blocking").addClass("active");
 			localforage.getItem(id, function (err, value) {
+console.dir(value);
 				if (!value) { // item contains no data; must be removed.
 					$("li[data-fileid='" + id + "']").remove();
 					$("#blocking").remove();
@@ -52,6 +53,7 @@
 					case "image":
 						parsedHtml = Handlebars.templates["preview-image"](data.payload);
 						break;
+
 					case "plugin": // may implement their own previewer
 						if (data.hasOwnProperty("supports")) {
 							useFrameDoc = false;
@@ -68,6 +70,12 @@
 							}
 						}
 						break;
+
+					case "iframe":
+						useFrameDoc = false;
+						frame.setAttribute("src", data.payload.src);
+						break;
+
 					default:
 						parsedHtml = Handlebars.templates["preview-html"](data.payload);
 						switch (data.format) {

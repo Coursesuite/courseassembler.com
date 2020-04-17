@@ -1453,6 +1453,7 @@ function performAction(tgt, e) {
 			if (url.length) {
 				if (url.indexOf("://")===-1) url = "https://" + url; // otherwise what?
 				li.innerHTML = url;
+console.dir(url);
 				li.setAttribute("data-fileid",DocNinja.PurityControl.Nav.GetFileId()); // "file-" + (new Date().getTime()).toString(36));
 				DocNinja.navItems.appendChild(li);
 				DocNinja.fileConversion.BeginConversion(null, {url: url }, li, "url", "");
