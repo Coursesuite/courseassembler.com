@@ -126,7 +126,7 @@ function reclassifyIframes(el) {
 	other.className = "over"; // the element that was not faded becomes over, which cycles its z-index
 	el.target.className = "under"; // the element that faded out becomes under for next time
 	setTimeout(function(){el.target.removeAttribute('src')},99); // kill off the hidden frame to free up memory
-	if (window._audio) window._audio.play(); // play audio after the fadeout effect
+	// you could autoplay audio here using `if (window._audio) window._audio.play();` but we no longer do that
 }
 
 // self unbinding event listener
@@ -384,6 +384,7 @@ function goto(n,init) {
         }
     }
     course.page=n;
+	[].forEach.call(document.querySelectorAll("audio"), function (el) { el.pause(); });
     load();
 }
 

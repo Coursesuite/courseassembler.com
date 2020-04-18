@@ -179,6 +179,7 @@ function goto(n,init) {
         }
     }
     course.page=n;
+	[].forEach.call(document.querySelectorAll("audio"), function (el) { el.pause(); });
     load();
 }
 

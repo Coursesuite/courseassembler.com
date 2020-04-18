@@ -109,6 +109,8 @@
 										files: []
 									}
 								if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
+									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
+									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
 									obj.payload.html =  Handlebars.templates["wrapper-redirect"](obj.payload);
 									fold.file(filename, obj.payload.html);
 									resource.files.push({
@@ -121,6 +123,7 @@
 									});
 									obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
+									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
 									fold.file(filename,obj.payload.html);
 									resource.files.push({
 										href: resource.base + filename
@@ -206,6 +209,8 @@
 								setup.pages[li.index()] = page; // push to index (nth LI) so it comes out in order in the template
 							}
 							if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
+								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
+								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								obj.payload.html =  Handlebars.templates["wrapper-redirect"](obj.payload);
 								fold.file(filename, obj.payload.html);
 
