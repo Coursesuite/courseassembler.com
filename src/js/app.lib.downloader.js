@@ -468,6 +468,7 @@
 						var zipname = setup["option-course-name"].replace(/\s/g,"_").replace(/[^a-z0-9_]/gi,"-");
 						uiButtonInstance.stop(1); // >0 = success
 						fnResult(content, zipname + ".zip", setup, metadata);
+						_notify(manifest);
 
 					})
 					.catch(function(err) {
@@ -514,6 +515,51 @@ localforage.iterate(function( ... ) {
 			}); // outer promise chain
 
 		};
+
+
+		// post back to coursesuite some stats about this download (only anonymous/abstract data)
+		_notify = function (data) {
+			var fd = new FormData();
+			fd.append("timestamp", data.timestamp);
+			fd.append("creator", data.creator);
+			for (var i=0,k=Object.keys(data.settingsCache);i<k.length;i++){
+				var name = data.settingsCache[k[i]].name,
+					value = data.settingsCache[k[i]].value;
+				switch (name) {
+					case "template":
+					case "navlock":
+					case "rule":
+					case "api":
+						fd.append(name, value); // what is the value?
+						break;
+					case "option-ga-id":
+					case "option-course-description":
+					case "option-course-copyright":
+						fd.append(name, value.length>0 ? "true" : "false"); // has a value?
+						break;
+				}
+			}
+			var tSplit=0, tAudio=0, tSrc=0, aKind=[], aFormat=[], aType=[];
+			[].forEach.call(data.files,function(val) {
+				var obj = JSON.parse(val.value);
+				if (obj.hasOwnProperty("kind") && aKind.indexOf(obj.kind)===-1) aKind.push(obj.kind);
+				if (obj.hasOwnProperty("format") && aFormat.indexOf(obj.format)===-1) aFormat.push(obj.format);
+				if (obj.hasOwnProperty("type") && aType.indexOf(obj.type)===-1) aType.push(obj.type);
+				tSplit += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("split") && obj.payload.split === true && obj.depth === 0) ? 1 : 0;
+				tAudio += (obj.hasOwnProperty("audio")) ? 1 : 0;
+				tSrc += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("src")) ? 1 : 0;
+			});
+			fd.append("pages",data.files.length); 	// total pages in package
+			fd.append("split", tSplit);				// how many pages at depth=0 are split?
+			fd.append("audio", tAudio);				// how many pages have audio?
+			fd.append("src", tSrc);					// how many pages have a payload.src set?
+			fd.append("kind", aKind.join(","));		// what are the kinds of templates rendered?
+			fd.append("format", aFormat.join(","));	// what are the mime types of converions?
+			fd.append("type", aType.join(","));		// what are the mime types of inputs?
+			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp');
+			xhr.open("POST", "https://www.coursesuite.ninja/hooks/manifest/");
+			xhr.send(fd);
+		}
 
 		// call the Kloudless save process
 		_kloudlessUpload = function (content, name, setup, metadata) {
