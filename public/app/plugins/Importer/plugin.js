@@ -47,7 +47,7 @@
 									var extn = filename.substr(filename.lastIndexOf(".") + 1).toLowerCase();
 									instance.setAttribute("src", "data:image/" + extn + ";base64," + contents);
 									break;
-								case "audio":
+								case "audio": // note audio is almost never embedded in the document now
 									fileInfo.payload["mp3"] = "data:audio/mp3;base64," + contents;
 									instance.closest("#wDS3ed").remove(); // the audio object ... man we need to fix that
 									break;
@@ -74,7 +74,7 @@
 					}
 					localforage.setItem(fileId, fileInfo, function () {
 						DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + fileId + "']"), fileInfo, "ready");
-						reimportResolve();
+						reimportResolve({fileInfo:fileInfo,fileId:fileId});
 					});
 				});
 			}
@@ -229,11 +229,29 @@
 								fileid = file.key,
 								folder = zip.folder("data");
 							folder.file(fileid + ".html").async("string").then(function(text) {
-// console.log("asynceach grabbed string from file", fileid, text.length);
 								var dom = (new DOMParser()).parseFromString(text, "text/html");
-								_ReImportNinjaFile(folder, dom, fileid, fileinfo).then(function(results) { // previously of DocNinja.PurityControl.ReImportNinjaFile
-									// console.log("resuming from reimport");
-									resume();
+								_ReImportNinjaFile(folder, dom, fileid, fileinfo).then(function(results) {
+									/*
+									results = {
+										fileinfo: (json)
+										fileId: (string)
+									}
+									*/
+									if (results.fileInfo.hasOwnProperty("audio")) {
+										var audioName = results.fileInfo.audio;
+										// fileInfo might be stale by now
+										localforage.getItem(results.fileId).then(function(o) {
+											folder.file(audioName).async("base64").then(function(mp3data) {
+												o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
+												localforage.setItem(results.fileId,o).then(function () {
+													DocNinja.Navigation.Icons.Add.Audio(results.fileId);
+													resume();
+												});
+											});
+										});
+									} else {
+										resume();
+									}
 								});
 							});
 						}, function() {
@@ -303,5 +321,7 @@
 
 		}); // return
 	};
+
+	console.trace();
 
 })(window.DocNinja = window.DocNinja || {});
