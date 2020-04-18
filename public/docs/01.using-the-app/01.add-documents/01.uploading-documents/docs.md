@@ -47,7 +47,9 @@ Use this to upload streaming media and web pages the old-fashioned way - copy th
 
 ![Paste in an URL](AddDocuments_pasteURL.png?resize=400,160)
 
-Many web sites offer an EMBED code in the form on an iframe. You can embed iframes directly -BUT- there will be no tracking done on the content. This feature is useful if you link to external tools such as an embedded form or survey or streaming service that isn't yet supported directly.
+Many web sites offer an EMBED code in the form of an iframe. You can embed iframes directly -BUT- there will be no tracking done on the content. This feature is useful if you link to external tools such as an embedded form or survey or streaming service that isn't yet supported directly.
+
+![Example embed code](example-embed-code.png)
 
 ### Upload from the Cloud
 
