@@ -393,7 +393,6 @@
 		// Clean
 		var talitha_cumi = function (fileInfo) {
 			return new Promise(function(fullResolve, fullReject) {
-
 				if (fileInfo.payload.html.indexOf("pdf2htmlEX")!==-1) { // Created by
 					// remove generator meta tag & other junk nodes
 					var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
@@ -441,6 +440,7 @@
 									pArray.push(new Promise(function slide_read_promise(res, rej) {
 										xmlobj.files[key].async('text').then(function read_slide_xml(xmlText) {
 											var xmlObj = tXml(xmlText);
+// console.dir(xmlObj);
 											var vPicEls = tXml.filter(xmlObj, function get_slide_vid_details(el) {
 												if (el.tagName === 'p:pic') {
 													var vid = {name:slide};
@@ -464,7 +464,9 @@
 															});
 														}
 														if (child.tagName === 'p:nvPicPr') { // video id
+// console.dir(child);
 															child.children.some(function get_slide_vid_el(grandchild) {
+// console.dir(grandchild);
 																if (grandchild.tagName === "p:nvPr") {
 																	if (grandchild.children) {
 																		grandchild.children.some(function get_slide_vid_id(ggchild) {
@@ -480,7 +482,8 @@
 															});
 														}
 													});
-													if (containsVid) videoObjs.push(vid);
+// console.dir(vid);
+													if (containsVid) { videoObjs.push(vid); }
 												}
 											});
 											res();
@@ -497,12 +500,15 @@
 					var getVidEmbed = function(xmlobj, videoObjs) {
 						return new Promise(function(resolve, reject) {
 							var pArray = [];
-							var regex = RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
+							//var regex = new RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
 							Object.keys(xmlobj.files).forEach(function each_slide_rels(key) {
-								if (regex.test(key)) {
+// console.dir(key);
+								if (/(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)/.test(key)) {
+// console.dir("found key " + key);
 									pArray.push(new Promise(function slide_rels_promise(res,rej) {
 										xmlobj.files[key].async('text').then(function read_slide_rel(xmlText) {
 											var xmlObj = tXml(xmlText);
+// console.dir(xmlObj);
 											videoObjs.forEach(function each_video_object(vobj) {
 												xmlObj[0].children[0].children.forEach(function get_video_link(rel) {
 													if (rel.attributes['Id'] === vobj.rId) {

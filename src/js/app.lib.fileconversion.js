@@ -104,7 +104,7 @@
 			// console.log(initialOutputFormat, extn);
 			if (initialOutputFormat=="pdf" || extn == "pdf") qs+= "&converteroptions[bg_format]=jpg";
 			// if (simpleHtml==1) qs += "&converteroptions[simple_html]=1";
-			if (data.blob) formData.append("file", data.blob, data.name);
+			if (data.blob) { formData.append("file", data.blob, data.name); // console.dir([data.name, data.blob]); }
 
 			// console.log("qs", qs, data);
 			// the file conversion proccess
@@ -115,6 +115,7 @@
 			// to handle this somehow, so we may re-work this routine to have retries, thus making it generic -> todo
 			var xhr = new XMLHttpRequest(); // ie10+
 			xhr.open('POST', 'https://api.cloudconvert.com/convert?' + qs, true);
+
 			xhr.onload = function() {
 				if (xhr.status == 200) {
 					if (initialOutputFormat == "pdf") {
