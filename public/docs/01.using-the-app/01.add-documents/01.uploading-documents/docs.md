@@ -49,6 +49,10 @@ Use this to upload streaming media and web pages the old-fashioned way - copy th
 
 Many web sites offer an EMBED code in the form of an iframe. You can embed iframes directly -BUT- there will be no tracking done on the content. This feature is useful if you link to external tools such as an embedded form or survey or streaming service that isn't yet supported directly.
 
+Example using Google Forms
+![Example embed code](example-embed-code.png)
+
+Example using Microsoft Stream
 ![Example embed code](example-embed-code.png)
 
 ### Upload from the Cloud
