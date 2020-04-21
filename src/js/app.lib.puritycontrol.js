@@ -428,8 +428,12 @@
 					var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
 					fileInfo = DocNinja.Page.ModifyPageBackgroundColour(fileInfo, _pageBgColour);
 
-						// (PresentationML) Replace video images with embedded video
+					// (PresentationML) Replace video images with embedded video
+					// pptx file documentation is available at http://www.datypic.com/sc/ooxml/ss.html
+					// slides: http://www.datypic.com/sc/ooxml/s-pml-slide.xsd.html
+					// media: http://www.datypic.com/sc/ooxml/s-dml-audioVideo.xsd.html
 					var getVidInfo = function(xmlobj) {
+
 						return new Promise(function(resolve, reject) {
 							var pArray = [];
 							var videoObjs = [];
