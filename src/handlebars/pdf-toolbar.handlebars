@@ -16,19 +16,24 @@
 	border: none;
 	background-color: white;
 	border-radius: 2px;
-	width: 20px;
-	height: 20px;
+	line-height: 12px;
 	padding: 2px;
 	margin-right: 4px;
 	cursor: pointer;
 }
+#pdfToolbar>a>svg {
+	max-width: 20px;
+	max-height: 20px;
+	width: 20px;
+}
 </style>
 <div id="pdfToolbar" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
-	<a onclick="pdf2htmlEX.defaultViewer.fit_width()" title="Fit width"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M5 4L1 8M5 12L1 8M11 4l4 4M11 12l4-4"/></svg></a>
-	<a onclick="pdf2htmlEX.defaultViewer.fit_height()" title="Fit height"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M12 5L8 1M4 5l4-4M12 11l-4 4M4 11l4 4"/></svg></a>
-	<a onclick="var s=pdf2htmlEX.defaultViewer.scale;pdf2htmlEX.defaultViewer.rescale(Math.min(2,s+0.05))" title="Zoom in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><circle cx="8" cy="8" r="4" fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10"/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M14 14l-3-3M6 8h4M8 6v4"/></svg></a>
-	<a onclick="var s=pdf2htmlEX.defaultViewer.scale;pdf2htmlEX.defaultViewer.rescale(Math.max(0,s-0.05))" title="Zoom out"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><circle cx="8" cy="8" r="4" fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10"/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M14 14l-3-3M6 8h4"/></svg></a>
-	{{#if pdflink}}<a href="{{pdflink}}" title="Download" download><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs/><path fill="none" stroke="#231f20" stroke-linecap="square" stroke-miterlimit="10" d="M12 10l-4 4M4 10l4 4M4 15h8M8 3v11"/></svg></a>{{/if}}
+	<a onclick="pdf2htmlEX.defaultViewer.fit_width()" title="Fit width"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M502.6 233.4l-64-64c-20.1-20.1-54.6-5.9-54.6 22.6v47H128v-47c0-28.4-34.5-42.8-54.6-22.6l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c20.1 20.1 54.6 5.9 54.6-22.6v-47h256v47c0 28.4 34.5 42.8 54.6 22.6l64-64c12.5-12.6 12.5-32.8 0-45.3zM100 320c0 3.5-4.3 5.4-6.8 2.8l-64-64c-1.6-1.6-1.6-4.1 0-5.6l64-64c2.5-2.5 6.8-.7 6.8 2.8zm382.8-61.2l-64 64c-2.5 2.5-6.8.7-6.8-2.8V192c0-3.5 4.3-5.4 6.8-2.8l64 64c1.6 1.5 1.6 4.1 0 5.6z"/></svg></a>
+	<a onclick="pdf2htmlEX.defaultViewer.fit_height()" title="Fit height"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path d="M160 384h-47V128h47c28.4 0 42.8-34.5 22.6-54.6l-64-64c-12.5-12.5-32.8-12.5-45.3 0l-64 64C-10.7 93.5 3.5 128 32 128h47v256H32c-28.4 0-42.8 34.5-22.6 54.6l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c20-20.1 5.8-54.6-22.7-54.6zM32 100c-3.5 0-5.4-4.3-2.8-6.8l64-64c1.6-1.6 4.1-1.6 5.6 0l64 64c2.5 2.5.7 6.8-2.8 6.8zm130.8 318.8l-64 64c-1.6 1.6-4.1 1.6-5.6 0l-64-64c-2.5-2.5-.7-6.8 2.8-6.8h128c3.5 0 5.3 4.3 2.8 6.8z"/></svg></a>
+	<a onclick="var s=pdf2htmlEX.defaultViewer.scale;pdf2htmlEX.defaultViewer.rescale(Math.min(2,s+0.05))" title="Zoom in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M319.8 204v8c0 6.6-5.4 12-12 12h-84v84c0 6.6-5.4 12-12 12h-8c-6.6 0-12-5.4-12-12v-84h-84c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h84v-84c0-6.6 5.4-12 12-12h8c6.6 0 12 5.4 12 12v84h84c6.6 0 12 5.4 12 12zm188.5 293L497 508.3c-4.7 4.7-12.3 4.7-17 0l-129-129c-2.3-2.3-3.5-5.3-3.5-8.5v-8.5C310.6 395.7 261.7 416 208 416 93.8 416 1.5 324.9 0 210.7-1.5 93.7 93.7-1.5 210.7 0 324.9 1.5 416 93.8 416 208c0 53.7-20.3 102.6-53.7 139.5h8.5c3.2 0 6.2 1.3 8.5 3.5l129 129c4.7 4.7 4.7 12.3 0 17zM384 208c0-97.3-78.7-176-176-176S32 110.7 32 208s78.7 176 176 176 176-78.7 176-176z"/></svg></a>
+	<a onclick="var s=pdf2htmlEX.defaultViewer.scale;pdf2htmlEX.defaultViewer.rescale(Math.max(0,s-0.05))" title="Zoom out"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M307.8 223.8h-200c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h200c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12zM508.3 497L497 508.3c-4.7 4.7-12.3 4.7-17 0l-129-129c-2.3-2.3-3.5-5.3-3.5-8.5v-8.5C310.6 395.7 261.7 416 208 416 93.8 416 1.5 324.9 0 210.7-1.5 93.7 93.7-1.5 210.7 0 324.9 1.5 416 93.8 416 208c0 53.7-20.3 102.6-53.7 139.5h8.5c3.2 0 6.2 1.3 8.5 3.5l129 129c4.7 4.7 4.7 12.3 0 17zM384 208c0-97.3-78.7-176-176-176S32 110.7 32 208s78.7 176 176 176 176-78.7 176-176z"/></svg></a>
+	{{#if pdflink}}<a href="{{pdflink}}" title="Download" download><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M452 432c0 11-9 20-20 20s-20-9-20-20 9-20 20-20 20 9 20 20zm-84-20c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20zm144-48v104c0 24.3-19.7 44-44 44H44c-24.3 0-44-19.7-44-44V364c0-24.3 19.7-44 44-44h99.4L87 263.6c-25.2-25.2-7.3-68.3 28.3-68.3H168V40c0-22.1 17.9-40 40-40h96c22.1 0 40 17.9 40 40v155.3h52.7c35.6 0 53.4 43.1 28.3 68.3L368.6 320H468c24.3 0 44 19.7 44 44zm-261.7 17.7c3.1 3.1 8.2 3.1 11.3 0L402.3 241c5-5 1.5-13.7-5.7-13.7H312V40c0-4.4-3.6-8-8-8h-96c-4.4 0-8 3.6-8 8v187.3h-84.7c-7.1 0-10.7 8.6-5.7 13.7l140.7 140.7zM480 364c0-6.6-5.4-12-12-12H336.6l-52.3 52.3c-15.6 15.6-41 15.6-56.6 0L175.4 352H44c-6.6 0-12 5.4-12 12v104c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12V364z"/></svg></a>{{/if}}
+	<a onclick="window.print()" title="Print"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 192h-16v-82.75c0-8.49-3.37-16.62-9.37-22.63L329.37 9.37c-6-6-14.14-9.37-22.63-9.37H126.48C109.64 0 96 14.33 96 32v160H80c-44.18 0-80 35.82-80 80v96c0 8.84 7.16 16 16 16h80v112c0 8.84 7.16 16 16 16h288c8.84 0 16-7.16 16-16V384h80c8.84 0 16-7.16 16-16v-96c0-44.18-35.82-80-80-80zM320 45.25L370.75 96H320V45.25zM128.12 32H288v64c0 17.67 14.33 32 32 32h64v64H128.02l.1-160zM384 480H128v-96h256v96zm96-128H32v-80c0-26.47 21.53-48 48-48h352c26.47 0 48 21.53 48 48v80zm-80-88c-13.25 0-24 10.74-24 24 0 13.25 10.75 24 24 24s24-10.75 24-24c0-13.26-10.75-24-24-24z"/></svg></a>
 </div>
 <script>
 window.addEventListener('DOMContentLoaded',function(){
