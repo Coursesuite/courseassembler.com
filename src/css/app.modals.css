@@ -187,6 +187,55 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 	border-bottom-color: white;
 }
 
+.dn-popover[data-source='toggle-add-content']::after,
+.dn-popover[data-source='toggle-add-content']::before {
+	right: initial;
+	left: 18px;
+}
+
+.dn-popover .content-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: min-content 1fr min-content min-content min-content min-content;
+  gap: 5px 5px;
+  grid-template-areas: "common common common" "page markdown quiz" "knowledge knowledge knowledge" ". . .";
+}
+.dn-popover .content-types > div {
+	padding: 10px;
+}
+.ga-common, .ga-knowledge {
+	color: #999;
+	font-weight: bold;
+	text-align: left;
+}
+.dn-popover .content-types > div:not(.ga-common):not(.ga-knowledge) {
+	background-color: rgba(255, 255, 255, 0);
+	transition: background-color .1s;
+	cursor: pointer;
+}
+.dn-popover .content-types > div:not(.ga-common):not(.ga-knowledge):hover {
+	background-color: white;
+	box-shadow: 0 0 3px rgba(0,0,0,.1);
+}
+
+.ga-page > a > i, .ga-markdown > a > i, .ga-quiz > a > i {
+	display: block;
+	text-align: center;
+	font-size: 3.5rem;
+	margin-bottom: .5rem;
+}
+.ga-common { grid-area: common; }
+.ga-page { grid-area: page; color: var(--content); }
+.ga-markdown { grid-area: markdown; color: var(--markdown) }
+.ga-quiz { grid-area: quiz; color: var(--quiz); }
+.ga-knowledge { grid-area: knowledge; }
+.ga-item {
+	text-align: left;
+}
+.ga-item > a > i {
+	margin-right: 5px;
+}
+
 .dn-popover > header {
 	background-color: white;
 	border-bottom: 1px solid rgb(240,240,240);

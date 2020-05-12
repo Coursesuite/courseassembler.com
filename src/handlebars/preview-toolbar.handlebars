@@ -1,6 +1,10 @@
 	<div class="pad-left" data-page-format="{{format}}" data-page-kind="{{kind}}">
 
 	{{#compare kind "plugin"}}
+		{{#compare plugin "Markdown"}}
+	<button data-fileid="{{id}}" data-action="page-bgcolour" data-popover="colour" data-label="Page background colour" data-value="{{payload.backgroundColour}}" data-init="jscolor"><i class="ninja-adjust"></i>BG colour</button>
+	<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>
+		{{/compare}}
 		{{!-- may require some work --}}
 	{{else}}
 	<button data-fileid="{{id}}" data-action="page-bgcolour" data-popover="colour" data-label="Page background colour" data-value="{{payload.backgroundColour}}" data-init="jscolor"><i class="ninja-adjust"></i>BG colour</button>

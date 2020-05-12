@@ -1088,6 +1088,14 @@ function handlePopover(tgt) {
 			$("input[value='center']").prop("checked", tgt.dataset.value === "center");
 			break;
 
+		case "toggle-add-content":
+			b.style.right = 'initial';
+			b.style.minWidth = '375px';
+			b.style.left = '10px';
+			b.style.top = (rekt.y + rekt.height + 9) + "px"
+			// b.style.left = rekt.x + (rekt.width / 3) + 'px';
+			break;
+
 		break;
 	}
 	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
@@ -1168,6 +1176,7 @@ function handleAction(node, e) {
 			break;
 
 		case "add-content":
+			closePopover();
 			classie.addClass(document.body,"modal-add");
 			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 			break;
@@ -1418,6 +1427,7 @@ function performAction(tgt, e) {
 			break;
 
 		case "add-quiz":
+			closePopover();
 			var newId = DocNinja.PurityControl.Nav.GetFileId(),
 				fileInfo = {
 					name: "New Quiz",
@@ -1435,6 +1445,27 @@ function performAction(tgt, e) {
 				localforage.setItem("order", DocNinja.navItems.innerHTML);
 			});
 			break;
+
+		case "add-markdown":
+			closePopover();
+			var newId = DocNinja.PurityControl.Nav.GetFileId(),
+				fileInfo = {
+					name: "New Markdown Page",
+					supports:["edit","view"],
+					kind:"plugin",
+					plugin: "Markdown",
+					depth: 0,
+					payload: {}
+				};
+			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+			localforage.setItem(newId, fileInfo).then(function(obj) {
+				DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
+				DocNinja.PurityControl.Nav.Check();
+				DocNinja.filePreview.Select(newId);
+				localforage.setItem("order", DocNinja.navItems.innerHTML);
+			});
+			break;
+
 
 		// case "paste-url":
 		// 	classie.addClass(DocNinja.options.pasteUrlObj,"visible");

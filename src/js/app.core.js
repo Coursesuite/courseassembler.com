@@ -1,6 +1,6 @@
 ;(function(DocNinja, $, App, undefined) {
 	//testcomment
-	DocNinja.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx"), // https://developers.kloudless.com/applications/ninjasuite/details;
+	DocNinja.KLOUDLESS_APP_ID = atob("ZXpvWV9Gck9JdzlyYjladkhxZTVSV2hkeGFpdGwzQ2lQeElwbXZZdV9aZm1za1FsCg=="), // https://developers.kloudless.com/applications/course-assembler/details;
 	DocNinja.KLOUDLESS_INPUT = window.Kloudless.fileExplorer.explorer({app_id: DocNinja.KLOUDLESS_APP_ID}),
 	DocNinja.KLOUDLESS_OUTPUT = window.Kloudless.fileExplorer.explorer({app_id: DocNinja.KLOUDLESS_APP_ID});
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{title}}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css">
+	<style>
+	body {
+		background-color: #{{backgroundColour}};
+		margin-top: 1rem;
+	}
+	.container {
+		background-color: #ffffff;
+	}
+	img {
+		max-width: 100%;
+	    padding: 1rem;
+	    border: 1px solid #f4f5f6;
+	    box-shadow: 0 2px 4px rgba(0,0,0,.05);
+	}
+	</style>
+	<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js"></script>
+	<script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
+	<script type="text/javascript">
+	var init = (function(){
+		var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+		return {
+			seconds: Math.max(0,+qs[0]||0),
+			index: qs[1] ? +qs[1] : -1
+		}
+	})();
+	function incr() {
+		parent.dispatchEvent(new CustomEvent("statuschange", {detail: init}));
+		init.seconds += 1; // time spent on page, in seconds
+		setTimeout(incr, 1000);
+	}
+	doOnLoad(incr);
+	</script>
+</head>
+<body>
+	<main class="wrapper">
+		<section class="container">{{{html}}}</section>
+	</main>
+</body>
+</html>

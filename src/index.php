@@ -2,6 +2,7 @@
 define("APP",true);
 include("load.php");
 
+// todo: implement caching
 foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*.json') as $json) {
 	$obj = json_decode(file_get_contents($json));
 	$themes[substr(basename($json), 0, -5)] = [
@@ -17,6 +18,8 @@ $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
 $jsApp->Themes = [$themes];
+
+// if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 	if (strpos($verifier->api->publish,"https:") === false) {
 		$jsApp->Publish = "publish.php?dest=" . rawurlencode($verifier->api->publish) . "&sesskey=" . $sesskey;
@@ -48,20 +51,24 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
 <?php
 // alternate bug tracker to sentry.io
-if (false) { ?>
-		<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>
-		<script>window.bugsnagClient = bugsnag('f76cf5ad15cc64817fbf675a994d5438')</script>
-<?php } ?>
-		<script src="https://browser.sentry-cdn.com/5.3.0/bundle.min.js" crossorigin="anonymous"></script>
-		<script>window.addEventListener('DOMContentLoaded', function() { Sentry.init({ dsn: 'https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310' }); });</script>
-<?php
+if (false) {
+	echo '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>', PHP_EOL;
+	echo '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>', PHP_EOL;
+}
+
+// sentry.io console tracing for published app
+if ($verifier->code->minified) {
+	echo '<script src="https://browser.sentry-cdn.com/5.3.0/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
+	echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
+}
+
+// include styles defined in plugins
 $p = realpath('./plugins');
 $plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|FontPicker)\.css$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($plugins as $file) {
 	echo '<link href="plugins', substr($file[0], strlen($p)),'" rel="stylesheet" type="text/css">', PHP_EOL;
 }
 ?>
-
 		<style id="fiddle">#nav-selection svg path,#nav-selection svg rect {fill:#3D3590;stroke:#000000;stroke-width:4px;stroke-opacity:0.75;}$nav-selection svg circle{stroke:#3D3590}</style>
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -77,21 +84,6 @@ foreach ($plugins as $file) {
 		  ga('create', 'UA-68767047-3', 'auto');
 		  ga('send', 'pageview');
 		</script>
-		<!-- Piwik -->
-		<script type="text/javascript">
-		  var _paq = _paq || [];
-		  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-		  _paq.push(['trackPageView']);
-		  _paq.push(['enableLinkTracking']);
-		  (function() {
-		    var u="//stats.coursesuite.ninja/";
-		    _paq.push(['setTrackerUrl', u+'piwik.php']);
-		    _paq.push(['setSiteId', '2']);
-		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-		    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-		  })();
-		</script>
-		<!-- End Piwik Code -->
 <?php } else { ?>
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 <?php } ?>
@@ -109,6 +101,7 @@ foreach ($plugins as $file) {
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>
 <?php
+// custom css defined over api
 if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	echo "		<style>" . $verifier->api->header->css . "</style>";
 }
@@ -142,9 +135,8 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<section id="add-documents">
 		<div class="toolbar">
 			<div id="nav-actions" class="flex-v pad-left">
-				<button data-action="add-content"><i class="ninja-document-add"></i>Add content</button>
-				<button data-action="add-quiz"><i class="ninja-inbox-check"></i>Add quiz</button>
-				<button data-action="import-content"><i class="ninja-folder-outline-add"></i>Import ...</button>
+				<button data-action="toggle-add-content" data-popover="addcontent" data-label="Add content"><i class="ninja-document-add"></i>Add ...</button>
+				<button data-action="import-content"><i class="ninja-folder-outline-add"></i>Import zip</button>
 			</div>
 			<div id="fields" class="flex-v"></div>
 		</div>
@@ -345,7 +337,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<div class="modal import-content">
 		<div class="modal-box">
 		<header>
-			<span><i class="ninja-folder-outline-add"></i>Import content</span>
+			<span><i class="ninja-folder-outline-add"></i>Import content (zip)</span>
 			<a href="javascript:;" data-action="close-import-content"><span class="ninja-close"></span></a>
 		</header>
 		<section class="drag-to-upload">

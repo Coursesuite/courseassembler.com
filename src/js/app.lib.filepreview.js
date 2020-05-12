@@ -23,7 +23,7 @@
 			$("body").append($("<div id='blocking'>"));
 			$("#blocking").addClass("active");
 			localforage.getItem(id, function (err, value) {
-console.dir(value);
+// console.dir(value);
 				if (!value) { // item contains no data; must be removed.
 					$("li[data-fileid='" + id + "']").remove();
 					$("#blocking").remove();

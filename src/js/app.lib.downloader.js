@@ -133,6 +133,15 @@
 									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
 									DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj, resource, "imscp");
 									DocNinja.PurityControl.MayRequireJQuery(fold, obj, resource);
+								} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
+									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
+									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+									if (obj.plugin) switch (obj.plugin) {
+										case "Markdown": // Markdown doesn't store final page, so re-render it
+											obj.payload.html = Handlebars.templates['wrapper-page'](obj.payload);
+											break;
+									}
+									fold.file(filename, obj.payload.html);
 								} else { // just store the html, which will already be correct
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 									fold.file(filename, obj.payload.html);
@@ -231,6 +240,11 @@
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+								if (obj.plugin) switch (obj.plugin) {
+									case "Markdown": // Markdown doesn't store final page, so re-render it
+										obj.payload.html = Handlebars.templates['wrapper-page'](obj.payload);
+										break;
+								}
 								fold.file(filename, obj.payload.html);
 
 							} else {
