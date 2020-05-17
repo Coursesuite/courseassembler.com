@@ -1,12 +1,22 @@
 <?php
+// https://stackoverflow.com/questions/1379277/minify-css-using-preg-replace
+// https://github.com/siteorigin/so-css/pull/102/files/f5b7aee72d85990704856341d5f65724a8fb259e
 function removeComments( $css ) {
+    // php >= 7.4
     $regex = array(
-        "`^([\t\s]+)`ism"=>'',
-        "`^\/\*(.+?)\*\/`ism"=>"",
-        "`([\n\A;]+)\/\*(.+?)\*\/`ism"=>"$1",
-        "`([\n\A;\s]+)//(.+?)[\n\r]`ism"=>"$1\n",
-        "`(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+`ism"=>"\n"
+        "`^([\t\s]+)`ism"                             => '',
+        "`^\/\*(.+?)\*\/`ism"                         => "",
+        "`(\A|[\n;]+)/\*[^*]*\*+(?:[^/*][^*]*\*+)*/`" => "$1",
+        "`(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+`ism"       => "\n"
     );
+    // php < 7.4
+    // $regex = array(
+    //     "`^([\t\s]+)`ism"=>'',
+    //     "`^\/\*(.+?)\*\/`ism"=>"",
+    //     "`([\n\A;]+)\/\*(.+?)\*\/`ism"=>"$1",
+    //     "`([\n\A;\s]+)//(.+?)[\n\r]`ism"=>"$1\n",
+    //     "`(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+`ism"=>"\n"
+    // );
     return preg_replace( array_keys( $regex ), $regex, $css );
 }
 function getImports( $css ) {
@@ -40,7 +50,7 @@ if (strlen($css) === 0) {
     die("Empty input file\n");
 }
 
-$css = removeComments( $css );
+// $css = removeComments( $css );
 foreach( getImports( $css ) as $import ) {
     $m = str_replace("'", "", $import["file"]);
     $fileName = "{$rootDirectory}{$m}";
