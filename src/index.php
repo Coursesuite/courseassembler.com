@@ -21,13 +21,13 @@ $jsApp->Themes = [$themes];
 
 // if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
+	$jsApp->Bearer = $verifier->api->bearer;
+	$jsApp->Method = "POST";
 	if (strpos($verifier->api->publish,"https:") === false) {
-		$jsApp->Publish = "publish.php?dest=" . rawurlencode($verifier->api->publish) . "&sesskey=" . $sesskey;
+		$jsApp->Publish = "publish.php?dest=" . rawurlencode($verifier->api->publish) . "&sesskey=" . $_SESSION['sesskey'] . "&bearer=" . rawurlencode($jsApp->Bearer);
 	} else {
 		$jsApp->Publish = $verifier->api->publish;
 	}
-	$jsApp->Bearer = $verifier->api->bearer;
-	$jsApp->Method = "POST"; // or PUT
 }
 
 // api url = coursesuite url / api / dl / apikey / appkey / template.zip
