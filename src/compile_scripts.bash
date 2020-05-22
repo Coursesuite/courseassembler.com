@@ -12,6 +12,10 @@ handlebars handlebars/ -f js/templates.js
 echo "Compiling plugins"
 cd plugins
 
+cd H5P
+./compile.sh
+cd ..
+
 # like this so its easier to count the nesting when you come back up
 cd MicRecorderToMp3
 ./compile.sh

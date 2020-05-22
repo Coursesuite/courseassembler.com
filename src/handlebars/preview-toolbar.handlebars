@@ -6,8 +6,11 @@
 	<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>
 		{{/compare}}
 		{{!-- may require some work --}}
+	{{else}}{{#compare kind "h5p"}}
+		{{!-- technicall could do audio but also could embed that in h5p too --}}
 	{{else}}
 	<button data-fileid="{{id}}" data-action="page-bgcolour" data-popover="colour" data-label="Page background colour" data-value="{{payload.backgroundColour}}" data-init="jscolor"><i class="ninja-adjust"></i>BG colour</button>
+	{{/compare}}
 	{{/compare}}
 
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}
@@ -18,7 +21,7 @@
 	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
 	{{/compare}}
 
-	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}
+	{{#compare format "in" "youtube,vimeo,soundcloud,oembed,package"}}{{else}}
 		{{#compare kind "plugin"}}{{else}}
 	<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>
 	{{!-- status is now shown on the left index<span id="audioStatus">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{else}}<i class="ninja-volume_off" title="No page audio"></i>{{/if}}</span> --}}
@@ -47,6 +50,10 @@
 
 	{{#compare format "in" "slideshare"}}
 	<span id="pageScore"></span>
+	{{/compare}}
+
+	{{#compare kind "h5p"}}
+	<span id="xapiControl"></span>
 	{{/compare}}
 
 {{!-- 	{{#if supportsEdit}}

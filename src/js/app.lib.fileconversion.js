@@ -217,10 +217,10 @@
 				fileinfo = {};
 				// initialOutputFormat = "html";
 
-			// console.log("_beginConversion", drop, raw, liElem, kind, subtype);
-
 			if (subtype === "x-markdown") kind = "application"; // so it gets converted
 			if (kind === "url" && raw.url && raw.url.indexOf("<iframe ")!==-1) kind = "iframe";
+
+// console.log(drop,raw,liElem,kind,subtype); return;
 
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
 			switch (kind) {
@@ -338,6 +338,36 @@
 					return _success(liElem, fileinfo);
 					break;
 
+				case "h5p":
+					// var name = raw.files[0].name.trimExtn();
+					JSZip.loadAsync(drop.result.split("base64,")[1], {base64: true})
+					.then(function(zip) {
+						var h5pfile = zip.file("h5p.json");
+						if (h5pfile) {
+							h5pfile
+								.async("string")
+								.then(function(str) {
+									return JSON.parse(str)
+								}).then(function(json) {
+									fileinfo = {
+										payload: {
+											html: Handlebars.templates['wrapper-h5p']({name: json.title, filename: raw.files[0].name}),
+											src: drop.result
+										},
+										format: "package",
+										name: json.title,
+										kind: "h5p",
+									}
+									return _success(liElem, fileinfo);
+								});
+						} else {
+							throw('No h5p.json file');
+						}
+					}).catch(function(error) {
+						_failure(liElem, "Wasn't able to understand h5p package \n" + error);
+					});
+					break;
+
 				default:
 					if ("json" === subtype) {
 						var rawJson = Base64.decode(drop.result.split("base64,")[1]);
@@ -395,11 +425,19 @@
 						reader = new FileReader(),
 						li = document.createElement("li"),
 						fileId = DocNinja.PurityControl.Nav.GetFileId(index);
+
+					if (extn === "h5p") mimetype[0] = "h5p";
+
 					li.innerHTML = file.name;
 					li.setAttribute("data-fileid", fileId); // "file-" + (new Date().getTime()).toString(36));
 					DocNinja.navItems.appendChild(li);
 					reader.onload = function (e) {
-						_beginConversion(reader, {"files":[{name: file.name, type: mime} ]}, li, mimetype[0],mimetype[1]);
+						_beginConversion(reader, // drop
+						                 {"files":[{name: file.name, type: mime, extension: extn} ]}, // raw
+						                 li,	// liElem
+						                 mimetype[0], // kind
+						                 mimetype[1] // subtype
+						                );
 						reader = null;
 					}
 

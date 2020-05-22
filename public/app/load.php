@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['sesskey'])) $_SESSION['sesskey'] = md5(time());
 $verifier = (new CoursesuiteValidator())->Validate($_GET);
 $verifier->code->minified = true;
-$timestamp = '20200518012550';
-$minified_css = 'css/app.min.20200518012550.css';
-$minified_app = 'js/app.min.20200518012550.js';
+$timestamp = '20200518111243';
+$minified_css = 'css/app.min.20200518111243.css';
+$minified_app = 'js/app.min.20200518111243.js';
 ?>

@@ -254,7 +254,8 @@ templates['preview-image'] = template({"compiler":[7,">= 4.0.0"],"main":function
 templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.plugin : depth0),"Markdown",{"name":"compare","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.plugin : depth0),"Markdown",{"name":"compare","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "	";
 },"2":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -270,6 +271,12 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
 },"3":function(container,depth0,helpers,partials,data) {
     return "data-init=\"initaudio\"";
 },"5":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"h5p",{"name":"compare","hash":{},"fn":container.program(6, data, 0),"inverse":container.program(8, data, 0),"data":data})) != null ? stack1 : "");
+},"6":function(container,depth0,helpers,partials,data) {
+    return "\n";
+},"8":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -277,7 +284,7 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-action=\"page-bgcolour\" data-popover=\"colour\" data-label=\"Page background colour\" data-value=\""
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.backgroundColour : stack1), depth0))
     + "\" data-init=\"jscolor\"><i class=\"ninja-adjust\"></i>BG colour</button>\n";
-},"7":function(container,depth0,helpers,partials,data) {
+},"10":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -287,7 +294,7 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-value-max=\"100\" data-label=\"Complete after percentage viewed ...\" data-init=\"rangeslider\"><i class=\"ninja-education\"></i>Completion rule <output>"
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "</output></button>\n";
-},"9":function(container,depth0,helpers,partials,data) {
+},"12":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -299,14 +306,14 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-label=\"Complete after slide number ...\" data-init=\"scoreslider\"><i class=\"ninja-education\"></i>Completion rule <output>"
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "</output></button>\n";
-},"11":function(container,depth0,helpers,partials,data) {
+},"14":function(container,depth0,helpers,partials,data) {
     return "";
-},"13":function(container,depth0,helpers,partials,data) {
+},"16":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "\n		"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(11, data, 0),"inverse":container.program(14, data, 0),"data":data})) != null ? stack1 : "");
-},"14":function(container,depth0,helpers,partials,data) {
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(14, data, 0),"inverse":container.program(17, data, 0),"data":data})) != null ? stack1 : "");
+},"17":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
   return "\n	<button data-fileid=\""
@@ -314,33 +321,39 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-action=\"set-audio\" data-popover=\"audio\" data-label=\"Upload or record audio for this page\" "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.mp3 : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "><i class=\"ninja-mic\"></i>Audio</button>\n";
-},"16":function(container,depth0,helpers,partials,data) {
+},"19":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
 
   return "	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"edit","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"edit","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"view","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(19, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"view","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"17":function(container,depth0,helpers,partials,data) {
+},"20":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"plugin-edit\"><i class=\"ninja-marker\"></i>Edit</button>";
-},"19":function(container,depth0,helpers,partials,data) {
+},"22":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"plugin-view\"><i class=\"ninja-eye\"></i>View</button>";
-},"21":function(container,depth0,helpers,partials,data) {
+},"24":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"image-properties\"></span>\n";
-},"23":function(container,depth0,helpers,partials,data) {
+},"26":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"timeTaken\"></span>\n";
-},"25":function(container,depth0,helpers,partials,data) {
+},"28":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"pageScore\"></span>\n";
-},"27":function(container,depth0,helpers,partials,data) {
+},"30":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "	<label id=\"passingScore\">Score required: <input type=\"number\" min=\"0\" value=\""
+    + container.escapeExpression(((helper = (helper = helpers.score || (depth0 != null ? depth0.score : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"score","hash":{},"data":data}) : helper)))
+    + "\" size=\"4\"></label>\n";
+},"32":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -348,21 +361,21 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-action=\"zoom-out\" class=\"icon\"><i class=\"ninja-zoom-out\"></i></button>\n	<button data-fileid=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"zoom-in\" class=\"icon\"><i class=\"ninja-zoom-in\"></i></button>\n";
-},"29":function(container,depth0,helpers,partials,data) {
+},"34":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.split : stack1),{"name":"unless","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"30":function(container,depth0,helpers,partials,data) {
+  return ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.split : stack1),{"name":"unless","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"35":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "\n	<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"split\"><i class=\"ninja-split\"></i>Split</button>\n	";
-},"32":function(container,depth0,helpers,partials,data) {
+},"37":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data}) : helper)));
-},"34":function(container,depth0,helpers,partials,data) {
+},"39":function(container,depth0,helpers,partials,data) {
     return "(untitled)";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -374,25 +387,27 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\">\n\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(5, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(11, data, 0),"inverse":container.program(13, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed,package",{"name":"compare","hash":{},"fn":container.program(14, data, 0),"inverse":container.program(16, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(16, data, 0),"inverse":container.program(11, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(19, data, 0),"inverse":container.program(14, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"image",{"name":"compare","hash":{},"fn":container.program(21, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"image",{"name":"compare","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"h5p",{"name":"compare","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.supportsZoom : depth0),{"name":"if","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.supportsZoom : depth0),{"name":"if","hash":{},"fn":container.program(32, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(29, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(34, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\">\n		"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(32, data, 0),"inverse":container.program(34, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(37, data, 0),"inverse":container.program(39, data, 0),"data":data})) != null ? stack1 : "")
     + "\n	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"trash\" data-popover=\"yesno\" data-label=\"Are you sure? (no undo)\"><i class=\"ninja-discard\"></i>Delete page</button>\n	</div>\n\n";
@@ -541,6 +556,13 @@ templates['style-transform-horizontal-scale'] = template({"compiler":[7,">= 4.0.
 },"useData":true});
 templates['style-transform-scale-center'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<style id=\"styleTransformScaleCenter\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, -50%);\n	transform-style: flat;\n	transform-origin: center center 0px;\n	position: absolute;\n	top: 50%;\n	left: 50%;\n}\n</style>";
+},"useData":true});
+templates['wrapper-h5p'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n	<title>H5P Content</title>\n	<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n	<script src=\"https://cdn.polyfill.io/v2/polyfill.min.js\"></script>\n	<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Roboto:300\">\n	<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css\">\n	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css\">\n	<style>html,body{margin:0;height:100%;min-height:100%;}body{display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Roboto;font-weight:300}</style>\n</head>\n<body>\n	<svg version=\"1.1\"\n		xmlns:cc=\"http://creativecommons.org/ns#\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n		xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\"\n		x=\"0px\" y=\"0px\" viewBox=\"0 0 83.6 36.7\" width=\"84\" height=\"36\">\n		<path  d=\"M0.1,18.4V0.1h11.3v15.7h12.2V0.1h9.1l-0.1,0.4c-0.2,0.8-3.5,15.6-3.9,17.4c-0.2,1-0.4,1.9-0.3,2s2.3,0.4,5,0.8\n			l4.9,0.7l0.7-0.9c2.1-2.5,5.7-2.5,7.7-0.1c2.7,3.1,0.4,8.1-3.8,8c-1.5,0-2.7-0.6-3.8-1.7l-0.9-0.9l-4.9,0.7c-2.7,0.4-4.9,0.7-5,0.8\n			c-0.2,0.2,0.8,2.6,1.6,3.9c1.4,2.3,3.2,3.8,5.7,4.9c0.6,0.3,1.2,0.5,1.3,0.6c0,0-2.9,0.1-6.6,0.1h-6.7V23.1H11.4v13.5H0.1L0.1,18.4z\n			\"/>\n		<path d=\"M50.2,36.5c0.1-0.1,0.6-0.3,1.1-0.5c4.4-1.4,7.7-6.8,7.7-12.4c0-3.2-1-5.8-3.1-8c-1.4-1.5-3-2.5-5-3.2\n			c-1.3-0.4-1.7-0.5-4.6-0.5c-2.9,0-3.2,0-4.7,0.5c-0.9,0.3-1.7,0.6-1.9,0.6c-0.2,0.1-0.2,0-0.2-0.1c0-0.1,0.3-1.4,0.7-2.8l0.6-2.5\n			h16.6V0.1l8.5,0.1c8,0.1,8.6,0.1,10,0.5c3.8,1,6,3,7.2,6.5c0.4,1.3,0.5,1.8,0.5,4c0,1.9-0.1,2.9-0.3,3.7c-1,3.9-3.8,6.6-7.8,7.6\n			c-1.5,0.4-4.9,0.6-9.1,0.6l-3.1,0v13.5h-6.6C52.8,36.6,50.1,36.6,50.2,36.5L50.2,36.5z M69.8,15.4c1.3-0.4,2.4-1.5,2.7-2.6\n			c0.6-2.2-0.6-4.3-2.7-4.9c-0.4-0.1-2-0.2-3.6-0.3l-3-0.1v8.5l2.8-0.1C67.7,15.7,69.2,15.5,69.8,15.4L69.8,15.4z\"/>\n	</svg>\n	<div><img src='data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIKCSBpZD0iTGF5ZXJfMSIgeG1sbnM6Y2M9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zIyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA4My42IDM2LjciCgkgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgODMuNiAzNi43OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe3N0cm9rZTojRkZGRkZGO3N0cm9rZS13aWR0aDowLjE4MjU7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQo8L3N0eWxlPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMC4xLDE4LjRWMC4xaDExLjN2MTUuN2gxMi4yVjAuMWg5LjFsLTAuMSwwLjRjLTAuMiwwLjgtMy41LDE1LjYtMy45LDE3LjRjLTAuMiwxLTAuNCwxLjktMC4zLDJzMi4zLDAuNCw1LDAuOAoJbDQuOSwwLjdsMC43LTAuOWMyLjEtMi41LDUuNy0yLjUsNy43LTAuMWMyLjcsMy4xLDAuNCw4LjEtMy44LDhjLTEuNSwwLTIuNy0wLjYtMy44LTEuN2wtMC45LTAuOWwtNC45LDAuN2MtMi43LDAuNC00LjksMC43LTUsMC44CgljLTAuMiwwLjIsMC44LDIuNiwxLjYsMy45YzEuNCwyLjMsMy4yLDMuOCw1LjcsNC45YzAuNiwwLjMsMS4yLDAuNSwxLjMsMC42YzAsMC0yLjksMC4xLTYuNiwwLjFoLTYuN1YyMy4xSDExLjR2MTMuNUgwLjFMMC4xLDE4LjR6CgkiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTUwLjIsMzYuNWMwLjEtMC4xLDAuNi0wLjMsMS4xLTAuNWM0LjQtMS40LDcuNy02LjgsNy43LTEyLjRjMC0zLjItMS01LjgtMy4xLThjLTEuNC0xLjUtMy0yLjUtNS0zLjIKCWMtMS4zLTAuNC0xLjctMC41LTQuNi0wLjVjLTIuOSwwLTMuMiwwLTQuNywwLjVjLTAuOSwwLjMtMS43LDAuNi0xLjksMC42Yy0wLjIsMC4xLTAuMiwwLTAuMi0wLjFjMC0wLjEsMC4zLTEuNCwwLjctMi44bDAuNi0yLjUKCWgxNi42VjAuMWw4LjUsMC4xYzgsMC4xLDguNiwwLjEsMTAsMC41YzMuOCwxLDYsMyw3LjIsNi41YzAuNCwxLjMsMC41LDEuOCwwLjUsNGMwLDEuOS0wLjEsMi45LTAuMywzLjdjLTEsMy45LTMuOCw2LjYtNy44LDcuNgoJYy0xLjUsMC40LTQuOSwwLjYtOS4xLDAuNmwtMy4xLDB2MTMuNWgtNi42QzUyLjgsMzYuNiw1MC4xLDM2LjYsNTAuMiwzNi41TDUwLjIsMzYuNXogTTY5LjgsMTUuNGMxLjMtMC40LDIuNC0xLjUsMi43LTIuNgoJYzAuNi0yLjItMC42LTQuMy0yLjctNC45Yy0wLjQtMC4xLTItMC4yLTMuNi0wLjNsLTMtMC4xdjguNWwyLjgtMC4xQzY3LjcsMTUuNyw2OS4yLDE1LjUsNjkuOCwxNS40TDY5LjgsMTUuNHoiLz4KPC9zdmc+Cg=='></div>\n	<h1>Unable to preview this content</h1>\n	<p>The package ("
+    + container.escapeExpression(((helper = (helper = helpers.filename || (depth0 != null ? depth0.filename : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"filename","hash":{},"data":data}) : helper)))
+    + ") will be embedded during download/publishing.</p>\n</body>\n</html>";
 },"useData":true});
 templates['wrapper-html5'] = template({"1":function(container,depth0,helpers,partials,data) {
     return "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css\">";

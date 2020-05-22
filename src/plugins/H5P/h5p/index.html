@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>{{name}}</title>
+    <style type="text/css">
+      html,
+      body,
+      #h5p-container,
+      #h5p-container > .h5p-iframe-wrapper,
+      #h5p-container > .h5p-iframe-wrapper > iframe {
+        margin: 0px;
+        padding: 0px;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background-color: white;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="main.bundle.js"></script>
+    <script type="text/javascript">
+    var init = (function(){
+          var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+          return {
+            data: qs[0],
+            index: qs[1] ? +qs[1] : -1
+          }
+        })(),
+        scoreRequired = {{score}};
+
+    H5P.externalDispatcher.on('xAPI', function (event) {
+      var time = 0;
+      if (event.data.statement.hasOwnProperty('verb')) {
+        if (event.data.statement.verb.id === 'http://adlnet.gov/expapi/verbs/completed') {
+          console.dir(event.data.statement);
+          time = scoreRequired;
+        }
+      }
+      parent.dispatchEvent(new CustomEvent(
+        "statuschange",
+          {
+          detail: {
+            index: init.index,
+            timespent: time
+          }
+        }
+      ));
+
+      // // event.getScore() // not the greatest property name
+        // var passed = result.score.scaled >= scoreRequired,
+        //   verb = result.getVerb();
+
+
+    });
+    </script>
+  </head>
+  <body>
+    <div id="h5p-container"></div>
+    <script type="text/javascript">
+      var element = document.getElementById("h5p-container");
+      const h5p = new H5PStandalone.H5P(element, '{{workspace}}');
+    </script>
+  </body>
+</html>

@@ -128,6 +128,8 @@
 									resource.files.push({
 										href: resource.base + filename
 									});
+								} else if ("h5p"==obj.kind) {
+
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
@@ -207,6 +209,7 @@
 								// obj = JSON.parse(value),
 								obj = value,
 								filename = key + ".html";
+
 							if (li.length) {
 								page["index"] = iterationNumber;
 								page["title"] = $.trim(li.text().replace(/\s+/g, " "));
@@ -236,6 +239,11 @@
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj);
 								DocNinja.PurityControl.MayRequireJQuery(fold, obj);
+
+							} else if ("h5p"==obj.kind) {
+								var h5pFolder = fold.folder(key);
+								setup.pages[li.index()].href = "data/" + key + "/index.html";
+								DocNinja.Plugins.ExportH5P(obj, h5pFolder);
 
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
@@ -606,11 +614,20 @@ localforage.iterate(function( ... ) {
 			fd.append("file", content, name);
 			xhr.open(App.Method, App.Publish, true);
 			xhr.onload = function (result) {
-				$span.html(_html);
-				console.dir(result);
 				if (this.status == 200) {
-					alert("Your package has been uploaded.");
+					$span.html("Uploaded");
+				} else {
+					$span.html("Failed");
 				}
+				setTimeout(function() {
+					$span.html(_html);
+					// bindDownloadButtons();
+				},3456);
+
+				// // console.dir(result);
+				// if (this.status == 200) {
+				// 	alert("Your package has been uploaded.");
+				// }
 			}
 			xhr.onerror = function (result) {
 				$span.html("<i class='fa fa-eye'></i> Upload error (too big?)");
