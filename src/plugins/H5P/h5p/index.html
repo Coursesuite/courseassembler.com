@@ -9,8 +9,8 @@
       #h5p-container > .h5p-iframe-wrapper > iframe {
         margin: 0px;
         padding: 0px;
-        height: 100vh;
-        width: 100vw;
+        height: 100vh !important; /* no seriously, it is important to avoid a rediculous resize bug in h5p */
+        width: 100vw !important;
         overflow: hidden;
         background-color: white;
       }
@@ -25,22 +25,25 @@
             index: qs[1] ? +qs[1] : -1
           }
         })(),
-        scoreRequired = {{score}};
+        calculated = false;
 
     H5P.externalDispatcher.on('xAPI', function (event) {
-      var time = 0;
+      var score = calculated ? 1 : 0;
       if (event.data.statement.hasOwnProperty('verb')) {
         if (event.data.statement.verb.id === 'http://adlnet.gov/expapi/verbs/completed') {
-          console.dir(event.data.statement);
-          time = scoreRequired;
+          score = 1;
+          calculated = true;
         }
       }
+
       parent.dispatchEvent(new CustomEvent(
         "statuschange",
           {
           detail: {
-            index: init.index,
-            timespent: time
+            userdata: event.data.statement,
+            score: score, // score has to match required in order for a completion
+            required: 1,
+            index: init.index
           }
         }
       ));

@@ -1809,3 +1809,16 @@ function popIframe(url) {
     document.body.style.overflow = "hidden";
     return 1
 };
+
+function get_free_space() {
+	if (navigator.storage && navigator.storage.estimate) {
+		var quota = await navigator.storage.estimate(),
+		 	percentageUsed = (quota.usage / quota.quota) * 100,
+		 	remaining = quota.quota - quota.usage;
+		 return {
+		 	used: percentageUsed,
+		 	free: remaining
+		 }
+	}
+	return {}
+}

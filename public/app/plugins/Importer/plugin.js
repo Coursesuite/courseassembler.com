@@ -322,6 +322,6 @@
 		}); // return
 	};
 
-	console.trace();
+	// console.trace();
 
 })(window.DocNinja = window.DocNinja || {});

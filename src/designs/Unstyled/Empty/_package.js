@@ -187,14 +187,14 @@ function goto(n,init) {
 function load() {
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
-	if (current_page.content === "plugin") {
+	if (current_page.content === "plugin" || current_page.content === "h5p") {
     src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
     _now = (new Date).getTime() / 1000;
     document.getElementById("content").setAttribute("src", src);
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
-    if (["media","plugin"].indexOf(current_page.content)===-1) tick(); // run timespent looper
+    if (["media","plugin","h5p"].indexOf(current_page.content)===-1) tick(); // run timespent looper
     checkCourseCompletion();
 }
 

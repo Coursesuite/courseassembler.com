@@ -348,11 +348,7 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
 },"28":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"pageScore\"></span>\n";
 },"30":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "	<label id=\"passingScore\">Score required: <input type=\"number\" min=\"0\" value=\""
-    + container.escapeExpression(((helper = (helper = helpers.score || (depth0 != null ? depth0.score : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"score","hash":{},"data":data}) : helper)))
-    + "\" size=\"4\"></label>\n";
+    return "	<span id=\"xapiControl\"><button data-action=\"page-xapi\" disabled>Completion via xAPI</button></span>\n";
 },"32":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
