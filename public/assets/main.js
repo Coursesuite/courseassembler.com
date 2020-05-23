@@ -1,7 +1,7 @@
 function loadTyped() {
 	if (document.querySelector("#typed"))
 		new Typed("#typed",{
-			strings: ["Word documents","any PDF file","a KeyNote file","Google Docs","PowerPoint","Google Slides","Pages","Vimeo videos","YouTube videos","SlideShare","any document"],
+			strings: ["Word documents","any PDF file","a KeyNote file","a H5P package", "Google Docs", "Markdown", "PowerPoint","Google Slides","Pages","Vimeo videos","YouTube videos","SlideShare","any document"],
 			typeSpeed: 90,
 			backSpeed: 45,
 			startDelay: 800,
