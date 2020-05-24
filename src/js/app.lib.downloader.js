@@ -371,6 +371,7 @@
 						if (setup['option-ga-id']) {
 							setup['analytics-code'] = Handlebars.templates["script-ga-index"](setup);
 						}
+						// console.dir(setup);
 						return Promise.all([
 							zip.file("index.html", Handlebars.templates["index.html"](setup)),
 							zip.file("_package.js", Handlebars.templates["_package.js"](setup)),
