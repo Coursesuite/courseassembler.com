@@ -19,7 +19,7 @@
 	width: 100%;
 }
 
-#pageScore, #timeTaken {font-family:monospace;}
+#pageScore, #timeTaken {font-size:12px;}
 
 /*
 #fields {

@@ -78,13 +78,12 @@
 
 					default:
 						parsedHtml = Handlebars.templates["preview-html"](data.payload);
-						switch (data.format) {
-							case "slideshare":
-								useFrameDoc = false;
-								var frameDoc = frame.contentDocument || frame.contentWindow.document;
-								frameDoc.open();
-								frameDoc.write(parsedHtml);
-								frameDoc.close();
+						if (data.format === "slideshare") {
+							useFrameDoc = false;
+							var frameDoc = frame.contentDocument || frame.contentWindow.document;
+							frameDoc.open();
+							frameDoc.write(parsedHtml);
+							frameDoc.close();
 						}
 				}
 				if (useFrameDoc) {

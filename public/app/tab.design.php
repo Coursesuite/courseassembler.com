@@ -19,6 +19,8 @@ array_walk($designs, function($v) use (&$groupings) {
 	// if (!in_array($group, $groupings)) $groupings[] = $group;
 });
 
+echo "<p>You can view the source code or contribute to these designs <a href='https://github.com/Coursesuite/courseassembler-templates' style='border-bottom:1px dotted currentcolor'>by clicking here</a></p>";
+
 // Draw in each grouping the list of designs
 foreach ($groupings as $group) {
 

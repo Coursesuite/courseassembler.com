@@ -214,13 +214,18 @@
 		*/
 		_beginConversion = function (drop, raw, liElem, kind, subtype) {
 			var this_fileid = liElem.getAttribute("data-fileid"),
-				fileinfo = {};
+				fileinfo = {},
+				extn = '',
+				mime = 'application/octet-stream';
 				// initialOutputFormat = "html";
+			extn = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.split(".").pop().toLowerCase(): '',
+			name = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.trimExtn() : '';
+			mime = Mime.get( extn );
 
 			if (subtype === "x-markdown") kind = "application"; // so it gets converted
 			if (kind === "url" && raw.url && raw.url.indexOf("<iframe ")!==-1) kind = "iframe";
 
-// console.log(drop,raw,liElem,kind,subtype); return;
+// console.log(drop,raw,liElem,kind,subtype, extn, mime);
 
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
 			switch (kind) {
@@ -235,7 +240,7 @@
 					_performConversion({
 						name: raw.files[0].name,
 						url: raw.files[0].url,
-						type: Mime.get( raw.files[0].name.split(".").pop().toLowerCase() ), // could be done inside _performConversion I guess
+						type: mime, // could be done inside _performConversion I guess
 						fileId: this_fileid, // string ref to dom node
 						original: drop
 					});
@@ -256,7 +261,7 @@
 										image: scaledImage
 									},
 									format: scaledImage.split(";")[0].replace(/image\//,""), // raw.files[0].type.replace(/image\//,""),
-									name: raw.files[0].name.trimExtn(),
+									name: name,
 									kind: "image"
 								}
 								return _success(liElem, fileinfo);
@@ -269,7 +274,7 @@
 								image: drop.result
 							},
 							format: raw.files[0].type.replace(/image\//,""),
-							name: raw.files[0].name.trimExtn(),
+							name: name,
 							kind: "image"
 						}
 						return _success(liElem, fileinfo);
@@ -279,13 +284,13 @@
 				case "text":
 					var rawHtml = Base64.decode(drop.result.split("base64,")[1]);
 					if ("plain"===subtype) rawHtml = DocNinja.PurityControl.Conversion.TextToHtml({
-						title: raw.files[0].name.trimExtn(),
+						title: name,
 						html: rawHtml
 					});
 					fileinfo = {
 						payload: { html: rawHtml },
 						format: raw.files[0].type.replace(/text\//,""),
-						name: raw.files[0].name.trimExtn(),
+						name: name,
 						kind: "file",
 					}
 					return _success(liElem, fileinfo);
@@ -314,19 +319,35 @@
 					break;
 
 				case "audio":
-				case "video":
 					_finishConversion({
 						status: "error",
-						error: "Video & Audio can't be [yet] directly embedded. Please upload the item to YouTube or Vimeo or SoundCloud and drag the URL instead",
+						error: "You can't embed audio files directly. Try attach audio to an existing page.",
 						fileInfo: null,
 						fileId: this_fileid
 					});
 					break;
 
+				case "video": // if the mimedb has gotten us this far it is a browser-supported type
+					fileinfo = {
+						name: name,
+						payload: {
+							html: Handlebars.templates['wrapper-iframe']({
+								title: name,
+								format: 'video',
+								src: drop.result,
+								mime: mime
+							})
+						},
+						format: "video",
+						fileId: this_fileid,
+					}
+					return _success(liElem, fileinfo);
+					break;
+
 				case "iframe":
 					var tmp = document.createElement("div");
 					tmp.innerHTML = raw.url;
-					var src = tmp.firstChild.src;
+					var src = tmp.querySelector("iframe").src; // .firstChild.src; // handle if iframe is wrapped within other code, say a responsive wrapper (like Microsoft Stream does)
 					fileinfo = {
 						payload: {
 							src: src
@@ -339,7 +360,7 @@
 					break;
 
 				case "h5p":
-					// var name = raw.files[0].name.trimExtn();
+					// var name = name;
 					JSZip.loadAsync(drop.result.split("base64,")[1], {base64: true})
 					.then(function(zip) {
 						var h5pfile = zip.file("h5p.json");

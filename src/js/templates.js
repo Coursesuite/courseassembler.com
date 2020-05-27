@@ -87,7 +87,7 @@ templates['nav-item'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.action || (depth0 != null ? depth0.action : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"action","hash":{},"data":data}) : helper)))
     + "\" href=\"javascript:;\"><span/></a></span></span>\n	<span class=\"label dn-flex-1 dn-flex dn-flex-c-1\"><a href=\"javascript:\" data-action=\"preview\">"
     + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</a></span>\n	"
+    + "</a></span>\n	<a class=\"rename-hint\" data-action=\"toggle-rename\" href=\"javascript:;\"><i class=\"ninja-keyboard\" title=\"Rename this page\"></i></a>\n	"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.program(12, data, 0),"data":data})) != null ? stack1 : "")
     + "\n";
 },"10":function(container,depth0,helpers,partials,data) {
@@ -275,16 +275,22 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
 
   return ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"h5p",{"name":"compare","hash":{},"fn":container.program(6, data, 0),"inverse":container.program(8, data, 0),"data":data})) != null ? stack1 : "");
 },"6":function(container,depth0,helpers,partials,data) {
-    return "\n";
+    return "\n	";
 },"8":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.format : depth0),"in","video",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.program(11, data, 0),"data":data})) != null ? stack1 : "");
+},"9":function(container,depth0,helpers,partials,data) {
+    return "";
+},"11":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.escapeExpression;
 
-  return "	<button data-fileid=\""
+  return "\n	<button data-fileid=\""
     + alias1(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"page-bgcolour\" data-popover=\"colour\" data-label=\"Page background colour\" data-value=\""
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.backgroundColour : stack1), depth0))
     + "\" data-init=\"jscolor\"><i class=\"ninja-adjust\"></i>BG colour</button>\n";
-},"10":function(container,depth0,helpers,partials,data) {
+},"13":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -294,7 +300,7 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-value-max=\"100\" data-label=\"Complete after percentage viewed ...\" data-init=\"rangeslider\"><i class=\"ninja-education\"></i>Completion rule <output>"
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "</output></button>\n";
-},"12":function(container,depth0,helpers,partials,data) {
+},"15":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -306,14 +312,12 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-label=\"Complete after slide number ...\" data-init=\"scoreslider\"><i class=\"ninja-education\"></i>Completion rule <output>"
     + alias4(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data}) : helper)))
     + "</output></button>\n";
-},"14":function(container,depth0,helpers,partials,data) {
-    return "";
-},"16":function(container,depth0,helpers,partials,data) {
+},"17":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "\n		"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(14, data, 0),"inverse":container.program(17, data, 0),"data":data})) != null ? stack1 : "");
-},"17":function(container,depth0,helpers,partials,data) {
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.kind : depth0),"in","plugin",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.program(18, data, 0),"data":data})) != null ? stack1 : "");
+},"18":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
   return "\n	<button data-fileid=\""
@@ -321,35 +325,35 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-action=\"set-audio\" data-popover=\"audio\" data-label=\"Upload or record audio for this page\" "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.mp3 : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "><i class=\"ninja-mic\"></i>Audio</button>\n";
-},"19":function(container,depth0,helpers,partials,data) {
+},"20":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing;
 
   return "	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"edit","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"edit","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(21, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"view","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,"view","in",(depth0 != null ? depth0.supports : depth0),{"name":"compare","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
-},"20":function(container,depth0,helpers,partials,data) {
+},"21":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"plugin-edit\"><i class=\"ninja-marker\"></i>Edit</button>";
-},"22":function(container,depth0,helpers,partials,data) {
+},"23":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"plugin-view\"><i class=\"ninja-eye\"></i>View</button>";
-},"24":function(container,depth0,helpers,partials,data) {
+},"25":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"image-properties\"></span>\n";
-},"26":function(container,depth0,helpers,partials,data) {
+},"27":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"timeTaken\"></span>\n";
-},"28":function(container,depth0,helpers,partials,data) {
+},"29":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"pageScore\"></span>\n";
-},"30":function(container,depth0,helpers,partials,data) {
+},"31":function(container,depth0,helpers,partials,data) {
     return "	<span id=\"xapiControl\"><button data-action=\"page-xapi\" disabled>Completion via xAPI</button></span>\n";
-},"32":function(container,depth0,helpers,partials,data) {
+},"33":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "	<button data-fileid=\""
@@ -357,21 +361,21 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\" data-action=\"zoom-out\" class=\"icon\"><i class=\"ninja-zoom-out\"></i></button>\n	<button data-fileid=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"zoom-in\" class=\"icon\"><i class=\"ninja-zoom-in\"></i></button>\n";
-},"34":function(container,depth0,helpers,partials,data) {
+},"35":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.split : stack1),{"name":"unless","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
-},"35":function(container,depth0,helpers,partials,data) {
+  return ((stack1 = helpers.unless.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.split : stack1),{"name":"unless","hash":{},"fn":container.program(36, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"36":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "\n	<button data-fileid=\""
     + container.escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"split\"><i class=\"ninja-split\"></i>Split</button>\n	";
-},"37":function(container,depth0,helpers,partials,data) {
+},"38":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data}) : helper)));
-},"39":function(container,depth0,helpers,partials,data) {
+},"40":function(container,depth0,helpers,partials,data) {
     return "(untitled)";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -383,27 +387,27 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + "\">\n\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(5, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed,video",{"name":"compare","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed,package",{"name":"compare","hash":{},"fn":container.program(14, data, 0),"inverse":container.program(16, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed,package,video",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.program(17, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(19, data, 0),"inverse":container.program(14, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"plugin",{"name":"compare","hash":{},"fn":container.program(20, data, 0),"inverse":container.program(9, data, 0),"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"image",{"name":"compare","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"image",{"name":"compare","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed",{"name":"compare","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,soundcloud,oembed,video",{"name":"compare","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(29, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"h5p",{"name":"compare","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.kind : depth0),"h5p",{"name":"compare","hash":{},"fn":container.program(31, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.supportsZoom : depth0),{"name":"if","hash":{},"fn":container.program(32, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.supportsZoom : depth0),{"name":"if","hash":{},"fn":container.program(33, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(34, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\">\n		"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(37, data, 0),"inverse":container.program(39, data, 0),"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.name : depth0),{"name":"if","hash":{},"fn":container.program(38, data, 0),"inverse":container.program(40, data, 0),"data":data})) != null ? stack1 : "")
     + "\n	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-action=\"trash\" data-popover=\"yesno\" data-label=\"Are you sure? (no undo)\"><i class=\"ninja-discard\"></i>Delete page</button>\n	</div>\n\n";
@@ -589,7 +593,7 @@ templates['wrapper-iframe'] = template({"1":function(container,depth0,helpers,pa
   return "\n	"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo,video",{"name":"compare","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n	"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","soundcloud",{"name":"compare","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
@@ -610,28 +614,40 @@ templates['wrapper-iframe'] = template({"1":function(container,depth0,helpers,pa
 },"22":function(container,depth0,helpers,partials,data) {
     return "<script type=\"text/javascript\" src=\"//w.soundcloud.com/player/api.js\"></script>";
 },"24":function(container,depth0,helpers,partials,data) {
-    return " onunload=\"_poll=!1\" onbeforeunload=\"_poll=!1\"";
+    return "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.2/plyr.css\" />\n<script src=\"https://cdn.plyr.io/3.6.2/plyr.js\"></script>\n";
 },"26":function(container,depth0,helpers,partials,data) {
-    return "<script type=\"text/javascript\">\n/*! fluidvids.js v2.4.1 | (c) 2014 @toddmotto | https://github.com/toddmotto/fluidvids; mods to height using resize throttler by tim, plus vertical centering using http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/ */\n(function(e,d){\"function\"===typeof define&&define.amd?define(d):\"object\"===typeof exports?module.exports=d:e.fluidvids=d()})(this,function(){function e(b){return(new RegExp(\"^(https?:)?//(?:\"+c.players.join(\"|\")+\").*$\",\"i\")).test(b)}function d(){var b=document.createElement(\"div\");b.innerHTML=\"<p>x</p><style>\"+h+\"</style>\";k.appendChild(b.childNodes[1])}function l(){var b=document.querySelector(\"body\").offsetHeight;[].forEach.call(document.querySelectorAll(\".fluidvids-item\"),function(c,a){c.style.maxHeight=\nb+\"px\"})}var c={selector:[\"iframe\",\"object\"],players:[\"www.youtube.com\",\"player.vimeo.com\"]},h=[\".fluidvids {width: 100%; max-width: 100%; position: relative; }.fluidvids-item {\",\"position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; max-height: \"+document.documentElement.querySelector(\"body\").offsetHeight+\"px\",\"}\"].join(\"\"),k=document.head||document.getElementsByTagName(\"head\")[0];c.render=function(){for(var b=document.querySelectorAll(c.selector.join()),d=b.length;d--;){var a=b[d];\nif((e(a.src)||e(a.data))&&!a.getAttribute(\"data-fluidvids\")){var f=document.createElement(\"div\");a.parentNode.insertBefore(f,a);a.className+=(a.className?\" \":\"\")+\"fluidvids-item\";a.setAttribute(\"data-fluidvids\",\"loaded\");f.className+=\"fluidvids\";var h=f.style,g;g=a.width;g=parseInt(a.height,10)/parseInt(g,10)*100+\"%\";h.paddingTop=g;f.appendChild(a)}}};c.init=function(b){for(var e in b)c[e]=b[e];c.render();d();var a;window.addEventListener(\"resize\",function(){a||(a=setTimeout(function(){a=null;l()},\n66))},!1)};return c});\nfluidvids.init({selector:['iframe']});\n</script>";
+    return " onunload=\"_poll=!1\" onbeforeunload=\"_poll=!1\"";
 },"28":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<video controls crossorigin playsinline id=\"player\">\n	<source src=\""
+    + alias4(((helper = (helper = helpers.src || (depth0 != null ? depth0.src : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"src","hash":{},"data":data}) : helper)))
+    + "\" type=\""
+    + alias4(((helper = (helper = helpers.mime || (depth0 != null ? depth0.mime : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"mime","hash":{},"data":data}) : helper)))
+    + "\" />\n</video>\n";
+},"30":function(container,depth0,helpers,partials,data) {
+    return "<script type=\"text/javascript\">\n/*! fluidvids.js v2.4.1 | (c) 2014 @toddmotto | https://github.com/toddmotto/fluidvids; mods to height using resize throttler by tim, plus vertical centering using http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/ */\n(function(e,d){\"function\"===typeof define&&define.amd?define(d):\"object\"===typeof exports?module.exports=d:e.fluidvids=d()})(this,function(){function e(b){return(new RegExp(\"^(https?:)?//(?:\"+c.players.join(\"|\")+\").*$\",\"i\")).test(b)}function d(){var b=document.createElement(\"div\");b.innerHTML=\"<p>x</p><style>\"+h+\"</style>\";k.appendChild(b.childNodes[1])}function l(){var b=document.querySelector(\"body\").offsetHeight;[].forEach.call(document.querySelectorAll(\".fluidvids-item\"),function(c,a){c.style.maxHeight=\nb+\"px\"})}var c={selector:[\"iframe\",\"object\"],players:[\"www.youtube.com\",\"player.vimeo.com\"]},h=[\".fluidvids {width: 100%; max-width: 100%; position: relative; }.fluidvids-item {\",\"position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; max-height: \"+document.documentElement.querySelector(\"body\").offsetHeight+\"px\",\"}\"].join(\"\"),k=document.head||document.getElementsByTagName(\"head\")[0];c.render=function(){for(var b=document.querySelectorAll(c.selector.join()),d=b.length;d--;){var a=b[d];\nif((e(a.src)||e(a.data))&&!a.getAttribute(\"data-fluidvids\")){var f=document.createElement(\"div\");a.parentNode.insertBefore(f,a);a.className+=(a.className?\" \":\"\")+\"fluidvids-item\";a.setAttribute(\"data-fluidvids\",\"loaded\");f.className+=\"fluidvids\";var h=f.style,g;g=a.width;g=parseInt(a.height,10)/parseInt(g,10)*100+\"%\";h.paddingTop=g;f.appendChild(a)}}};c.init=function(b){for(var e in b)c[e]=b[e];c.render();d();var a;window.addEventListener(\"resize\",function(){a||(a=setTimeout(function(){a=null;l()},\n66))},!1)};return c});\nfluidvids.init({selector:['iframe']});\n</script>";
+},"32":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<script type=\"text/javascript\">\nvar player, _poll=!1, duration=0, init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})(), poll = function () {\n	if (_poll) {\n		parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index: init.index, seconds: player.getCurrentTime(), duration:duration}}));\n		setTimeout(poll,249);\n	}\n};\nwindow.onYouTubeIframeAPIReady = function () {\n	player = new YT.Player('player1', {\n		"
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.videoId : depth0),{"name":"if","hash":{},"fn":container.program(29, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.videoId : depth0),{"name":"if","hash":{},"fn":container.program(33, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n		origin: location.origin,\n		events: {\n			'onReady':  function (event) {\n				duration = player.getDuration();\n				if (init.timestamp!==0) {\n					player.seekTo(init.timestamp);\n				}\n				player.playVideo();\n			},\n			'onStateChange': function (event) {\n				switch (event.data) {\n					case YT.PlayerState.PAUSED: case YT.PlayerState.ENDED: case YT.PlayerState.BUFFERING: _poll=!1; break;\n					case YT.PlayerState.PLAYING: _poll=1; setTimeout(poll,249); break;\n				}\n			}\n		}\n	});\n};\n</script>\n";
-},"29":function(container,depth0,helpers,partials,data) {
+},"33":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "videoId: '"
     + container.escapeExpression(((helper = (helper = helpers.videoId || (depth0 != null ? depth0.videoId : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"videoId","hash":{},"data":data}) : helper)))
     + "',";
-},"31":function(container,depth0,helpers,partials,data) {
-    return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})(),\n	played=!1,\n	player=new Vimeo.Player(document.querySelector('#player1'));\n\nplayer.on('timeupdate',function(data) {\n	data[\"index\"] = init.index;\n	parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail: data}));\n});\nplayer.on('play',function(data) {\n	if (!played && init.timestamp>0) {\n		player.setCurrentTime(init.timestamp);\n	}\n	played=!0;\n});\n</script>\n";
-},"33":function(container,depth0,helpers,partials,data) {
-    return "<script type=\"text/javascript\">\nvar player,\n	init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})();\ndoOnLoad(function () {\n	var widget = SC.Widget(document.getElementById('sc-widget')), duration = 0, played = false;\n	widget.bind(SC.Widget.Events.READY, function() {\n		player = widget;\n		widget.bind(SC.Widget.Events.PLAY, function() {\n			widget.getDuration(function (v) { duration = (v / 1000); });\n			if (init.timestamp!==0 && !played) {widget.seekTo(init.timestamp * 1000)};\n			played = true;\n		});\n		widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(event) {\n			seconds = event.currentPosition / 1000;\n			parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, seconds:seconds,duration:duration}}));\n		});\n		widget.play();\n	});\n});\n</script>\n";
 },"35":function(container,depth0,helpers,partials,data) {
-    return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})();\ndoOnLoad(function () {\n	var h = document.querySelector(\"body\").offsetHeight,\n		w = (h/3) * 4,\n		p =	$(\"#slides\").picoSlides({\n			imgMaxWidth: w,\n			startAt: init.timestamp,\n			skipBTitle: \"\",\n			skipFTitle: \"\",\n			linkUrl: false,\n			holderTheme: false,\n			apiUrl: \"//www.slideshare.net/api/oembed/2?url=\",\n			afterSlideChange: function (obj, page) {\n				parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, slide: page[0], total: page[1]}}));\n			},\n			loadFirst: function (elem) {\n				if (init.timestamp > 2) { // why not 2?\n					p.picoSlides(\"gotoSlide\", init.timestamp);\n				}\n			}\n		});\n});\n</script>\n";
+    return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})(),\n	played=!1,\n	duration=0,\n	player=new Vimeo.Player(document.querySelector('#player1'));\n\nplayer.on('timeupdate',function(data) {\n	data[\"index\"] = init.index;\n	// parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, seconds:seconds,duration:duration}}));\n	parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail: data}));\n});\nplayer.on('play',function(data) {\n	if (!played && init.timestamp>0) {\n		player.setCurrentTime(init.timestamp);\n	}\n	played=!0;\n});\nplayer.getDuration().then(function(value) {\n	duration = value;\n});\n</script>\n";
 },"37":function(container,depth0,helpers,partials,data) {
+    return "<script type=\"text/javascript\">\nvar player,\n	init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})();\ndoOnLoad(function () {\n	var widget = SC.Widget(document.getElementById('sc-widget')), duration = 0, played = false;\n	widget.bind(SC.Widget.Events.READY, function() {\n		player = widget;\n		widget.bind(SC.Widget.Events.PLAY, function() {\n			widget.getDuration(function (v) { duration = (v / 1000); });\n			if (init.timestamp!==0 && !played) {widget.seekTo(init.timestamp * 1000)};\n			played = true;\n		});\n		widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(event) {\n			seconds = event.currentPosition / 1000;\n			parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, seconds:seconds,duration:duration}}));\n		});\n		widget.play();\n	});\n});\n</script>\n";
+},"39":function(container,depth0,helpers,partials,data) {
+    return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})();\ndoOnLoad(function () {\n	var h = document.querySelector(\"body\").offsetHeight,\n		w = (h/3) * 4,\n		p =	$(\"#slides\").picoSlides({\n			imgMaxWidth: w,\n			startAt: init.timestamp,\n			skipBTitle: \"\",\n			skipFTitle: \"\",\n			linkUrl: false,\n			holderTheme: false,\n			apiUrl: \"//www.slideshare.net/api/oembed/2?url=\",\n			afterSlideChange: function (obj, page) {\n				parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, slide: page[0], total: page[1]}}));\n			},\n			loadFirst: function (elem) {\n				if (init.timestamp > 2) { // why not 2?\n					p.picoSlides(\"gotoSlide\", init.timestamp);\n				}\n			}\n		});\n});\n</script>\n";
+},"41":function(container,depth0,helpers,partials,data) {
+    return "<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})(),\n	played=!1,\n	duration=0,\n	player=new Plyr('#player');\nplayer.on('timeupdate',function(data) {\n	parent.dispatchEvent(new CustomEvent(\"statuschange\", {detail:{index:init.index, seconds:player.currentTime, duration:duration}}));\n});\nplayer.on('play',function(data) {\n	if (!played && init.timestamp>0) {\n		player.currentTime = init.timestamp;\n	}\n	played=!0;\n});\nplayer.on('loadedmetadata', function () {\n	duration = player.duration;\n});\nplayer.on('ready', function () {\n	duration = player.duration;\n});\n</script>\n";
+},"43":function(container,depth0,helpers,partials,data) {
     var stack1, helper;
 
   return "<div class='description'>"
@@ -644,13 +660,13 @@ templates['wrapper-iframe'] = template({"1":function(container,depth0,helpers,pa
     + alias4(((helper = (helper = helpers.format || (depth0 != null ? depth0.format : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"format","hash":{},"data":data}) : helper)))
     + "\" >\n<title>"
     + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</title>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<style>\nhtml,body {\n	margin: 0;\n	height: 100%;\n	min-height: 100%\n}\nbody {\n	overflow: "
+    + "</title>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<link href=\"https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap\" rel=\"stylesheet\">\n<style>\nhtml,body {\n	margin: 0;\n	height: 100%;\n	min-height: 100%\n}\nbody {\n	font-family: 'Source Sans Pro', sans-serif;\n	overflow: "
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + ";\n	position: relative;\n	"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.payload : depth0)) != null ? stack1.backgroundColor : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
     + "}\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n</style>\n"
+    + "\n</style>\n<script type=\"text/javascript\" src=\"https://polyfill.io/v3/polyfill.min.js\"></script>\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","slideshare",{"name":"compare","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n<script type=\"text/javascript\">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"vimeo",{"name":"compare","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -658,18 +674,23 @@ templates['wrapper-iframe'] = template({"1":function(container,depth0,helpers,pa
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"youtube",{"name":"compare","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
     + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"soundcloud",{"name":"compare","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n</head>\n<body"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"youtube",{"name":"compare","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"video",{"name":"compare","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</head>\n<body"
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"youtube",{"name":"compare","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ">\n"
     + ((stack1 = ((helper = (helper = helpers.body || (depth0 != null ? depth0.body : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"body","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo",{"name":"compare","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"video",{"name":"compare","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"youtube",{"name":"compare","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"vimeo",{"name":"compare","hash":{},"fn":container.program(31, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"soundcloud",{"name":"compare","hash":{},"fn":container.program(33, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"slideshare",{"name":"compare","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.show_description : depth0),{"name":"if","hash":{},"fn":container.program(37, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"in","youtube,vimeo",{"name":"compare","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"youtube",{"name":"compare","hash":{},"fn":container.program(32, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"vimeo",{"name":"compare","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"soundcloud",{"name":"compare","hash":{},"fn":container.program(37, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"slideshare",{"name":"compare","hash":{},"fn":container.program(39, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.compare || (depth0 && depth0.compare) || alias2).call(alias1,(depth0 != null ? depth0.format : depth0),"video",{"name":"compare","hash":{},"fn":container.program(41, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.show_description : depth0),{"name":"if","hash":{},"fn":container.program(43, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n</body>\n</html>\n";
 },"useData":true});
 templates['wrapper-image'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

@@ -5,6 +5,7 @@
 <meta name="ninja:renderer" content="{{format}}" >
 <title>{{title}}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
 <style>
 html,body {
 	margin: 0;
@@ -12,11 +13,12 @@ html,body {
 	min-height: 100%
 }
 body {
+	font-family: 'Source Sans Pro', sans-serif;
 	overflow: {{#compare format "in" "slideshare"}}auto{{else}}hidden{{/compare}};
 	position: relative;
 	{{#if payload.backgroundColor}}background-color:#{{payload.backgroundColor}};{{else}}
 	{{#compare format "in" "slideshare"}}background-color:gray;{{/compare}}
-	{{#compare format "in" "youtube,vimeo"}}background-color:black;{{/compare}}
+	{{#compare format "in" "youtube,vimeo,video"}}background-color:black;{{/compare}}
 	{{#compare format "in" "soundcloud"}}background-color:#f5f5f5;{{/compare}}
 	{{/if}}
 }
@@ -34,6 +36,7 @@ body {
 	margin: auto .75em;
 }{{/compare}}
 </style>
+<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js"></script>
 {{#compare format "in" "slideshare"}}
 <script type="text/javascript">
 /*! Lazy Load 2.0.0-rc.2 - MIT license - Copyright 2007-2019 Mika Tuupola */
@@ -72,9 +75,19 @@ typeof a&&d(this).data("_inst")&&d(this).data("_inst")[a])return d(this).data("_
 {{#compare format "vimeo"}}<script type="text/javascript" src="https://player.vimeo.com/api/player.js"></script>{{/compare}}
 {{#compare format "youtube"}}<script type="text/javascript" src="https://www.youtube.com/player_api"></script>{{/compare}}
 {{#compare format "soundcloud"}}<script type="text/javascript" src="//w.soundcloud.com/player/api.js"></script>{{/compare}}
+{{#compare format "video"}}
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+<script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
+{{/compare}}
 </head>
 <body{{#compare format "youtube"}} onunload="_poll=!1" onbeforeunload="_poll=!1"{{/compare}}>
 {{{body}}}
+{{#compare format "video"}}
+<video controls crossorigin playsinline id="player">
+	<source src="{{src}}" type="{{mime}}" />
+</video>
+{{/compare}}
+
 {{#compare format "in" "youtube,vimeo"}}<script type="text/javascript">
 /*! fluidvids.js v2.4.1 | (c) 2014 @toddmotto | https://github.com/toddmotto/fluidvids; mods to height using resize throttler by tim, plus vertical centering using http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/ */
 (function(e,d){"function"===typeof define&&define.amd?define(d):"object"===typeof exports?module.exports=d:e.fluidvids=d()})(this,function(){function e(b){return(new RegExp("^(https?:)?//(?:"+c.players.join("|")+").*$","i")).test(b)}function d(){var b=document.createElement("div");b.innerHTML="<p>x</p><style>"+h+"</style>";k.appendChild(b.childNodes[1])}function l(){var b=document.querySelector("body").offsetHeight;[].forEach.call(document.querySelectorAll(".fluidvids-item"),function(c,a){c.style.maxHeight=
@@ -134,10 +147,12 @@ var init = (function(){
 	}
 })(),
 	played=!1,
+	duration=0,
 	player=new Vimeo.Player(document.querySelector('#player1'));
 
 player.on('timeupdate',function(data) {
 	data["index"] = init.index;
+	// parent.dispatchEvent(new CustomEvent("statuschange", {detail:{index:init.index, seconds:seconds,duration:duration}}));
 	parent.dispatchEvent(new CustomEvent("statuschange", {detail: data}));
 });
 player.on('play',function(data) {
@@ -145,6 +160,9 @@ player.on('play',function(data) {
 		player.setCurrentTime(init.timestamp);
 	}
 	played=!0;
+});
+player.getDuration().then(function(value) {
+	duration = value;
 });
 {{!--
 	2017.11.07 - setCurrentTime before play is broken, so I have had to shim it using playing code above :(
@@ -214,6 +232,35 @@ doOnLoad(function () {
 				}
 			}
 		});
+});
+</script>
+{{/compare}}
+{{#compare format "video"}}
+<script type="text/javascript">
+var init = (function(){
+	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+	return {
+		timestamp: Math.max(0,+qs[0]||0),
+		index: qs[1] ? +qs[1] : -1
+	}
+})(),
+	played=!1,
+	duration=0,
+	player=new Plyr('#player');
+player.on('timeupdate',function(data) {
+	parent.dispatchEvent(new CustomEvent("statuschange", {detail:{index:init.index, seconds:player.currentTime, duration:duration}}));
+});
+player.on('play',function(data) {
+	if (!played && init.timestamp>0) {
+		player.currentTime = init.timestamp;
+	}
+	played=!0;
+});
+player.on('loadedmetadata', function () {
+	duration = player.duration;
+});
+player.on('ready', function () {
+	duration = player.duration;
 });
 </script>
 {{/compare}}

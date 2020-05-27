@@ -165,8 +165,8 @@ var Mime = (function() {
         "mime": "application/mp21",
         "extn": ["m21", "mp21"]
     }, {
-        "mime": "application/mp4",
-        "extn": ["mp4s", "m4p"]
+        "mime": "video/mp4",
+        "extn": ["mp4s", "m4p", "mp4"]
     }, {
         "mime": "application/msword",
         "extn": ["doc", "dot"]
@@ -183,8 +183,8 @@ var Mime = (function() {
         "mime": "application/oebps-package+xml",
         "extn": ["opf"]
     }, {
-        "mime": "application/ogg",
-        "extn": ["ogx"]
+        "mime": "video/ogg",
+        "extn": ["ogx","ogg","ogv"]
     }, {
         "mime": "application/omdoc+xml",
         "extn": ["omdoc"]
@@ -2156,6 +2156,18 @@ var Mime = (function() {
     }, {
         "mime": "application/x-iwork-numbers-sffnumbers",
         "extn": ["numbers"]
+    }, {
+        "mime": "audio/mpeg",
+        "extn": ["mp3"]
+    }, {
+        "mime": "audio/wav",
+        "extn": ["wav"]
+    }, {
+        "mime": "audio/ogg",
+        "extn": ["oga"]
+    }, {
+        "mime": "audio/x-wav",
+        "extn": ["wav"]
     }];
     return {
         get: function(ext) {
