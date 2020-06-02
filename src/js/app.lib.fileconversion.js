@@ -60,7 +60,7 @@
 		_performConversion = function (data) {
 			var initialOutputFormat = "html",
 				// simpleHtml = 0,
-				CLOUD_CONVERT_APIKEY = atob("OHB4VDBESFJFNWxwY1Z6aWxkclBvRWJ6dEw5cmM1RXM4OXhHMGluY1VmUE5COTNMTFp1ZUVyN3pUSzdQVHVabWNWMWhYa1JNSVRiaGpTLVUxTm5uelE=");
+				BACKEND_APIKEY = atob("OHB4VDBESFJFNWxwY1Z6aWxkclBvRWJ6dEw5cmM1RXM4OXhHMGluY1VmUE5COTNMTFp1ZUVyN3pUSzdQVHVabWNWMWhYa1JNSVRiaGpTLVUxTm5uelE=");
 
 			// if it's a format that doesn't convert well to html initially (based on trial and error)
 			// first convert it to PDF, then convert the result to HTML
@@ -74,7 +74,7 @@
 				case "bmp": case "nef": case "raw": case "xps":
 				// case "jpg": case "jpeg": case "png": case "gif": // do NOT convert images to pdf! If you are seeing images in this function, there is a bug earlier in the process
 				case "website":
-					initialOutputFormat = "pdf";
+					initialOutputFormat = "jpg"; // for size / compression reasons
 					break;
 				case "ppt": case "pptx": case "key":
 					// simpleHtml = 1;
@@ -87,7 +87,7 @@
 			//  ... disabling for now
 			var formData = new FormData(),
 				qs = xhrFields({
-				    "apikey": CLOUD_CONVERT_APIKEY,
+				    "apikey": BACKEND_APIKEY,
 				    "input": (extn === "website") ? "url" : (data.url) ? "download" : "upload",
 				    "file": (data.url) ? data.url : null,
 				    "delete": "true",
@@ -99,7 +99,9 @@
 				    // "converteroptions[page_width]": 960, // hard coded maximum pdf width, todo: make options page
 				    // "preset": "VJPNDLbcru" // embed all @ 960; DocumentNinja preset
 				});
-			if (data.website)  qs += "&wait=true";
+			if (data.website) {
+				qs += "&wait=true&converteroptions[javascript_delay]=2000&converteroptions[use_chrome]=1&converteroptions[quality]=90";
+			}
 			if (data.filename) qs += "&filename=" + encodeURIComponent(data.filename);
 			// console.log(initialOutputFormat, extn);
 			if (initialOutputFormat=="pdf" || extn == "pdf") qs+= "&converteroptions[bg_format]=jpg";
@@ -116,6 +118,8 @@
 			var xhr = new XMLHttpRequest(); // ie10+
 			xhr.open('POST', 'https://api.cloudconvert.com/convert?' + qs, true);
 
+			if (data.website) xhr.responseType = "blob"; // otherwise it's automatically "text"
+
 			xhr.onload = function() {
 				if (xhr.status == 200) {
 					if (initialOutputFormat == "pdf") {
@@ -124,7 +128,7 @@
 						// but the PDF is now hosted on CloudConvert, so we set that location as the file pickup URL, saving time & bandwidth
 						var resp = JSON.parse(xhr.responseText);
 						qs = xhrFields({
-						    "apikey": CLOUD_CONVERT_APIKEY,
+						    "apikey": BACKEND_APIKEY,
 						    "input": "download",
 						    "file": resp.output.url + "/" + resp.output.filename,
 						    "delete": "true",
@@ -158,7 +162,38 @@
 								});
 							}
 						}
-						xhr.send(); // no formdata this time
+						xhr.send(); // no formdata this time as the input is already up there
+
+					} else if (data.website) {
+						var responseName = data.url.indexOf("://")!==-1 ? data.url.split('://')[1] : data.fileId;
+						if (!this.response) {
+							_finishConversion({
+								status: "error",
+								error: (JSON.parse(xhr.responseText)).error,
+								fileInfo: null,
+								fileId: data.fileId
+							});
+						}
+						var wreader = new FileReader();
+						wreader.onloadend = function() {
+							fileinfo = {
+								payload: { image: wreader.result, name: responseName, backgroundColor: "ffffff" },
+								format: "jpg",
+								name: responseName,
+								kind: "image"
+							};
+							_finishConversion({
+								status: "ready",
+								error: null,
+								fileInfo: fileinfo,
+								fileId: data.fileId
+							});
+						}
+						wreader.readAsDataURL(this.response);
+
+						//responseBlob = new Blob(this.response.slice(), { type: "image/jpeg" });
+
+
 
 					} else { // file has been converted to html, process it
 						fileinfo = {
@@ -296,23 +331,35 @@
 					return _success(liElem, fileinfo);
 					break;
 
+				case "website": // explicitly set as a website (ticked box)
+					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
+					fileinfo = {
+						name: raw.url.split('://')[1].split('/')[0],
+						url: raw.url,
+						website: true,
+						kind: "website",
+						fileId: this_fileid
+					};
+					_performConversion(fileinfo);
+					break;
+
 				case "url":
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
 					DocNinja.Plugins.Oembed(raw, liElem).then(function(data) {
-						if (!data.result.payload) {
+						if (!data.result.payload) { // try running it through conversion instead
 							_performConversion(data.result);
 						} else {
 							_success(liElem, data.result);
 						}
-					}).catch(function(er) {
-						console.log(er);
+					}).catch(function(er) { // failed but may be able to resume
+						console.warn(er);
 						fileinfo = {
 							name: raw.url.split('://')[1].split('/')[0],
 							url: raw.url,
 							website: true,
 							kind: "website",
 							fileId: this_fileid,
-							original: drop.result
+							original: drop ? drop.result : null
 						};
 						_performConversion(fileinfo);
 					});

@@ -85,7 +85,7 @@
 		},
 		"microsoftonline": function (oembed, fileinfo) {
 			return new Promise(function(resolve,reject) {
-
+				reject("You need to use the IFRAME embed code");
 			});
 		},
 		"googledocs": function (oembed, fileinfo, node) {

@@ -1500,15 +1500,19 @@ function performAction(tgt, e) {
 
 		case "process-paste":
 			var li = document.createElement("li"),
-				url = $("#paste-url-obj").val();
+				url = $("#paste-url-obj").val(),
+				website = ($("#paste-url-website").prop("checked") === true),
+				urlOrWebsite = (website) ? "website" : "url";
+
+			$("#paste-url-website").prop("checked",false); // reset
 			$("#paste-url-obj").val(""); // reset
+
 			if (url.length) {
 				if (url.indexOf("://")===-1) url = "https://" + url; // otherwise what?
 				li.innerHTML = url;
-console.dir(url);
 				li.setAttribute("data-fileid",DocNinja.PurityControl.Nav.GetFileId()); // "file-" + (new Date().getTime()).toString(36));
 				DocNinja.navItems.appendChild(li);
-				DocNinja.fileConversion.BeginConversion(null, {url: url }, li, "url", "");
+				DocNinja.fileConversion.BeginConversion(null, {url: url }, li, urlOrWebsite, "");
 			}
 			break;
 

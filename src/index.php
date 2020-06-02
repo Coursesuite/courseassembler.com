@@ -298,6 +298,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class="pastezone">
 				<h3>Paste an URL/Iframe in below</h3>
 				<textarea id="paste-url-obj" placeholder="Paste a YouTube / Vimeo / Imgur / Slideshare / (any website!) URL / IFrame Embed Code into this box then press Insert" noresize autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+				<label class="label-block"><input type="checkbox" id="paste-url-website" value="1">Embed as image</label>
 				<button data-action="process-paste"><i class="ninja-paste"></i>Insert</button>
 			</div>
 		</section>

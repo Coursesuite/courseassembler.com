@@ -131,6 +131,14 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 	background-color: rgba(224,224,224,1);
 }
 
+.label-block {
+	display: block;
+	text-align: left;
+}
+.label-block > input {
+	margin-right: .5rem;
+}
+
 
 /* --------------------------
 	button popovers

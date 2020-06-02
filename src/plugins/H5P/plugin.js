@@ -35,7 +35,6 @@
 				// TODO: this is a little ineffecient in that workspaces and indexes could be instanced but everything else shared
 				return zipFolder.folder(workspaceName).loadAsync(fileObj.payload.src.split("base64,")[1], {base64: true});
 			}).then(function h5p_export_resolve(result) {
-				console.dir(result);
 				finalResolve();
 			}).catch(function h5p_export_catch(message) {
 				console.trace();

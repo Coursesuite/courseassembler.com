@@ -93,6 +93,10 @@
 	align-items: center;
 }
 
+#nav-item-list .nav-item .label {
+    overflow-wrap: anywhere; /* FORCE wrap text labels that are too long */
+}
+
 #nav-item-list a.rename-hint,
 #nav-item-list span.audio-hint {
 	margin-right: 5px;
