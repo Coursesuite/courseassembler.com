@@ -217,18 +217,15 @@
 		$(DocNinja.options.counters).text(fl);
 	}
 
+	// dummy text is added using css; check the li elements are valid
 	function checkDummyItem() {
 		$("li[data-fileid]:empty", DocNinja.navItems).remove(); // something went wrong
-		var liCount = DocNinja.navItems.querySelectorAll("li").length;
-		if (0===liCount) {
-			$(DocNinja.navItems).append($("<li>",{class:"dummy-item"}).text("Nothing here yet :("));
+		if (0===DocNinja.navItems.querySelectorAll("li").length) {
 			localforage.removeItem("order"); // ensure that if we are adding the empty item, that cache is empty too
 		}
-		var notDummy = DocNinja.navItems.querySelectorAll("li:not(.dummy-item)").length;
-		if (notDummy) {
-			var dummyItem = DocNinja.navItems.querySelectorAll('.dummy-item');
-			if (dummyItem.length) dummyItem.remove();
-		}
+		// remove depreciated labelling item
+		var dummyItem = DocNinja.navItems.querySelectorAll('.dummy-item');
+		if (dummyItem.length) dummyItem.remove();
 	}
 
 	// expose some functions out of closure (used by CancelConversion)
