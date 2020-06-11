@@ -94,6 +94,13 @@
 			// each li in container
 			var curr = 0;
 			[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (elm, idx) {
+
+				// jank? failed conversion?
+				if (!(elm.hasAttribute("data-state") || elm.hasAttribute("data-converted"))) {
+					$(elm).remove();
+					return;
+				}
+
 				if (elm.getAttribute("data-converted") === "false") return;  // continue; // don't mess with current conversions
 				if (elm.getAttribute("data-converted") === "true" && !elm.hasAttribute("data-state")) elm.setAttribute("data-state","ready");
 				var depth = +elm.getAttribute("data-depth") || 0;
