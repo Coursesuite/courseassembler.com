@@ -42,6 +42,7 @@
 		sndpop: new Audio("pop.mp3"),
 		sndtrash: new Audio("crumple.mp3"),
 		pageBackgroundColour: '#ace1fc',
+		actions: []
 	};
 
 	DocNinja.navItems = document.getElementById( 'nav-item-list' );
@@ -111,6 +112,19 @@
 			// 			  crossDomain:true,
 			// 			});
 			// 		});
+		},
+		RegisterAction: function (details) {
+			var t = details.type,
+				o = Math.max(0, +details.order-1);
+			if (!DocNinja.options.actions.hasOwnProperty(t)) DocNinja.options.actions[t] = [];
+			DocNinja.options.actions[t][o] = details;
+		},
+		InitActions: function () { // tell plugins they need to register their actions
+			Plugins.forEach(function(v) {
+				if (DocNinja.Plugins.hasOwnProperty(v) && DocNinja.Plugins[v].hasOwnProperty("RegisterPlugin")) {
+					DocNinja.Plugins[v].RegisterPlugin(v)
+				}
+			});
 		}
 	}
 
@@ -433,6 +447,8 @@
 							APPLICATION START
 	----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	(function () {
+
+		DocNinja.routines.InitActions();
 
 		// window.scrollTo(0,0);
 		triggerResize();

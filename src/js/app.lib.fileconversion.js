@@ -257,13 +257,17 @@
 			name = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.trimExtn() : '';
 			mime = Mime.get( extn );
 
-			if (subtype === "x-markdown") kind = "application"; // so it gets converted
+			if (subtype === "x-markdown") kind = "markdown";
 			if (kind === "url" && raw.url && raw.url.indexOf("<iframe ")!==-1) kind = "iframe";
 
 // console.log(drop,raw,liElem,kind,subtype, extn, mime);
 
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
 			switch (kind) {
+				case "markdown":
+					DocNinja.Plugins.Markdown.Import(liElem, raw.files[0].name, drop.result);
+					break;
+
 				case "dropbox":
 					liElem.setAttribute("data-converted","false");
 					PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");

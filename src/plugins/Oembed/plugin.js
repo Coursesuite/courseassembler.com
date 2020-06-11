@@ -190,6 +190,10 @@
 		},
 	}
 
+	// DocNinja.Plugins.Oembed.RegisterPlugin = function (context) {
+
+	// }
+
 	DocNinja.Plugins.Oembed = function(raw, liElem) {
 		return new Promise(function(resolve, reject) {
 			var fileInfo = {

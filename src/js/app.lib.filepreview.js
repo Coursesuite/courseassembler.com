@@ -45,6 +45,15 @@
 					useFrameDoc = true;
 				data["id"] = id;
 
+				// iterate plugins to find its supportable actions
+				delete data.supports;
+				for (var group in DocNinja.options.actions)
+					if (typeof DocNinja.options.actions[group] === 'object')
+						DocNinja.options.actions[group].forEach(function (v) {
+							if (v.hasOwnProperty("plugin") && v.plugin === data.plugin)
+								data["supports"] = v.supports;
+						})
+
 				if (data.payload.backgroundColour) { // need to normalise background colour format
 					data.payload.backgroundColour = data.payload.backgroundColour.replace("#","");
 				}
@@ -95,8 +104,11 @@
 				// the converter might have pre-converted to pdf
 				wasPdf = (-1!==parsedHtml.indexOf("<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->"));
 				if (data.type && (data.type.indexOf("application/pdf")!=-1||data.type.indexOf("application/x-pdf")!=-1||data.type.indexOf("x-iwork")!=-1)||wasPdf) data.format="pdf";
-				data["supportsEdit"] = (data.kind === "file" && data.format && data.format !=="pdf"); // only FILE types are editable, but not if it was a PDF to begin with, since this format is normally uneditable
-				data["supportsZoom"] = false; // (data.format=="pdf")&&(window.navigator.userAgent.toLowerCase().indexOf("firefox")==-1); // todo: work out why, check others
+
+				// depreciated in favor of supports property, implemented per-plugin
+				// data["supportsEdit"] = (data.kind === "file" && data.format && data.format !=="pdf"); // only FILE types are editable, but not if it was a PDF to begin with, since this format is normally uneditable
+				// data["supportsZoom"] = false; // (data.format=="pdf")&&(window.navigator.userAgent.toLowerCase().indexOf("firefox")==-1); // todo: work out why, check others
+
 				fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
 				data = null; // early GC
 				$("#blocking").removeClass("active").remove();
@@ -234,7 +246,11 @@
 
 		_getFileId = function () {
 			var frame = document.getElementById("preview-frame");
-			return (frame !== null) ? frame.getAttribute("data-fileid") : null;
+			if (frame) {
+				if (frame.dataset.fileid) return frame.dataset.fileid;
+				if (frame.name) return frame.name;
+			}
+			return null;
 		}
 
 		return {

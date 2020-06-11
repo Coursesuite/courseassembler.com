@@ -64,16 +64,25 @@ if ($verifier->code->minified) {
 
 // include styles defined in plugins
 $p = realpath('./plugins');
-$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|FontPicker)\.css$/', RecursiveRegexIterator::GET_MATCH);
-foreach ($plugins as $file) {
-	echo '<link href="plugins', substr($file[0], strlen($p)),'" rel="stylesheet" type="text/css">', PHP_EOL;
+$plugins = [];
+$js = [];
+$css = [];
+$iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates|FontPicker)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
+foreach ($iter as $file) {
+	if ($file[1] === "plugin") $plugins[] = basename(dirname($file[0]));
+	if ($file[2] === "css") {
+		$css[] = '<link href="plugins' . substr($file[0], strlen($p)) . '" rel="stylesheet" type="text/css">';
+	} else {
+		$js[] = '<script src="plugins' . substr($file[0], strlen($p)) . '"></script>';
+	}
 }
+echo implode(PHP_EOL, $css);
 ?>
 		<style id="fiddle">#nav-selection svg path,#nav-selection svg rect {fill:#3D3590;stroke:#000000;stroke-width:4px;stroke-opacity:0.75;}$nav-selection svg circle{stroke:#3D3590}</style>
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
-		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"); <?php echo $verifier->app->layer; ?>;</script>
+		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"), Plugins = <?php echo json_encode($plugins); ?>; <?php echo $verifier->app->layer; ?>;</script>
 <?php if ($verifier->code->minified) { ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo $minified_css; ?>" />
 		<script>
@@ -103,7 +112,7 @@ foreach ($plugins as $file) {
 <?php
 // custom css defined over api
 if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
-	echo "		<style>" . $verifier->api->header->css . "</style>";
+	echo "		<style id='cssoverapi'>" . $verifier->api->header->css . "</style>";
 }
 ?>
 </head>
@@ -364,13 +373,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.puritycontrol.js"></script>
 	<script src="js/app.lib.filepreview.js"></script>
 	<script src="js/app.lib.downloader.js"></script>
-<?php
-$p = realpath('./plugins');
-$plugins = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates|FontPicker)\.js$/', RecursiveRegexIterator::GET_MATCH);
-foreach ($plugins as $file) {
-	echo '<script src="plugins', substr($file[0], strlen($p)),'"></script>', PHP_EOL;
-}
-?>
+<?php echo implode(PHP_EOL, $js); ?>
 	<script src="js/app.core.js"></script>
 <?php } ?>
 

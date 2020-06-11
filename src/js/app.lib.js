@@ -242,7 +242,45 @@ THE SOFTWARE.
 */
 
 // compare helper - {{#compare var "!=" "66"}}
-Handlebars.registerHelper("compare",function(g,c,e,d){var f;if(3>arguments.length)throw Error("'compare' needs 2 parameters");void 0===d&&(d=e,e=c,c="===");f={"==":function(a,b){return a==b},"===":function(a,b){return a===b},"!=":function(a,b){return a!=b},"!==":function(a,b){return a!==b},"<":function(a,b){return a<b},">":function(a,b){return a>b},"<=":function(a,b){return a<=b},">=":function(a,b){return a>=b},"in":function(a,b){return-1!=b.indexOf(a)},"typeof":function(a,b){return typeof a==b}};if(!f[c])throw Error("Malformed operator in 'compare'; "+c);return f[c](g,e)?d.fn(this):d.inverse(this)});
+Handlebars.registerHelper("compare", function(g, c, e, d) {
+    var f;
+    if (3 > arguments.length) throw Error("'compare' needs 2 parameters");
+    void 0 === d && (d = e, e = c, c = "===");
+    f = {
+        "==": function(a, b) {
+            return a == b
+        },
+        "===": function(a, b) {
+            return a === b
+        },
+        "!=": function(a, b) {
+            return a != b
+        },
+        "!==": function(a, b) {
+            return a !== b
+        },
+        "<": function(a, b) {
+            return a < b
+        },
+        ">": function(a, b) {
+            return a > b
+        },
+        "<=": function(a, b) {
+            return a <= b
+        },
+        ">=": function(a, b) {
+            return a >= b
+        },
+        "in": function(a, b) {
+            return b && -1 != b.indexOf(a)
+        },
+        "typeof": function(a, b) {
+            return typeof a == b
+        }
+    };
+    if (!f[c]) throw Error("Malformed operator in 'compare'; " + c);
+    return f[c](g, e) ? d.fn(this) : d.inverse(this)
+});
 
 // json serialize helper - {{json var}}
 Handlebars.registerHelper('json', function(context) { return JSON.stringify(context); });
@@ -1068,14 +1106,15 @@ function closePopover(e) {
 function handlePopover(tgt) {
 	_g_popover_target = tgt;
 	var rekt = tgt.getBoundingClientRect(),
-		b = document.createElement("div");
+		b = document.createElement("div"),
+		d = Object.assign({actions:DocNinja.options.actions}, tgt.dataset); // merge DOMStringMap with actions array -> array
 	b.addEventListener("click", closePopover, false); // "click outside popover"
 	b.classList.add("dn-backdrop");
 	document.body.appendChild(b);
 	b = document.createElement("div");
 	b.classList.add("dn-popover");
 	b.dataset.source = tgt.dataset.action;
-	b.innerHTML = Handlebars.templates["popovers"](tgt.dataset);
+	b.innerHTML = Handlebars.templates["popovers"](d);
 	b.style.top = (rekt.y + rekt.height + 10) + "px";
 	b.style.right = "calc((100vw + .5em) - " + (rekt.x + rekt.width) + "px)";
 	document.body.appendChild(b);
@@ -1266,6 +1305,7 @@ function popover_savePageBackground() {
 		closePopover();
 		return DocNinja.Page.ModifyAllPageBackgroundColours(colour);
 	} else {
+		if (null === id) { closePopover(); return; }
 		localforage.getItem(id).then(function (obj) {
 			switch (obj.kind) {
 				case "plugin": case "image": case "video":
@@ -1376,8 +1416,9 @@ function hideOverlays(cog) {
 
 function performAction(tgt, e) {
 	hideOverlays();
-	var id = tgt.closest("[data-fileid]") ? tgt.closest("[data-fileid]").dataset.fileid : DocNinja.filePreview.CurrentFile() ; // self or li or container
-	switch (tgt.getAttribute("data-action")) {
+	var id = tgt.closest("[data-fileid]") ? tgt.closest("[data-fileid]").dataset.fileid : DocNinja.filePreview.CurrentFile(), // self or li or container
+		attrib = tgt.getAttribute("data-action");
+	switch (attrib) {
 
 		case "preview":
 			var a = tgt;
@@ -1447,45 +1488,53 @@ function performAction(tgt, e) {
 			});
 			break;
 
-		case "add-quiz":
-			closePopover();
-			var newId = DocNinja.PurityControl.Nav.GetFileId(),
-				fileInfo = {
-					name: "New Quiz",
-					supports:["edit","view"],
-					kind:"plugin",
-					plugin: "QuizBuilder",
-					depth: 0,
-					payload: {}
-				};
-			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
-			localforage.setItem(newId, fileInfo).then(function(obj) {
-				DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
-				DocNinja.PurityControl.Nav.Check();
-				DocNinja.filePreview.Select(newId);
-				localforage.setItem("order", DocNinja.navItems.innerHTML);
+		case "plugin-export":
+			localforage.getItem(id, function action_plugin_view_get(err, value) {
+				DocNinja.Plugins[value.plugin].Export(id);
 			});
 			break;
 
-		case "add-markdown":
-			closePopover();
-			var newId = DocNinja.PurityControl.Nav.GetFileId(),
-				fileInfo = {
-					name: "New Markdown Page",
-					supports:["edit","view"],
-					kind:"plugin",
-					plugin: "Markdown",
-					depth: 0,
-					payload: {}
-				};
-			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
-			localforage.setItem(newId, fileInfo).then(function(obj) {
-				DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
-				DocNinja.PurityControl.Nav.Check();
-				DocNinja.filePreview.Select(newId);
-				localforage.setItem("order", DocNinja.navItems.innerHTML);
-			});
-			break;
+		// case "add-quiz":
+		// 	closePopover();
+		// 	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+
+		// 	var newId = DocNinja.PurityControl.Nav.GetFileId(),
+		// 		fileInfo = {
+		// 			name: "New Quiz",
+		// 			// supports:["edit","view"],
+		// 			kind:"plugin",
+		// 			plugin: "QuizBuilder",
+		// 			depth: 0,
+		// 			payload: {}
+		// 		};
+		// 	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+		// 	localforage.setItem(newId, fileInfo).then(function(obj) {
+		// 		DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
+		// 		DocNinja.PurityControl.Nav.Check();
+		// 		DocNinja.filePreview.Select(newId);
+		// 		localforage.setItem("order", DocNinja.navItems.innerHTML);
+		// 	});
+		// 	break;
+
+		// case "add-markdown":
+		// 	closePopover();
+		// 	var newId = DocNinja.PurityControl.Nav.GetFileId(),
+		// 		fileInfo = {
+		// 			name: "New Markdown Page",
+		// 			// supports:["edit","view"],
+		// 			kind:"plugin",
+		// 			plugin: "Markdown",
+		// 			depth: 0,
+		// 			payload: {}
+		// 		};
+		// 	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+		// 	localforage.setItem(newId, fileInfo).then(function(obj) {
+		// 		DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
+		// 		DocNinja.PurityControl.Nav.Check();
+		// 		DocNinja.filePreview.Select(newId);
+		// 		localforage.setItem("order", DocNinja.navItems.innerHTML);
+		// 	});
+		// 	break;
 
 
 		// case "paste-url":
@@ -1660,6 +1709,21 @@ function performAction(tgt, e) {
 				if (updated) window.setItemOrder();
 			});
 			break;
+
+		default:
+
+			// see if a plugin has a registered handler for this action
+			for (var group in DocNinja.options.actions)
+				if (typeof DocNinja.options.actions[group] === 'object')
+					DocNinja.options.actions[group].forEach(function (v) {
+						if (v.hasOwnProperty("handler") && v.handler === attrib) {
+							closePopover();
+							if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+							DocNinja.Plugins[v.plugin].Add(); // TODO implement method definition inside plugins
+						}
+					});
+
+
 
 	}
 }
@@ -1847,3 +1911,26 @@ function popIframe(url) {
 // 	}
 // 	return {}
 // }
+
+/* https://github.com/rndme/download */
+(function(root,factory){if(typeof define==="function"&&define.amd)define([],factory);else if(typeof exports==="object")module.exports=factory();else root.download=factory()})(this,function(){return function download(data,strFileName,strMimeType){var self=window,defaultMime="application/octet-stream",mimeType=strMimeType||defaultMime,payload=data,url=!strFileName&&!strMimeType&&payload,anchor=document.createElement("a"),toString=function(a){return String(a)},myBlob=self.Blob||self.MozBlob||self.WebKitBlob||
+toString,fileName=strFileName||"download",blob,reader;myBlob=myBlob.call?myBlob.bind(self):Blob;if(String(this)==="true"){payload=[payload,mimeType];mimeType=payload[0];payload=payload[1]}if(url&&url.length<2048){fileName=url.split("/").pop().split("?")[0];anchor.href=url;if(anchor.href.indexOf(url)!==-1){var ajax=new XMLHttpRequest;ajax.open("GET",url,true);ajax.responseType="blob";ajax.onload=function(e){download(e.target.response,fileName,defaultMime)};setTimeout(function(){ajax.send()},0);return ajax}}if(/^data:([\w+-]+\/[\w+.-]+)?[,;]/.test(payload))if(payload.length>
+1024*1024*1.999&&myBlob!==toString){payload=dataUrlToBlob(payload);mimeType=payload.type||defaultMime}else return navigator.msSaveBlob?navigator.msSaveBlob(dataUrlToBlob(payload),fileName):saver(payload);else if(/([\x80-\xff])/.test(payload)){var i=0,tempUiArr=new Uint8Array(payload.length),mx=tempUiArr.length;for(i;i<mx;++i)tempUiArr[i]=payload.charCodeAt(i);payload=new myBlob([tempUiArr],{type:mimeType})}blob=payload instanceof myBlob?payload:new myBlob([payload],{type:mimeType});function dataUrlToBlob(strUrl){var parts=
+strUrl.split(/[:;,]/),type=parts[1],indexDecoder=strUrl.indexOf("charset")>0?3:2,decoder=parts[indexDecoder]=="base64"?atob:decodeURIComponent,binData=decoder(parts.pop()),mx=binData.length,i=0,uiArr=new Uint8Array(mx);for(i;i<mx;++i)uiArr[i]=binData.charCodeAt(i);return new myBlob([uiArr],{type:type})}function saver(url,winMode){if("download"in anchor){anchor.href=url;anchor.setAttribute("download",fileName);anchor.className="download-js-link";anchor.innerHTML="downloading...";anchor.style.display=
+"none";anchor.addEventListener("click",function(e){e.stopPropagation();this.removeEventListener("click",arguments.callee)});document.body.appendChild(anchor);setTimeout(function(){anchor.click();document.body.removeChild(anchor);if(winMode===true)setTimeout(function(){self.URL.revokeObjectURL(anchor.href)},250)},66);return true}if(/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)){if(/^data:/.test(url))url="data:"+url.replace(/^data:([\w\/\-\+]+)/,defaultMime);if(!window.open(url))if(confirm("Displaying New Document\n\nUse Save As... to download, then click back to return to this page."))location.href=
+url;return true}var f=document.createElement("iframe");document.body.appendChild(f);if(!winMode&&/^data:/.test(url))url="data:"+url.replace(/^data:([\w\/\-\+]+)/,defaultMime);f.src=url;setTimeout(function(){document.body.removeChild(f)},333)}if(navigator.msSaveBlob)return navigator.msSaveBlob(blob,fileName);if(self.URL)saver(self.URL.createObjectURL(blob),true);else{if(typeof blob==="string"||blob.constructor===toString)try{return saver("data:"+mimeType+";base64,"+self.btoa(blob))}catch(y){return saver("data:"+
+mimeType+","+encodeURIComponent(blob))}reader=new FileReader;reader.onload=function(e){saver(this.result)};reader.readAsDataURL(blob)}return true}});
+
+
+function sanitizeFilename(input, dfault) {
+  var illegalRe = /[\/\?<>\\:\*\|":]/g;
+  var controlRe = /[\x00-\x1f\x80-\x9f]/g;
+  var reservedRe = /^\.+$/;
+  var windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+  var result = input
+    .replace(illegalRe, '')
+    .replace(controlRe, '')
+    .replace(reservedRe, '')
+    .replace(windowsReservedRe, '');
+  return (result.length) ? result : dfault || '';
+}

@@ -29,17 +29,13 @@
 		{{/compare}}
 	{{/compare}}
 
-	{{#compare kind "plugin"}}
+	{{#compare "contenteditable" "in" supports}}<button data-fileid="{{id}}" data-action="content-editable"><i class="ninja-marker"></i>Edit</button>{{/compare}}
 	{{#compare "edit" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-edit"><i class="ninja-marker"></i>Edit</button>{{/compare}}
 	{{#compare "view" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-view"><i class="ninja-eye"></i>View</button>{{/compare}}
-	{{else}}
-{{!--
-		we will eventually allow a layout button for reapplying different centering scripts to the content that supports it such as images, pdf
-	{{#if payload.split}}
-		<button data-fileid="{{id}}" data-action="page-layout" data-popover="layout" data-label="Layout options" data-value="{{payload.layout}}"><i class="ninja-layout"></i>Layout</button>
-	{{/if}}
---}}
-	{{/compare}}
+	{{#compare "export" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-export" title="Export"><i class="ninja-download3"></i>Export</button>{{/compare}}
+	{{#compare "layout" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-layout" title="Layout options" data-popover="layout" data-label="Layout options" data-value="{{payload.layout}}"><i class="ninja-layout"></i></button>{{/compare}}
+	{{#compare "zoom" "in" supports}}<button data-fileid="{{id}}" data-action="zoom-out" class="icon"><i class="ninja-zoom-out"></i></button>{{/compare}}
+	{{#compare "zoom" "in" supports}}<button data-fileid="{{id}}" data-action="zoom-in" class="icon"><i class="ninja-zoom-in"></i></button>{{/compare}}
 
 	{{#compare kind "image"}}
 	<span id="image-properties"></span>
@@ -56,15 +52,6 @@
 	{{#compare kind "h5p"}}
 	<span id="xapiControl"><button data-action="page-xapi" disabled>Completion via xAPI</button></span>
 	{{/compare}}
-
-{{!-- 	{{#if supportsEdit}}
-	<button data-fileid="{{id}}" data-action="content-editable" title="Toggle editing mode (use at your own risk)"><i class="ninja-marker"></i>Edit</button>
-	{{/if}} --}}
-
-	{{#if supportsZoom}}
-	<button data-fileid="{{id}}" data-action="zoom-out" class="icon"><i class="ninja-zoom-out"></i></button>
-	<button data-fileid="{{id}}" data-action="zoom-in" class="icon"><i class="ninja-zoom-in"></i></button>
-	{{/if}}
 
 	{{#compare format "pdf"}}{{#unless payload.split}}
 	<button data-fileid="{{id}}" data-action="split"><i class="ninja-split"></i>Split</button>
