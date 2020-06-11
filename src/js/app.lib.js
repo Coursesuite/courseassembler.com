@@ -1238,11 +1238,8 @@ function handleAction(node, e) {
 			break;
 
 		case "toggle-rename":
-		console.dir(e);
 			var li = e.target.closest("[data-fileid]"); if (!li) return;
-		console.dir(li);
 			var n = li.querySelector("a[data-action='preview']"); if (!n) return;
-		console.dir(n);
 			renameNode(li.dataset.fileid, n);
 			break;
 

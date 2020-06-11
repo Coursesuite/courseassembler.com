@@ -147,14 +147,13 @@ var MarkDownEditor = (function () {
 		var el = document.querySelector("textarea");
 
 		var layout = {
-	          name: "layout",
-	          action: function(editor) {
-	          	console.dir(editor);
-
-          	  },
-          	  className: "fa fa-font",
-          	  title: "Set fonts & layout"
-        	};
+			name: "layout",
+			action: function(editor) {
+				// what do we do here?
+			},
+			className: "fa fa-font",
+			title: "Set fonts & layout"
+		};
 
 		el.simplemde = new SimpleMDE({
 			element: el,
