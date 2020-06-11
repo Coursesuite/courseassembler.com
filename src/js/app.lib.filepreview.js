@@ -16,7 +16,7 @@
 			}
 		}
 
-		_documentPreviewHandler = function(a) {
+		_documentPreviewHandler = function(a, pluginAction) {
 			// var id = a.parentNode.getAttribute("data-fileid");
 			$("#image-properties").empty();
 			var id = a.getAttribute("data-fileid");
@@ -67,6 +67,7 @@
 						if (data.hasOwnProperty("supports")) {
 							useFrameDoc = false;
 							var has_payload = (Object.keys(data.payload).length>0);
+							if (pluginAction === 'edit') has_payload = false; // even if it actually has one
 							if (data.supports.indexOf("view") !== -1 && has_payload) {
 								frame.setAttribute("src","plugins/" + data.plugin + "/view.html?" + id);
 							} else if (data.supports.indexOf("edit") !== -1 && !has_payload) {
@@ -232,7 +233,7 @@
 			});
 		}
 
-		_select = function (NodeOrString) {
+		_select = function (NodeOrString, action) {
 			var li = (typeof NodeOrString === "string")
 					?
 					DocNinja.navItems.querySelector("li[data-fileid='" + NodeOrString + "']")
@@ -241,7 +242,7 @@
 			[].forEach.call(DocNinja.navItems.querySelectorAll("li.selected"),function(el){el.classList.remove("selected")});
 			li.classList.add("selected");
 			scrollIfNeeded(li, document.querySelector(".gm-scroll-view"));
-			_documentPreviewHandler(li);
+			_documentPreviewHandler(li, action);
 		}
 
 		_getFileId = function () {

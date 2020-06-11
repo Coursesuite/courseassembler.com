@@ -43,15 +43,14 @@
 				plugin: "Markdown",
 				depth: 0,
 				payload: {
-					markdown: atob(data.split(',')[1]),
-					html:''
+					markdown: atob(data.split(',')[1])
 				}
 			};
 		localforage.setItem(navId, fileInfo).then(function(obj) {
 			DocNinja.PurityControl.Nav.Update(li, fileInfo, "ready");
 			DocNinja.PurityControl.Nav.Check();
 			localforage.setItem("order", DocNinja.navItems.innerHTML);
-			// DocNinja.filePreview.Select(navId);
+			DocNinja.filePreview.Select(navId, 'edit');
 		});
 	}
 
