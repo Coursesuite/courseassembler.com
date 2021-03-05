@@ -5,6 +5,10 @@
 		"embed/embed": "^3.3",
 		"frumbert/coursesuitevalidator": "dev-master",
 		"phpmailer/phpmailer": "^6.0",
-		"zordius/lightncandy": "dev-master"
-	}
+		"zordius/lightncandy": "dev-master",
+		"rakshazi/digestauth": "dev-master"
+	},
+    "autoload": {
+        "psr-4": { "": ["lib/"] }
+    }
 }

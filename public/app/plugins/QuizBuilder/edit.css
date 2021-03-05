@@ -38,10 +38,8 @@ label.header {
     filter: blur(5px);
 }
 .question-index {
-    overflow: hidden;
-    overflow-x: auto;
     counter-reset: questions;
-    white-space: nowrap;
+    flex-wrap:  wrap;
 }
 .question-index>span {
     display: inline-block;

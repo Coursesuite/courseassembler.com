@@ -41,14 +41,15 @@ function writeKey(value, save, verify) {
 	});
 	if (save) localforage.setItem("licencekey", value); // set via fs store callback
 	if (verify && value) { // set when loading from localstorage
-		fetch("https://www.coursesuite.ninja/api/validatelicence/" + value, {method:'GET',headers:{'content-type':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-cache',credentials:'omit'})
+		fetch("/validate/" + value, {method:'GET',headers:{'content-type':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-cache',credentials:'omit'})
 			.then(function(response) {
 				return response.json()
 			})
 			.then(function(obj) {
-				switch (obj.status) {
-				case "missing": warn("Not found"); break;
-				case "expired": warn("Expired"); break;
+				switch (obj.licence.error) {
+				case "bad-token": warn("Not found"); break;
+				case "licence-key-expired": warn("Expired"); break;
+				default: readify();
 				}
 			});
 	}

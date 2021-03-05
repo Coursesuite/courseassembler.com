@@ -378,7 +378,7 @@ if (!String.prototype.trim) {
 // Yes, I'm bodging the string prototype, are you triggered?
 (function() {
 	String.prototype.trimExtn = function () {
-		return this.replace(/\..+$/, '');
+		return this.replace(/\.[^.]*$/, '');
 	}
 })();
 
@@ -1305,6 +1305,8 @@ function popover_savePageBackground() {
 		if (null === id) { closePopover(); return; }
 		localforage.getItem(id).then(function (obj) {
 			switch (obj.kind) {
+				case "iframe":
+					break;
 				case "plugin": case "image": case "video":
 					obj.payload.backgroundColour = colour;
 					break;
@@ -1363,15 +1365,22 @@ function renameNode(id, a) {
 	var cancelName = function() {
 		p.removeChild(inp);
 		// replace input with hyperlink containing oldValue
-		var l = document.createElement("a");l.dataset.action="preview";l.setAttribute("href","javascript:;");l.textContent=inp.dataset.oldValue;
+
+		var l = document.createElement("a");
+		l.dataset.action="preview";
+		l.setAttribute("href","javascript:;");
+		l.textContent=inp.dataset.oldValue;
+
 		p.appendChild(l);
 		setItemOrder();
 		inp = null;
 		document.body.removeEventListener('click', cancelName);
 		var cp = document.getElementById('preview-frame');
-		if (cp) {
+		if (cp) try {
 			var b = cp.contentWindow.document.body;
 			if (b) b.removeEventListener('click', cancelName);
+		} catch (ex) {
+			console.warn(ex);
 		}
 	}
 	inp.onkeydown = function (evt) {
@@ -1394,15 +1403,19 @@ function renameNode(id, a) {
 	inp.classList.add("rename-page");
 	p.appendChild(inp);
 
-
 	document.body.addEventListener('click', cancelName);
 	var cp = document.getElementById('preview-frame');
-	if (cp) {
+	if (cp) try {
 		var b = cp.contentWindow.document.body;
 		if (b) b.addEventListener('click', cancelName);
+	} catch (ex) {
+		console.warn(ex);
 	}
 
+	// ensure focus is inside input otherwise we can't click into it without cancelling!
+	inp.focus();
 	inp.select();
+
 }
 
 function hideOverlays(cog) {
@@ -1554,7 +1567,6 @@ function performAction(tgt, e) {
 			$("#paste-url-obj").val(""); // reset
 
 			if (url.length) {
-				if (url.indexOf("://")===-1) url = "https://" + url; // otherwise what?
 				li.innerHTML = url;
 				li.setAttribute("data-fileid",DocNinja.PurityControl.Nav.GetFileId()); // "file-" + (new Date().getTime()).toString(36));
 				DocNinja.navItems.appendChild(li);

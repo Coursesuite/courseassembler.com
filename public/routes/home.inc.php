@@ -24,8 +24,8 @@
 				<div class="uk-width-2-3@m">
 					<h3>Need learning content fast?</h3>
 					<p>Your boss just emailed you a 75 page Word document and said "Make this into an e-learning compliant package".</p>
-					<p>Under that file there's some notes about quiz questions you might add in and that learners need to watch at least half of the company training video.<br><br>The email finishes off <em>"and I need it done yesterday"</em>.</p>
-					<p>Oh boy. This sounds <i>complicated</i>.</p>
+					<p>Under that file there's some notes about quiz questions you might add in and that learners need to watch at least half of the company training video.<br><br>The email finishes off <em>"and I need it done yesterday, and it can't cost an arm an a leg. Get on it!"</em>.</p>
+					<p>Oh boy, a SCORM what the...? This sounds <i>complicated</i>.</p>
 				</div>
 			</div>
 			<div class="uk-flex-middle uk-child-width-1-2@m" uk-grid>
@@ -36,10 +36,70 @@
 				<div class="uk-width-2-3@m">
 					<h3>Robots to the rescue!</h3>
 					<p><i>Pfft.</i> You've got this.</p>
-					<p><strong>Drag on all your documents.&nbsp;</strong>Add a Quiz using the wizard. Paste in a Vimeo link and drag the score requirement to 50%. Reorder pages to be more logical and remove those blank pages you didn't need. Pick a snazzy design, and press Export.</p>
-					<p>That's it. <strong>You're done.</strong> Hmm, don't let your boss know you're <em>that</em> efficient, they might expect you to be even faster next time!</p>
+					<p><strong>Drag on all your documents.&nbsp;</strong>Add a Quiz using the wizard. Paste in a Vimeo link and drag the score requirement to 50%. Reorder pages to be more logical and remove those blank pages you didn't need. Bang on a simple intro page using Markdown. Pick a snazzy design, and press Export. <strong>Bam!</strong> There's a zip file sitting on your hard drive, ready to be put into your LMS or CMS.</p>
+					<p>That's it. <strong>You're done.</strong> (Psst: Don't let your boss know you're <em>that</em> efficient, they might expect you to be even faster next time!)</p>
 				</div>
 			</div>
+			<div class="uk-flex-middle" uk-grid>
+				<div class="uk-width-1-3@m uk-flex-last@m">
+					<img data-src="assets/mobile_cost.png" class="uk-hidden@s" uk-img>
+					<img data-src="assets/cost.png" class="uk-visible@s" uk-img data-width="330" data-height="330">
+				</div>
+				<div class="uk-width-2-3@m">
+					<h3>A cost effective alternative</h3>
+					<p>Buying a leading elearning authoring system is an <em>expensive endevour</em> - hundreds or thousands of dollars per year for software that can't do half as much as you need - or worse, bloatware with ten-times <i>more</i> than you want... or their app needs you to work with Powerpoint but all you're presentations are already in Google Docs. Or their platform is exclusive to Windows and that's not what you have. Or its an open source product but has such a steep learning curve you feel you need a degreee in computer science just to know how to start. Or they let you convert the first few pages <i>for free</i> and then hit you with a hidden paywall hurdle to convert the rest. <em>Frustrating, time consuming, and ultimately costly.</em></p>
+					<p>We have a simple buy-as-you-go pricing model, and a browser-based app. <strong>No Subscriptions, No extra costs, No lock-in</strong>, just a simple licence key that lasts while you need it to. Prices are listed below.</p>
+					<table class="uk-table uk-table-small uk-table-divider uk-table-hover uk-table-striped">
+					    <thead>
+					        <tr>
+					            <th>Licence</th>
+					            <th>Price</th>
+					            <th>Buy</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <tr>
+					            <td>1 Day</td>
+					            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-1" data-format="%price" data-fsc-item-path-value="course-assembler-1">$2</td>
+					            <td><a href="#" data-fsc-item-path-value="course-assembler-1" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+					        </tr>
+					        <tr>
+					            <td>10 Days</td>
+					            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price" data-fsc-item-path-value="course-assembler-10">$10</td>
+					            <td><a href="#" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Popular!</a></td>
+					        </tr>
+					        <tr>
+					            <td>30 Days</td>
+					            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-30" data-format="%price" data-fsc-item-path-value="course-assembler-10">$25</td>
+					            <td><a href="#" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+					        </tr>
+					        <tr>
+					            <td>60 Days</td>
+					            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-60" data-format="%price" data-fsc-item-path-value="course-assembler-10">$50</td>
+					            <td><a href="#" data-fsc-item-path-value="course-assembler-60" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+					        </tr>
+					        <tr>
+					            <td>1 year</td>
+					            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-365" data-format="%price" data-fsc-item-path-value="course-assembler-10">$199</td>
+					            <td><a href="#" data-fsc-item-path-value="course-assembler-365" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+					        </tr>
+					    </tbody>
+					</table>
+				</div>
+			</div>
+			<div class="uk-flex-middle uk-child-width-1-2@m" uk-grid>
+				<div class="uk-width-1-3@m">
+					<img data-src="assets/mobile_simplicity.png" class="uk-hidden@s" uk-img>
+					<img data-src="assets/simplicity.png" class="uk-visible@s" uk-img data-width="330" data-height="330">
+				</div>
+				<div class="uk-width-2-3@m">
+					<h3>Robots to the rescue!</h3>
+					<p><i>Pfft.</i> You've got this.</p>
+					<p><strong>Drag on all your documents.&nbsp;</strong>Add a Quiz using the wizard. Paste in a Vimeo link and drag the score requirement to 50%. Reorder pages to be more logical and remove those blank pages you didn't need. Bang on a simple intro page using Markdown. Pick a snazzy design, and press Export. <strong>Bam!</strong> There's a zip file sitting on your hard drive, ready to be put into your LMS or CMS.</p>
+					<p>That's it. <strong>You're done.</strong> (Psst: Don't let your boss know you're <em>that</em> efficient, they might expect you to be even faster next time!)</p>
+				</div>
+			</div>
+
 		</div>
 
 		<div class="robot-wave uk-section">
@@ -106,7 +166,7 @@
 						</tr>
 						<tr>
 							<td><span uk-icon="check"></span></td>
-							<td>Direct-to-platform publishing (via <a href="https://www.coursesuite.com" target="_blank">Coursesuite API</a>)</td>
+							<td>Drag-back-on to re-edit or combine your existing packages.</td>
 						</tr>
 					</tbody>
 				</table>

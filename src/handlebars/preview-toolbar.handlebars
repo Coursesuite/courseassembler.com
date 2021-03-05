@@ -8,7 +8,7 @@
 		{{!-- may require some work --}}
 	{{else}}{{#compare kind "h5p"}}
 		{{!-- technicall could do audio but also could embed that in h5p too --}}
-	{{else}}{{#compare format "in" "video"}}{{else}}
+	{{else}}{{#compare format "in" "video,iframe"}}{{else}}
 	<button data-fileid="{{id}}" data-action="page-bgcolour" data-popover="colour" data-label="Page background colour" data-value="{{payload.backgroundColour}}" data-init="jscolor"><i class="ninja-adjust"></i>BG colour</button>
 	{{/compare}}
 	{{/compare}}

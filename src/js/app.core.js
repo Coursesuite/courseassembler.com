@@ -120,9 +120,9 @@
 			DocNinja.options.actions[t][o] = details;
 		},
 		InitActions: function () { // tell plugins they need to register their actions
-			Plugins.forEach(function(v) {
+			PLUGINS.forEach(function(v) {
 				if (DocNinja.Plugins.hasOwnProperty(v) && DocNinja.Plugins[v].hasOwnProperty("RegisterPlugin")) {
-					DocNinja.Plugins[v].RegisterPlugin(v)
+					DocNinja.Plugins[v].RegisterPlugin(v);
 				}
 			});
 		}

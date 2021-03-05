@@ -58,7 +58,7 @@ if (false) {
 
 // sentry.io console tracing for published app
 if ($verifier->code->minified) {
-	echo '<script src="https://browser.sentry-cdn.com/5.3.0/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
+	echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
 	echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
 }
 
@@ -76,13 +76,13 @@ foreach ($iter as $file) {
 		$js[] = '<script src="plugins' . substr($file[0], strlen($p)) . '"></script>';
 	}
 }
-echo implode(PHP_EOL, $css);
+echo implode(PHP_EOL, $css), PHP_EOL;
 ?>
 		<style id="fiddle">#nav-selection svg path,#nav-selection svg rect {fill:#3D3590;stroke:#000000;stroke-width:4px;stroke-opacity:0.75;}$nav-selection svg circle{stroke:#3D3590}</style>
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
-		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"), Plugins = <?php echo json_encode($plugins); ?>; <?php echo $verifier->app->layer; ?>;</script>
+		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"), PLUGINS = <?php echo json_encode($plugins); ?>; <?php echo $verifier->app->layer; ?>;</script>
 <?php if ($verifier->code->minified) { ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo $minified_css; ?>" />
 		<script>
@@ -356,6 +356,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	</div>
 
 
+<?php echo implode(PHP_EOL, $js), PHP_EOL; ?>
 <?php if ($verifier->code->minified) { ?>
 	<script src="<?php echo $minified_app; ?>"></script>
 <?php } else { ?>
@@ -373,7 +374,6 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<script src="js/app.lib.puritycontrol.js"></script>
 	<script src="js/app.lib.filepreview.js"></script>
 	<script src="js/app.lib.downloader.js"></script>
-<?php echo implode(PHP_EOL, $js); ?>
 	<script src="js/app.core.js"></script>
 <?php } ?>
 

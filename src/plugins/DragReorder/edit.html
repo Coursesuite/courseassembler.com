@@ -1,48 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Course Assembler DragReorder</title>
-	<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+<html>
+    <head>
+	    <title>drag to reorder</title>
 
-	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="edit.css">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	<script type="text/javascript">window.fd={logging:false};</script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.1/Sortable.min.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
-	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
-	<script type="text/javascript" src="edit.js"></script>
-	<script type="text/javascript">window.addEventListener("load", DragReorder.Init, false);</script>
-</head>
-<body>
+	    <link href="https://unpkg.com/normalize.css" type="text/css" rel="stylesheet" />
+	    <link rel="stylesheet" type="text/css" href="edit.css">
+	    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+	    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
-<main class="wrapper">
-	<nav class="navigation"></nav>
-	<header class="header">
-		<section class="container">
-			<h1>Drag Reorder</h1>
-		</section>
-	</header>
-	<section class="container templates">
-		<h2>Choose a template</h2>
-		<div>List of templates</div>
-	</section>
-	<section class="container editor">
-		<h2>Fill in details</h2>
-		<div>
-			[ media ] [ question ]
-			[ list ] [ list ] [ source list ]
-			[ submit / retry ]
-			[ feedback ]
-		</div>
-	</section>
-</main>
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+	    <script src="https://unpkg.com/sortablejs"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
+	    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script type="text/javascript">window.fd={logging:false};</script>
 
-</body>
+    </head>
+
+    <body>
+
+    	<main>
+    		<section class="template split-50">
+    			<div class="pane cover-image" data-image="true"><img></div>
+    			<div class="pane overflow light">
+    				<div class="padding editarea">
+						<h1 data-text="true"></h1>
+						<p data-html="true"></p>
+						<div id="example1" class="list-group"></div>
+						<button class="add">+ Add row</button>
+					</div>
+					<div class="check">
+						<button data-text="true"></button>
+					</div>
+                    <div class="feedback">
+                        <p class="correct" data-text="true"></p>
+                        <p class="incorrect" data-text="true"></p>
+                    </div>
+    			</div>
+    		</section>
+    	</main>
+
+<script>
+const example1 = document.getElementById("example1");
+new Sortable(example1, {
+    animation: 150,
+    ghostClass: 'blue-background-class'
+});
+
+const correct = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNjEyIDc5MiI+PGRlZnMvPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJNNTAgMTQwaDUxMnY1MTJINTB6Ii8+PC9kZWZzPjxjbGlwUGF0aCBpZD0iYiI+PHVzZSBvdmVyZmxvdz0idmlzaWJsZSIgeGxpbms6aHJlZj0iI2EiLz48L2NsaXBQYXRoPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQxYWQ0OSIgc3Ryb2tlLXdpZHRoPSI0NSIgZD0iTTMwNiA2MzBhMjM0IDIzNCAwIDEwMC00NjggMjM0IDIzNCAwIDAwMCA0NjhoMHoiIGNsaXAtcGF0aD0idXJsKCNiKSIvPjxwYXRoIGZpbGw9IiM0MWFkNDkiIGQ9Ik00MjEgMjcxTDI0MiA0NTFsLTY3LTY3LTUzIDUyIDEyMCAxMjAgMTUtMTUgMjE3LTIxNy01My01M3oiLz48L3N2Zz4=";
+const incorrect = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNjEyIDc5MiI+PGRlZnMvPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJNNTAgMTQwaDUxMnY1MTJINTB6Ii8+PC9kZWZzPjxjbGlwUGF0aCBpZD0iYiI+PHVzZSBvdmVyZmxvdz0idmlzaWJsZSIgeGxpbms6aHJlZj0iI2EiLz48L2NsaXBQYXRoPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U0NDA2MSIgc3Ryb2tlLXdpZHRoPSI0NSIgZD0iTTMwNiA2MzBhMjM0IDIzNCAwIDEwMC00NjggMjM0IDIzNCAwIDAwMCA0NjhoMHoiIGNsaXAtcGF0aD0idXJsKCNiKSIvPjxwYXRoIGZpbGw9IiNlNDQwNjEiIGQ9Ik0zNDkgMzk2bDk5LTk5LTQzLTQzLTk5IDk5LTk5LTk5LTQzIDQzIDk5IDk5LTk5IDk5IDQzIDQzIDk5LTk5IDk5IDk5IDQzLTQzLTk5LTk5eiIvPjwvc3ZnPg==";
+
+const options = {
+	"layout": {
+		"bias": "right", // [left, none, right]
+		"size": 50, // [20, 30, 50]
+		"image": "https://images.unsplash.com/photo-1454817481404-7e84c1b73b4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+	},
+	"colour": {
+		"bg": "#f8f8f8",
+		"list": "#ffffff",
+		"list-alt": "#fff6b2",
+		"check": "#31b7f9"
+	},
+	"header": "Reorder lists", // h1
+	"prompt": "Drag these elments until they appear in the correct order.", // editor
+	"check": "Check answer", // button
+	"feedback": {
+		"positive": "You got it! Well done.", // text
+		"negative": "That's not right, try again." // text
+	},
+
+	"items": [
+		"Item 1",
+		"Item 2",
+		"Item 3",
+		"<img src='https://images.unsplash.com/photo-1564234394125-2e0a3306eadb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60'>",
+		"Item 5",
+		"Item 6"
+	]
+};
+
+const fileId = location.search.substr(1);
+
+parent.localforage.getItem(fileId).then(function(value) {
+	if (value.payload.data) {
+		Object.assign(options, value.payload.data);
+	}
+
+	document.querySelector(".editarea > h1").textContent = options.header;
+	document.querySelector(".editarea > p").innerHTML = options.prompt;
+	document.querySelector(".correct").innerHTML = `<img src="${correct}">${options.feedback.positive}`;
+	document.querySelector(".incorrect").innerHTML = `<img src="${incorrect}">${options.feedback.negative}`;
+	document.querySelector(".check button").textContent = options.check;
+	document.querySelector(".cover-image img").src = options.layout.image;
+
+	options.items.forEach(function(html) {
+		const div = document.createElement("div");
+		div.classList.add("list-group-item");
+		if (html.indexOf("<img ")===0) {
+			div.innerHTML = html;
+		} else {
+			div.innerHTML = `<span data-html="true">${html}</span><span class="feedback"></span>`;
+		}
+		example1.appendChild(div);
+	});
+
+	Array.from(document.querySelectorAll("[data-text]")).forEach(node => {
+
+	});
+
+
+});
+</script>
+
+    </body>
 </html>

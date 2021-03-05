@@ -52,5 +52,21 @@
     		</section>
     	</main>
 
+<script type="text/javascript">
+    let pressed = false;
+    document.addEventListener('mousedown',function() { pressed = true; });
+    document.addEventListener('mouseup', function() { checkSelection(2); pressed = false; })
+    document.addEventListener('selectionchange', function() { checkSelection(1); });
+    function checkSelection(fn) {
+
+        let selection = document.getSelection();
+        if (fn === 2) {
+            console.info(selection);
+        }
+        console.dir(selection);
+
+
+    }
+</script>
     </body>
 </html>

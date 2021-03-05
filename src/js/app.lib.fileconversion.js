@@ -4,6 +4,21 @@
 							CONVERSION
 	--------------------------------------------------------------------------------------------------------------------------------------------------------- */
 	DocNinja.fileConversion = (function () {
+		_validateUrl = function(url, fileId) {
+			// we only support http and https urls for conversion (no other protocols)
+			if (!/^(http(s)?):\/\//.test(url)) {
+				var msg = url.indexOf('://') === -1 ? "Wasn't a valid http:// or https:// URL" : "URL didn't contain supported link type";
+				_finishConversion({
+					status: "error",
+					error: msg,
+					fileInfo: null,
+					fileId: fileId
+				});
+				return false;
+			}
+			return true;
+		}
+
 		_success = function(liElem, data) {
 			var this_fileid = liElem.getAttribute("data-fileid");
 			liElem.setAttribute("data-converted","true");
@@ -64,7 +79,7 @@
 
 			// if it's a format that doesn't convert well to html initially (based on trial and error)
 			// first convert it to PDF, then convert the result to HTML
-			var extn = (data.website) ? "website" : (data.extn) ? data.extn : data.name.split(".").pop().toLowerCase();
+			var extn = (data.website) ? "website" : (data.extn) ? data.extn : data.name.trimUntilExtn().toLowerCase();
 			switch (extn) {
 				case "odd": case "epub": case "mobi": case "lit": case "pages":
 				case "numbers": case "ods": case "cdr": case "eps":
@@ -253,9 +268,9 @@
 				extn = '',
 				mime = 'application/octet-stream';
 				// initialOutputFormat = "html";
-			extn = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.split(".").pop().toLowerCase(): '',
+			extn = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.trimUntilExtn() : '';
 			name = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.trimExtn() : '';
-			mime = Mime.get( extn );
+			if (extn.length) mime = Mime.get( extn );
 
 			if (subtype === "x-markdown") kind = "markdown";
 			if (kind === "url" && raw.url && raw.url.indexOf("<iframe ")!==-1) kind = "iframe";
@@ -336,6 +351,7 @@
 					break;
 
 				case "website": // explicitly set as a website (ticked box)
+					if (!_validateUrl(raw.url, this_fileid)) break;
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
 					fileinfo = {
 						name: raw.url.split('://')[1].split('/')[0],
@@ -348,6 +364,7 @@
 					break;
 
 				case "url":
+					if (!_validateUrl(raw.url, this_fileid)) break;
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
 					DocNinja.Plugins.Oembed(raw, liElem).then(function(data) {
 						if (!data.result.payload) { // try running it through conversion instead
@@ -491,7 +508,7 @@
 			for (var i = 0; i < files.length; i++) {
 				(function (file, index) { // iife closure to protect reader object
 					var mime = file.type,
-						extn = file.name.substr(file.name.lastIndexOf(".") + 1).toLowerCase();
+						extn = file.name.trimUntilExtn().toLowerCase();
 					mime = Mime.get(extn); // trust the extension more than the mime (becasue windows is bad at mime types) .. also means we get predictable results for application/zip variants
 					var mimetype = mime.split("/"),
 						reader = new FileReader(),

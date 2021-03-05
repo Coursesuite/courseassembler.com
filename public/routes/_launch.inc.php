@@ -1,4 +1,4 @@
-<a href="#" class="uk-button my-launch"><span uk-icon="bolt"></span> Launch App</a>
+<a href="#" class="uk-button my-launch"><span uk-icon="cart"></span> Launch App</a>
 <div uk-dropdown="mode:click; pos:bottom-justify;" class="uk-background-muted uk-text-left">
 	<div>
     	<fieldset class="uk-fieldset">
@@ -28,6 +28,11 @@
 	        </tr>
 	    </thead>
 	    <tbody>
+	        <tr>
+	            <td>1 Day</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-1" data-format="%price" data-fsc-item-path-value="course-assembler-1">$2</td>
+	            <td><a href="#" data-fsc-item-path-value="course-assembler-1" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+	        </tr>
 	        <tr>
 	            <td>10 Days</td>
 	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price" data-fsc-item-path-value="course-assembler-10">$10</td>

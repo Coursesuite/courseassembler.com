@@ -15,7 +15,7 @@ putenv("AUTHAPI_PASSWORD=GEv6mJ7wJgWR");
 putenv("HOME_URL=http://courseassembler.com.test/");
 
 require_once('../vendor/autoload.php');
-$verifier = (new CoursesuiteValidator(false,false))->Validate($_GET);
+$verifier = (new CoursesuiteValidator(false,false,true))->Validate($_GET);
 $verifier->code->minified = false;
 
 $settings = [
