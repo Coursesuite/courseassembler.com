@@ -57,6 +57,8 @@
 	<button data-fileid="{{id}}" data-action="split"><i class="ninja-split"></i>Split</button>
 	{{/unless}}{{/compare}}
 
+	<button data-fileid="{{id}}" data-action="page-files" data-popover="attachments" data-label="Manage page attachments" {{#if attachments}}data-init="initAttachments"{{/if}}><i class="ninja-folder-outline-add"></i>Files</button>
+
 	</div>
 
 	<div class="dn-flex-1 page-title text-center">

@@ -111,6 +111,21 @@
 				curr = depth;
 				var a = elm.querySelector("span.label>a");
 				if (a && a.textContent.trim() === "") a.textContent = "(untitled)";
+
+				// ensure the list item have the correct icons
+				// this is async but that is ok at this point since the nodes are already rendered
+				localforage.getItem(elm.dataset.fileid).then(function(obj) {
+					if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
+						DocNinja.Navigation.Icons.Add.Audio(elm.dataset.fileid);
+					} else {
+						DocNinja.Navigation.Icons.Remove.Audio(elm.dataset.fileid);
+					}
+					if (obj.hasOwnProperty('attachments') && obj.attachments.length) {
+						DocNinja.Navigation.Icons.Add.File(elm.dataset.fileid);
+					} else {
+						DocNinja.Navigation.Icons.Remove.File(elm.dataset.fileid);
+					}
+				});
 				/* seems unneccesary
 				if (!elm.querySelector("a[data-action]")) { // upgrade link if previously cached
 					if (elm.querySelector("a")) {

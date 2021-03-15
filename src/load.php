@@ -1,5 +1,6 @@
 <?php
 defined('APP')?assert(true):die();
+define('DEVELOPER',true);
 
 session_start();
 if (!isset($_SESSION['sesskey'])) {
@@ -15,7 +16,7 @@ putenv("AUTHAPI_PASSWORD=GEv6mJ7wJgWR");
 putenv("HOME_URL=http://courseassembler.com.test/");
 
 require_once('../vendor/autoload.php');
-$verifier = (new CoursesuiteValidator(false,false,true))->Validate($_GET);
+$verifier = Licence::validate(Request::get("hash"));
 $verifier->code->minified = false;
 
 $settings = [

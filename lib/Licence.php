@@ -38,6 +38,15 @@ class Licence extends Controller {
 				"addons": []
 			}
 		}');
+		if (defined('DEVELOPER')) { // bypass licencing
+			$result->licence->error = "ready";
+			$result->valid = true;
+			$result->tier = 99;
+			$result->user->email = "developer@courseassember.com";
+			$result->user->container = "course assembler";
+			$result->code->minified = false;
+			return $result;
+		}
 		$record = new LicenceModel('licencekey', $key);
 		if ($record->loaded()) {
 			if ($record->ends < time()) {

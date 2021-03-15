@@ -28,6 +28,10 @@
 <section>
 	<audio id="popover_audioElement" src="{{audio}}" controls></audio>
 	<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;capture=microphone" />
+	<div class="audio-nav">
+	    <label for="pageAudioNav">Auto-navigate at end of audio?</label>
+	    <input id="pageAudioNav" type="checkbox" onchange="popover_audioNavToggle(this.checked)"></input>
+    </div>
 	<div>
 		<button data-action="record-page-audio"><i class="ninja-mic"></i>Record</button>
 		<button data-action="upload-page-audio"><i class="ninja-upload3"></i>Upload mp3</button>
@@ -146,5 +150,18 @@
 			</label> --}}
 		</div>
 	</fieldset>
+</section>
+{{/compare}}
+
+{{#compare popover "attachments"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<input type="file" id="fileAttachUpload" style="display:none" onchange="popover_attachFiles(this.files[0])" />
+	<div class="file-list" id="page-file-attachments"></div>
+	<div>
+		<button data-action="upload-page-attachments"><i class="ninja-upload3"></i>Attach file</button>
+		<button data-action="trash-page-attachments"><i class="ninja-discard"></i>Remove all</button>
+	</div>
+
 </section>
 {{/compare}}

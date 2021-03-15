@@ -111,7 +111,8 @@
 }
 
 #nav-item-list a.rename-hint,
-#nav-item-list span.audio-hint {
+#nav-item-list span.audio-hint,
+#nav-item-list span.file-hint {
 	margin-right: 5px;
 }
 

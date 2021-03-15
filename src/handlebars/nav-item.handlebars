@@ -18,6 +18,7 @@
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}{{#compare kind "plugin"}}{{else}}
 	<span class="audio-hint">{{#if audio}}<i class="ninja-volume_up" title="Page has audio"></i>{{/if}}</span>
 	{{/compare}}{{/compare}}
+	<span class="file-hint">{{#if attachment}}<i class="ninja-paperclip" title="Page has attachment(s)"></i>{{/if}}</span>
 {{/compare}}{{/compare}}{{/compare}}
 </div>
 

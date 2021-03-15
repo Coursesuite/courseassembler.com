@@ -284,6 +284,28 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 	margin-top: 5px;
 }
 
+.dn-popover .audio-nav {
+	width: fit-content;
+	margin: 10px auto;
+}
+
+.dn-popover .file-list {
+	margin-bottom: 10px;
+}
+
+.dn-popover .file-list .page-attachment-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 5px;
+	border-bottom: 1px solid rgb(240,240,240);
+	padding-bottom: 5px;
+}
+
+.dn-popover .file-list .page-attachment-row .fd {
+	margin-left: 1rem;
+	cursor: pointer;
+}
+
 .dn-popover section.score_slider_sizing {
     padding: 45px 20px 10px;
 }

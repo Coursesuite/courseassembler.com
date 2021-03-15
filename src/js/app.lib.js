@@ -1200,7 +1200,19 @@ function handlePopover(tgt) {
 				else {audio.classList.remove('visible');}
 				localforage.getItem(id).then(function (obj) {
 					document.getElementById("popover_audioElement").src = obj.payload.mp3;
+					document.getElementById("pageAudioNav").checked = obj.autoNav;
 				});
+				break;
+
+			case "initAttachments":
+				var dest = document.getElementById('page-file-attachments');
+				var id = DocNinja.filePreview.CurrentFile();
+				dest.innerHTML = '';
+				localforage.getItem(id).then(function(obj) {
+					if (obj.hasOwnProperty('attachments')) [].forEach.call(obj.attachments, function feAttachment(file) {
+						dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"](file));
+					});
+				})
 				break;
 		}
 	}
@@ -1273,6 +1285,14 @@ function popover_saveRange() {
 		obj.score = score;
 		closePopover();
 		return localforage.setItem(id, obj);
+	});
+}
+
+function popover_audioNavToggle(state) {
+	var id = DocNinja.filePreview.CurrentFile();
+	localforage.getItem(id).then(function(obj) {
+		obj.autoNav = state;
+		localforage.setItem(id,obj);
 	});
 }
 
@@ -1350,6 +1370,30 @@ function popover_setLayout(position) {
 		a = null;
 		localforage.setItem(id, obj);
 	});
+}
+
+function popover_attachFiles(file) {
+	var reader = new FileReader();
+	var id = DocNinja.filePreview.CurrentFile();
+	var fileName = file.name;
+	var dest = document.getElementById('page-file-attachments');
+	reader.onloadend = function (event) {
+		// console.dir(event);
+		localforage.getItem(id).then(function (obj) {
+			if (!obj.hasOwnProperty('attachments')) obj.attachments = [];
+			obj.attachments.push({
+				name: fileName,
+				file: event.target.result
+			});
+			dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"]({name: fileName}));
+			// closePopover();
+			localforage.setItem(id, obj).then(function () {
+				var updated = DocNinja.Navigation.Icons.Add.File(id);
+				if (updated) window.setItemOrder();
+			});
+		});
+	}
+	reader.readAsDataURL(file);
 }
 
 function renameNode(id, a) {
@@ -1718,6 +1762,45 @@ function performAction(tgt, e) {
 				if (updated) window.setItemOrder();
 			});
 			break;
+
+		case "upload-page-attachments":
+			document.getElementById('fileAttachUpload').click();
+			break;
+
+		case "trash-page-attachments":
+			localforage.getItem(id).then(function action_trash_page_files(obj) {
+				obj.attachments = undefined;
+				delete obj.attachments;
+				localforage.setItem(id,obj);
+				var updated = DocNinja.Navigation.Icons.Remove.File(id);
+				if (updated) window.setItemOrder();
+				closePopover();
+			});
+			break;
+
+		case "remove-page-attachment":
+			var fn = tgt.getAttribute("data-name");
+			localforage.getItem(id).then(function action_trash_page_files(obj) {
+				if (obj.hasOwnProperty('attachments')) {
+					[].forEach.call(obj.attachments, function faTrashOne(file, item) {
+						if (file.name === fn) {
+							obj.attachments[item] = undefined;
+							obj.attachments.splice(item,1);
+							// delete obj.attachments[item];
+							var lne = tgt.closest('.page-attachment-row');
+							lne.parentNode.removeChild(lne);
+						}
+					});
+					if (obj.attachments.length === 0) {
+						delete obj.attachments;
+						var updated = DocNinja.Navigation.Icons.Remove.File(id);
+						if (updated) window.setItemOrder();
+					}
+					localforage.setItem(id,obj);
+				}
+			});
+			break;
+
 
 		default:
 

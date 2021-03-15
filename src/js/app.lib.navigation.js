@@ -1,10 +1,8 @@
 (function (DocNinja, undefined) {
 
 	var _upgrade = function (value) {
-
 		// upgrade display-flex to dn-flex and subsequent styles; split/join is fastest
 		if (!value) return "";
-
 		return value.split("display-flex").join("dn-flex").split("flex-left-right").join("dn-flex-lr").split("label flex-1").join("label dn-flex-1 dn-flex dn-flex-c-1");
 	}
 
@@ -17,15 +15,40 @@
 			dest.appendChild(icon);
 		}
 		if (!icon.querySelector(".ninja-volume_up")) {
-			icon.innerHTML = '<i class="ninja-volume_up" title="Page has audio"></i>';
+			var i = document.createElement('i');
+			i.classList.add('ninja-volume_up');
+			i.setAttribute('title','Page has audio');
+			icon.appendChild(i);
 		}
 		return true;
 	}
 
 	var _remove_audio_icon = function (id) {
-		[].forEach.call(document.querySelectorAll("li[data-fileid='" + id + "'] .audio-hint"), function (span) {
-			span.remove();
-		});
+		var span = document.querySelector("li[data-fileid='" + id + "'] .audio-hint");
+		if (span) span.parentNode.removeChild(span);
+		return true;
+	}
+
+	var _add_file_icon = function (id) {
+		var dest = document.querySelector("li[data-fileid='" + id + "']>div.nav-item");
+		var icon = dest.querySelector(".file-hint");
+		if (!icon) {
+			var icon = document.createElement("span");
+			icon.classList.add("file-hint");
+			dest.appendChild(icon);
+		}
+		if (!icon.querySelector(".ninja-paperclip")) {
+			var i = document.createElement('i');
+			i.classList.add('ninja-paperclip');
+			i.setAttribute('title','Page has attachment(s)');
+			icon.appendChild(i);
+		}
+		return true;
+	}
+
+	var _remove_file_icon = function (id) {
+		var span = document.querySelector("li[data-fileid='" + id + "'] .file-hint");
+		if (span) span.parentNode.removeChild(span);
 		return true;
 	}
 
@@ -33,10 +56,12 @@
 		Upgrade: _upgrade,
 		Icons: {
 			Add: {
-				Audio:  _add_audio_icon
+				Audio:  _add_audio_icon,
+				File: _add_file_icon
 			},
 			Remove: {
-				Audio: _remove_audio_icon
+				Audio: _remove_audio_icon,
+				File: _remove_file_icon
 			}
 		}
 	}

@@ -161,6 +161,10 @@
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
 								delete obj.payload.mp3;
 							}
+							// imscp doesn't support page attachments
+							if (obj.hasOwnProperty("attachments")) delete obj.attachments;
+
+							// push this record
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 
 							progress += increment;
@@ -218,6 +222,16 @@
 								page["href"] = "data/" + filename;
 								page["depth"] = Math.max(0,+obj.depth||0); // must exist
 								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
+								page["autonav"] = obj.hasOwnProperty("autoNav") && obj.autoNav;
+								page["attachments"] = obj.hasOwnProperty("attachments") && obj.attachments.length ? (function () {
+									return obj.attachments.map(function(attachment) {
+										// store the attachment in a page subfolder
+										zip.file("data/"+key+"/"+attachment.name,attachment.file.split(',')[1], {base64: true});
+
+										// we only want a list of filenames
+										return attachment.name;
+									});
+								})() : false;
 								setup.pages[li.index()] = page; // push to index (nth LI) so it comes out in order in the template
 							}
 							if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
@@ -270,6 +284,7 @@
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
 								delete obj.payload.mp3;
 							}
+							if (obj.hasOwnProperty("attachments")) delete obj.attachments; // clean memory as we go
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 							progress += increment;
 							uiButtonInstance.setProgress(progress);
@@ -540,11 +555,12 @@ localforage.iterate(function( ... ) {
 		};
 
 
-		// post back to coursesuite some stats about this download (only anonymous/abstract data)
+		// post back some stats about this download (only anonymous/abstract data)
 		_notify = function (data) {
 			var fd = new FormData();
 			fd.append("timestamp", data.timestamp);
 			fd.append("creator", data.creator);
+			fd.append("hash",location.search);
 			for (var i=0,k=Object.keys(data.settingsCache);i<k.length;i++){
 				var name = data.settingsCache[k[i]].name,
 					value = data.settingsCache[k[i]].value;
@@ -580,7 +596,7 @@ localforage.iterate(function( ... ) {
 			fd.append("format", aFormat.join(","));	// what are the mime types of converions?
 			fd.append("type", aType.join(","));		// what are the mime types of inputs?
 			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp');
-			xhr.open("POST", "https://www.coursesuite.ninja/hooks/manifest/");
+			xhr.open("POST", "manifest.php");
 			xhr.send(fd);
 		}
 
