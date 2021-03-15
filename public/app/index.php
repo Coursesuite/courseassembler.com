@@ -82,7 +82,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
-		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"), PLUGINS = <?php echo json_encode($plugins); ?>; <?php echo $verifier->app->layer; ?>;</script>
+		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = undefined, PLUGINS = <?php echo json_encode($plugins); ?>;</script>
 <?php if ($verifier->code->minified) { ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo $minified_css; ?>" />
 		<script>
@@ -98,7 +98,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 <?php } ?>
 		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
@@ -278,9 +278,8 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	</section>
 
 	<footer>
-		<a href="/">Course Assembler</a> |
-		<a href="https://help.coursesuite.ninja/" target="_blank">Report a problem</a> |
-		App by <a href="https://www.coursesuite.com/" target="_blank">CourseSuite</a>.
+		<a href="/">&copy Course Assembler <?php echo date("Y"); ?></a> |
+		<a href="mailto:support@courseassembler.com">Report a problem</a>
 	</footer>
 
 	<div id="loader" class="pageload-overlay" data-opening="M 40,-65 145,80 -65,80 40,-65" data-closing="m 40,-65 0,0 L -65,80 40,-65">
@@ -401,7 +400,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					break;
 			}
 			?></h2>
-			<p><a href="<?php echo $verifier->home; ?>">Home</a></p>
+			<p><a href="<?php echo getenv("HOME_URL"); ?>">Home</a></p>
 		</main>
 
 	<?php } ?>

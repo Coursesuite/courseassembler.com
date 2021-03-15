@@ -103,3 +103,23 @@ To split a document, click on the **Split** button in the top left. The document
 When a document is split, we automatically indent all items after the first by deafult, though you can easily edit this (and also rename, rearrange and/or delete items at your leisure).
 
 !! Splitting a document cannot be undone - if you want to reverse it, you'll have to upload the original file again!
+
+### Attachments
+
+All page types allow attachments. These are one or more files that are included with the final package that the user is able to download.
+
+You can attach files by clicking on the Files button on the toolbar
+
+![Files button](files.png)
+
+When expanded, the files management popup lets you upload files, remove individual files you have uploaded, or remove all attachments from the page.
+
+![Files popup](manage_files.png)
+
+When a page has one or more files, the navigation bar will show a paperclip icon against the page.
+
+![Paperclip icon](files_hint.png)
+
+When viewing a course, the page that has attachments will list the file names across the bottom of the page in a series of coloured buttons (based on the theme colour). Clicking on a link will prompt the user to download that file (including media, images and pdf's).
+
+![Course page attachments](files_player.png)

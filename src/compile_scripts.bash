@@ -55,8 +55,7 @@ echo "<?php" > load.php
 echo "require_once('../../vendor/autoload.php');" >> load.php
 echo "session_start();" >> load.php
 echo "if (!isset(\$_SESSION['sesskey'])) \$_SESSION['sesskey'] = md5(time());" >> load.php
-echo "\$verifier = (new CoursesuiteValidator())->Validate(\$_GET);" >> load.php
-echo "\$verifier->code->minified = true;" >> load.php
+echo "\$verifier = Licence::validate(Request::get('hash'));" >> load.php
 echo "\$timestamp = '$TS';" >> load.php
 echo "\$minified_css = 'css/app.min.$TS.css';" >> load.php
 echo "\$minified_app = 'js/app.min.$TS.js';" >> load.php
@@ -87,6 +86,15 @@ cd ..
 
 # ok now we need to go into app and start messing with it
 cd ../public/app
+
+if [ "$(uname)" == "Darwin" ]; then
+	sed -E -i '' "s/..\/vendor/..\/..\/vendor/g" manifest.php
+else
+	sed -E --in-place='' "s/..\/vendor/..\/..\/vendor/g" manifest.php
+fi
+
+echo "Copying font files"
+cp -R css/font/fonts css/
 
 echo "Cleaning root files"
 rm *.bash

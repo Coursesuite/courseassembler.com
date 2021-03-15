@@ -398,6 +398,7 @@ function load() {
 		src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
+    [].forEach.call(document.querySelectorAll('audio'),function(node){node.pause();});
     _now = (new Date).getTime() / 1000;
     var ifr = document.querySelector("div.iframe>iframe.under");
 	ifr.setAttribute("onload","iframe(this)");
@@ -414,7 +415,7 @@ function load() {
 		}
 		if (window._audio === undefined) window._audio = new Plyr(document.querySelector("main>.audio>audio"),{
 			iconUrl: 'plyr.svg',
-			autoplay: false,
+			autoplay: pages.filter(function(v){return v.autonav}).length>0,
 			keyboard: {global:false,focused:false},
 			settings: ['speed','loop']
 		});
@@ -423,11 +424,36 @@ function load() {
 			type:'audio',
 			sources:[{type:'audio/mp3',src:'data/'+current_page["audio"]}]
 		};
+
+		window._audio.off('ended', right);
+		if (current_page.autonav) window._audio.on('ended', right);
 	} else {
 		document.body.classList.remove("has-audio");
 		window._audio = undefined;
 		var audio = document.querySelector("main>.audio");
 		if (audio) audio.parentNode.removeChild(audio);
+	}
+	if (current_page.hasOwnProperty('attachments') && current_page.attachments.length) {
+		document.body.classList.add('has-attachments');
+		var attache = document.querySelector("main>.attache");
+		if (!attache) {
+			attache = document.createElement('div');
+			attache.classList.add('attache');
+			document.querySelector('main').appendChild(attache);
+		}
+		attache.innerHTML = '';
+		attache.innerHTML = '';
+		current_page.attachments.forEach(function(value, index) {
+			var a = document.createElement('a');
+			a.setAttribute('download',value);
+			a.setAttribute('href', current_page.href.replace('.html','/'+value));
+			a.textContent = value.replace(/\.[^/.]+$/, "");
+			attache.appendChild(a);
+		});
+	} else {
+		document.body.classList.remove('has-attachments');
+		var attache = document.querySelector("main>.attache");
+		if (attache) attache.parentNode.removeChild(attache);
 	}
     [].forEach.call(document.querySelectorAll("#scroll li"), function (el,index) {
     	el.classList.remove("selected","open");
