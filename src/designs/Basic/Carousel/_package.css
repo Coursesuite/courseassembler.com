@@ -288,10 +288,14 @@ div.iframe > iframe {
 /* ===============================================================================
     audio player (uses plyr.io)
 ================================================================================== */
-div.audio {
-    width: 100%;
-    height: 50px;
-    z-index: 2;
+body > main > div.audio {
+  width: 100%;
+  height: 50px;
+  z-index: 2;
+  display: none;
+}
+body.has-audio > main > div.audio {
+  display: block;
 }
 /* ------------------------------------------------------------------------------- */
 

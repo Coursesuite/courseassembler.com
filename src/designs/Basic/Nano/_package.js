@@ -139,6 +139,7 @@ function doOnce(element, eventType, callback) {
 
 // find scorm API; getAPI() also sets _sAPI; apiHandle is the object reference
 var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI();
+var audioObj;
 scormInitialize();
 
 // clamping (constraining a number to a boundary)
@@ -236,6 +237,16 @@ cssVars({
 
 // initialise on page load
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
+
+	// ensure a shared instance audio player is created, even if it isn't used yet
+	audioObj = document.getElementById('pageAudio');
+	window._audio = new Plyr(audioObj, {
+		iconUrl: 'plyr.svg',
+		autoplay: false,
+		keyboard: {global:false,focused:false},
+		settings: ['speed','loop']
+	});
+
 
 	if (navigator.userAgent.toLowerCase().indexOf("mobile")!==-1) {
 		document.body.classList.add("is-mobile");
@@ -383,8 +394,27 @@ function goto(n,init) {
         }
     }
     course.page=n;
-	[].forEach.call(document.querySelectorAll("audio"), function (el) { el.pause(); });
     load();
+}
+
+// use an object url to download a resource
+function download(e) {
+	[].forEach.call(document.querySelectorAll('a[data-done]'), function (el) { el.parentNode.removeChild(el) });
+	fetch(e.target.dataset.fileName)
+		.then(function(response) {
+			return response.blob();
+		})
+		.then(function(blob) {
+			var url = URL.createObjectURL(blob);
+			var a = document.createElement('a');
+			a.dataset.done = true;
+			a.href = url;
+			a.style = 'display:none';
+			a.download = e.target.dataset.fileName;
+			document.body.appendChild(a);
+			a.click();
+		});
+
 }
 
 // load a page into the player; if the iframe implements a "setTimeSpent()" function, call that
@@ -402,35 +432,24 @@ function load() {
     var ifr = document.querySelector("div.iframe>iframe.under");
 	ifr.setAttribute("onload","iframe(this)");
 	ifr.setAttribute("src", src);
+	audioObj.pause(); // start in a paused state
 	if (current_page.hasOwnProperty("audio")) {
 		document.body.classList.add("has-audio");
-		if (!document.querySelector(".audio")) {
-			var div = document.createElement("div");
-			div.className = "audio";
-			document.querySelector("main").appendChild(div);
-			var node = document.createElement("audio");
-			node.controls = true;
-			div.appendChild(node);
-		}
-		if (window._audio === undefined) window._audio = new Plyr(document.querySelector("main>.audio>audio"),{
-			iconUrl: 'plyr.svg',
-			autoplay: pages.filter(function(v){return v.autonav}).length>0,
-			keyboard: {global:false,focused:false},
-			settings: ['speed','loop']
-		});
-
+		// pages.filter(function(v){return v.autonav}).length>0
 		window._audio.source = {
 			type:'audio',
 			sources:[{type:'audio/mp3',src:'data/'+current_page["audio"]}]
 		};
-
 		window._audio.off('ended', right);
-		if (current_page.autonav) window._audio.on('ended', right);
+		if (current_page.autonav) {
+			audioObj.setAttribute('autoplay',true);
+			window._audio.play();
+			window._audio.on('ended', right);
+		}
 	} else {
+		audioObj.removeAttribute('autoplay');
 		document.body.classList.remove("has-audio");
-		window._audio = undefined;
-		var audio = document.querySelector("main>.audio");
-		if (audio) audio.parentNode.removeChild(audio);
+		window._audio.pause();
 	}
 	if (current_page.hasOwnProperty('attachments') && current_page.attachments.length) {
 		document.body.classList.add('has-attachments');
@@ -443,8 +462,9 @@ function load() {
 		attache.innerHTML = '';
 		current_page.attachments.forEach(function(value, index) {
 			var a = document.createElement('a');
-			a.setAttribute('download',value);
-			a.setAttribute('href', current_page.href.replace('.html','/'+value));
+			a.addEventListener('click',download);
+			a.setAttribute('href','#');
+			a.dataset.fileName = current_page.href.replace('.html','/'+value);
 			a.textContent = value.replace(/\.[^/.]+$/, "");
 			attache.appendChild(a);
 		});

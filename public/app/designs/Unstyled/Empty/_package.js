@@ -70,6 +70,7 @@ window.ninjaApiProxy = new apiProxy();
 
 // find scorm API; getAPI() also sets _sAPI; apiHandle is the object reference
 var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI();
+var audioObj;
 scormInitialize();
 
 // clamping
@@ -179,8 +180,27 @@ function goto(n,init) {
         }
     }
     course.page=n;
-	[].forEach.call(document.querySelectorAll("audio"), function (el) { el.pause(); });
     load();
+}
+
+// use an object url to download a resource
+function download(e) {
+	[].forEach.call(document.querySelectorAll('a[data-done]'), function (el) { el.parentNode.removeChild(el) });
+	fetch(e.target.dataset.fileName)
+		.then(function(response) {
+			return response.blob();
+		})
+		.then(function(blob) {
+			var url = URL.createObjectURL(blob);
+			var a = document.createElement('a');
+			a.dataset.done = true;
+			a.href = url;
+			a.style = 'display:none';
+			a.download = e.target.dataset.fileName;
+			document.body.appendChild(a);
+			a.click();
+		});
+
 }
 
 // load a page into the player; if the iframe implements a "setTimeSpent()" function, call that
