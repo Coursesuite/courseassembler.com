@@ -668,12 +668,14 @@ localforage.iterate(function( ... ) {
 			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp'),
 				fd = new FormData();
 			fd.append("file", content, name);
-			xhr.open("POST", "https://preview.coursesuite.ninja/", true);
+			xhr.open("POST", "preview/index.php" + location.search, true);
+			// xhr.open("POST", "https://preview.coursesuite.ninja/", true);
 			xhr.onload = function (e) {
 				$span.html(_html);
+				console.dir(this.responseText);
 				if (this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-					popIframe(obj.href);
+					// var obj = JSON.parse(this.responseText);
+					popIframe('preview/index.php' + location.search);
 					// var popup = window.open(obj.href,'previewninja');
 					// if (typeof popup == 'undefined' || popup == null) {
 					// 	alert("We tried to popup up the window, but your browser has blocked it (check your browser location bar). Please allow popups from this site, or copy and open this link:\n\n" + obj.href);
@@ -689,8 +691,8 @@ localforage.iterate(function( ... ) {
 					},3456);
 				}
 			}
-			xhr.setRequestHeader("Authorization", location.search);
-			xhr.setRequestHeader("X-Filename", name);
+			// xhr.setRequestHeader("Authorization", location.search);
+			// xhr.setRequestHeader("X-Filename", name);
 			xhr.send(fd);
 		};
 

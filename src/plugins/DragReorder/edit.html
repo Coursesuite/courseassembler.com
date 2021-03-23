@@ -23,6 +23,26 @@
 
     <body>
 
+    	<header>
+    		<nav>
+    			<label>Image:<input type="url" id="url" placeholder="https://image.url/jpg"></label>
+    			<label>Split:<select id="bias">
+    				<option value="top">Top</option>
+    				<option value="left" selected>Left</option>
+    				<option value="right">Right</option>
+    				<option value="bottom">Bottom</option>
+    			</select></label>
+    			<label>Size:<select id="size">
+    				<option value="0">0</option>
+    				<option value="10">&#8530;</option>
+    				<option value="25" selected>&frac14;</option>
+    				<option value="50">&frac12;</option>
+    			</select></label>
+    			<label>BG:<input type="color" value="#f8f8f8"></label>
+    			<label>Btn:<input type="color" value="#31b7f9"></label>
+    		</nav>
+    	</header>
+
     	<main>
     		<section class="template split-50">
     			<div class="pane cover-image" data-image="true"><img></div>
@@ -58,7 +78,7 @@ const options = {
 	"layout": {
 		"bias": "right", // [left, none, right]
 		"size": 50, // [20, 30, 50]
-		"image": "https://images.unsplash.com/photo-1454817481404-7e84c1b73b4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+		"image": "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1655&q=80"
 	},
 	"colour": {
 		"bg": "#f8f8f8",
@@ -77,8 +97,8 @@ const options = {
 	"items": [
 		"Item 1",
 		"Item 2",
-		"Item 3",
-		"<img src='https://images.unsplash.com/photo-1564234394125-2e0a3306eadb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60'>",
+		"<img src='https://images.unsplash.com/photo-1505357957917-ed2e269a1b47?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDd8fHxlbnwwfHx8&auto=format&fit=crop&w=500&q=60'>",
+		"<img src='https://images.unsplash.com/photo-1476445704028-a36e0c798192?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=50'>",
 		"Item 5",
 		"Item 6"
 	]

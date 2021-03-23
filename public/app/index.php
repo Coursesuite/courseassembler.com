@@ -58,8 +58,11 @@ if (false) {
 
 // sentry.io console tracing for published app
 if ($verifier->code->minified) {
-	echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
-	echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
+    echo '<script src="https://browser.sentry-cdn.com/6.2.3/bundle.tracing.min.js" integrity="sha384-gDTsbUCgFQKbxNZj/RvveTOuAPZgNMjQzMdsD2TI/7YSPN+r49xERr43VxADcGVV" crossorigin="anonymous"></script>', PHP_EOL;
+    echo '<script src="https://js.sentry-cdn.com/1108ee823d3d47b1b9df334357028940.min.js" crossorigin="anonymous"></script>', PHP_EOL;
+
+	// echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
+	// echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
 }
 
 // include styles defined in plugins

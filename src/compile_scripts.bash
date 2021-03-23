@@ -69,6 +69,9 @@ cp -R ../src/* ../public/app
 echo "Fixing src loader"
 cat load.dev.php > load.php
 
+echo "Cleaning previewer"
+rm -rf ./preview/data/
+
 cd plugins
 cd QuizBuilder
 rm -f app.min*.css

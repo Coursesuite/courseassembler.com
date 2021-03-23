@@ -9,7 +9,7 @@
 			icon: '<div class="ga-item"><a data-action="add-kc-reorder"><i class="ninja-education"></i>Reorder list</a></div>',
 			type: 'interaction',
 			order: 1,
-			supports: ['edit','compile'],
+			supports: ['edit','view','compile','export'],
 			handler: 'add-kc-reorder'
 		});
 	};
@@ -38,6 +38,17 @@
 
 		return templateFn(obj);
 
+	}
+
+	// called from data-action handler for export button (app.lib)
+	DocNinja.Plugins.DragReorder.Export = function (fileId) {
+		localforage.getItem(fileId).then(function(obj) {
+			if (obj&&obj.payload) {
+				delete obj.depth;
+				delete obj.kind;
+				download(JSON.stringify(obj), sanitizeFilename(obj.name,fileId) + ".json", "application/json");
+			}
+		});
 	}
 
 })(window.DocNinja = window.DocNinja || {});

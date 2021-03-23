@@ -1,4 +1,5 @@
 :root {
+    --body-bg: #f8f8f8;
     --text-fg: #222;
     --text-size: 20px;
     --button-bg: #31b7f9;
@@ -24,7 +25,6 @@ body,html{
     margin:0;
     padding:0;
     border:none;
-    height:100%;
 }
 body{
     letter-spacing:.01rem;
@@ -35,7 +35,6 @@ body{
     letter-spacing:.01rem;
     text-shadow:1px 1px 1px rgba(0,0,0,.004);
     color:var(--text-fg);
-    overflow: hidden;
 }
 h1,h2,h3,h4,h5,h6{font-family:Montserrat,sans-serif;font-weight:300;line-height:1.2;margin:0}
 h1{font-size:3rem;letter-spacing:.025rem}
@@ -46,12 +45,17 @@ h5{font-size:1.5rem}
 h6{font-size:1.25rem}
 p{font-size:1rem}
 
-body, main {
+body {
     width: 100vw;
     height: 100vh;
 }
-
-main { position: relative; }
+nav {
+  background-color: rgb(231,231,232);
+  height: 36px;
+  font-size:.75rem;
+  padding:.25rem;
+}
+main { position: relative; height: calc(100vh - 36px);}
 
 .template {
     background-color: white;
@@ -139,7 +143,6 @@ main { position: relative; }
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 33% 33%;
 }
 .cover-image > a {
     position: absolute; bottom: 1rem; left: 1rem; opacity: 0.02; transition: opacity .3s;
@@ -162,7 +165,7 @@ main { position: relative; }
 }
 
 .light {
-    background-color: #f8f8f8;
+    background-color: var(--body-bg);
 }
 
 .list-group {
