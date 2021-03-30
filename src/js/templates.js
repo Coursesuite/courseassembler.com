@@ -63,6 +63,18 @@ templates['imscpmanifest'] = template({"1":function(container,depth0,helpers,par
     + ((stack1 = lookupProperty(helpers,"each").call(alias1,(depth0 != null ? lookupProperty(depth0,"resources") : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":15,"column":0},"end":{"line":21,"column":9}}})) != null ? stack1 : "")
     + "  </resources>\n</manifest>";
 },"useData":true});
+templates['intro-page'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<!DOCTYPE html>\n<html lang=\"en\">\n	<head>\n		<meta charset=\"utf-8\">\n		<title>Introduction Page</title>\n		<meta name=\"viewport\" content=\"width=device-width, initial-scale=.5, maximum-scale=12.0, minimum-scale=.25, user-scalable=yes\"/>\n		<style>\n			html, body {\n				margin: 0;\n				min-height: 100vh;\n				overflow: auto;\n				background-color:#"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"backgroundColour") || (depth0 != null ? lookupProperty(depth0,"backgroundColour") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"backgroundColour","hash":{},"data":data,"loc":{"start":{"line":12,"column":22},"end":{"line":12,"column":42}}}) : helper)))
+    + ";\n			}\n		</style>\n	</head>\n	<body>\n\n		<h1>@@ Course Name @@</h1>\n		<p class=\"lead\">@@ Course Description @@</p>\n		<hr>\n		<p>@@ Copyright @@</p>\n\n	</body>\n</html>";
+},"useData":true});
 templates['msg-converting'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
