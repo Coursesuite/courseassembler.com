@@ -1298,18 +1298,17 @@ function popover_audioNavToggle(state) {
 
 function popover_audioUpload(file) {
 	var id = DocNinja.filePreview.CurrentFile();
-	//console.log(file.type);
 	if ((file && file.type.indexOf("audio/mpeg")===-1) && file.type.indexOf("audio/mp3")===-1) return; // "audio/mp3 on chrome, audio/mpeg on firefox..."
 	var reader = new FileReader();
 	reader.onloadend = function (event) {
 		localforage.getItem(id).then(function (obj) {
 			obj.payload.mp3 = event.target.result;
-			var updated = DocNinja.Navigation.Icons.Add.Audio(id);
 			document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
-			//document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_up' title='Page has audio'></i>";
 			closePopover();
-			localforage.setItem(id, obj);
-			if (updated) window.setItemOrder();
+			localforage.setItem(id, obj).then(function() {
+				DocNinja.PurityControl.Nav.Check();
+				window.setItemOrder();
+			});
 		});
 	}
 	reader.readAsDataURL(file);
@@ -1351,12 +1350,12 @@ function popover_useRecording(mp3) {
 	var id = DocNinja.filePreview.CurrentFile();
 	localforage.getItem(id).then(function (obj) {
 		obj.payload.mp3 = mp3;
-		var updated = DocNinja.Navigation.Icons.Add.Audio(id);
 		document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
-		//document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_up' title='Page has audio'></i>";
 		closePopover();
-		localforage.setItem(id, obj);
-		if (updated) window.setItemOrder();
+		localforage.setItem(id, obj).then(function() {
+			DocNinja.PurityControl.Nav.Check();
+			window.setItemOrder();
+		});
 	});
 }
 
@@ -1753,13 +1752,13 @@ function performAction(tgt, e) {
 				delete obj.payload.mp3;
 				ae.pause();
 				ae.removeAttribute("src");
-				var updated = DocNinja.Navigation.Icons.Remove.Audio(id);
 				if (ae.hasOwnProperty("currentSrc")) ae.currentSrc = undefined;
 				document.querySelector("button[data-action='set-audio']").removeAttribute("data-init");
-				//document.getElementById("audioStatus").innerHTML = "<i class='ninja-volume_off' title='No page audio'></i>";
 				closePopover();
-				localforage.setItem(id,obj);
-				if (updated) window.setItemOrder();
+				localforage.setItem(id, obj).then(function() {
+					DocNinja.PurityControl.Nav.Check();
+					window.setItemOrder();
+				});
 			});
 			break;
 
@@ -1771,10 +1770,11 @@ function performAction(tgt, e) {
 			localforage.getItem(id).then(function action_trash_page_files(obj) {
 				obj.attachments = undefined;
 				delete obj.attachments;
-				localforage.setItem(id,obj);
-				var updated = DocNinja.Navigation.Icons.Remove.File(id);
-				if (updated) window.setItemOrder();
 				closePopover();
+				localforage.setItem(id, obj).then(function() {
+					DocNinja.PurityControl.Nav.Check();
+					window.setItemOrder();
+				});
 			});
 			break;
 
@@ -1793,10 +1793,11 @@ function performAction(tgt, e) {
 					});
 					if (obj.attachments.length === 0) {
 						delete obj.attachments;
-						var updated = DocNinja.Navigation.Icons.Remove.File(id);
-						if (updated) window.setItemOrder();
 					}
-					localforage.setItem(id,obj);
+					localforage.setItem(id, obj).then(function() {
+						DocNinja.PurityControl.Nav.Check();
+						window.setItemOrder();
+					});
 				}
 			});
 			break;
