@@ -59,7 +59,7 @@
 				fold,
 				progress = 0,
 				increment = 0.0,
-				manifest = { "creator" : "docninja", "files": [], audio: false };
+				manifest = { "creator" : "docninja", "files": [], audio: true }; // always include plyr
 
 			window.gatherSettings() // get form data
 			.then(function buildSettingsModel(settings) { // build a model (setup)
@@ -141,6 +141,9 @@
 									if (obj.plugin) switch (obj.plugin) {
 										case "Markdown": // Markdown doesn't store final page, so re-render it
 											obj.payload.html = Handlebars.templates['wrapper-page'](obj.payload);
+											break;
+										case "Intro":
+											obj.payload.html = DocNinja.Plugins.Intro.Compile(obj.payload.html, obj.payload, setup);
 											break;
 									}
 									fold.file(filename, obj.payload.html);
@@ -265,6 +268,9 @@
 								if (obj.plugin) switch (obj.plugin) {
 									case "Markdown": // Markdown doesn't store final page, so re-render it
 										obj.payload.html = Handlebars.templates['wrapper-page'](obj.payload);
+										break;
+									case "Intro":
+										obj.payload.html = DocNinja.Plugins.Intro.Compile(obj.payload.html, obj.payload, setup);
 										break;
 								}
 								fold.file(filename, obj.payload.html);
