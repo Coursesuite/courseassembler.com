@@ -200,8 +200,47 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 	right: initial;
 	left: 18px;
 }
+.dn-popover .content-types fieldset {
+	display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border-color: rgba(0,0,0,.0255);
+}
+.dn-popover .content-types fieldset > div {
+    text-align: center;
+    width: 33.33%;
+}
+.dn-popover .content-types fieldset legend {
+	color: #999;
+	font-weight: bold;
+	text-align: left
+}
+.dn-popover .content-types fieldset>div {
+	background-color: rgba(255,255,255,0);
+	padding: .25rem;
+	transition: background-color .1s;
+	border-radius:1rem;
+	cursor: pointer;
+}
+.dn-popover .content-types fieldset>div:hover {
+	background-color: rgba(255,255,255,.5);
+	box-shadow: inset 1px 1px 3px rgba(0,0,0,.125);
+}
+.dn-popover .content-types a > i {
+	display: block;
+	text-align: center;
+	font-size: 3.5rem;
+	margin-bottom: .5rem;
+	color: inherit;
+}
 
-.dn-popover .content-types {
+.ga-page { color: var(--content); }
+.ga-markdown { color: var(--markdown) }
+.ga-quiz { color: var(--quiz); }
+.ga-intro { color: var(--intro); }
+
+
+/*.dn-popover .content-types {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content 1fr min-content min-content min-content min-content;
@@ -211,9 +250,8 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 .dn-popover .content-types > div {
 	padding: 10px;
 }
+
 .ga-common, .ga-knowledge {
-	color: #999;
-	font-weight: bold;
 	text-align: left;
 }
 .dn-popover .content-types > div:not(.ga-common):not(.ga-knowledge) {
@@ -226,23 +264,13 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 	box-shadow: 0 0 3px rgba(0,0,0,.1);
 }
 
-.ga-page > a > i, .ga-markdown > a > i, .ga-quiz > a > i {
-	display: block;
-	text-align: center;
-	font-size: 3.5rem;
-	margin-bottom: .5rem;
-}
-.ga-common { grid-area: common; }
-.ga-page { grid-area: page; color: var(--content); }
-.ga-markdown { grid-area: markdown; color: var(--markdown) }
-.ga-quiz { grid-area: quiz; color: var(--quiz); }
-.ga-knowledge { grid-area: knowledge; }
-.ga-item {
-	text-align: left;
-}
+.ga-common {  }
+.ga-knowledge { }
+
 .ga-item > a > i {
 	margin-right: 5px;
 }
+*/
 
 .dn-popover > header {
 	background-color: white;

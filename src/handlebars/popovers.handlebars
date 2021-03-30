@@ -13,13 +13,18 @@
 <header onclick="closePopover()">{{label}}</header>
 <section class="content-types">
 	{{#if actions.page}}
-	<div class="ga-common">Pages</div>
+	<fieldset class="ga-common">
+	<legend>Pages</legend>
 	{{#each actions.page}}{{{icon}}}{{/each}}
+	</fieldset>
 	{{/if}}
 	{{#if actions.interaction}}
-	<div class="ga-knowledge">Knowledge Checks</div>
+	<fieldset class="ga-knowledge">
+	<legend>Knowledge Checks</legend>
 	{{#each actions.interaction}}{{{icon}}}{{/each}}
+	</legend>
 	{{/if}}
+
 </section>
 {{/compare}}
 

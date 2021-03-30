@@ -6,7 +6,7 @@
 	DocNinja.Plugins.Intro.RegisterPlugin = function(context) {
 		DocNinja.routines.RegisterAction({
 			plugin: context,
-			icon: '<div class="ga-item"><a data-action="add-intro-page"><i class="ninja-layout"></i>Intro Page</a></div>',
+			icon: '<div class="ga-intro"><a data-action="add-intro-page"><i class="ninja-layout"></i>Intro Page</a></div>',
 			type: 'page',
 			order: 4,
 			supports: ['edit','view','compile'],
@@ -18,10 +18,10 @@
 		var newId = DocNinja.PurityControl.Nav.GetFileId(),
 			fileInfo = {
 				name: "Course Introduction",
-				kind:"plugin",
+				kind: "plugin",
 				plugin: "Intro",
 				depth: 0,
-				payload: {"html": Handlebars.templates["intro-page"]()}
+				payload: {}
 			};
 		localforage.setItem(newId, fileInfo).then(function(obj) {
 			DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");

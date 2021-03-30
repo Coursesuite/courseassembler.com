@@ -63,18 +63,6 @@ templates['imscpmanifest'] = template({"1":function(container,depth0,helpers,par
     + ((stack1 = lookupProperty(helpers,"each").call(alias1,(depth0 != null ? lookupProperty(depth0,"resources") : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":15,"column":0},"end":{"line":21,"column":9}}})) != null ? stack1 : "")
     + "  </resources>\n</manifest>";
 },"useData":true});
-templates['intro-page'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined
-    };
-
-  return "<!DOCTYPE html>\n<html lang=\"en\">\n	<head>\n		<meta charset=\"utf-8\">\n		<title>Introduction Page</title>\n		<meta name=\"viewport\" content=\"width=device-width, initial-scale=.5, maximum-scale=12.0, minimum-scale=.25, user-scalable=yes\"/>\n		<style>\n			html, body {\n				margin: 0;\n				min-height: 100vh;\n				overflow: auto;\n				background-color:#"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"backgroundColour") || (depth0 != null ? lookupProperty(depth0,"backgroundColour") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"backgroundColour","hash":{},"data":data,"loc":{"start":{"line":12,"column":22},"end":{"line":12,"column":42}}}) : helper)))
-    + ";\n			}\n		</style>\n	</head>\n	<body>\n\n		<h1>@@ Course Name @@</h1>\n		<p class=\"lead\">@@ Course Description @@</p>\n		<hr>\n		<p>@@ Copyright @@</p>\n\n	</body>\n</html>";
-},"useData":true});
 templates['msg-converting'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -282,9 +270,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
   return "<header onclick=\"closePopover()\">"
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":13,"column":33},"end":{"line":13,"column":42}}}) : helper)))
     + "</header>\n<section class=\"content-types\">\n"
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"page") : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":15,"column":1},"end":{"line":18,"column":8}}})) != null ? stack1 : "")
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"interaction") : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":19,"column":1},"end":{"line":22,"column":8}}})) != null ? stack1 : "")
-    + "</section>\n";
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"page") : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":15,"column":1},"end":{"line":20,"column":8}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"interaction") : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":21,"column":1},"end":{"line":26,"column":8}}})) != null ? stack1 : "")
+    + "\n</section>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -293,9 +281,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
         return undefined
     };
 
-  return "	<div class=\"ga-common\">Pages</div>\n	"
-    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"page") : stack1),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":17,"column":1},"end":{"line":17,"column":42}}})) != null ? stack1 : "")
-    + "\n";
+  return "	<fieldset class=\"ga-common\">\n	<legend>Pages</legend>\n	"
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"page") : stack1),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":18,"column":1},"end":{"line":18,"column":42}}})) != null ? stack1 : "")
+    + "\n	</fieldset>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -304,7 +292,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
         return undefined
     };
 
-  return ((stack1 = ((helper = (helper = lookupProperty(helpers,"icon") || (depth0 != null ? lookupProperty(depth0,"icon") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"icon","hash":{},"data":data,"loc":{"start":{"line":17,"column":23},"end":{"line":17,"column":33}}}) : helper))) != null ? stack1 : "");
+  return ((stack1 = ((helper = (helper = lookupProperty(helpers,"icon") || (depth0 != null ? lookupProperty(depth0,"icon") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"icon","hash":{},"data":data,"loc":{"start":{"line":18,"column":23},"end":{"line":18,"column":33}}}) : helper))) != null ? stack1 : "");
 },"5":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -313,9 +301,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
         return undefined
     };
 
-  return "	<div class=\"ga-knowledge\">Knowledge Checks</div>\n	"
-    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"interaction") : stack1),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":21,"column":1},"end":{"line":21,"column":49}}})) != null ? stack1 : "")
-    + "\n";
+  return "	<fieldset class=\"ga-knowledge\">\n	<legend>Knowledge Checks</legend>\n	"
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"actions") : depth0)) != null ? lookupProperty(stack1,"interaction") : stack1),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":24,"column":1},"end":{"line":24,"column":49}}})) != null ? stack1 : "")
+    + "\n	</legend>\n";
 },"7":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -325,9 +313,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":27,"column":33},"end":{"line":27,"column":42}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":32,"column":33},"end":{"line":32,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<audio id=\"popover_audioElement\" src=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"audio") || (depth0 != null ? lookupProperty(depth0,"audio") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"audio","hash":{},"data":data,"loc":{"start":{"line":29,"column":39},"end":{"line":29,"column":48}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"audio") || (depth0 != null ? lookupProperty(depth0,"audio") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"audio","hash":{},"data":data,"loc":{"start":{"line":34,"column":39},"end":{"line":34,"column":48}}}) : helper)))
     + "\" controls></audio>\n	<input type=\"file\" id=\"pageAudioUpload\" style=\"display:none\" onchange=\"popover_audioUpload(this.files[0])\" accept=\"audio/*;capture=microphone\" />\n	<div class=\"audio-nav\">\n	    <label for=\"pageAudioNav\">Auto-navigate at end of audio?</label>\n	    <input id=\"pageAudioNav\" type=\"checkbox\" onchange=\"popover_audioNavToggle(this.checked)\"></input>\n    </div>\n	<div>\n		<button data-action=\"record-page-audio\"><i class=\"ninja-mic\"></i>Record</button>\n		<button data-action=\"upload-page-audio\"><i class=\"ninja-upload3\"></i>Upload mp3</button>\n		<button data-action=\"trash-page-audio\"><i class=\"ninja-discard\"></i>Remove</button>\n	</div>\n</section>\n";
 },"9":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -338,7 +326,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":44,"column":33},"end":{"line":44,"column":42}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":49,"column":33},"end":{"line":49,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<button onclick=\"handleAction();closePopover();\" class=\"positive\"><i class=\"ninja-thumbs-up\"></i>Yes</button>\n	<button onclick=\"closePopover()\"><i class=\"ninja-thumbs-down\"></i>No</button>\n</section>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -349,7 +337,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":52,"column":33},"end":{"line":52,"column":42}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":57,"column":33},"end":{"line":57,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<button onclick=\"handleAction();closePopover();\" class=\"positive\"><i class='ninja-save-disk'></i>Save</button>\n	<button onclick=\"closePopover()\"><i class='ninja-close'></i>Cancel</button>\n</section>\n";
 },"13":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -360,9 +348,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":60,"column":33},"end":{"line":60,"column":42}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":65,"column":33},"end":{"line":65,"column":42}}}) : helper)))
     + "</header>\n<section class=\"score_slider_sizing\">\n	<div id=\"range_slider\" data-value=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":62,"column":36},"end":{"line":62,"column":45}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":67,"column":36},"end":{"line":67,"column":45}}}) : helper)))
     + "\" data-min=\"1\" data-max=\"100\"></div>\n	<button onclick=\"popover_saveRange();\"><i class=\"ninja-thumbs-up\"></i>Save</button>\n</section>\n";
 },"15":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -373,11 +361,11 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":68,"column":33},"end":{"line":68,"column":42}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":73,"column":33},"end":{"line":73,"column":42}}}) : helper)))
     + "</header>\n<section class=\"score_slider_sizing\">\n	<div id=\"score_slider\" data-value=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":70,"column":36},"end":{"line":70,"column":45}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":75,"column":36},"end":{"line":75,"column":45}}}) : helper)))
     + "\" data-min=\"1\" data-max=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"valueMax") || (depth0 != null ? lookupProperty(depth0,"valueMax") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueMax","hash":{},"data":data,"loc":{"start":{"line":70,"column":70},"end":{"line":70,"column":82}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"valueMax") || (depth0 != null ? lookupProperty(depth0,"valueMax") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueMax","hash":{},"data":data,"loc":{"start":{"line":75,"column":70},"end":{"line":75,"column":82}}}) : helper)))
     + "\"></div>\n	<button onclick=\"popover_saveScore();\"><i class=\"ninja-thumbs-up\"></i>Save</button>\n</section>\n";
 },"17":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -388,7 +376,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":76,"column":33},"end":{"line":76,"column":42}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":81,"column":33},"end":{"line":81,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<input type='hidden' name='color_value' value='58c3f3'>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#000000\" class=\"colour-dot black\" title=\"Black\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#555555\" class=\"colour-dot dgrey\" title=\"Dark grey\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#bbbbbb\" class=\"colour-dot lgrey\" title=\"Light grey\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button onclick=\"previewPageBackground(this.value)\" value=\"#ffffff\" class=\"colour-dot white\" title=\"White\"><i class=\"ninja-format_color_fill\"></i></button>\n	<button class=\"jscolor colour-dot\" title=\"Choose a colour\"><i class=\"ninja-palette\"></i></button>\n	<button onclick=\"popover_savePageBackground();\" style=\"margin-left:2em\"><i class=\"ninja-save-disk\"></i>Save</button>\n	<div class=\"apply-all\">\n    <label for=\"colourAll\">Apply to all pages</label>\n    <input id=\"colourAll\" type=\"checkbox\"></input>\n    </div>\n</section>\n";
 },"19":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -399,7 +387,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":93,"column":33},"end":{"line":93,"column":42}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":98,"column":33},"end":{"line":98,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<div class=\"toggle-form\">\n		<div>\n			<input type=\"checkbox\" id=\"mute\" data-action='toggle-mute' checked>\n			<label for=\"mute\"><span></span></label>\n			<label>Interface sounds</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"autosplit\" data-action='toggle-no-autosplit' checked>\n			<label for=\"autosplit\"><span></span></label>\n			<label>Auto-split documents</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"autooptimise\" data-action='toggle-no-autoresize' checked>\n			<label for=\"autooptimise\"><span></span></label>\n			<label>Auto-optimise images</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"autocenter\" data-action='toggle-no-autocenter' checked>\n			<label for=\"autocenter\"><span></span></label>\n			<label>Auto-centre presentations</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"pdftoolbar\" data-action='toggle-no-pdftoolbar'>\n			<label for=\"pdftoolbar\"><span></span></label>\n			<label>Add PDF toolbar</label>\n		</div>\n		<div>\n			<input type=\"checkbox\" id=\"pdfembed\" data-action='toggle-no-pdfembed'>\n			<label for=\"pdfembed\"><span></span></label>\n			<label>Allow PDF downloading</label>\n		</div>\n	</div>\n</section>\n";
 },"21":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -410,7 +398,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":131,"column":33},"end":{"line":131,"column":42}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":136,"column":33},"end":{"line":136,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<fieldset class=\"radio-panel\">\n		<legend>Alignment</legend>\n		<div class=\"grid-h grid-2\">\n			<label>\n				<input type=\"radio\" name=\"alignment\" value=\"left\" checked data-action='set-layout' onclick='popover_setLayout(this.value)'>\n				<i class=\"ninja-format_align_left\"></i>\n				<p>Left</p>\n			</label>\n			<label>\n				<input type=\"radio\" name=\"alignment\" value=\"center\" data-action='set-layout' onclick='popover_setLayout(this.value)'>\n				<i class=\"ninja-format_align_center\"></i>\n				<p>Centre</p>\n			</label>\n		</div>\n	</fieldset>\n</section>\n";
 },"23":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -421,7 +409,7 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "<header onclick=\"closePopover()\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":157,"column":33},"end":{"line":157,"column":42}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":162,"column":33},"end":{"line":162,"column":42}}}) : helper)))
     + "</header>\n<section>\n	<input type=\"file\" id=\"fileAttachUpload\" style=\"display:none\" onchange=\"popover_attachFiles(this.files[0])\" />\n	<div class=\"file-list\" id=\"page-file-attachments\"></div>\n	<div>\n		<button data-action=\"upload-page-attachments\"><i class=\"ninja-upload3\"></i>Attach file</button>\n		<button data-action=\"trash-page-attachments\"><i class=\"ninja-discard\"></i>Remove all</button>\n	</div>\n\n</section>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -432,25 +420,25 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     };
 
   return "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"addcontent",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":12,"column":0},"end":{"line":24,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"addcontent",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":12,"column":0},"end":{"line":29,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"audio",{"name":"compare","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":26,"column":0},"end":{"line":41,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"audio",{"name":"compare","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":31,"column":0},"end":{"line":46,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"yesno",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":43,"column":0},"end":{"line":49,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"yesno",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":48,"column":0},"end":{"line":54,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"savecancel",{"name":"compare","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":51,"column":0},"end":{"line":57,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"savecancel",{"name":"compare","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":56,"column":0},"end":{"line":62,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"range",{"name":"compare","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":59,"column":0},"end":{"line":65,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"range",{"name":"compare","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":64,"column":0},"end":{"line":70,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"score",{"name":"compare","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":67,"column":0},"end":{"line":73,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"score",{"name":"compare","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":72,"column":0},"end":{"line":78,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"colour",{"name":"compare","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":75,"column":0},"end":{"line":90,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"colour",{"name":"compare","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":80,"column":0},"end":{"line":95,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"settings",{"name":"compare","hash":{},"fn":container.program(19, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":92,"column":0},"end":{"line":128,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"settings",{"name":"compare","hash":{},"fn":container.program(19, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":97,"column":0},"end":{"line":133,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"layout",{"name":"compare","hash":{},"fn":container.program(21, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":130,"column":0},"end":{"line":154,"column":12}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"layout",{"name":"compare","hash":{},"fn":container.program(21, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":135,"column":0},"end":{"line":159,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"attachments",{"name":"compare","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":156,"column":0},"end":{"line":167,"column":12}}})) != null ? stack1 : "");
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"attachments",{"name":"compare","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":161,"column":0},"end":{"line":172,"column":12}}})) != null ? stack1 : "");
 },"useData":true});
 templates['preview-html'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -765,7 +753,7 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":60,"column":22},"end":{"line":60,"column":28}}}) : helper)))
     + "\" data-action=\"page-files\" data-popover=\"attachments\" data-label=\"Manage page attachments\" "
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"attachments") : depth0),{"name":"if","hash":{},"fn":container.program(45, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":60,"column":119},"end":{"line":60,"column":172}}})) != null ? stack1 : "")
-    + "><i class=\"ninja-folder-outline-add\"></i>Files</button>\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\">\n		"
+    + "><i class=\"ninja-folder-outline-add\"></i>Files</button>\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\" hidden>\n		"
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"name") : depth0),{"name":"if","hash":{},"fn":container.program(47, data, 0),"inverse":container.program(49, data, 0),"data":data,"loc":{"start":{"line":65,"column":2},"end":{"line":65,"column":47}}})) != null ? stack1 : "")
     + "\n	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":69,"column":23},"end":{"line":69,"column":29}}}) : helper)))
