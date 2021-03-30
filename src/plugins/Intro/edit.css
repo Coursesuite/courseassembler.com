@@ -1,0 +1,149 @@
+:root {
+    --body-bg: #f8f8f8;
+    --text-color: #222;
+    --text-size: 20px;
+    --toolbar-bg: #e8e8e8;
+    --toolbar-border: #d7d7d7;
+    --active: #f93;
+    --frame-width: 1024px;
+    --frame-height: 768px;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body,html {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: var(--text-size);
+  font-family:-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background-color: #f8f8f8;
+    color: var(--text-color);
+    font-size: var(--text-size);
+}
+
+main {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+header {
+    background-color: #e8e8e8;
+    border-bottom: 1px solid #d7d7d7;
+    padding: .25rem;
+}
+
+nav {
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-around;
+}
+nav>span:last-of-type {
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --text-size: 16px;
+    }
+}
+
+.slider {
+    /* from https://css-tricks.com/css-only-carousel/ */
+    width: var(--frame-width);
+    text-align: center;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    /*
+    scroll-snap-points-x: repeat(300px);
+    scroll-snap-type: mandatory;
+    */
+
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+}
+.slides::-webkit-scrollbar {
+        display:none;
+    width: 10px;
+    height: 10px;
+}
+.slides::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+    border-radius: 10px;
+}
+.slides::-webkit-scrollbar-track {
+    background: transparent;
+}
+.slides > iframe {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: var(--frame-width);
+    height: var(--frame-height);
+    margin-right: 50px;
+    border-radius: 10px;
+}
+
+.slider > a {
+    color: inherit;
+    display: inline-flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 0 0.5rem 0;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,.25);
+}
+.slider > a:active {
+    top: 1px;
+}
+.slider > a:focus {
+    background: #000;
+    color: white;
+}
+.slider > a.active {
+    background-color: var(--active);
+}
+
+@supports (scroll-snap-type) {
+    .slider > a {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    :root {
+        --frame-width: 100%;
+    }
+}

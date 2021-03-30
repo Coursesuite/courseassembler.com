@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>choose intro page style</title>
+
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	    <link href="https://unpkg.com/normalize.css" type="text/css" rel="stylesheet" />
+	    <link rel="stylesheet" type="text/css" href="edit.css">
+
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+		<script src="edit.js"></script>
+
+    </head>
+
+    <body>
+
+    	<header>
+    		<nav>
+    			<span>
+    			<label>Image url: <input type="url" id="url" placeholder="https://image.url/jpg"></label>
+    			<label>or <input type="file" id="file"></label>
+    		</span><span>
+    			<label>Colours: <input type="color" id="bg" value="#f8f8f8" title="Page background"></label>
+    			<label><input type="color" id="color1" value="#FBAB7E" title="Gradient start"></label>
+    			<label><input type="color" id="color2" value="#F7CE68" title="Gradient end"></label>
+    		</span>
+    		</nav>
+    	</header>
+
+    	<main>
+    		<div class="slider">
+    			<span>Style: </span>
+	    		<a href="#frame-1" data-action="select">1</a>
+	    		<a href="#frame-2" data-action="select">2</a>
+	    		<a href="#frame-3" data-action="select">3</a>
+	    		<a href="#frame-4" data-action="select">4</a>
+	    		<a href="#frame-5" data-action="select">5</a>
+	    		<a href="#frame-6" data-action="select">6</a>
+	    		<div class="slides">
+		    		<iframe src="loading.html" id="frame-1"></iframe>
+		    		<iframe src="loading.html" id="frame-2"></iframe>
+		    		<iframe src="loading.html" id="frame-3"></iframe>
+		    		<iframe src="loading.html" id="frame-4"></iframe>
+		    		<iframe src="loading.html" id="frame-5"></iframe>
+		    		<iframe src="loading.html" id="frame-6"></iframe>
+		    	</div>
+		    </div>
+    	</main>
+
+    </body>
+</html>	

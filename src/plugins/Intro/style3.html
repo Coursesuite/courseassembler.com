@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>courseassembler</title>
+
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	    <style>
+		@import url("https://fonts.googleapis.com/css?display=swap&family=Montserrat");
+		html {
+		  box-sizing: border-box;
+		  font-size: 16px;
+		  font-family:-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
+		}
+		*, *:before, *:after {
+			box-sizing: inherit;
+			text-rendering: optimizeLegibility;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-tap-highlight-color: transparent;
+		}
+		body {
+			background-color: #f8f8f8;
+		    margin: 0;
+		    padding: 0;
+		}
+		main {
+			position: fixed;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-evenly;
+			top: 25%; left: 25%;
+			width: 50%; min-height: 50%;
+			z-index: 2;
+			background-color: #FBAB7E;
+			background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+			border: 1rem solid white;
+			box-shadow: 0 3px 5px rgba(0,0,0,.125);
+		}
+		article {
+			padding: 0 1rem;
+		}
+		main > * {
+			text-align: center;
+			margin: 0 2rem;
+		}
+		img {
+			top: 0; left: 0;
+			width: 100%; height: 50%;
+			object-fit: cover;
+			object-position: center;
+			position: fixed;
+			z-index: 1;
+		}
+		h1 {
+			font-size: 2.5rem;
+			font-weight: normal;
+		}
+		.description {
+			font-size: 1.5rem;
+		}
+		.copyright {
+		}
+
+		@media screen and (max-width: 768px) {
+			main {
+				width: 80%;
+				left: 10%;
+			}
+		}
+		</style>
+    </head>
+
+    <body>
+		<img src="https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80">
+		<main class="gradient">
+			<h1 class="name">Course Name Will Go Here</h1>
+			<p class="description">This will be replaced with the course description when you publish</p>
+			<p class="copyright">&copy; 2021 ongoing - Your Copyright Statement</p>
+		</main>
+	</body>
+</html>
