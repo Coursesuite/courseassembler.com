@@ -10,8 +10,7 @@
 		localforage.config({name: 'DocumentNinja'});
 		localforage.getItem(fileid).then(function (obj) {
 			if (obj === null) return;
-			if (obj.payload.html === undefined) {obj.payload.html = "You didn't save your quiz!";}
-			parent.DocNinja.filePreview.Observe("QuizBuilder/view.html","a[href='#resit]","click",window.location.href);
+			if (obj.payload.html === undefined) {obj.payload.html = "You haven't saved your interaction!";}
 			var blob = new Blob([obj.payload.html],{type:"text/html"});
 			var url = URL.createObjectURL(blob);
 			window.location.href = url; // [url,"?%5B%5D,0"].join("");

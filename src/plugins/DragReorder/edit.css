@@ -21,15 +21,12 @@ html {
     -webkit-tap-highlight-color: transparent;
 }
 
-body,html{
-    margin:0;
-    padding:0;
-    border:none;
-}
+html, body { height: 100vh; margin: 0;}
+
 body{
     letter-spacing:.01rem;
     line-height:1.8;
-    font-size:1rem;
+    font-size: 20px;
     font-weight:400;
     font-family:"Nunito Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     letter-spacing:.01rem;
@@ -45,15 +42,15 @@ h5{font-size:1.5rem}
 h6{font-size:1.25rem}
 p{font-size:1rem}
 
-body {
-    width: 100vw;
-    height: 100vh;
+header {
+    background-color: #d5e6f6;
+    border-bottom: 1px solid #d7d7d7;
+    padding: .25rem;
 }
 nav {
-  background-color: rgb(231,231,232);
-  height: 36px;
-  font-size:.75rem;
-  padding:.25rem;
+  font-size: 0.9rem;
+  justify-content: space-around;
+  padding: 7px 0;
 }
 main { position: relative; height: calc(100vh - 36px);}
 
