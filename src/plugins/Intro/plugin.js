@@ -9,7 +9,7 @@
 			icon: '<div class="ga-intro"><a data-action="add-intro-page"><i class="ninja-layout"></i>Intro Page</a></div>',
 			type: 'page',
 			order: 1,
-			supports: ['edit','view','compile'],
+			supports: ['edit','view','compile','audio'],
 			handler: 'add-intro-page'
 		});
 	};

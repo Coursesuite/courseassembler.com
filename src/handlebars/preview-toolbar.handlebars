@@ -23,7 +23,9 @@
 	{{/compare}}
 
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed,package,video"}}{{else}}
-		{{#compare kind "in" "plugin"}}{{else}}
+		{{#compare kind "in" "plugin"}}
+		{{#compare "audio" "in" supports}}<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>{{/compare}}
+		{{else}}
 	<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>
 	{{!-- status is now shown on the left index<span id="audioStatus">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{else}}<i class="ninja-volume_off" title="No page audio"></i>{{/if}}</span> --}}
 		{{/compare}}
