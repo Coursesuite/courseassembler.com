@@ -7,6 +7,9 @@
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+		<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js"></script>
+		<script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
+
 	    <style>
 		@import url("https://fonts.googleapis.com/css?display=swap&family=Montserrat");
 		html {
@@ -85,5 +88,21 @@
 		<h1 class="name">Course Name Will Go Here</h1>
 		<p class="description">This will be replaced with the course description when you publish</p>
 		<p class="copyright">&copy; 2021 ongoing - Your Copyright Statement</p>
+
+		<script type="text/javascript">
+		var init = (function(){
+			var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+			return {
+				seconds: Math.max(0,+qs[0]||0),
+				index: qs[1] ? +qs[1] : -1
+			}
+		})();
+		function incr() {
+			parent.dispatchEvent(new CustomEvent("statuschange", {detail: init}));
+			init.seconds += 1; // time spent on page, in seconds
+			setTimeout(incr, 1000);
+		}
+		doOnLoad(incr);
+		</script>
 	</body>
 </html>

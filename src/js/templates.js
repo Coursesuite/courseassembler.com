@@ -695,6 +695,19 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
 },"45":function(container,depth0,helpers,partials,data) {
     return "data-init=\"initAttachments\"";
 },"47":function(container,depth0,helpers,partials,data) {
+    return "		&nbsp;\n";
+},"49":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		"
+    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"name") : depth0),{"name":"if","hash":{},"fn":container.program(50, data, 0),"inverse":container.program(52, data, 0),"data":data,"loc":{"start":{"line":68,"column":2},"end":{"line":68,"column":47}}})) != null ? stack1 : "")
+    + "\n";
+},"50":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -702,8 +715,8 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
         return undefined
     };
 
-  return container.escapeExpression(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data,"loc":{"start":{"line":65,"column":14},"end":{"line":65,"column":22}}}) : helper)));
-},"49":function(container,depth0,helpers,partials,data) {
+  return container.escapeExpression(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data,"loc":{"start":{"line":68,"column":14},"end":{"line":68,"column":22}}}) : helper)));
+},"52":function(container,depth0,helpers,partials,data) {
     return "(untitled)";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -753,10 +766,10 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":60,"column":22},"end":{"line":60,"column":28}}}) : helper)))
     + "\" data-action=\"page-files\" data-popover=\"attachments\" data-label=\"Manage page attachments\" "
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"attachments") : depth0),{"name":"if","hash":{},"fn":container.program(45, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":60,"column":119},"end":{"line":60,"column":172}}})) != null ? stack1 : "")
-    + "><i class=\"ninja-folder-outline-add\"></i>Files</button>\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\" hidden>\n		"
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"name") : depth0),{"name":"if","hash":{},"fn":container.program(47, data, 0),"inverse":container.program(49, data, 0),"data":data,"loc":{"start":{"line":65,"column":2},"end":{"line":65,"column":47}}})) != null ? stack1 : "")
-    + "\n	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":69,"column":23},"end":{"line":69,"column":29}}}) : helper)))
+    + "><i class=\"ninja-folder-outline-add\"></i>Files</button>\n\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\">\n"
+    + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"foobar") : depth0),{"name":"unless","hash":{},"fn":container.program(47, data, 0),"inverse":container.program(49, data, 0),"data":data,"loc":{"start":{"line":65,"column":2},"end":{"line":69,"column":13}}})) != null ? stack1 : "")
+    + "	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":73,"column":23},"end":{"line":73,"column":29}}}) : helper)))
     + "\" data-action=\"trash\" data-popover=\"yesno\" data-label=\"Are you sure? (no undo)\"><i class=\"ninja-discard\"></i>Delete page</button>\n	</div>\n\n";
 },"useData":true});
 templates['scorm12manifest'] = template({"1":function(container,depth0,helpers,partials,data) {
