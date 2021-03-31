@@ -1255,6 +1255,14 @@ function handleAction(node, e) {
 			renameNode(li.dataset.fileid, n);
 			break;
 
+		case "tab-switch":
+			e.preventDefault();
+			[].forEach.call(e.target.closest("nav").querySelectorAll("a"), function(n) {
+				n.classList[n===e.target ? "add" : "remove"]("active");
+				document.querySelector(n.getAttribute("href")).classList[n===e.target ? "add" : "remove"]("active");
+			});
+			break;
+
 		default:
 			performAction(tgt, e);
 	}

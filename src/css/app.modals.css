@@ -41,11 +41,26 @@ body[class*='modal-'] .modal > .modal-box {
 .modal.import-content > .modal-box {
 	border: 1px solid var(--resource);
 }
-
+.modal.add-content nav {
+	display: flex;
+}
+.modal.add-content nav>a.active {
+    border-bottom-color: var(--content);
+}
+.modal.add-content nav>a {
+    display: block;
+    padding: 1rem;
+    border-bottom: 4px solid #f8f8f8;
+    margin: 0 1rem;
+    outline: none;
+}
+.modal.add-content>div.modal-box>section{ display:none;padding:25px; }
+.modal.add-content>div.modal-box>section.active{ display:block; }
+.modal.add-content>div.modal-box>section .t-l { text-align: left; }
 .modal-box textarea {
 	display: block;
 	resize:  none;
-	height: 4.76em;
+	height: 7rem;
 	width: 100%;
 	border: 1px solid #999;
 	background-color: transparent;
