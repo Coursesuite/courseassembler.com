@@ -693,6 +693,15 @@
 			return a.pathname;
 		}
 
+		var _membrane = function() {
+			if (DocNinja.options.AUTOSPLIT) {
+				DocNinja.options.PDFEMBED = false;
+				DocNinja.options.PDFTOOLS = false;
+			} else if ( DocNinja.options.PDFTOOLS) {
+				DocNinja.options.AUTOSPLIT = false;
+			}
+		}
+
 		return {
 			MayRequireJQuery: anasazi,
 			ConvertHtmlForZip: erlenmeyer,
@@ -713,7 +722,8 @@
 				GetFileId: _fileid
 			},
 			Utils: {
-				UrlPath: pathname
+				UrlPath: pathname,
+				SanityCheckOptions: _membrane
 			},
 			UpdateHyperlinks: _mutation,
 			InjectAnalyticsCode: spook,

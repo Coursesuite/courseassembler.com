@@ -1120,6 +1120,7 @@ function handlePopover(tgt) {
 	document.body.appendChild(b);
 	switch (tgt.dataset.action) {
 		case "toggle-settings":
+			DocNinja.PurityControl.Utils.SanityCheckOptions();
 			$("input[data-action='toggle-mute']").prop("checked", !DocNinja.options.MUTED);
 			$("input[data-action='toggle-no-autosplit']").prop("checked", DocNinja.options.AUTOSPLIT);
 			$("input[data-action='toggle-no-autoresize']").prop("checked", DocNinja.options.AUTOOPTIMISE);
