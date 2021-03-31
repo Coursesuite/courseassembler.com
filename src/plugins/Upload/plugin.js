@@ -11,7 +11,7 @@
 			plugin: context,
 			icon: '<div class="ga-page"><a data-action="add-content"><i class="ninja-upload"></i>Upload files / links</a></div>',
 			type: 'page',
-			order: 1,
+			order: 2,
 			supports: []
 		});
 	}

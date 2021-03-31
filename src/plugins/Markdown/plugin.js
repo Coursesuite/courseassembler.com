@@ -10,7 +10,7 @@
 			plugin: context,
 			icon: '<div class="ga-markdown"><a data-action="add-markdown"><i class="ninja-document-add"></i>Add markdown page</a></div>',
 			type: 'page',
-			order: 2,
+			order: 3,
 			supports: ['edit','view','compile','import','export'],
 			handler: 'add-markdown'
 		});
