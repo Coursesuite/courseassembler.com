@@ -345,6 +345,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 				<button data-action="upload-kloudless"><i class="ninja-upload2"></i>Choose ...</button>
 			</div>
 		</section>
+		<p class="tip">💡Tip: Check the Settings menu for conversion options before you start.</p>
 		</div>
 	</div>
 
