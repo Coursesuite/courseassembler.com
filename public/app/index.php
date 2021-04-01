@@ -49,6 +49,15 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.1/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'G-0FLZ6RBMYH');
+		</script>
 <?php
 // alternate bug tracker to sentry.io
 if (false) {
@@ -58,11 +67,11 @@ if (false) {
 
 // sentry.io console tracing for published app
 if ($verifier->code->minified) {
-    echo '<script src="https://browser.sentry-cdn.com/6.2.3/bundle.tracing.min.js" integrity="sha384-gDTsbUCgFQKbxNZj/RvveTOuAPZgNMjQzMdsD2TI/7YSPN+r49xERr43VxADcGVV" crossorigin="anonymous"></script>', PHP_EOL;
-    echo '<script src="https://js.sentry-cdn.com/1108ee823d3d47b1b9df334357028940.min.js" crossorigin="anonymous"></script>', PHP_EOL;
+    // echo '<script src="https://browser.sentry-cdn.com/6.2.3/bundle.tracing.min.js" integrity="sha384-gDTsbUCgFQKbxNZj/RvveTOuAPZgNMjQzMdsD2TI/7YSPN+r49xERr43VxADcGVV" crossorigin="anonymous"></script>', PHP_EOL;
+    // echo '<script src="https://js.sentry-cdn.com/1108ee823d3d47b1b9df334357028940.min.js" crossorigin="anonymous"></script>', PHP_EOL;
 
-	// echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
-	// echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
+	echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
+	echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
 }
 
 // include styles defined in plugins
@@ -297,29 +306,46 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<span><i class="ninja-document-add"></i>Add content</span>
 			<a href="javascript:;" data-action="close-add-content"><span class="ninja-close"></span></a>
 		</header>
-		<section class="drag-to-upload">
+		<nav>
+			<a href="#add-upload" class="active" data-action="tab-switch">Upload</a>
+			<a href="#add-paste" data-action="tab-switch">URL / Embed</a>
+			<a href="#add-choose" data-action="tab-switch">Cloud</a>
+		</nav>
+		<section class="drag-to-upload active" id="add-upload">
+			<p>Drag and drop your files directly below, or click the box to browse. We support most document and presentation formats.</p>
 			<div class="dropzone" onclick="document.getElementById('uplControl').click()">
 				<h3>Drag and drop your content here</h3>
 				<p>Or click here to browse</p>
 				<input type="file" id="uplControl" style="display:none" onchange="manualUpload(this.files);this.value=null;" />
 			</div>
 		</section>
-		<p class="or"><span>or</span></p>
-		<section class="paste-to-embed">
+		<section class="paste-to-embed" id="add-paste">
 			<div class="pastezone">
 				<h3>Paste an URL/Iframe in below</h3>
-				<textarea id="paste-url-obj" placeholder="Paste a YouTube / Vimeo / Imgur / Slideshare / (any website!) URL / IFrame Embed Code into this box then press Insert" noresize autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-				<label class="label-block"><input type="checkbox" id="paste-url-website" value="1">Embed as image</label>
+				<p class="t-l">We support:</p>
+				<ul class="t-l">
+					<li>Google Slides, Docs, Sheets, Forms, etc (ensure link is sharable)</li>
+					<li>YouTube (e.g. https://www.youtube.com/watch?v=CvTTQaBjfrM)</li>
+					<li>Vimeo (e.g. https://vimeo.com/160978792)</li>
+					<li>Imgur (e.g. https://imgur.com/gallery/2kRDuGF)</li>
+					<li>Slideshare (e.g. http://www.slideshare.net/billkarwin/models-for-hierarchical-data)</li>
+					<li>SoundCloud (e.g. https://soundcloud.com/epicmountain/nuke-the-moon)</li>
+					<li>Websites that support OEMBED</li>
+					<li>Any URL can be inserted as an image</li>
+				</ul>
+				<textarea id="paste-url-obj" placeholder="Paste your code/embed code into this box then press Insert" noresize autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+				<label class="label-block"><input type="checkbox" id="paste-url-website" value="1">Embed URL as image</label>
 				<button data-action="process-paste"><i class="ninja-paste"></i>Insert</button>
 			</div>
 		</section>
-		<p class="or"><span>or</span></p>
-		<section class="paste-to-embed">
+		<section class="paste-to-embed" id="add-choose">
 			<div class="cloudzone">
 				<h3>Upload from the Cloud</h3>
+				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
 				<button data-action="upload-kloudless"><i class="ninja-upload2"></i>Choose ...</button>
 			</div>
 		</section>
+		<p class="tip">💡Tip: Check the Settings menu for conversion options before you start.</p>
 		</div>
 	</div>
 

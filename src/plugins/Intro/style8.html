@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>courseassembler</title>
+
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+		<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js"></script>
+		<script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
+
+	    <style>
+		@import url("https://fonts.googleapis.com/css?display=swap&family=Montserrat");
+		html {
+		  box-sizing: border-box;
+		  font-size: 16px;
+		  font-family:-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
+		}
+		*, *:before, *:after {
+			box-sizing: inherit;
+			text-rendering: optimizeLegibility;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-tap-highlight-color: transparent;
+		}
+		html, body { height: 100vh; }
+		body {
+			background-color: #f8f8f8;
+			color: white;
+		    margin: 0;
+		    padding: 0;
+		}
+		h1,p { margin:0; }
+		img {
+			top: 0; left: 0;
+			width: 100%; height: 100%;
+			object-fit: cover;
+			object-position: center;
+			position: fixed;
+			z-index: 1;
+		}
+		.container {
+			z-index: 2;
+			position: fixed;
+			top: 0; left: 0;
+			width: 100%; height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			color: white;
+    		text-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+		}
+		h1 {
+			font-size: 2.5rem;
+			font-weight: normal;
+			margin-bottom: 2rem;
+		}
+		.description {
+			font-size: 1.5rem;
+			margin-bottom: 2rem;
+		}
+
+		</style>
+    </head>
+
+    <body>
+		<img src="https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80">
+		<div class="container">
+			<h1 class="name">Course Name Will Go Here</h1>
+			<p class="description">This will be replaced with the course description when you publish</p>
+			<p class="copyright">&copy; 2021 ongoing - Your Copyright Statement</p>
+		</div>
+
+		<script type="text/javascript">
+		var init = (function(){
+			var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+			return {
+				seconds: Math.max(0,+qs[0]||0),
+				index: qs[1] ? +qs[1] : -1
+			}
+		})();
+		function incr() {
+			parent.dispatchEvent(new CustomEvent("statuschange", {detail: init}));
+			init.seconds += 1; // time spent on page, in seconds
+			setTimeout(incr, 1000);
+		}
+		doOnLoad(incr);
+		</script>
+	</body>
+</html>
