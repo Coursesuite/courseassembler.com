@@ -287,6 +287,8 @@ Handlebars.registerHelper('json', function(context) { return JSON.stringify(cont
 
 Handlebars.registerHelper('log', function(context) { console.dir(context); });
 
+Handlebars.registerHelper('titlecase', function(str) { return str.charAt(0).toUpperCase + str.slice(1); })
+
 // jquery cookie plugin - https://github.com/carhartl/jquery-cookie
 /*
 (function(c){"function"===typeof define&&define.amd?define(["jquery"],c):"object"===typeof exports?c(require("jquery")):c(jQuery)})(function(c){function p(a){a=e.json?JSON.stringify(a):String(a);return e.raw?a:encodeURIComponent(a)}function n(a,g){var b;if(e.raw)b=a;else a:{var d=a;0===d.indexOf('"')&&(d=d.slice(1,-1).replace(/\\"/g,'"').replace(/\\\\/g,"\\"));try{d=decodeURIComponent(d.replace(l," "));b=e.json?JSON.parse(d):d;break a}catch(h){}b=void 0}return c.isFunction(g)?g(b):b}var l=/\+/g,e=
@@ -338,6 +340,7 @@ Element.prototype.empty = function () {
 	while (this.firstChild) {
 		this.removeChild(this.firstChild);
 	}
+	return this;
 }
 
 Element.prototype.remove = function() {
@@ -1094,6 +1097,23 @@ function triggerResize() {
 	}
 }
 
+function triggerOnChange(el) {
+	var event;
+	if (document.createEvent) {
+	  event = document.createEvent("HTMLEvents");
+	  event.initEvent("change", true, true);
+	} else {
+	  event = document.createEventObject();
+	  event.eventType = "change";
+	}
+	event.eventName = "change";
+	if (document.createEvent) {
+	  window.dispatchEvent(event);
+	} else {
+	  window.fireEvent("on" + event.eventType, event);
+	}
+}
+
 /* functions relating to buttons with [data-action] or [data-popover] properties */
 var _g_popover_target;
 function closePopover(e) {
@@ -1246,6 +1266,7 @@ function handleAction(node, e) {
 			classie.addClass(document.body,"modal-import");
 			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 			break;
+
 		case "close-import-content":
 			classie.removeClass(document.body,"modal-import");
 			break;
@@ -1262,6 +1283,11 @@ function handleAction(node, e) {
 				n.classList[n===e.target ? "add" : "remove"]("active");
 				document.querySelector(n.getAttribute("href")).classList[n===e.target ? "add" : "remove"]("active");
 			});
+			break;
+
+		case "select-preset":
+			e.preventDefault();
+			DocNinja.Plugins.Theme.loadPreset(tgt.getAttribute('href').substr(1));
 			break;
 
 		default:
@@ -1811,6 +1837,10 @@ function performAction(tgt, e) {
 			});
 			break;
 
+		case "handle-preset":
+			console.dir(tgt);
+			break;
+
 
 		default:
 
@@ -2035,4 +2065,47 @@ function sanitizeFilename(input, dfault) {
     .replace(reservedRe, '')
     .replace(windowsReservedRe, '');
   return (result.length) ? result : dfault || '';
+}
+
+// innerHTML to document fragment (nodes)
+function fragmentFromString(strHTML) {
+    return document.createRange().createContextualFragment(strHTML);
+}
+
+// initialise a colour picker (binds its own clicker)
+// https://www.cssscript.com/demo/color-gradient-picker/
+function BindColourPicker(selector, value) {
+   var xncolorpicker = new XNColorPicker({
+        color: value,
+        selector: selector,
+        showprecolor: true,
+        prevcolors: null,
+        showhistorycolor: true,
+        historycolornum: 8,
+        format: 'rgba',
+        showPalette: true,
+        show: false,
+        lang: 'en',
+        colorTypeOption:'single,linear-gradient,radial-gradient',
+        canMove: false,
+        alwaysShow: false,
+        autoConfirm: false,
+        onError: function (e) {
+			console.warn(e);
+        },
+        onCancel: function(obj) {
+        },
+        onChange: function(obj) {
+        },
+        onConfirm: function(obj) {
+        	var el = document.querySelector(selector);
+        	el.previousElementSibling.value = obj.colorType === 'single' ? obj.color.rgba : obj.color.str;
+        	submitForm(el);
+        }
+    })
+}
+
+function submitForm(el) {
+	var form = el.closest('form');
+	if (form) form.submit();
 }

@@ -13,6 +13,10 @@
 @import url('buildbot.css');
 @import url('font/style.css');
 
+@import url('field.toggle.css');
+@import url('field.shape.css');
+@import url('field.picker.css');
+
 :root {
 	/* containers */
 	--documents:#ffffff;

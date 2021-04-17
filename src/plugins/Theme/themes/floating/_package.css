@@ -84,28 +84,21 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
     core colour variables (uses a javascript ponyfill for var support in IE)
 ================================================================================== */
 :root {
-    --backgroundColor: #ffffff;
-    --selection: #7fbd94;
-    --fontFamily: 'Open Sans';
-
-    --textColor: #666;
-    --textShadow: rgba(255,255,255,.1);
-    --textHover: #3d7650;
-    --selectionText: #fff;
+    --backgroundColor: {{navbg}};
+    --textColor: rgba({{navtext}},.9);
+    --textShadow: rgba(0,0,0,.1);
+    --textHover: rgba({{navtext}},1);
 
     --edgeLight: rgba(255,255,255,.1);
     --edgeDark: rgba(0,0,0,.1);
+    --selection: rgba(0,0,0,.2);
 
     --iconSize: 24px;
     --iconMargin: 4px;
     --asideSmallWidth: calc(var(--iconSize) + (2 * var(--iconMargin)));
-    --asideLargeWidth: 250px;
+    --asideLargeWidth: 224px;
 
-    --headerBackground: #3d7650;
-    --footerBackground: transparent;
-    --headerText: white;
-
-    --scrollbarTrack: #3d7650;
+    --fontFamily: 'Noto Sans';
 }
 /* ------------------------------------------------------------------------------- */
 
@@ -138,18 +131,113 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 ================================================================================== */
 body {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow: hidden;
+}
+
+body > header {
+    height: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: height .3s ease;
+    background-color: var(--edgeDark);
+}
+
+body > header:hover {
+    height: calc(var(--iconSize) + 1em);
+}
+
+header .info {
+    font-size: var(--iconSize);
+    padding: var(--iconMargin);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
+    margin-top: 2px; /* height of progress graph */
+}
+header .info .small {
+    font-size: 0.8rem;
+}
+
+body > header a {
+    text-decoration: underline !important;
+    color: inherit;
+}
+
+.progress {
     position: relative;
 }
-body > main {
-    flex: 1;
-    position: relative;
-}
-main > iframe {
+#progressgraph {
     position: absolute;
     top: 0; left: 0;
-    width: 100%; height: 100vh;
+    width: 0%; height: 2px;
+    transition: width .3s ease;
+    background-color: var(--backgroundColor);
+}
+
+main {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+body > section.content {
+    flex: 1;
+    position: relative;
+    height: 100%;
+}
+
+div.iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100%;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  .swipe-zone {
+    position: absolute;
+    z-index: 19; /* less than nav */
+    bottom: 0;
+    right: 0;
+    width: 50vw;
+    height: 25vh;
+  }
+  body.has-audio .swipe-zone {
+      bottom: calc(50px + .5em);
+  }
+}
+
+section.content nav {
+    z-index: 20;
+    transition: opacity .3s ease, bottom .3s ease;
+    opacity: 0.125;
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
+    text-shadow: 1px 1px 1px var(--textShadow);
+    font-size: var(--iconSize);
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--textColor);
+    border-radius: var(--iconMargin);
+}
+section.content nav > * {
+    margin: var(--iconMargin);
+}
+body.has-audio section.content nav {
+    bottom: calc(50px + .5em);
+}
+
+section.content nav:hover {
+    opacity: 1;
 }
 
 a,a:visited,a:active {
@@ -159,359 +247,13 @@ a,a:visited,a:active {
     transition: color .2s ease;
 }
 
-aside header a:focus, aside footer a:focus { outline: none; }
+nav a:focus { outline: none; }
 
 a:hover {
     color: var(--textHover);
 }
-
 /* ------------------------------------------------------------------------------- */
 
-
-
-
-/* ===============================================================================
-    Styles relating to the side bar
-================================================================================== */
-body > aside {
-    display: flex;
-    width: var(--asideLargeWidth);
-    background-color: var(--backgroundColor);
-    color: var(--textColor);
-    text-shadow: 1px 1px 1px var(--textShadow);
-    height: 100vh;
-    flex-direction: column;
-    font-family: var(--fontFamily),sans-serif;
-    background-position: top center;
-    background-image: linear-gradient(to right, white 60%, rgba(0,0,0,.125) 100%);
-}
-
-body > aside.small {
-    display: flex;
-    justify-content: space-between;
-    width: var(--asideSmallWidth);
-    text-align: center;
-}
-
-body > aside.small .icons a {
-    margin: var(--iconMargin) 0;
-}
-
-body.active > aside.large { display: flex; }
-body.active > aside.mobile { display: none; }
-
-aside.large header, aside.large header a {
-  color: var(--headerText);
-}
-
-aside.large header .icons {
-    padding: var(--iconMargin);
-    text-align: right;
-    font-size: 16px;
-}
-aside.large header .title {
-    padding: 25px;
-    min-height: 68px;
-}
-aside.large header h1 {
-    font-weight: normal;
-    margin: 0;
-    word-break: break-word;
-}
-aside.small header {
-    padding-top: 10px;
-}
-
-aside.large header {
-    font-family: 'Open Sans Condensed','Open Sans', sans-serif;
-    border-bottom: 1px solid var(--edgeDark);
-    background-color: var(--headerBackground);
-}
-
-aside.large footer {
-    padding:  10px;
-    font-size: 0.8rem;
-    border-top: 1px solid var(--edgeDark);
-    background-color: var(--footerBackground);
-}
-
-aside.large footer a {
-    text-decoration: underline;
-}
-
-aside.large footer p.watermark {
-    font-size: 0.7rem;
-}
-
-body > aside.small a[disabled] {
-    pointer-events: none;
-    opacity: 0.5;
-}
-/* ------------------------------------------------------------------------------- */
-
-/* Mobile styles */
-body > nav.mobile,
-body > aside.mobile {
-  font-size: 24px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  background-color: transparent;
-  background-image: none;
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  height: 68px;
-  width: 48px;
-  transition: transform .3s ease;
-  overflow: hidden;
-  box-shadow: none;
-}
-
-nav.mobile a, aside.mobile a {
-  display: block;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 24px;
-  box-shadow: 0 0 5px rgba(0,0,0,.2);
-  background-color: var(--backgroundColor);
-  color: var(--textColor);
-  padding: 4px;
-  outline: none;
-}
-
-body.has-audio > nav.mobile {
-  transform: translateY(-50px);
-}
-body.active aside.mobile {
-  transform: translateX(calc(var(--asideLargeWidth) - 32px));
-}
-
-body > nav.mobile {
-  align-items: flex-end;
-  justify-content: flex-end;
-  bottom: 0; right: 0;
-  top: auto; left: auto;
-}
-
-@media (hover: none) {
-  body {
-    font-size: 12px;
-  }
-  aside.mobile, nav.mobile {
-    display: block;
-  }
-  aside.large header .icons {
-    display: none;
-  }
-  aside.large header .title {
-    padding: 4px;
-  }
-  aside.large header h1 {
-      font-weight: bold;
-      margin: 0;
-  }
-  aside.large footer,aside.large footer p {
-    padding: 2px;
-    font-size: 12px;
-    margin: 0;
-  }
-  body.active nav.mobile { /* turn off mobile nav when menu visible */
-    transform: translateX(48px);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) and (hover:none) {
-  aside.large header h1 {
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) and (hover:none) {
-  body {
-    font-size: 16px;
-  }
-}
-
-/* ------------- */
-.progress-container {
-  font-size: 0.8rem;
-  margin-top: 10px;
-}
-.progress-container .graph-parent {
-  position: relative;
-  width: 100%;
-  height: 1px;
-  background-color: rgba(255,255,255,.5);
-}
-#progressgraph {
-  background-color: white;
-  position: absolute;
-  top: 0; left: 0; height: 1px;
-}
-
-
-
-/* ===============================================================================
-    left hand (expanded) menu items
-================================================================================== */
-ol {
-    list-style-position: inside;
-    padding: 0;
-    margin: 0;
-}
-li {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-li > div {
-    display: flex;
-    align-items: center;
-    margin: 15px 0;
-    padding: 10px 0;
-}
-
-li:not(.selected):hover a,
-li:not(.selected):hover > div {
-  color: var(--textHover);
-}
-
-li > div > span {
-    padding-right: 10px;
-}
-
-li.selected > div > span {
-    padding-right: 8px;
-}
-
-/* completion icon: over-ride icon rather than replacing class */
-li.completed > div i.checkmark:before {
-    content: "\e902" !important;
-}
-
-li > div > a {
-    flex: 1;
-    padding: 5px;
-    word-break: break-word;
-}
-li > ol > li > div {
-    padding-left: 15px;
-    font-weight: 100;
-}
-li > ol {
-    display: none;
-}
-li.open > ol {
-    display: block;
-}
-li.parent > div a:before {
-  content: "+ ";
-}
-li.parent.open > div a:before {
-  content: "- ";
-}
-
-li.selected > div {
-    background-color: var(--selection);
-}
-li.selected > div > a {
-    color: inherit;
-}
-li.selected > div {
-  color: var(--selectionText);
-  text-shadow: 0 -1px 0 rgba(0,0,0,.5);
-}
-/* ------------------------------------------------------------------------------- */
-
-
-
-
-/* ===============================================================================
-    SimpleBar.js - v2.5.1 | https://grsmto.github.io/simplebar/ | Under MIT License
-================================================================================== */
-[data-simplebar] {
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch; /* Trigger native scrolling for mobile, if not supported, plugin is used. */
-}
-
-[data-simplebar="init"] {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-}
-
-.simplebar-scroll-content {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    min-width: 100%;
-    -webkit-box-sizing: content-box;
-            box-sizing: content-box;
-}
-
-.simplebar-content {
-    overflow-x: scroll;
-    overflow-y: hidden;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    min-height: 100%;
-}
-
-.simplebar-track {
-    z-index: 1;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 11px;
-}
-
-.simplebar-scrollbar {
-    position: absolute;
-    right: 2px;
-    border-radius: 7px;
-    min-height: 10px;
-    width: 7px;
-    opacity: 0;
-    -webkit-transition: opacity 0.2s linear;
-    transition: opacity 0.2s linear;
-    background: var(--scrollbarTrack);
-    background-clip: padding-box;
-}
-
-.simplebar-track:hover .simplebar-scrollbar {
-    /* When hovered, remove all transitions from drag handle */
-    opacity: 0.5;
-    -webkit-transition: opacity 0 linear;
-    transition: opacity 0 linear;
-}
-
-.simplebar-track .simplebar-scrollbar.visible {
-    opacity: 0.5;
-}
-
-.simplebar-track.horizontal {
-    left: 0;
-    width: auto;
-    height: 11px;
-}
-
-.simplebar-track.vertical {
-    top: 0;
-}
-
-.horizontal.simplebar-track .simplebar-scrollbar {
-    right: auto;
-    top: 2px;
-    height: 7px;
-    min-height: 0;
-    min-width: 10px;
-    width: auto;
-}
-/* ------------------------------------------------------------------------------- */
 
 
 
@@ -519,11 +261,11 @@ li.selected > div {
 /* ===============================================================================
     styles that relate to the content iframes that fade over the top of each other when changing pages
 ================================================================================== */
-body > main > div.iframe > iframe.over {
+div.iframe > iframe.over {
     z-index: 10;
 }
 
-body > main > div.iframe > iframe.under {
+div.iframe > iframe.under {
     z-index: 5;
 }
 
@@ -544,29 +286,22 @@ body > main > div.iframe > iframe.under {
     -webkit-animation-fill-mode: both; animation-fill-mode: both;
 }
 
-body > main {
-    flex: 1;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
 @supports (-webkit-overflow-scrolling: touch) {
   /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
-  body > main > div.iframe {
+  div.iframe {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
 }
 
-body > main > div.iframe {
+div.iframe {
     flex: 1;
     position: relative;
     background-color: white;
     z-index: 1;
 }
 
-body > main > div.iframe > iframe {
+div.iframe > iframe {
     position: absolute;
     top: 0; left: 0;
     height: 100%; width: 100%;

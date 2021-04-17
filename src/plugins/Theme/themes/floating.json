@@ -1,0 +1,15 @@
+{
+	"name": "Floating",
+	"css": ["reset","font","colours","simplebar","iframe","li-menu","nano"],
+	"js": ["core","api","iframe","lib","nano"],
+	"html": ["head","main","nano","foot"],
+	"elements": {
+		"fullscreen": true,
+		"bgcolour": true,
+		"fgcolour": false,
+		"bgimage": true,
+		"headerimage": true,
+		"toggle": true,
+		"fontloader": true
+	}
+}

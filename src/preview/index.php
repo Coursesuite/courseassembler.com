@@ -19,10 +19,10 @@ function rrmdir($dir) {
 	}
 }
 
-// always require a hash
-if (!isset($_GET['hash'])) die("incorrect usage");
-$hash = $_GET["hash"];
+$debug = ($_SERVER['SERVER_NAME'] === '127.0.0.1');
+$hash = isset($_GET["hash"]) ? $_GET["hash"] : $debug ? "debug" : null;
 if (empty($hash)) die("bad method");
+if (empty($hash) && $debug) $hash = "debug";
 
 $root = realpath("./data/");
 if (!file_exists($root)) mkdir ($root, 0777, true);

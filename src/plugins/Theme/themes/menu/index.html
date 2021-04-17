@@ -12,12 +12,12 @@
 		{{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
 		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
+		{{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
 		<script type="text/javascript">
 		var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
 			pages = {{{json pages}}};
 		</script>
 		<script type="text/javascript" src="_package.js"></script>
-		{{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
 		{{{analytics-code}}}
 	</head>
 	<body onunload="doUnload()" onbeforeunload="doUnload()">

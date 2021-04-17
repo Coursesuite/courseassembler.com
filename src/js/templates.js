@@ -1,5 +1,73 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['field-picker'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<label class=\"field-shape-picker\">\n	<input type=\"hidden\" name=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":2,"column":28},"end":{"line":2,"column":36}}}) : helper)))
+    + "\" value=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":2,"column":45},"end":{"line":2,"column":54}}}) : helper)))
+    + "\">\n	<div id=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":3,"column":10},"end":{"line":3,"column":18}}}) : helper)))
+    + "\"></div>\n	"
+    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":4,"column":1},"end":{"line":4,"column":10}}}) : helper)))
+    + "\n</label>\n";
+},"useData":true});
+templates['field-shape'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return " checked";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<label class=\"field-shape-select\">\n<div class=\"field-shape-toggle\">\n  <input onclick=\"submitForm(this)\" type=\"radio\" name=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":3,"column":55},"end":{"line":3,"column":63}}}) : helper)))
+    + "\" value=\"none\""
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),"none",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":77},"end":{"line":3,"column":122}}})) != null ? stack1 : "")
+    + ">\n  <label class=\"toggle toggle-yes\"><i class=\"fa fa-ban\"></i></label>\n  <input onclick=\"submitForm(this)\" type=\"radio\" name=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":5,"column":55},"end":{"line":5,"column":63}}}) : helper)))
+    + "\" value=\"block\""
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),"block",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":78},"end":{"line":5,"column":124}}})) != null ? stack1 : "")
+    + ">\n  <label class=\"toggle toggle-yes\"><i class=\"fa fa-square\"></i></label>\n  <input onclick=\"submitForm(this)\" type=\"radio\" name=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":7,"column":55},"end":{"line":7,"column":63}}}) : helper)))
+    + "\" value=\"rounded\""
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),"rounded",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":7,"column":80},"end":{"line":7,"column":128}}})) != null ? stack1 : "")
+    + ">\n  <label class=\"toggle toggle-yes\"><i class=\"fa fa-circle\"></i></label>\n  <span></span> \n  <p>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":10,"column":5},"end":{"line":10,"column":14}}}) : helper)))
+    + "</p>\n</div>\n</label>";
+},"useData":true});
+templates['field-toggle'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "1";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "0";
+},"5":function(container,depth0,helpers,partials,data) {
+    return " checked";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<label class=\"field-toggle-switch\">\n  <input type=\"hidden\" name=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":2,"column":29},"end":{"line":2,"column":37}}}) : helper)))
+    + "\" value=\""
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":2,"column":46},"end":{"line":2,"column":76}}})) != null ? stack1 : "")
+    + "\">\n  <input type=\"checkbox\" onclick=\"this.previousElementSibling.value=this.checked?1:0;submitForm(this)\" "
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":103},"end":{"line":3,"column":131}}})) != null ? stack1 : "")
+    + ">\n  <span class=\"field-toggle-slider\"></span>\n  <span class=\"field-toggle-text\">"
+    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":5,"column":34},"end":{"line":5,"column":43}}}) : helper)))
+    + "</span>\n</label>";
+},"useData":true});
 templates['imscpmanifest'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -998,6 +1066,39 @@ templates['style-transform-horizontal-scale'] = template({"compiler":[8,">= 4.3.
 },"useData":true});
 templates['style-transform-scale-center'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<style id=\"styleTransformScaleCenter\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, -50%);\n	transform-style: flat;\n	transform-origin: center center 0px;\n	position: absolute;\n	top: 50%;\n	left: 50%;\n}\n</style>";
+},"useData":true});
+templates['theme-preset'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "<a href='#"
+    + alias2(alias1(depth0, depth0))
+    + "' data-action='select-preset'><img src='plugins/Theme/presets/"
+    + alias2(alias1(depth0, depth0))
+    + ".jpg'></a>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<legend>Presets</legend>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":0},"end":{"line":4,"column":9}}})) != null ? stack1 : "");
+},"useData":true});
+templates['theme-preview-options'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<legend>Theme options</legend>\n	<div class='fields'>"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"fields") || (depth0 != null ? lookupProperty(depth0,"fields") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"fields","hash":{},"data":data,"loc":{"start":{"line":2,"column":21},"end":{"line":2,"column":33}}}) : helper))) != null ? stack1 : "")
+    + "</div><div class='presets'><fieldset><legend>Presets</legend>"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"presets") || (depth0 != null ? lookupProperty(depth0,"presets") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"presets","hash":{},"data":data,"loc":{"start":{"line":2,"column":94},"end":{"line":2,"column":107}}}) : helper))) != null ? stack1 : "")
+    + "</fieldset></div>\n";
 },"useData":true});
 templates['wrapper-h5p'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {

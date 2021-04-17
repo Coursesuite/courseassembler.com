@@ -75,24 +75,14 @@
 
 	// style containers to fit browser; additionally size internal elements if required
 	DocNinja.routines = {
-		Resize: sizeHax,
-		// MoveNinja: function () {
-		// 	$(DocNinja.options.containers).css("background-image","none").filter(".show").css({
-		// 		"background-image": "url('" + randomElement(DocNinja.options.ninjas) + "')",
-		// 		"background-position": randomElement(DocNinja.options.bpx) + " " + randomElement(DocNinja.options.bpy)
-		// 	});
-		// },
 		PersistSettings: function(source) {
 			window.gatherSettings().then(function(cache) {
-			 	// localforage.config({
-			 	//     name: 'DocumentNinja'
-			 	// });
-			 	//console.log("persisting settings", cache, source);
 			 	localforage.setItem("settingsCache", cache);
 			 	localforage.setItem("bodyclases", document.body.className);
 			});
 		},
 		Statistics: function(destination) {
+			console.info(destination);
 			// 		localforage.getItem("settingsCache").then(function(obj) {
 			// 			var data = {};
 			// // minifyjs doesn't fart syntax yet
@@ -125,59 +115,25 @@
 					DocNinja.Plugins[v].RegisterPlugin(v);
 				}
 			});
-		}
-	}
+		},
+		Resize: function() {
+			if (document.body.classList.contains('change-settings')) {
+				if (DocNinja.Plugins.Theme) DocNinja.Plugins.Theme.resize();
+			}
 
-	var sizeHax = debounce(function() {
-		var p = document.querySelector('div.container.show');
-
-		// 	h = window.innerHeight - tabs.offsetHeight - DocNinja.options.header.offsetHeight,
-		// 	divs = DocNinja.options.pageWrap.querySelectorAll("div.container");
-		// if (!p) return; // maybe container isn't visible yet?
-		// p.scrollTop = 0;
-		// // destroy_preview();
-		// for (var i=0,j=divs.length;i<j;i++) {
-		// 	divs[i].style.height = h + "px";
-		// }
-		switch (p.getAttribute("id")) {
-			case "add-documents":
-
-				DocNinja.options.ifrCache['w'] = $(preview).width();
-				DocNinja.options.ifrCache['h'] = $(preview).height();
-
-				DocNinja.options.scrollAreaObj.update();
-
-				// var sa = $("#scroll-area");
-				// if (sa.length) {
-				// 	var st = sa.scrollTop();
-				// 	sa.slimScroll({
-				// 		destroy:true
-				// 	}).slimScroll({
-				// 		height: sa.height(),
-				// 		scrollTo: st
-				// 	});
-				// }
-				break;
-
-			case "change-settings":
+			if (document.body.classList.contains('change-settings')) {
 				if (DocNinja.options.courseNameField.value.trim() === "") {
 					var courseNameMaybe = $("li[data-fileid]:eq(0)", DocNinja.navItems).find("a[data-action='preview']").text();
-					//console.dir(courseNameMaybe);
 					if (courseNameMaybe.length) {
 						DocNinja.options.courseNameField.value = courseNameMaybe;
 					}
 				}
-
-				// positionSvgPreviewIframe();
-				// update_preview();
-
-				break;
-
-
+			}
 		}
-	}, 250);
-	// bind resize trigger
-	window.addEventListener('resize', DocNinja.routines.Resize, false);
+	}
+
+	// do stuff on resize
+	window.addEventListener('resize', debounce(DocNinja.routines.Resize, 567), false);
 
 	/* select one or more files using an upload control */
 	window.manualUpload = function(files) {
@@ -264,69 +220,6 @@
 
 
 	/* ---------------------------------------------------------------------------------------------------------------------------------------------------------
-							TEMPLATE PREVIEW
-	--------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-	// function update_preview() {
-	// 	if (App.Tier < 2) return;
-	// 	function display() {
-	// 		if (DocNinja.options._pageIndex > DocNinja.options._pageCache.length - 1) DocNinja.options._pageIndex = 0;
-	// 		if (DocNinja.options._pageIndex < 0) DocNinja.options._pageIndex = DocNinja.options._pageCache.length - 1;
-	// 		localforage.getItem(DocNinja.options._pageCache[DocNinja.options._pageIndex], function (err, value) {
-	// 			if (!value) return;
-
-	// 			var blob = new Blob([(value.kind && value.kind == "image") ? "<!doctype html><html><body><img src='" + value.payload.image + "' /></body></html>" : value.payload.html],{type:"text/html"});
-	// 			var burl = URL.createObjectURL(blob);
-	// 			document.getElementById("layout-preview-iframe").setAttribute("src",burl);
-	// 			setTimeout(URL.revokeObjectURL,100,burl);
-
-	// 			// 	framedoc =  frame.contentDocument || frame.contentWindow.document,
-	// 			// 	framewin = frame.contentWindow;
-	// 			// framedoc.open(); framedoc.write(source); framedoc.close();
-	// 			// [].forEach.call(framewin.document.querySelectorAll("script"), function (el, idx) {
-	// 			// 	framewin.eval(el.textContent); // execute script tags in the content of the iframe
-	// 			// });
-	// 		});
-	// 	};
-	// 	// if (DocNinja.options._pageCache.length == 0) {
-	// 	// 	localforage.iterate(function (value, key) {
-	// 	// 		if (value.payload) {
-	// 	// 			DocNinja.options._pageCache.push(key);
-	// 	// 		}
-	// 	// 	}).then(function () {
-	// 	// 		display();
-	// 	// 	});
-	// 	// } else {
-	// 	// 	display();
-	// 	// }
-	// }
-
-	// function destroy_preview() {
-	// 	// if (App.Tier < 2) return;
-	// 	// DocNinja.options._pageCache = [];
-	// 	// DocNinja.options._pageIndex = 0;
-	// 	// var frame = document.getElementById("layout-preview-iframe"),
-	// 	// 	framedoc =  frame.contentDocument || frame.contentWindow.document;
-	// 	// framedoc.open(); framedoc.write(""); framedoc.close();
-	// }
-
-	// function positionSvgPreviewIframe() {
-
-	// 	var cr = document.getElementById("svg-preview-iframe").getBoundingClientRect();
-	// 	var svg = document.getElementById('layout-chooser').getBoundingClientRect();
-	// 	$("#layout-preview-iframe").css({
-	// 		"top": cr.top - svg.top + "px",
-	// 		"left": cr.left - svg.left + "px",
-	// 		"width": cr.width + "px",
-	// 		"height": cr.height + "px"
-	// 	});
-
-	// }
-
-
-
-
-	/* ---------------------------------------------------------------------------------------------------------------------------------------------------------
 							KLOUDLESS LOAD FILES
 	--------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -363,7 +256,7 @@
 				// if (name === "option-course-description") {
 				// 	$("#ocd").val(value);
 				// }
-				if (name === "navbg") {
+				if (name === "navbg" && $inp.length) {
 					$inp.get(0).jscolor.fromString(value);
 					window.colourpreview($inp.get(0).jscolor);
 				}
@@ -423,6 +316,13 @@
 		$("input[name='template']").val(name);
 		$("#nav-selection figure").removeClass("selected");
 		$("#nav-selection figure").filter("[data-name='" + name + "']").addClass("selected");
+		if (DocNinja.Plugins.Theme) {
+			DocNinja.Plugins.Theme.load(name).then(function() {
+				DocNinja.Plugins.Theme.update();
+			}).catch(function(err0r) {
+				console.warn(err0r);
+			});
+		}
 	}
 
 	// $(".design-tabs").on("click", "a", function (e) {

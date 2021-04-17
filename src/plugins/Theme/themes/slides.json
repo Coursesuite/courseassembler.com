@@ -1,0 +1,15 @@
+{
+	"name": "Side Bar",
+	"css": ["reset","font","colours","simplebar","iframe","li-menu","sidebar"],
+	"js": ["core","api","iframe","lib","sidebar"],
+	"html": ["head","sidebar","main","foot"],
+	"elements": {
+		"fullscreen": true,
+		"bgcolour": true,
+		"fgcolour": false,
+		"bgimage": true,
+		"headerimage": true,
+		"toggle": true,
+		"fontloader": true
+	}
+}
