@@ -52,6 +52,10 @@
 		return true;
 	}
 
+	var _get_last_node = function() {
+		return document.querySelector("#nav-item-list li[data-fileid]:last-of-type");
+	}
+
 	DocNinja.Navigation = {
 		Upgrade: _upgrade,
 		Icons: {
@@ -63,6 +67,9 @@
 				Audio: _remove_audio_icon,
 				File: _remove_file_icon
 			}
+		},
+		Nodes: {
+			Last: _get_last_node
 		}
 	}
 
