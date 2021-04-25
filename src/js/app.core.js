@@ -196,6 +196,7 @@
 		var data = [],
 			patch_count = false;
 		$.each($("form").serializeArray(), function (idx, value, ar) {
+			if (value.name === "nav" || value.indexOf("theme-")===1) return;
 			if ($.isNumeric(value.value)) value.value = parseFloat(value.value);
 			if (value.value === "false") value.value = false;
 			if (value.value === "true") value.value = true;
