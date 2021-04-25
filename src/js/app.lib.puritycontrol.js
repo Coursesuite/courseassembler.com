@@ -131,7 +131,6 @@
 		}
 		// Nav.Add
 		var origin = function (container, fileid, fileinfo, node, state) {
-
 			var li = document.createElement("li");
 			li.setAttribute("data-fileid", fileid);
 			li.setAttribute("data-depth", fileinfo.depth);

@@ -205,18 +205,25 @@
 				} else if (null !== v2scorm) {
 					zip.file("index.html").async("string").then(function(text) {
 						var li = DocNinja.Navigation.Nodes.Last(),
-							fileid = li.dataset.fileid,
+							fileid = DocNinja.PurityControl.Nav.GetFileId(),
 							fileinfo = {
 								depth: 0,
-								kind: "html",
+								format: "plain",
+								kind: "file",
 								name: li.textContent.replace('.zip','').replace('_',' '),
 								payload: { html: '' }
 							},
 							dom = (new DOMParser()).parseFromString(text, "text/html");
+
+						// var li = document.createElement("li");
+						// li.innerHTML = fileinfo.name;
+						// li.setAttribute("data-fileid", );
+						// DocNinja.navItems.appendChild(li);
+
+						DocNinja.PurityControl.Nav.Add(DocNinja.navItems, fileid, fileinfo, null, "cache");
 						_ReImportNinjaFile(zip, dom, fileid, fileinfo).then(function(results) {
-							console.dir(results);
 							// create a new node in the dom for this ...
-							DocNinja.PurityControl.Nav.Add(DocNinja.navItems, DocNinja.PurityControl.Nav.GetFileId(), results.fileinfo, null, "ready");
+							DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + results.fileId + "']"), results.fileInfo, "ready");
 							// ... because the callee of importZip will remove the origin li for some reason
 							finalResolve();
 						});
