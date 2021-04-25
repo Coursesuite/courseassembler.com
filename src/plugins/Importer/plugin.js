@@ -209,7 +209,7 @@
 							fileinfo = {
 								depth: 0,
 								format: "plain",
-								kind: "file",
+								kind: "proxy",
 								name: li.textContent.replace('.zip','').replace('_',' '),
 								payload: { html: '' }
 							},

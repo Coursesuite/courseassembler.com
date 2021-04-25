@@ -2109,3 +2109,17 @@ function submitForm(el) {
 	var form = el.closest('form');
 	if (form) form.submit();
 }
+
+// stub for proxied sco's to latch to during preview
+function apiProxy() {
+	this.cache = {};
+	this.LMSInitialize = function() { return "true"; };
+	this.LMSFinish = function () { return "true"; };
+	this.LMSCommit = function (param) { return "true"; };
+	this.LMSGetLastError = function () { return 0; };
+	this.LMSGetErrorString = function () { return "No error"; };
+	this.LMSGetDiagnostic = function (param) { return param; };
+	this.LMSGetValue = function (param) { return (this.cache.hasOwnProperty(param)) ? this.cache[param] : ""; };
+	this.LMSSetValue = function (param,value) { this.cache[param] = value; return "true"; }
+}
+window.ninjaApiProxy = new apiProxy();

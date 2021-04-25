@@ -75,16 +75,27 @@ function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}ca
 function findInJson(obj,prop,value){ for(var i=0,j=obj.length,k;i<j,k=obj[i];i++)if(value===k[prop])return k}
 function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});document.body.dispatchEvent(event);}
 
-// create a proxy for sub-runtimes bound to pages
 function apiProxy() {
+	this.cache = {};
 	this.LMSInitialize = function() { return "true"; };
 	this.LMSFinish = function () { return "true"; };
 	this.LMSCommit = function (param) { return "true"; };
 	this.LMSGetLastError = function () { return 0; };
 	this.LMSGetErrorString = function () { return "No error"; };
 	this.LMSGetDiagnostic = function (param) { return param; };
-	this.LMSGetValue = function (param) { switch(param){default: return "";}; };
-	this.LMSSetValue = function (param,value) { switch(param){default: return "true";}; };
+	this.LMSGetValue = function (param) { return (this.cache.hasOwnProperty(param)) ? this.cache[param] : ""; };
+	this.LMSSetValue = function (param,value) {
+		this.cache[param] = value;
+		switch(param) {
+			case "cmi.core.lesson_location": case "cmi.location":
+				pages[course.page].score = value;
+				break;
+			case "cmi.completeion_status": case "cmi.core.lesson_status":
+				if (value === "completed") pages[course.page].completed = true;
+				break;
+		}
+		return "true";
+	};
 }
 window.ninjaApiProxy = new apiProxy();
 
@@ -488,7 +499,7 @@ function load() {
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showCurrentPageNumber();
     showCurrentPageTitle();
-    if (["media","plugin","h5p"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    if (["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
     checkCourseCompletion();
     checkNavigation();
 }
