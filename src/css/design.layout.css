@@ -51,9 +51,12 @@
 
 	#nav-selection fieldset fieldset {
 		border-width: 1px 0 0;
+		margin: 0;
 	}
+
 	#nav-selection fieldset fieldset legend {
 		text-transform: capitalize;
+		font-weight: normal;
 	}
 
 	#nav-selection fieldset:hover {
