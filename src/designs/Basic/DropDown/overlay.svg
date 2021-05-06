@@ -1,7 +1,0 @@
-<svg id="basic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720">
-  <title>Basic_DropDown</title>
-  <path id="prev" d="M25.41,22C20.68,22,17,27.29,17,34.28V87H178V22ZM111,77.46,85.3,55.54,111,33.62Z"/>
-  <rect id="info" x="240" y="22" width="532" height="65"/>
-  <path id="next" d="M933,22H782V87H942V34.28C942,27.29,937.71,22,933,22ZM852,77.46V33.62l25.7,21.92Z"/>
-  <path d="M188,22V87h43V22Zm30.52,34.37L210,68.14l-8.5-11.77L193,44.61h34Z"/>
-</svg>
