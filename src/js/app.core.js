@@ -118,7 +118,10 @@
 		},
 		Resize: function() {
 			if (document.body.classList.contains('change-settings')) {
-				if (DocNinja.Plugins.Theme) DocNinja.Plugins.Theme.resize();
+				if (DocNinja.Plugins.Theme) {
+					DocNinja.Plugins.Theme.start();					
+					DocNinja.Plugins.Theme.resize();
+				}
 			}
 
 			if (document.body.classList.contains('change-settings')) {
@@ -129,7 +132,21 @@
 					}
 				}
 			}
+		},
+		selectTemplate(name) {
+			if (!name.length) return;
+			$("input[name='template']").val(name);
+			$("#nav-selection figure").removeClass("selected");
+			$("#nav-selection figure").filter("[data-name='" + name + "']").addClass("selected");
+			if (DocNinja.Plugins.Theme) {
+				DocNinja.Plugins.Theme.load(name).then(function() {
+					DocNinja.Plugins.Theme.update();
+				}).catch(function(err0r) {
+					console.warn(err0r);
+				});
+			}
 		}
+
 	}
 
 	// do stuff on resize
@@ -157,6 +174,7 @@
 		DocNinja.PurityControl.Nav.Check();
 		localforage.setItem("order", DocNinja.navItems.innerHTML);
 		DocNinja.routines.PersistSettings("setItemOrder");
+		if (DocNinja.plugins.Theme) DocNinja.plugins.Theme.clearNavCache();
 	}
 
 	// update the count of pages on the settings / completion area, which is based on the number of files
@@ -257,12 +275,13 @@
 				// if (name === "option-course-description") {
 				// 	$("#ocd").val(value);
 				// }
-				if (name === "navbg" && $inp.length) {
-					$inp.get(0).jscolor.fromString(value);
-					window.colourpreview($inp.get(0).jscolor);
-				}
-				if (name === "template") {
-					selectTemplate(value);
+				// 20210506 - no more design tab
+				// if (name === "navbg" && $inp.length) {
+				// 	$inp.get(0).jscolor.fromString(value);
+				// 	window.colourpreview($inp.get(0).jscolor);
+				// }
+				if (name === "template" && value !== "") {
+					DocNinja.routines.selectTemplate(value);
 				}
 			}
 		}
@@ -272,29 +291,29 @@
 	}
 
  	// fyi jquery normalises e.keyCode to e.which
-	$("#nav-colour").bind('keypress keydown keyup', function(e) {
-		if (e.which === 13) {e.preventDefault();} // prevent enter key from doing wierd things
+	// $("#nav-colour").bind('keypress keydown keyup', function(e) {
+	// 	if (e.which === 13) {e.preventDefault();} // prevent enter key from doing wierd things
 
-	});
+	// });
 	// preview the selected colour by restyling the layout preview
-	window.colourpreview = function(picker) {
-		var style = document.getElementById("fiddle");
-		style.innerHTML = "";
-		style.appendChild(document.createTextNode(
-		    "#nav-selection svg path," +
-		    "#nav-selection svg rect {" +
-		    "fill:" + picker.toRGBString() + ";stroke:#000000;stroke-width:4px;stroke-opacity:0.75;" +
-		    "}" +
-		    "#nav-selection svg circle {" +
-		    "stroke: " + picker.toRGBString() + ";" +
-		    "}"
-		));
-		$("input[name='navtext']").val(picker.isLight() ? "0,0,0" : "255,255,255");
-	} // init()
+	// window.colourpreview = function(picker) {
+	// 	var style = document.getElementById("fiddle");
+	// 	style.innerHTML = "";
+	// 	style.appendChild(document.createTextNode(
+	// 	    "#nav-selection svg path," +
+	// 	    "#nav-selection svg rect {" +
+	// 	    "fill:" + picker.toRGBString() + ";stroke:#000000;stroke-width:4px;stroke-opacity:0.75;" +
+	// 	    "}" +
+	// 	    "#nav-selection svg circle {" +
+	// 	    "stroke: " + picker.toRGBString() + ";" +
+	// 	    "}"
+	// 	));
+	// 	$("input[name='navtext']").val(picker.isLight() ? "0,0,0" : "255,255,255");
+	// } // init()
 
-	window.colourpersist = function (picker) {
-		DocNinja.routines.PersistSettings("colourpersist");
-	}
+	// window.colourpersist = function (picker) {
+	// 	DocNinja.routines.PersistSettings("colourpersist");
+	// }
 
 	// if ($("#tab-design-pro").length) $("#tab-design-pro figure:first").trigger("click");
 
@@ -307,24 +326,11 @@
 	// 	return ((rgb.r*0.299 + rgb.g*0.587 + rgb.b*0.114) > threshold) ? '0,0,0' : '255,255,255';
 	// }
 
+	// clicking on a thee base name persists the selected tempalte
 	$("#nav-selection").on("click", "figure", function (e) {
-		selectTemplate(this.dataset.name);
+		DocNinja.routines.selectTemplate(this.dataset.name);
 		DocNinja.routines.PersistSettings("click figure");
 	});
-
-	function selectTemplate(name) {
-		if (!name.length) return;
-		$("input[name='template']").val(name);
-		$("#nav-selection figure").removeClass("selected");
-		$("#nav-selection figure").filter("[data-name='" + name + "']").addClass("selected");
-		if (DocNinja.Plugins.Theme) {
-			DocNinja.Plugins.Theme.load(name).then(function() {
-				DocNinja.Plugins.Theme.update();
-			}).catch(function(err0r) {
-				console.warn(err0r);
-			});
-		}
-	}
 
 	// $(".design-tabs").on("click", "a", function (e) {
 	// 	e.preventDefault();

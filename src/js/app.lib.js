@@ -289,6 +289,18 @@ Handlebars.registerHelper('log', function(context) { console.dir(context); });
 
 Handlebars.registerHelper('titlecase', function(str) { return str.charAt(0).toUpperCase + str.slice(1); })
 
+Handlebars.registerHelper('pips', function (num) {
+	var i = 0,
+		n = Number(num),
+		step = Math.floor(n / 10),
+		list = [];
+	for (i = 1; i<n; i += step) {
+		list.push("<option value='" + i + "'>");
+	}
+	list.push("<option value='" + n + "'>");
+	return list.join("");
+})
+
 // jquery cookie plugin - https://github.com/carhartl/jquery-cookie
 /*
 (function(c){"function"===typeof define&&define.amd?define(["jquery"],c):"object"===typeof exports?c(require("jquery")):c(jQuery)})(function(c){function p(a){a=e.json?JSON.stringify(a):String(a);return e.raw?a:encodeURIComponent(a)}function n(a,g){var b;if(e.raw)b=a;else a:{var d=a;0===d.indexOf('"')&&(d=d.slice(1,-1).replace(/\\"/g,'"').replace(/\\\\/g,"\\"));try{d=decodeURIComponent(d.replace(l," "));b=e.json?JSON.parse(d):d;break a}catch(h){}b=void 0}return c.isFunction(g)?g(b):b}var l=/\+/g,e=
@@ -1168,50 +1180,74 @@ function handlePopover(tgt) {
 	if ("init" in tgt.dataset) {
 		switch (tgt.dataset.init) {
 			case "jscolor":
-				var picker = new jscolor(b.querySelector("button.jscolor"), {
-					valueElement:'color_value',
-					value: tgt.dataset.value ? tgt.dataset.value : DocNinja.options.pageBackgroundColour,
-					onFineChange: debounce(function() {
-						previewPageBackground(this.toHEXString());
-					}, 500),
-					hash: true
-				});
+				document.getElementById('pb_picker').value = DocNinja.options.pageBackgroundColour || '#ffffff';
+				// BindColourPicker(
+				// 	document.getElementById('pb_picker'),
+				// 	function(colour) {
+				// 		if (colour.indexOf('rgb')!==-1) {
+				// 			var a = colour.substr(colour.indexOf('(')).split(',').map(function(a) {
+				// 				return parseInt(a,10);
+				// 			});
+				// 			colour = "#" + ((1 << 24) + (a[0] << 16) + (a[1] << 8) + a[2]).toString(16).slice(1);
+				// 		}
+				// 		previewPageBackground(colour);
+				// 	});
+				// var picker = new jscolor(b.querySelector("button.jscolor"), {
+				// 	valueElement:'color_value',
+				// 	value: tgt.dataset.value ? tgt.dataset.value : DocNinja.options.pageBackgroundColour,
+				// 	onFineChange: debounce(function() {
+				// 		previewPageBackground(this.toHEXString());
+				// 	}, 500),
+				// 	hash: true
+				// });
 				break;
 
 			case "scoreslider":
-				var el = document.getElementById("score_slider");
-				noUiSlider.create(el, {
-					start: [el.dataset.value],
-					tooltips: [{to:function(val){return Math.round(val)}}],
-					range: {
-						'min': +el.dataset.min,
-						'max': +el.dataset.max
-					},
-					step: 1,
-					pips: {
-						mode: 'count',
-						values: Math.max(2, el.dataset.max / 7 >> 0),
-						density: 5
-					},
-				});
+				var n = document.getElementById('score_slider');
+				var p=((Number(n.value)*100)/Number(n.max));
+				n.nextElementSibling.style.left="calc("+p+"% - 1rem)";
+
+				// var el = document.getElementById("score_slider");
+				// noUiSlider.create(el, {
+				// 	start: [el.dataset.value],
+				// 	tooltips: [{to:function(val){return Math.round(val)}}],
+				// 	range: {
+				// 		'min': +el.dataset.min,
+				// 		'max': +el.dataset.max
+				// 	},
+				// 	step: 1,
+				// 	pips: {
+				// 		mode: 'count',
+				// 		values: Math.max(2, el.dataset.max / 7 >> 0),
+				// 		density: 5
+				// 	},
+				// });
 				break;
 
 			case "rangeslider":
-				var el = document.getElementById("range_slider");
-				noUiSlider.create(el, {
-					start: [el.dataset.value],
-					tooltips: [{to:function(val){return Math.round(val) + '%'}}],
-					range: {
-						'min': +el.dataset.min,
-						'max': +el.dataset.max
-					},
-					step: 1,
-					pips: {
-						mode: 'values',
-						values: [1,20,40,60,80,100],
-						density: 5
-					},
-				});
+			console.trace();
+				// var el = document.getElementById("range_slider");
+				// noUiSlider.create(el, {
+				// 	start: [el.dataset.value],
+				// 	tooltips: [{to:function(val){return Math.round(val) + '%'}}],
+				// 	range: {
+				// 		'min': +el.dataset.min,
+				// 		'max': +el.dataset.max
+				// 	},
+				// 	step: 1,
+				// 	pips: {
+				// 		mode: 'values',
+				// 		values: [1,20,40,60,80,100],
+				// 		density: 5
+				// 	},
+				// });
+				break;
+
+			case "videorange":
+				document.getElementById('score_scrubber').checked = (tgt.dataset.checked === 'true');
+				var n = document.getElementById('range_slider');
+				var p=((Number(n.value)*100)/Number(n.max));
+				n.nextElementSibling.style.left="calc("+p+"% - 1rem)";
 				break;
 
 			case "initaudio":
@@ -1303,7 +1339,7 @@ function previewPageBackground(colour) {
 
 function popover_saveScore() {
 	var id = DocNinja.filePreview.CurrentFile(),
-		score = document.getElementById("score_slider").noUiSlider.get();
+		score = Number(document.getElementById("score_slider").value); //noUiSlider.get();
 	localforage.getItem(id).then(function (obj) {
 		obj.score = score;
 		closePopover();
@@ -1313,11 +1349,14 @@ function popover_saveScore() {
 
 function popover_saveRange() {
 	var id = DocNinja.filePreview.CurrentFile(),
-		button = document.querySelector("button[data-init='rangeslider']"),
-		score = document.getElementById("range_slider").noUiSlider.get();
+		button = document.querySelector("button[data-popover='videorange']"),
+		scrub = document.getElementById("score_scrubber"),
+		score = Number(document.getElementById("range_slider").value),  //noUiSlider.get();
+		scrubber = scrub.checked;
 	button.dataset.value = score;
 	localforage.getItem(id).then(function (obj) {
 		obj.score = score;
+		obj.scrub = scrubber;
 		closePopover();
 		return localforage.setItem(id, obj);
 	});
@@ -1741,7 +1780,7 @@ function performAction(tgt, e) {
 		case "clear-storage":
 			localforage.clear(function (err) {
 				document.getElementById("fiddle").innerHTML = "";
-				$("#nav-colour").attr("style", "");
+				// $("#nav-colour").attr("style", "");
 				DocNinja.filePreview.Reset();
 				DocNinja.navItems.innerHTML = "";
 				if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndtrash);
@@ -2074,35 +2113,39 @@ function fragmentFromString(strHTML) {
 
 // initialise a colour picker (binds its own clicker)
 // https://www.cssscript.com/demo/color-gradient-picker/
-function BindColourPicker(selector, value) {
-   var xncolorpicker = new XNColorPicker({
-        color: value,
-        selector: selector,
-        showprecolor: true,
-        prevcolors: null,
-        showhistorycolor: true,
-        historycolornum: 8,
-        format: 'rgba',
-        showPalette: true,
-        show: false,
-        lang: 'en',
-        colorTypeOption:'single,linear-gradient,radial-gradient',
-        canMove: false,
-        alwaysShow: false,
-        autoConfirm: false,
-        onError: function (e) {
-			console.warn(e);
-        },
-        onCancel: function(obj) {
-        },
-        onChange: function(obj) {
-        },
-        onConfirm: function(obj) {
-        	var el = document.querySelector(selector);
-        	el.previousElementSibling.value = obj.colorType === 'single' ? obj.color.rgba : obj.color.str;
-        	submitForm(el);
-        }
-    })
+function BindColourPicker(selector, value, callback) {
+	return new CPicker(selector, {
+		value: value,
+		callback: callback
+	});
+   // var xncolorpicker = new XNColorPicker({
+   //      color: value,
+   //      selector: selector,
+   //      showprecolor: true,
+   //      prevcolors: null,
+   //      showhistorycolor: true,
+   //      historycolornum: 8,
+   //      format: 'rgba',
+   //      showPalette: true,
+   //      show: false,
+   //      lang: 'en',
+   //      colorTypeOption:'single,linear-gradient,radial-gradient',
+   //      canMove: false,
+   //      alwaysShow: false,
+   //      autoConfirm: false,
+   //      onError: function (e) {
+			// console.warn(e);
+   //      },
+   //      onCancel: function(obj) {
+   //      },
+   //      onChange: function(obj) {
+   //      },
+   //      onConfirm: function(obj) {
+   //      	var el = document.querySelector(selector);
+   //      	el.previousElementSibling.value = obj.colorType === 'single' ? obj.color.rgba : obj.color.str;
+   //      	submitForm(el);
+   //      }
+   //  })
 }
 
 function submitForm(el) {

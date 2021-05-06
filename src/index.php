@@ -49,8 +49,6 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		<!-- link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.1/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'" -->
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
@@ -114,17 +112,16 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.js" async="true"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datalist-polyfill/1.24.4/datalist-polyfill.min.js" integrity="sha512-njgkJe8kuqyz2AauUKsvQ3fhqbLsshNovMTWXLmy7x+lfrHdF8TxDlLQofXG9EBYirKYWmNJlGs0qA7340U6ug==" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>
-		<script type="text/javascript" src="js/xncolorpicker.min.js" async="true"></script>
+		<script type="text/javascript" src="js/cpicker.min.js" defer></script>
 <?php
 // custom css defined over api
 if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
@@ -359,6 +356,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<a href="javascript:;" data-action="close-import-content"><span class="ninja-close"></span></a>
 		</header>
 		<section class="drag-to-upload">
+			<p>We currently support CourseAssembler and Video2Scorm zip packages.</p>
 			<div class="dropzone" onclick="document.getElementById('muplControl').click()">
 				<h3>Drag and drop a Course Assembler zip package here</h3>
 				<p>Or click here to browse</p>

@@ -61,10 +61,17 @@
 </section>
 {{/compare}}
 
-{{#compare popover "range"}}
+{{#compare popover "videorange"}}
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
-	<div id="range_slider" data-value="{{value}}" data-min="1" data-max="100"></div>
+	<div class='range-wrap'>
+		<input type='range' min='1' max='100' id='range_slider' list='range_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;this.nextElementSibling.style.left="calc("+this.value+"% - 1rem)";'>
+		<output class='bubble'>{{value}}</output>
+	</div>
+	<datalist id='range_list'>{{{pips 100}}}</datalist>
+	<div>
+		<label><input type='checkbox' value='1' id='score_scrubber'> Show video scrubber</label>
+	</div>
 	<button onclick="popover_saveRange();"><i class="ninja-thumbs-up"></i>Save</button>
 </section>
 {{/compare}}
@@ -72,7 +79,11 @@
 {{#compare popover "score"}}
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
-	<div id="score_slider" data-value="{{value}}" data-min="1" data-max="{{valueMax}}"></div>
+	<div class='range-wrap'>
+		<input type='range' min='1' max='{{valueMax}}' id='score_slider' list='score_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;var p=((Number(this.value)*100)/Number(this.max));this.nextElementSibling.style.left="calc("+p+"% - 1rem)";'>
+		<output class='bubble'>{{value}}</output>
+	</div>
+	<datalist id='score_list'>{{{pips valueMax}}}</datalist>
 	<button onclick="popover_saveScore();"><i class="ninja-thumbs-up"></i>Save</button>
 </section>
 {{/compare}}
@@ -85,7 +96,7 @@
 	<button onclick="previewPageBackground(this.value)" value="#555555" class="colour-dot dgrey" title="Dark grey"><i class="ninja-format_color_fill"></i></button>
 	<button onclick="previewPageBackground(this.value)" value="#bbbbbb" class="colour-dot lgrey" title="Light grey"><i class="ninja-format_color_fill"></i></button>
 	<button onclick="previewPageBackground(this.value)" value="#ffffff" class="colour-dot white" title="White"><i class="ninja-format_color_fill"></i></button>
-	<button class="jscolor colour-dot" title="Choose a colour"><i class="ninja-palette"></i></button>
+	<input type='color' id='pb_picker' value='#cccccc' oninput="previewPageBackground(this.value)">
 	<button onclick="popover_savePageBackground();" style="margin-left:2em"><i class="ninja-save-disk"></i>Save</button>
 	<div class="apply-all">
     <label for="colourAll">Apply to all pages</label>

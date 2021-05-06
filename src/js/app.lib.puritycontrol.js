@@ -665,7 +665,8 @@
 		// MayRequireJQuery
 		var anasazi = function(fold, obj, resource) {
 			if (obj.payload.html.indexOf('src="jquery.min.js') !== -1 || obj.payload.html.indexOf("src='jquery.min.js") !== -1) {
-				fold.file("jquery.min.js", Handlebars.templates["script-jquery-min"]({}));
+				fold.file("jquery.min.js", $.get("js/jquery-1-11-3.min.js"));
+				// fold.file("jquery.min.js", Handlebars.templates["script-jquery-min"]({}));
 				if (undefined !== resource) resource.files.push({href: resource.base + "jquery.min.js"});
 			}
 		};

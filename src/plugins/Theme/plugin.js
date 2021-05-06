@@ -13,6 +13,10 @@
 		document.getElementById('colours').submit();
 	}
 
+	function clearNavCache() {
+		nav_cache = [];
+	}
+
 	function getNavCache() {
 		return new Promise(function(resolve,reject) {
 			if (nav_cache.length) {
@@ -93,7 +97,15 @@
 
 	methods.init = function() {
 		methods.resize();
-		nav_cache = [];
+		clearNavCache();
+	}
+
+	methods.start = function() {
+		localforage.getItem('settingsCache')
+		.then(function(obj) {
+			return obj.template || "menu";
+		})
+		.then(DocNinja.routines.selectTemplate);
 	}
 
 	methods.load = function(template) {

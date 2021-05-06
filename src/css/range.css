@@ -1,3 +1,25 @@
+.range-wrap {
+  position: relative;
+  margin-top: 1rem;
+}
+.range-wrap output {
+  position: absolute;
+  bottom: 0;
+  height: 1rem;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+.range-wrap output::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 0; 
+  height: 0; 
+  border-left: .25rem solid transparent;
+  border-right: .25rem solid transparent;
+  border-bottom: .25rem solid white;
+}
+
 input[type=range] {
   width: 100%;
   margin: -2.5px 0;

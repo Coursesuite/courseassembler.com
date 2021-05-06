@@ -17,6 +17,8 @@
 @import url('field.shape.css');
 @import url('field.picker.css');
 
+@import url('field.range.css');
+
 :root {
 	/* containers */
 	--documents:#ffffff;
