@@ -371,6 +371,7 @@
 									return new Promise(function(resolve,reject) {
 										var fh = new Headers(); fh.append('pragma','no-cache'); fh.append('cache-control','no-store'); // avoid caching templates until I can work out a better version control
 										fetch(url, {method:'GET',headers:fh}).then(function(response) {
+											if (!response.ok) throw response;
 											var name = response.url.split("/").pop();
 											return response.text().then(function(html) {
 												templates[name] = Handlebars.compile(html);
@@ -404,8 +405,10 @@
 						return fetch("scorm/" + setup.api + ".zip");
 
 					}).then(function package_fetch_api_buffer(response) {
-						return response.arrayBuffer();
-
+						if (response.ok) {
+							return response.arrayBuffer();
+						}
+						return Promise.reject(response);
 					}).then(function package_load_api_zip(buffer) {
 						return zip.loadAsync(buffer);
 

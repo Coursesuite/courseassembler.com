@@ -11,7 +11,10 @@
 					filename = (mime === "text/html") ? "index.html" : (mime === "text/css") ? "_package.css" : "_package.js";
 				fetch("layouts/" + layout + "/" + filename)
 					.then(function(response) {
-						return response.text();
+						if (response.ok) {
+							return response.text();
+						}
+						throw response;
 					})
 					.then(function(contents) {
 						element.value = contents.trim();

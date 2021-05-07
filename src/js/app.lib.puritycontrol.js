@@ -247,7 +247,14 @@
 			return doc;
 		}
 
-		// ConvertHtmlForZip
+		/*
+		 * ConvertHtmlForZip
+		 * Generally called by the DOWNLOAD part of the app on a page-by-page basis (dependant on page type)
+		 * It takes a raw page with embedded resources (e.g. base64 encoded images, fonts and scripts, etc) and turns those into actual files within the zip, replacing the tag source with the file path reference
+		 * File NAMES are the MD5 of the file contents. This means two files with the same content will point to the same file in the zip.
+		 * There are several hacks due to the way PDF files get converted to HTML (and most formats get converted to PDF before being converted to HTML to standardise this) - hence the hard coded images sources
+		 * base64 data ban be directly injected into the ZIP object (e.g. 'fold') which handles the conversion itself
+		 */
 		var erlenmeyer = function (key, filename, fold, obj, resource, destination) {
 
 			if (!obj) return;
@@ -270,7 +277,7 @@
 				var src = img.getAttribute("src"),
 					extn = src.substring(src.indexOf("/")+1, src.indexOf(";")).toLowerCase(),
 					fn = md5(src) + "." + extn;
-				// a "pdf" icon that pdf2htmlex seems to embed on every page - unneccesary and unsightly
+				// a "pdf" icon that pdf2htmlex seems to embed on every page - unneccesary and unsightly - remove it
 				if (src === "data:image/png;base64,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") {
 					img.parentNode.removeChild(img);
 				} else {
@@ -284,7 +291,7 @@
 			[].forEach.call(doc.querySelectorAll("script:not([src])"), function (js) {
 				var src = js.innerHTML,
 					fn = md5(src) + ".js";
-				if (destination === "imscp" && fn === "cc66387f94dcecedce232560ee5716a9.js") return; // forEach's version of continue;
+				if (destination === "imscp" && fn === "cc66387f94dcecedce232560ee5716a9.js") return; // skip this deprecated script. return is forEach's version of continue;
 				if (fn === "52eccb38542a7dc50c8389764fcfcabd.js") return; // depricated version of resize script
 				fold.file(fn, src);
 				js.innerHTML = ""; // empty tag
@@ -388,7 +395,8 @@
 			return doc;
 		}
 
-		// insert page audio, if applicable
+		// insert page audio into the zip file.
+		// the final PAGE array in the content player picks up the file later on
 		// normally audio rendered by template, not embedded in page, but we need to zip the payload mp3
 		var xfilesost = function (obj, fold, resource) {
 			if (obj.payload.mp3) {
@@ -406,6 +414,12 @@
 		}
 
 		// Clean
+		/*
+		 * each page gets 'cleaned' when it is has finished conversion 
+		 * called by app.lib.fileconversion.js -> _finishConversion())
+		 * this takes known html elements and transforms or removes them as required
+		 * other parts of the process (e.g. downloading) also rework the files again for the case when an older package has been reimported and therefore the pages are already 'cleaned' by the previous generation (so you can't skip/remove some of these routines here)
+		 */
 		var talitha_cumi = function (fileInfo) {
 			return new Promise(function(fullResolve, fullReject) {
 				if (fileinfo.payload && fileInfo.payload.html && fileInfo.payload.html.indexOf("pdf2htmlEX")!==-1) { // Created by
@@ -443,6 +457,9 @@
 					var _pageBgColour = (fileInfo.payload.backgroundColour) ? fileInfo.payload.backgroundColour.replace("#","") : null;
 					fileInfo = DocNinja.Page.ModifyPageBackgroundColour(fileInfo, _pageBgColour);
 
+					// powerpoint and google slides can embed VIDEO and AUDIO, but conversion to HTML doesn't consider them and leaves black boxes
+					// We need to remember the original PPTX file before conversion, THEN convert to HTML, THEN load the original PPTX and process various XML files within it to seek out the video details
+					// the format is esoteric and can actually vary between apps that generate the PPTX so this doesn't always work - there are multiple ways to embed video which all do the same thing. 
 					// (PresentationML) Replace video images with embedded video
 					// pptx file documentation is available at http://www.datypic.com/sc/ooxml/ss.html
 					// slides: http://www.datypic.com/sc/ooxml/s-pml-slide.xsd.html
@@ -516,6 +533,7 @@
 						});
 					}
 
+					// this finds the slides in each presentation page by loading the xml files from the PPTX (which is actually a zip file)
 					var getVidEmbed = function(xmlobj, videoObjs) {
 						return new Promise(function(resolve, reject) {
 							var pArray = [];
@@ -548,6 +566,7 @@
 						});
 					}
 
+					// this the the PPTX video replacement entry point
 					if (fileInfo.type && fileInfo.type.indexOf('presentationml') !== -1) {
 						JSZip.loadAsync(fileInfo.original.split('base64,').pop(), {base64: true})
 						.then(function get_video_info_obj(obj) {
