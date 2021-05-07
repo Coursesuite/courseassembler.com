@@ -63,7 +63,19 @@
 					)
 				);
 				container.appendChild(node);
-				if (obj.type === 'picker') BindColourPicker('#' + fieldName, obj.value);
+				// attach callback to colour pickers
+				if (obj.type === 'picker') BindColourPicker('#' + fieldName, obj.value, function (colour, properties) {
+					var contrast = properties.gradientContrast || properties.solidContrast || "#7F7F7F";
+					var hidden = properties.node.parentNode.querySelector("input[type='hidden']");
+					if (!hidden) {
+						hidden = document.createElement('input');
+						hidden.type = 'hidden';
+						hidden.name = properties.node.id + '-contrast';
+						properties.node.parentNode.appendChild(hidden);
+					}
+					hidden.value = contrast;
+					submitForm(properties.node);
+				});
 			}
 		}
 	}
@@ -117,7 +129,10 @@
 		return new Promise(function(resolve,reject) {
 			fetch('plugins/Theme/themes/' + template + '.json')
 			.then(function(response) {
-				return response.json();
+				if (response.ok) {
+					return response.json();
+				}
+				throw response;
 			})
 			.then(function(json) {
 				updateSettings(json);
@@ -126,7 +141,10 @@
 				return fetch('plugins/Theme/presets.php?base=' + template)
 			})
 			.then(function(response) {
-				return response.json();
+				if (response.ok) {
+					return response.json();
+				}
+				throw response;
 			})
 			.then(function(json) {
 				updatePresets(json);

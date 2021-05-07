@@ -1,8 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
 		<title>{{option-course-name}}</title>
-		<meta charset="utf-8">
+
+		<script type="module">
+			document.documentElement.classList.remove('no-js');
+			document.documentElement.classList.add('js');
+		</script>
+
 		<meta name="title" content="{{option-course-name}}" />
 		<meta name="description" content="{{option-course-description}}" />
 		<meta name="copyright" content="{{option-course-copyright}}" />
@@ -10,7 +17,7 @@
 		<meta name="author" content="https://www.courseassembler.com" />
 		<link rel="stylesheet" type="text/css" href="_package.css">
 		{{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+		<link href="{{{font}}}" rel="stylesheet">
 		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
 		{{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
 		<script type="text/javascript">
@@ -19,41 +26,44 @@
 		</script>
 		<script type="text/javascript" src="_package.js"></script>
 		{{{analytics-code}}}
+		<meta name="theme-color" content="#ffffff">
 	</head>
 	<body onunload="doUnload()" onbeforeunload="doUnload()">
 	<aside class="large">
 		<header>
 			<div class="icons">
-				<a href="javascript:left()" title="Previous page"><i class="ca-arrow-left"></i></a>
-				<a href="javascript:right()" title="Next page"><i class="ca-arrow-right"></i></a>
-				<a href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>
-				<a href="javascript:toggle()" title="Hide menu" class="menu-toggle"><i class="ca-menu"></i></a>
+				{{#is 1 cssvars.buttonsToggleNav}}<a href="javascript:left()" title="Previous page"><i class="ca-arrow-left"></i></a>{{/is}}
+				{{#is 1 cssvars.buttonsToggleNav}}<a href="javascript:right()" title="Next page"><i class="ca-arrow-right"></i></a>{{/is}}
+				{{#is 1 cssvars.buttonsTogglePrint}}<a href="javascript:printCurrentPage()" title="Print current page"><i class="ca-information"></i></a>{{/is}}
+				{{#is 1 cssvars.buttonsToggleFullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>{{/is}}
+				{{#is 1 cssvars.buttonsToggleMenu}}<a href="javascript:toggle()" title="Hide menu" class="menu-toggle"><i class="ca-menu"></i></a>{{/is}}
 			</div>
 			<div class="title">
-				<h1>{{option-course-name}}</h1>
-				<div class="progress-container">
+				{{#is 1 cssvars.headerToggleName}}<h1>{{option-course-name}}</h1>{{/is}}
+				{{#is 1 cssvars.headerToggleDescription}}<p>{{option-course-description}}</p>{{/is}}
+				{{#is 1 cssvars.headerToggleProgress}}<div class="progress-container">
 					<div class="graph-parent"><div id="progressgraph"></div></div>
 					<div class="graph-text"><span id="progressnumber">0</span>% complete</div>
-				</div>
+				</div>{{/is}}
 			</div>
 		</header>
 		<nav id="scroll" data-simplebar class="flex-1">
-			<ol id="menu"></ol>
+			{{#is 1 cssvars.menuToggleShow}}<ol id="menu"></ol>{{/is}}
 		</nav>
 		<footer>
 			<div>
-				{{#if option-course-copyright}}<p>{{option-course-copyright}}</p>{{/if}}
-				<p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>
+				{{#is 1 cssvars.footerToggleCopyright}}<p>{{option-course-copyright}}</p>{{/is}}
+				{{#is 1 cssvars.footerToggleBranding}}<p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>{{/is}}
 			</div>
 		</footer>
 	</aside>
-	<aside class="mobile">
+	{{#is 1 cssvars.buttonsToggleMenu}}<aside class="mobile">
 		<a href="javascript:toggle()" title="Toggle menu"><i class="ca-menu"></i></a>
 		<a id="mobilefs" href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>
 	</aside>
 	<nav class="mobile">
 		<a href="javascript:right()" title="Go to the next page"><i class="ca-arrow-right"></i></a>
-	</nav>
+	</nav>{{/is}}
 	<main>
 		<div class="iframe">
 			<iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>

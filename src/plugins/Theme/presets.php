@@ -11,10 +11,12 @@ do {
 } while ($exit === false);
 require_once($path . 'vendor/autoload.php');
 
+// we need the theme name ('base')
 $base = Request::get('base');
 if (empty($base)) die("incorrect usage");
 
-header("content-type: text/plain");
+// hunt through the preset json files for the definition of this preset
+// header("content-type: text/plain");
 $presets = new stdClass();
 foreach (glob(realpath(dirname(__FILE__)) . '/presets/*.json') as $json) {
 	$obj = json_decode(file_get_contents($json));
@@ -24,5 +26,7 @@ foreach (glob(realpath(dirname(__FILE__)) . '/presets/*.json') as $json) {
 		$presets->$key = $obj;
 	}
 }
+
+// return the preset json
 header("content-type: application/json");
 echo json_encode([$presets]);
