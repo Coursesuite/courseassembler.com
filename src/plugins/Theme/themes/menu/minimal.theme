@@ -1,0 +1,31 @@
+PAGE
+font: Open Sans
+size: 16px
+background: white
+text: #999999
+
+ICONS
+print
+
+HEADER
+background: #f4f4f4
+text: #999999
+title: off
+shadow: none
+
+FOOTER
+background: #f8f8f8
+text: #666666
+copyright: off
+brand: off
+
+ITEM
+background: #f8f8f8
+text: #999999
+padding: 1.5rem
+shadow: none
+
+SELECTION
+background: white
+text: black
+shadow: none

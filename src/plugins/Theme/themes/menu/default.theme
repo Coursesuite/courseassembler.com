@@ -1,0 +1,47 @@
+PAGE
+font: Cairo
+size: 16px;
+background: #37485f
+text: #ffffff
+scrollbar: rgba(255,255,255,.25)
+
+ICONS
+print, navigation, fullscreen, menu, attachments, audio, completion
+
+HEADER
+background: transparent
+shadow: none
+title: on
+description: off
+progress: on
+
+FOOTER
+background: transparent
+text: white
+shadow: off
+copyright: on
+brand: on
+
+ITEM
+background: linear-gradient(to bottom, rgba(255,255,255,.1) 0%, rgba(255,255,255,.2) 20%, rgba(255,255,255,.1) 95%, rgba(255,255,255,0) 100%)
+padding: .125rem
+text: white
+shadow: black
+rounded: false
+border: false
+
+SELECTION
+background: linear-gradient(to bottom, #9be7fd 0%, #6EDDFD 20%, #4B8BAA 95%, #4B8B8A 100%)
+text: white
+shadow: rgba(0,0,0,.5)
+rounded: false
+border: false
+
+AUDIO
+background: #2D3136
+controls: white
+
+ATTACHMENTS
+background: #2D3136
+text: white
+rounded: 1rem

@@ -83,29 +83,16 @@
 		},
 		Statistics: function(destination) {
 			console.info(destination);
-			// 		localforage.getItem("settingsCache").then(function(obj) {
-			// 			var data = {};
-			// // minifyjs doesn't fart syntax yet
-			// //			Object.keys(obj).forEach(key => { data[obj[key].name] = obj[key].value; });
-			// 			Object.keys(obj).forEach(function(key) { data[obj[key].name] = obj[key].value; });
-			// 			data["app_key"] = "docninja";
-			// 			data["destination"] = destination;
-			// 			data["tier"] = App.Tier;
-			// 			data["hash"] = Layer.url.split("/").pop();
-			// 			$.ajax({
-			// 			  beforeSend: function(jqXHR, settings) {
-			// 			    jqXHR.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-			// 			  },
-			// 			  method: 'POST',
-			// 			  url: App.Home + "statistics/",
-			// 			  data: data,
-			// 			  crossDomain:true,
-			// 			});
-			// 		});
+		},
+		RegisterActions: function (details) {
+			details.forEach(function(detail, index) {
+				detail.order = index+1;
+				DocNinja.routines.RegisterAction(detail);
+			})
 		},
 		RegisterAction: function (details) {
 			var t = details.type,
-				o = Math.max(0, +details.order-1);
+				o = Math.max(0, +details.order-1); // order needs to start at 1
 			if (!DocNinja.options.actions.hasOwnProperty(t)) DocNinja.options.actions[t] = [];
 			DocNinja.options.actions[t][o] = details;
 		},
@@ -132,21 +119,7 @@
 					}
 				}
 			}
-		},
-		selectTemplate(name) {
-			if (!name.length) return;
-			$("input[name='template']").val(name);
-			$("#nav-selection figure").removeClass("selected");
-			$("#nav-selection figure").filter("[data-name='" + name + "']").addClass("selected");
-			if (DocNinja.Plugins.Theme) {
-				DocNinja.Plugins.Theme.load(name).then(function() {
-					DocNinja.Plugins.Theme.update();
-				}).catch(function(err0r) {
-					console.warn(err0r);
-				});
-			}
 		}
-
 	}
 
 	// do stuff on resize
@@ -174,7 +147,7 @@
 		DocNinja.PurityControl.Nav.Check();
 		localforage.setItem("order", DocNinja.navItems.innerHTML);
 		DocNinja.routines.PersistSettings("setItemOrder");
-		if (DocNinja.plugins.Theme) DocNinja.plugins.Theme.clearNavCache();
+		if (DocNinja.Plugins.Theme) DocNinja.Plugins.Theme.clearNavCache();
 	}
 
 	// update the count of pages on the settings / completion area, which is based on the number of files
@@ -222,7 +195,7 @@
 			data.push(value);
 		});
 		if (patch_count) {
-			for (prop in data) {
+			for (var prop in data) {
 				if (data[prop].name === "enough-count")
 					data[prop].value = document.querySelectorAll('#count-set>option').length;
 			}
@@ -280,9 +253,9 @@
 				// 	$inp.get(0).jscolor.fromString(value);
 				// 	window.colourpreview($inp.get(0).jscolor);
 				// }
-				if (name === "template" && value !== "") {
-					DocNinja.routines.selectTemplate(value);
-				}
+				// if (name === "template" && value !== "") {
+				// 	//DocNinja.routines.selectTemplate(value);
+				// }
 			}
 		}
 		// if (DocNinja.options.courseNameField.value.length == 0) DocNinja.options.courseNameField.value = ""; // leave it blank
@@ -326,10 +299,11 @@
 	// 	return ((rgb.r*0.299 + rgb.g*0.587 + rgb.b*0.114) > threshold) ? '0,0,0' : '255,255,255';
 	// }
 
-	// clicking on a thee base name persists the selected tempalte
+	// hmm. if you don't execute "something" before the next IIFE you get a spread operator error
+	// the routine doesn't have to do anything, just execute
 	$("#nav-selection").on("click", "figure", function (e) {
-		DocNinja.routines.selectTemplate(this.dataset.name);
-		DocNinja.routines.PersistSettings("click figure");
+		// DocNinja.routines.selectTemplate(this.dataset.name);
+		// DocNinja.routines.PersistSettings("click figure");
 	});
 
 	// $(".design-tabs").on("click", "a", function (e) {

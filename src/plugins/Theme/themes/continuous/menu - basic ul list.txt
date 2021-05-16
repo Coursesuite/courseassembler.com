@@ -1,0 +1,29 @@
+menu - basic ul list
+
+a href="#id1"
+a href="#id2"
+a href="#id3"
+a href="#id4"
+a href="#id5"
+a href="#id6"
+
+href performs scrollintoview
+
+
+body - each item 100vh, 100vw
+
+
+iframe id="id1" data-src="data/page1.html" loading=lazy
+iframe id="id2" data-src="data/page2.html" loading=lazy
+iframe id="id3" data-src="data/page3.html" loading=lazy
+iframe id="id4" data-src="data/page4.html" loading=lazy
+iframe id="id5" data-src="data/page5.html" loading=lazy
+iframe id="id6" data-src="data/page6.html" loading=lazy
+
+
+intersection observer causes data-src to change to src
+
+lazy loading prevents onload firing before page is in view
+
+tick runs after load event
+

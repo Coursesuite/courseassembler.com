@@ -55,21 +55,6 @@ Promise.settle = function(promises) {
   });
 }
 
-//https://stackoverflow.com/a/5624139/1238884
-function hexToRgb(hex) {
-	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-		return r + r + g + g + b + b;
-	});
-
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result ? {
-		r: parseInt(result[1], 16),
-		g: parseInt(result[2], 16),
-		b: parseInt(result[3], 16)
-	} : null;
-}
 
 // http://stackoverflow.com/a/43952261/1238884
 // usage:
@@ -404,15 +389,73 @@ if (!String.prototype.trim) {
 })();
 
 
+// NOTE
+/*
 
+Instead of these colour routines, leverage 
 
-var hexToRgb = function(hex) {
+CPicker.prototype.colourProperties(colour)
+
+*/
+
+// hexToRgb
+//https://stackoverflow.com/a/5624139/1238884
+function hexToRgb(hex) {
+	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+		return r + r + g + g + b + b;
+	});
+
 	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 	return result ? {
 		r: parseInt(result[1], 16),
 		g: parseInt(result[2], 16),
 		b: parseInt(result[3], 16)
 	} : null;
+}
+
+// convert a colour to rgba() with the specified alpha
+function rgba(colour,alpha) {
+	let [r,g,b] = [-1,-1,-1];
+	if (colour.indexOf('rgba')!==-1) {
+		let [r,g,b] = colour.substring(colour.indexOf('(') + 1, colour.lastIndexOf(')')).split(",").map(Number);
+	} else if (colour.indexOf('rgb')!==-1) {
+		let [r,g,b] = colour.substring(colour.indexOf('(') + 1, colour.lastIndexOf(')')).split(",").map(Number);
+	} else if (colour.indexOf('#')!==-1) {
+		var v = hexToRgb(colour);
+		r = v.r; g = v.g; b = v.b;
+	}
+	return 'rgba(' + [r,g,b,alpha].join(',') + ')';
+}
+
+// var hexToRgb = function(hex) {
+// 	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+// 	return result ? {
+// 		r: parseInt(result[1], 16),
+// 		g: parseInt(result[2], 16),
+// 		b: parseInt(result[3], 16)
+// 	} : null;
+// }
+
+// as for a contrasting colour for a hex, rgb or rgba string
+function contrastingColour(colour) {
+	let format = 'hex';
+	if (colour.indexOf('rgb')!==-1) {
+		format = 'rgba';
+        let [r,g,b] = colour.substring(colour.indexOf('(') + 1, colour.lastIndexOf(')')).split(",").map(Number);
+        colour = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+	}
+    let [r,g,b] = colour.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
+        .substring(1).match(/.{2}/g)
+        .map(x => parseInt(x, 16));
+   	let l = ((r * 299) + (g * 587) + (b * 114)) / 255000;
+
+   	if (format === "hex") {
+	   	return (l > .5) ? '#000000' : '#ffffff';
+	} else {
+		return (l > .5) ? 'rgba(0,0,0,1)' : 'rgba(255,255,255,1)';
+	}
 }
 
 var darkOrLight = function(red, green, blue) {
@@ -790,10 +833,10 @@ function handleAction(node, e) {
 			});
 			break;
 
-		case "select-preset":
-			e.preventDefault();
-			DocNinja.Plugins.Theme.loadPreset(tgt.getAttribute('href').substr(1));
-			break;
+		// case "select-preset":
+		// 	e.preventDefault();
+		// 	DocNinja.Plugins.Theme.loadPreset(tgt.getAttribute('href').substr(1));
+		// 	break;
 
 		default:
 			performAction(tgt, e);
@@ -1305,24 +1348,33 @@ function performAction(tgt, e) {
 			});
 			break;
 
-		case "handle-preset":
-			console.dir(tgt);
-			break;
+		// case "handle-preset":
+		// 	console.dir(tgt);
+		// 	break;
 
 
 		default:
 
 			// see if a plugin has a registered handler for this action
-			for (var group in DocNinja.options.actions)
-				if (typeof DocNinja.options.actions[group] === 'object')
-					DocNinja.options.actions[group].forEach(function (v) {
-						if (v.hasOwnProperty("handler") && v.handler === attrib) {
+			for (var group in DocNinja.options.actions) {
+				if (typeof DocNinja.options.actions[group] === 'object') {
+					// DocNinja.options.actions[group].forEach(function (v) { // forEach can't iterate NaN keys
+					for (index in DocNinja.options.actions[group]) {
+						var v = DocNinja.options.actions[group][index];
+						if (typeof v === 'function') break; // not 'return'
+						if (v.hasOwnProperty("handler") && v.handler === attrib) { // e.g. view, edit, compile, etc (quizbuilder, markdown, etc)
 							closePopover();
 							if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 							DocNinja.Plugins[v.plugin].Add(); // TODO implement method definition inside plugins
-						}
-					});
 
+						} else if (v.hasOwnProperty("match") && v.match === attrib) { // e.g. plugins that implement fn, parrameters (e.g. themes)
+							var args = [];
+							v.parameters.forEach(function(p) { args.push(tgt.dataset[p]); });
+							DocNinja.Plugins[v.plugin][v.fn].apply(DocNinja.Plugins[v.plugin], args);
+						}
+					};
+				}
+			}
 
 
 	}
@@ -1547,7 +1599,11 @@ function BindColourPicker(selector, value, callback) {
 		value: value,
 		callback: callback
 	});
- }
+}
+
+function BindFontPicker(selector) {
+	gFontInput.create(selector);
+}
 
 function submitForm(el) {
 	var form = el.closest('form');

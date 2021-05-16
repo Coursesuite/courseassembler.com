@@ -121,7 +121,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>
-		<script type="text/javascript" src="js/cpicker.min.js" defer></script>
 <?php
 // custom css defined over api
 if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {

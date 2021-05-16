@@ -17,16 +17,16 @@ if (empty($base)) die("incorrect usage");
 
 // hunt through the preset json files for the definition of this preset
 // header("content-type: text/plain");
-$presets = new stdClass();
-foreach (glob(realpath(dirname(__FILE__)) . '/presets/*.json') as $json) {
-	$obj = json_decode(file_get_contents($json));
-	if (!isset($obj->base)) continue;
-	if ($obj->base === $base) {
-		$key = substr(basename($json), 0, -5);
-		$presets->$key = $obj;
-	}
+$presets = [];
+foreach (glob(realpath(dirname(__FILE__)) . '/themes/' . $base . '/*.theme') as $theme) {
+	$text = file_get_contents($theme);
+	$key = substr(basename($theme), 0, -6);
+	$obj = new stdClass();
+	$obj->key = $key;
+	$obj->image = 'plugins/Theme/themes/' . $base .'/'. $key . ".jpg";
+	$obj->theme = base64_encode($text);
+	$presets[] = $obj;
 }
 
-// return the preset json
 header("content-type: application/json");
-echo json_encode([$presets]);
+echo json_encode($presets);

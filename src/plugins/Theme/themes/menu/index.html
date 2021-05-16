@@ -16,55 +16,59 @@
 		<meta name="timestamp" content="{{timestamp}}" />
 		<meta name="author" content="https://www.courseassembler.com" />
 		<link rel="stylesheet" type="text/css" href="_package.css">
-		{{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
-		<link href="{{{font}}}" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="plyr.css">
 		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
-		{{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
+		<script type="text/javascript" src="plyr.js"></script>
 		<script type="text/javascript">
 		var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
-			pages = {{{json pages}}};
+			pages = {{{pages}}};
 		</script>
 		<script type="text/javascript" src="_package.js"></script>
 		{{{analytics-code}}}
 		<meta name="theme-color" content="#ffffff">
 	</head>
-	<body onunload="doUnload()" onbeforeunload="doUnload()">
+	<body onunload="doUnload()" onbeforeunload="doUnload()" class="active">
+
 	<aside class="large">
-		<header>
+		<header role="banner">
 			<div class="icons">
-				{{#is 1 cssvars.buttonsToggleNav}}<a href="javascript:left()" title="Previous page"><i class="ca-arrow-left"></i></a>{{/is}}
-				{{#is 1 cssvars.buttonsToggleNav}}<a href="javascript:right()" title="Next page"><i class="ca-arrow-right"></i></a>{{/is}}
-				{{#is 1 cssvars.buttonsTogglePrint}}<a href="javascript:printCurrentPage()" title="Print current page"><i class="ca-information"></i></a>{{/is}}
-				{{#is 1 cssvars.buttonsToggleFullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>{{/is}}
-				{{#is 1 cssvars.buttonsToggleMenu}}<a href="javascript:toggle()" title="Hide menu" class="menu-toggle"><i class="ca-menu"></i></a>{{/is}}
+				{{#if theme.ICONS.navigation}}<a href="javascript:left()" title="Previous page" class="btn"><span class="ca ca-arrow-left"></span></a>{{/if}}
+				{{#if theme.ICONS.navigation}}<a href="javascript:right()" title="Next page" class="btn"><span class="ca ca-arrow-right"></span></a>{{/if}}
+				{{#if theme.ICONS.print}}<a href="javascript:printCurrentPage()" title="Print current page" class="btn"><span class="ca ca-print"></span></a>{{/if}}
+				{{#if theme.ICONS.fullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+				{{#if theme.ICONS.menu}}<a href="javascript:toggle()" title="Hide menu" class="menu-toggle flex-end" class="btn"><span class="ca ca-menu"></span></a>{{/if}}
 			</div>
 			<div class="title">
-				{{#is 1 cssvars.headerToggleName}}<h1>{{option-course-name}}</h1>{{/is}}
-				{{#is 1 cssvars.headerToggleDescription}}<p>{{option-course-description}}</p>{{/is}}
-				{{#is 1 cssvars.headerToggleProgress}}<div class="progress-container">
-					<div class="graph-parent"><div id="progressgraph"></div></div>
-					<div class="graph-text"><span id="progressnumber">0</span>% complete</div>
-				</div>{{/is}}
+				{{#if theme.HEADER.title}}<h1>{{option-course-name}}</h1>{{/if}}
+				{{#if theme.HEADER.description}}<p>{{option-course-description}}</p>{{/if}}
+				{{#if theme.HEADER.progress}}<div class="progress-container">
+					<div class='graph-wheel' id='progressgraph'></div>
+					<div class='graph-text'><output id='progressnumber'></output>% complete</div>
+				</div>{{/if}}
 			</div>
 		</header>
-		<nav id="scroll" data-simplebar class="flex-1">
-			{{#is 1 cssvars.menuToggleShow}}<ol id="menu"></ol>{{/is}}
+		<nav id="scroll" class="flex-1" role="navigation">
+			<ol id="menu"></ol>
 		</nav>
 		<footer>
 			<div>
-				{{#is 1 cssvars.footerToggleCopyright}}<p>{{option-course-copyright}}</p>{{/is}}
-				{{#is 1 cssvars.footerToggleBranding}}<p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>{{/is}}
+				{{#if theme.FOOTER.copyright}}<p>{{option-course-copyright}}</p>{{/if}}
+				{{#if theme.FOOTER.brand}}<p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>{{/if}}
 			</div>
 		</footer>
 	</aside>
-	{{#is 1 cssvars.buttonsToggleMenu}}<aside class="mobile">
-		<a href="javascript:toggle()" title="Toggle menu"><i class="ca-menu"></i></a>
-		<a id="mobilefs" href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>
-	</aside>
-	<nav class="mobile">
-		<a href="javascript:right()" title="Go to the next page"><i class="ca-arrow-right"></i></a>
-	</nav>{{/is}}
-	<main>
+	{{#if theme.ICONS.menu}}<nav role='navigation' class='side'>
+		<a href="javascript:toggle()" title="Toggle menu" class="btn"><span class="ca ca-menu"></span></a>
+		{{#if theme.ICONS.navigation}}<a href="javascript:right()" title="Next page" class="btn"><span class="ca ca-arrow-right"></span></a>{{/if}}
+		{{#if theme.ICONS.navigation}}<a href="javascript:left()" title="Previous page" class="btn"><span class="ca ca-arrow-left"></span></a>{{/if}}
+		{{#if theme.ICONS.fullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+		{{#if theme.ICONS.print}}<a href="javascript:printCurrentPage()" title="Print current page" class="btn"><span class="ca ca-print"></span></a>{{/if}}
+	</nav>{{/if}}
+	<main role="main">
+		{{#unless theme.ICONS.menu}}<nav role="navigation">
+			<a href="javascript:toggle()" title="Toggle menu" class="btn"><span class="ca ca-menu"></span></a>
+			<a href="javascript:right()" title="Go to the next page" class="btn"><span class="ca ca-arrow-right"></span></a>
+		</nav>{{/unless}}
 		<div class="iframe">
 			<iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
 			<iframe seamless frameborder="0" class="over" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
