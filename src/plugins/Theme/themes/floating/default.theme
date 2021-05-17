@@ -1,0 +1,17 @@
+ICONS
+print, fullscreen, menu, navigation
+
+AUDIO
+background: #336699
+controls: white
+
+NANO
+background: #336699
+text: white
+shadow: rgba(0,0,0,.2)
+padding: .25rem
+
+ATTACHMENTS
+background: #336699
+itembackground: white
+text: #336699

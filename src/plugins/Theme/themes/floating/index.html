@@ -1,7 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
     <head>
-        <title>{{option-course-name}}</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>{{option-course-name}}</title>
+
+        <script type="module">
+            document.documentElement.classList.remove('no-js');
+            document.documentElement.classList.add('js');
+        </script>
+
         <meta name="title" content="{{option-course-name}}" />
         <meta name="description" content="{{option-course-description}}" />
         <meta name="copyright" content="{{option-course-copyright}}" />
@@ -13,36 +21,37 @@
         {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         <script type="text/javascript">
         var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
-            pages = {{{json pages}}};
+            pages = {{{pages}}};
         </script>
         <script type="text/javascript" src="_package.js"></script>
         {{{analytics-code}}}
     </head>
     <body onunload="doUnload()" onbeforeunload="doUnload()">
-        <header>
-            <div class="progress"><div id="progressgraph"></div></div>
-            <div class="info">
-                <div id="pagetitle"></div>
-                <div class="small">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</div>
+        <main>
+            <div class="iframe">
+                <iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                <iframe seamless frameborder="0" class="over" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
             </div>
-        </header>
-        <section class="content">
-            <main>
-                <div class="iframe">
-                    <iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-                    <iframe seamless frameborder="0" class="over" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-                </div>
-                <div class="audio">
-                    <audio id="pageAudio"></audio>
-                </div>
-            </main>
-            <div class="swipe-zone"></div>
-            <nav>
-                <a href="javascript:left()" id="lb" title="Go to the previous page"><i class="ca-arrow-left"></i></a>
-                <div class="small">Page <span id="pagenumber"></span> of <span id="pagetotal"></span></div>
-                <a href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>
-                <a href="javascript:right()" id="rb" title="Go to the next page"><i class="ca-arrow-right"></i></a>
-            </nav>
-        </section>
+            <div class="audio">
+                <audio id="pageAudio"></audio>
+            </div>
+        </main>
+        <nav>
+            <section class="navigation" hidden>
+                <select id="pages" onchange="goto(this.value)"></select>
+            </section>
+            <section class="controls">
+                {{#if theme.ICONS.navigation}}<a href="javascript:left()" title="Previous page" class="btn"><span class="ca ca-left"></span></a>{{/if}}
+                {{#if theme.ICONS.print}}<a href="javascript:printCurrentPage()" title="Print current page" class="btn"><span class="ca ca-print"></span></a>{{/if}}
+                {{#if theme.ICONS.menu}}<a href="javascript:toggle()" title="Toggle menu" class="btn"><span class="ca ca-menu"></span></a>{{/if}}
+                {{#if theme.NANO.progress}}<div class="progress-container">
+                    <div class='graph-wheel' id='progressgraph'></div>
+                    <div class='graph-text'><output id='pagenumber'></output> of <output id="pagetotal"></output></div>
+                </div>{{/if}}
+                {{#if theme.ICONS.fullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-expand"></span></a>{{/if}}
+                {{#if theme.ICONS.navigation}}<a href="javascript:right()" title="Next page" class="btn"><span class="ca ca-right"></span></a>{{/if}}
+            </section>
+        </nav>
+        <div id="swipe-zone"></div>
     </body>
 </html>

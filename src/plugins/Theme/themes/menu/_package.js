@@ -210,7 +210,7 @@ document.addEventListener("keydown", function keyListener(event) {
 // toggle going into or coming out of full-screen
 function fullscreen() {
 	if (screenfull.isFullscreen) {
-		[].forEach.call(document.querySelectorAll(".screen-reduce"), function(el) {
+		[].forEach.call(document.querySelectorAll(".ca-screen-reduce"), function(el) {
 			el.classList.add("ca-screen-expand");
 			el.classList.remove("ca-screen-reduce");
 		});

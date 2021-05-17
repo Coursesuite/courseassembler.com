@@ -226,7 +226,17 @@
 				"itembackground": "#e8e8e8",
 				"text": "#000000",
 				"rounded": "10px"
-			}		
+			},
+			"NANO": {
+				"background": "#999999",
+				"text": "#ffffff",
+				"rounded": false,
+				"font": "Open Sans",
+				"size": "20px",
+				"padding": ".25rem",
+				"shadow": false,
+				"progress": true
+			}
 		}
 		const lines = theme.split(/\r?\n/);
 		let BLOCK = "PAGE"
@@ -248,8 +258,8 @@
 			// otherwise record all properties
 			// regexp adapted from https://stackoverflow.com/a/4607799/1238884 - split only first :
 			const [statement, value] = line.split(/\:(.+)/).map(Function.prototype.call, String.prototype.trim);
-			if (properties[BLOCK].hasOwnProperty(statement)) {
-				properties[BLOCK][statement] = normalise(value);
+			if (properties[BLOCK].hasOwnProperty(statement.toLowerCase())) {
+				properties[BLOCK][statement.toLowerCase()] = normalise(value);
 			}
 		});
 		if (compile) {
