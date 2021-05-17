@@ -25,3 +25,7 @@ SELECTION
 background: linear-gradient(180deg, #A2E04F 0%, #71AA37 100%)
 text: white
 shadow: off
+
+AUDIO
+background: #182630
+controls: white

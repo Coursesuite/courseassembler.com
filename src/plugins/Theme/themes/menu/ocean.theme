@@ -17,6 +17,10 @@ FOOTER
 background: #4aa9ee
 text: white
 
+AUDIO
+background: #2e97ac
+controls: white
+
 ITEM
 background: transparent
 text: white
@@ -26,3 +30,8 @@ SELECTION
 background: white
 text: black
 shadow: off
+
+ATTACHMENTS
+background: #2e97ac
+rounded: 0px
+

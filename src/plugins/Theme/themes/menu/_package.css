@@ -47,12 +47,13 @@
     --selectionPadding: {{#if theme.SELECTION.padding}}{{theme.SELECTION.padding}}{{else}}none{{/if}};
     --selectionRadius: {{#if theme.SELECTION.rounded}}{{theme.SELECTION.rounded}}{{else}}unset{{/if}};
 
-    --attachmentBackground: {{#if theme.ATTACHMENTS.background}}{{theme.ATTACHMENTS.background}}{{else}}transparent{{/if}};
+    --attachmentBackground: {{#if theme.ATTACHMENTS.background}}{{theme.ATTACHMENTS.background}}{{else}}#ffffff{{/if}};
+    --attachmentItemBackground: {{#if theme.ATTACHMENTS.itembackground}}{{theme.ATTACHMENTS.itembackground}}{{else}}#ffffff{{/if}};
     --attachmentText: {{#if theme.ATTACHMENTS.text}}{{theme.ATTACHMENTS.text}}{{else}}inherit{{/if}};
-    --attachmentRadius: {{#if theme.ATTACHMENTS.rounded}}{{theme.ATTACHMENTS.rounded}}{{else}}unset{{/if}}
+    --attachmentRadius: {{#if theme.ATTACHMENTS.rounded}}{{theme.ATTACHMENTS.rounded}}{{else}}unset{{/if}};
 
-    --audioBackground: {{#if theme.AUDIO.background}}{{theme.AUDIO.background}}{{else}}transparent{{/if}};
-    --audioControls: {{#if theme.AUDIO.controls}}{{theme.AUDIO.controls}}{{else}}inherit{{/if}};
+    --audioBackground: {{#if theme.AUDIO.background}}{{theme.AUDIO.background}}{{else}}#ffffff{{/if}};
+    --audioControls: {{#if theme.AUDIO.controls}}{{theme.AUDIO.controls}}{{else}}#4f5b5f{{/if}};
 
     --padding: .25rem;
     --narrow: 2rem;
@@ -487,8 +488,8 @@ nav#scroll li.child > div {
     border-radius: var(--subitemRadius, var(--itemRadius));
 }
 nav#scroll li.child > div > a {
-{{#if theme.ITEM.shadow}}
-    text-shadow: 1px 1px 0 var(--itemShadow);
+{{#if theme.SUBITEM.shadow}}
+    text-shadow: 1px 1px 0 var(--subitemShadow);
 {{/if}}
     outline: none;
 }
@@ -620,7 +621,7 @@ body > main > div.iframe > iframe {
 
 
 /* ===============================================================================
-    audio player (uses plyr.io)
+    audio player (uses plyr.io v2.0.8 - NOT the latest)
 ================================================================================== */
 body > main > div.audio {
   width: 100%;
@@ -631,6 +632,11 @@ body > main > div.audio {
 body.has-audio > main > div.audio {
   display: block;
 }
+.plyr--audio .plyr__controls {
+    background-color: var(--audioBackground);
+    color: var(--audioControls);
+}
+
 /* ------------------------------------------------------------------------------- */
 
 /* ===============================================================================
@@ -638,12 +644,13 @@ body.has-audio > main > div.audio {
 ================================================================================== */
 div.attache {
   padding: .5rem;
+  background: var(--attachmentBackground);
 }
 div.attache a {
-  background-color: var(--backgroundColor);
-  color: var(--textColor);
+  background: var(--attachmentItemBackground);
+  color: var(--attachmentText);
   padding: .25rem .5rem;
-  border-radius: 10px;
+  border-radius: var(--attachmentRadius);
   display: inline-block;
   margin-right: .5rem;
 }

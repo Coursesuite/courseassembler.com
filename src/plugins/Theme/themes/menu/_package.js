@@ -472,8 +472,10 @@ function load() {
 			var a = document.createElement('a');
 			a.addEventListener('click',download);
 			a.setAttribute('href','#');
+			if (value.hasOwnProperty("name")) value = value.name; // preview / build hack
 			a.dataset.fileName = current_page.href.replace('.html','/'+value);
 			a.textContent = value.replace(/\.[^/.]+$/, "");
+			a.insertAdjacentHTML('afterBegin', "<span class='ca ca-attachment'></span>&nbsp;");
 			attache.appendChild(a);
 		});
 	} else {
@@ -490,7 +492,7 @@ function load() {
     	var pli = li.parentNode.closest("li");
 	    if (pli) pli.classList.add("open");
 	    if (li.querySelector("ol")) li.classList.add("open");
-	    li.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	    li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 	}
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showCurrentPageNumber();

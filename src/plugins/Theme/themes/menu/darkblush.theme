@@ -17,6 +17,10 @@ FOOTER
 background: #182630
 text: white
 
+AUDIO
+background: #182630
+controls: white
+
 ITEM
 background: transparent
 text: white

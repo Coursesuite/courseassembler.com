@@ -10,9 +10,16 @@
 		localforage.config({name: 'DocumentNinja'});
 		localforage.getItem(fileid).then(function (obj) {
 			if (obj === null) return;
-			if (obj.payload.html === undefined) {obj.payload.html = "File has no content";}
-			var blob = new Blob([obj.payload.html],{type:"text/html"});
-			var url = URL.createObjectURL(blob);
+			var objUrl = true, url;
+			switch (obj.kind) {
+				case "image": obj.payload.html = parent.parent.Handlebars.templates["preview-image"](obj.payload); break;
+				case "iframe": objUrl = false; url = obj.payload.src; break;
+			}
+			if (obj.payload.html === undefined) obj.payload.html = "File has no content, or cannot be previewed at this time.";
+			if (objUrl) {
+				var blob = new Blob([obj.payload.html],{type:"text/html"});
+				url = URL.createObjectURL(blob);
+			}
 			window.location.href = url;
 		});
 	},false);</script>

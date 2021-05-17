@@ -13,6 +13,10 @@ background: #919283
 text: white
 shadow: none
 
+AUDIO
+background: #919283
+controls: white
+
 FOOTER
 background: rgba(255,255,255,.1)
 text: white

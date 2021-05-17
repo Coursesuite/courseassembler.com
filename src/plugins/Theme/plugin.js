@@ -95,7 +95,7 @@
 							"href": "preview.html?" + key,
 							"depth": Math.max(0,+value.depth||0),
 							"audio": value.payload.hasOwnProperty("mp3") && value.payload.mp3.length ? true : undefined, // md5(value.payload.mp3)+".mp3"
-							"attachments": value.hasOwnProperty("attachments") ? true : undefined // good enough for previewer's needs
+							"attachments": value.hasOwnProperty("attachments") ? value.attachments : undefined // good enough for previewer's needs
 			         	});
 			        }
 			    }).then(resolve);
@@ -223,8 +223,9 @@
 			},
 			"ATTACHMENTS": {
 				"background": "#ffffff",
+				"itembackground": "#e8e8e8",
 				"text": "#000000",
-				"rounded": "1rem"
+				"rounded": "10px"
 			}		
 		}
 		const lines = theme.split(/\r?\n/);

@@ -48,6 +48,7 @@ background: #2D3136
 controls: white
 
 ATTACHMENTS
-background: #2D3136
-text: white
+background: #37485f
+itembackground: #ffffff
+text: #2D3136
 rounded: 1rem
