@@ -1,4 +1,4 @@
-PAGE
+NAVIGATION
 font: Playfair Display
 size: 18px
 background: url(https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80) center / cover scroll
@@ -12,6 +12,7 @@ HEADER
 background: #774833e3
 text: white
 shadow: none
+image: https://images.unsplash.com/photo-1500353391678-d7b57979d6d2?ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTB8ODUzODA1MXx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=60
 
 FOOTER
 background: #496B48e3
@@ -20,6 +21,12 @@ copyright: off
 
 ITEM
 background: rgba(255,255,255,.5)
+text: black
+shadow: off
+padding: 0rem
+
+SUBITEM
+background: rgba(255,255,255,.75)
 text: black
 shadow: off
 padding: 0rem

@@ -1,17 +1,17 @@
 
 
-{{#if theme.PAGE.font}}
-@import url(https://fonts.googleapis.com/css?display=swap&family={{urlencode theme.PAGE.font}});
+{{#if theme.NAVIGATION.font}}
+@import url(https://fonts.googleapis.com/css?display=swap&family={{urlencode theme.NAVIGATION.font}});
 {{/if}}
 
 /* ===============================================================================
     core colour variables (uses a javascript ponyfill for var support in IE)
 ================================================================================== */
 :root {
-    --bodyBackground: {{{theme.PAGE.background}}};
-    --bodyText: {{theme.PAGE.text}};
-    --bodySize: {{theme.PAGE.size}};
-    --bodyFont: {{theme.PAGE.font}};
+    --bodyBackground: {{{theme.NAVIGATION.background}}};
+    --bodyText: {{theme.NAVIGATION.text}};
+    --bodySize: {{theme.NAVIGATION.size}};
+    --bodyFont: {{theme.NAVIGATION.font}};
 
     --headerBackground: {{#if theme.HEADER.background}}{{theme.HEADER.background}}{{else}}transparent{{/if}};
     --headerText: {{#if theme.HEADER.text}}{{theme.HEADER.text}}{{else}}inherit{{/if}};
@@ -32,6 +32,13 @@
     --itemBorder: {{#if theme.ITEM.border}}{{theme.ITEM.border}}{{else}}none{{/if}};
     --itemPadding: {{#if theme.ITEM.padding}}{{theme.ITEM.padding}}{{else}}none{{/if}};
     --itemRadius: {{#if theme.ITEM.rounded}}{{theme.ITEM.rounded}}{{else}}unset{{/if}};
+
+    --subitemBackground: {{#if theme.SUBITEM.background}}{{theme.SUBITEM.background}}{{else}}var(--itemBackground){{/if}};
+    --subitemText: {{#if theme.SUBITEM.text}}{{theme.SUBITEM.text}}{{else}}var(--itemText){{/if}};
+    --subitemShadow: {{#if theme.SUBITEM.shadow}}{{theme.SUBITEM.shadow}}{{else}}var(--itemShadow){{/if}};
+    --subitemBorder: {{#if theme.SUBITEM.border}}{{theme.SUBITEM.border}}{{else}}var(--itemBorder){{/if}};
+    --subitemPadding: {{#if theme.SUBITEM.padding}}{{theme.SUBITEM.padding}}{{else}}var(--itemPadding){{/if}};
+    --subitemRadius: {{#if theme.SUBITEM.rounded}}{{theme.SUBITEM.rounded}}{{else}}var(--itemRadius){{/if}};
 
     --selectionBackground: {{#if theme.SELECTION.background}}{{theme.SELECTION.background}}{{else}}transparent{{/if}};
     --selectionText: {{#if theme.SELECTION.text}}{{theme.SELECTION.text}}{{else}}inherit{{/if}};
@@ -224,8 +231,6 @@ body {
     overflow: hidden;
     position: relative;
     font-family: var(--bodyFont, sans-serif);
-    background: var(--bodyBackground);
-    color: var(--bodyText);
 }
 body > main {
     flex: 1;
@@ -328,6 +333,15 @@ body > aside > header {
 body > aside > header .title {
     padding: var(--padding);
 }
+body > aside > header .title div.image {
+    text-align: center;
+}
+
+body > aside > header .title div.image > img {
+    max-width: 100%;
+}
+
+
 body > aside > header .title h1 {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -415,7 +429,7 @@ body > aside > header .icons a.flex-end {
 
 /* Scrollbar Styling */
 aside {
-    scrollbar-color: {{theme.PAGE.scrollbar}} transparent;
+    scrollbar-color: {{theme.NAVIGATION.scrollbar}} transparent;
 }
 aside ::-webkit-scrollbar {
     width: 10px;
@@ -428,7 +442,7 @@ aside ::-webkit-scrollbar-track {
 aside ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: {{theme.PAGE.scrollbar}}; 
+    background: {{theme.NAVIGATION.scrollbar}}; 
 }
 
 /* ===============================================================================
@@ -448,7 +462,7 @@ nav#scroll li {
 nav#scroll li > div {
     display: flex;
     align-items: center;
-    margin: 0 0 .1rem 0;
+    margin: 0 0 1px 0;
     padding: var(--itemPadding) 0;
     background: var(--itemBackground);
     color: var(--itemText);
@@ -456,6 +470,23 @@ nav#scroll li > div {
     border-radius: var(--itemRadius);
 }
 nav#scroll li > div > a {
+{{#if theme.ITEM.shadow}}
+    text-shadow: 1px 1px 0 var(--itemShadow);
+{{/if}}
+    outline: none;
+}
+
+nav#scroll li.child > div {
+    display: flex;
+    align-items: center;
+    margin: 0 0 1px 0;
+    padding: var(--subitemPadding, var(--itemPadding)) 0;
+    background: var(--subitemBackground, var(--itemBackground));
+    color: var(--subitemText, var(--itemText));
+    border: var(--subitemBorder, var(--itemBorder));
+    border-radius: var(--subitemRadius, var(--itemRadius));
+}
+nav#scroll li.child > div > a {
 {{#if theme.ITEM.shadow}}
     text-shadow: 1px 1px 0 var(--itemShadow);
 {{/if}}

@@ -280,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
     // return html that builds one li node
     // as this process may return unclosed tags, we can't use createElement
-    function li(i,title,expandable,aud,att) {
+    function li(i,title,expandable,aud,att, child) {
 		var html = [];
-		var liClass = (expandable == true) ? "parent":"";
+		var liClass = (expandable == true) ? "parent": child ? "child" : "";
 		html.push('<li class="' + liClass + '">');
 		html.push('<div>');
 		html.push('<a href="#" onclick="event.preventDefault();goto(' + i + ')">' + title + '</a>');
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     }
 
     // nested list / menu from a flat array
-    var menu = [];
+    var menu = [], child = false;
     for (var i=0;i<pages.length;i++) {
       var p = pages[i],
           q = pages[i+1],
@@ -308,16 +308,18 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
           attach = p.hasOwnProperty('attachments');
       if (q) {
         if (q.depth > p.depth) {
-          menu.push(li(i,p.title,true,audio,attach));
+          child = true;
+          menu.push(li(i,p.title,true,audio,attach, child));
           r = false;
         } else if (q.depth < p.depth) {
-          menu.push(li(i,p.title,false,audio,attach));
+          menu.push(li(i,p.title,false,audio,attach, child));
+          child = false; // AFTER rendering node
           for (j=0;j<p.depth;j++) menu.push("</li></ol>");
           r = false;
         }
       }
       if (r) {
-        menu.push(li(i,p.title,false,audio,attach));
+        menu.push(li(i,p.title,false,audio,attach, child));
       }
 
       // setting a completed property on this node should trigger a course completion check

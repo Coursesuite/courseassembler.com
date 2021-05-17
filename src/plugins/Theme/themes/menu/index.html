@@ -39,6 +39,7 @@
 				{{#if theme.ICONS.menu}}<a href="javascript:toggle()" title="Hide menu" class="menu-toggle flex-end" class="btn"><span class="ca ca-menu"></span></a>{{/if}}
 			</div>
 			<div class="title">
+				{{#if theme.HEADER.image}}<div class="image"><img src="{{theme.HEADER.image}}"></div>{{/if}}
 				{{#if theme.HEADER.title}}<h1>{{option-course-name}}</h1>{{/if}}
 				{{#if theme.HEADER.description}}<p>{{option-course-description}}</p>{{/if}}
 				{{#if theme.HEADER.progress}}<div class="progress-container">

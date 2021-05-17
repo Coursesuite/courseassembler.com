@@ -161,7 +161,7 @@
 	// called by selectPreset
 	function processTheme(theme, compile) {
 		let properties = {
-			"PAGE": {
+			"NAVIGATION": {
 				"font": "Open Sans",
 				"size": "16px",
 				"background": "#ffffff",
@@ -171,6 +171,7 @@
 			"HEADER": {
 				"background": "#2E79A4",
 				"text": "#ffffff",
+				"image": "",
 				"shadow": false,
 				"title": true,
 				"description": false,
@@ -197,6 +198,14 @@
 				"text": "#ffffff",
 				"shadow": "rgba(0,0,0,.25)",
 				"padding": ".25rem",
+				"rounded": false,
+				"border": false
+			},
+			"SUBITEM": {
+				"background": "inherit",
+				"text": "inherit",
+				"shadow": "inherit",
+				"padding": "inherit",
 				"rounded": false,
 				"border": false
 			},
