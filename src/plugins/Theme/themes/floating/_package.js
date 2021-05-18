@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     }
 
     var menu = [], dest = document.getElementById('pages');
+    while (dest.firstChild) dest.removeChild(dest.lastChild); // ensure emptiness
     for (var i=0;i<pages.length;i++) {
     	var p = pages[i],
     		option = document.createElement('option');
@@ -293,6 +294,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 				this._completed = bool;
 				if (this._throttle) clearTimeout(this._throttle);
 				this._throttle = setTimeout(checkCourseCompletion,99,true);
+				var opt = document.querySelector('#pages :checked');
+				if (opt) opt.innerHTML = opt.textContent + " &check;";
 			}
 		});
 

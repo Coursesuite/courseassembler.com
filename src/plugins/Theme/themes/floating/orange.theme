@@ -1,0 +1,19 @@
+ICONS
+menu, navigation
+
+AUDIO
+background: white
+controls: #bd5f0e
+
+NANO
+background: linear-gradient(to top, #bd5f0e 0%, #ff7601 100%)
+text: white
+shadow: rgba(0,0,0,.1)
+padding: .5rem 1rem
+rounded: off
+progress: false
+
+ATTACHMENTS
+background: white
+itembackground: #ff7601
+text: white

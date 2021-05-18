@@ -15,8 +15,9 @@
         <meta name="copyright" content="{{option-course-copyright}}" />
         <meta name="timestamp" content="{{timestamp}}" />
         <meta name="author" content="https://www.courseassembler.com" />
-        <link rel="stylesheet" type="text/css" href="_package.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
         {{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
+        <link rel="stylesheet" type="text/css" href="_package.css">
         <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
         {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         <script type="text/javascript">
@@ -52,6 +53,6 @@
                 {{#if theme.ICONS.navigation}}<a href="javascript:right()" title="Next page" class="btn"><span class="ca ca-right"></span></a>{{/if}}
             </section>
         </nav>
-        <div id="swipe-zone"></div>
+        <div class="swipe-zone"></div>
     </body>
 </html>

@@ -7,7 +7,7 @@
 	border-right: 1px solid var(--edge);
 }
 #theme-preview {
-	width: 100%;
+	width: calc(100% - 1px);
 	height: 100%;
 }
 .theme-preview-options>label {

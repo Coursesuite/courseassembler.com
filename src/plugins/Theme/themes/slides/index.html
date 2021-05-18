@@ -15,42 +15,53 @@
         {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         <script type="text/javascript">
         var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
-            pages = {{{json pages}}};
+            pages = {{{pages}}};
         </script>
         <script type="text/javascript" src="_package.js"></script>
         {{{analytics-code}}}
     </head>
     <body onunload="doUnload()" onbeforeunload="doUnload()">
         <header>
-            <a href="javascript:fullscreen()" title="Toggle fullscreen"><i class="ca-maximize"></i></a>
+            <div class="flex-left">
+                {{#if theme.HEADER.title}}<h1>{{option-course-name}}</h1>{{/if}}
+                {{#if theme.HEADER.description}}<p>{{option-course-description}}</p>{{/if}}
+            </div>
+            <div class="flex-right">
+                {{#if theme.HEADER.progress}}<div class="progress-container">
+                    <div class='graph-wheel' id='progressgraph'></div>
+                    <div class='graph-text'><output id='progressnumber'></output>% complete</div>
+                </div>{{/if}}
+                {{#if theme.ICONS.print}}<a href="javascript:printCurrentPage()" title="Print current page" class="btn"><span class="ca ca-print"></span></a>{{/if}}
+                {{#if theme.ICONS.fullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+            </div>
         </header>
-        <section class="flex-1">
-            <main>
-                <div class="iframe">
-                    <iframe seamless frameborder="0" class="under"></iframe>
-                    <iframe seamless frameborder="0" class="over"></iframe>
-                </div>
-                <div class="audio">
-                    <audio id="pageAudio"></audio>
-                </div>
-                <div class="bl"></div><div class="tr"></div><div class="tl"></div><div class="br"></div>
-            </main>
-        </section>
+        <main>
+            <div class="iframe">
+                <iframe seamless frameborder="0" class="under"></iframe>
+                <iframe seamless frameborder="0" class="over"></iframe>
+            </div>
+        </main>
         <footer>
-            <div class="nav left">
-                <a href="javascript:left();" class="navigation" id="lb"><i class="ca-arrow-left"></i></a>
+            {{#if theme.ICONS.navigation}}<div class="button flex-left">
+                <a href="javascript:left();" class="navigation" id="lb"><span class="ca ca-arrow-left"></span></a>
+            </div>{{/if}}
+            <div class="flex-1">
+                <section class='navigation'>
+                    <select id="pages" onchange="goto(this.value)"></select>
+                </section>
+                <section class='page-properties'>
+                    <div class='flex-left'>
+                        <div class="audio"><audio id="pageAudio"></audio></div>
+                    </div>
+                    <div class='flex-right attachments' id='pagefiles'>
+                        <div>Attachments: <div class='attache'></div></div>
+                    </div>
+                </section>
+                {{#if theme.FOOTER.brand}}<section class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</section>{{/if}}
             </div>
-            <div class="information">
-                <div class="coursename">{{option-course-name}}</div>
-                <div id="pagetitle"></div>
-                <div class="progress-bar">
-                    <div id="progressgraph"></div>
-                </div>
-                <p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>
-            </div>
-            <div class="nav right">
-                <a href="javascript:right();" class="navigation" id="rb"><i class="ca-arrow-right"></i></a>
-            </div>
+            {{#if theme.ICONS.navigation}}<div class="button flex-right">
+                <a href="javascript:right();" class="navigation" id="rb"><span class="ca ca-arrow-right"></span></a>
+            </div>{{/if}}
         </footer>
     </body>
 </html>

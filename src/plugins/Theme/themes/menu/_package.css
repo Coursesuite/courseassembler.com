@@ -1,7 +1,7 @@
 
 
 {{#if theme.NAVIGATION.font}}
-@import url(https://fonts.googleapis.com/css?display=swap&family={{urlencode theme.NAVIGATION.font}});
+@import url(https://fonts.googleapis.com/css2?display=swap&family={{urlencode theme.NAVIGATION.font}});
 {{/if}}
 
 /* ===============================================================================

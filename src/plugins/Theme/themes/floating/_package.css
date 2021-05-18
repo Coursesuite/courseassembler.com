@@ -1,7 +1,7 @@
 *, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
 {{#if theme.NANO.font}}
-@import url(https://fonts.googleapis.com/css?display=swap&family={{urlencode theme.NANO.font}});
+@import url('https://fonts.googleapis.com/css2?family={{urlencode theme.NANO.font}}&display=swap');
 {{/if}}
 
 /* ===============================================================================
@@ -52,7 +52,6 @@
   content: "\e901";
 }
 
-
 /* ------------------------------------------------------------------------------- */
 
 
@@ -68,6 +67,14 @@
 
     --bodySize: {{theme.NANO.size}};
     --bodyFont: {{theme.NANO.font}};
+
+    --attachmentBackground: {{#if theme.ATTACHMENTS.background}}{{theme.ATTACHMENTS.background}}{{else}}#ffffff{{/if}};
+    --attachmentItemBackground: {{#if theme.ATTACHMENTS.itembackground}}{{theme.ATTACHMENTS.itembackground}}{{else}}#ffffff{{/if}};
+    --attachmentText: {{#if theme.ATTACHMENTS.text}}{{theme.ATTACHMENTS.text}}{{else}}inherit{{/if}};
+    --attachmentRadius: {{#if theme.ATTACHMENTS.rounded}}{{theme.ATTACHMENTS.rounded}}{{else}}unset{{/if}};
+
+    --audioBackground: {{#if theme.AUDIO.background}}{{theme.AUDIO.background}}{{else}}#ffffff{{/if}};
+    --audioControls: {{#if theme.AUDIO.controls}}{{theme.AUDIO.controls}}{{else}}#4f5b5f{{/if}};
 
 }
 /* ------------------------------------------------------------------------------- */
@@ -90,11 +97,10 @@ html {
 
 body {
     display: flex;
-    flex-direction: column;
     height: 100vh;
     overflow: hidden;
     position: relative;
-    font-family: var(--bodyFont);
+    font-family: sans-serif, var(--bodyFont, sans-serif);
 }
 
 body > main {
@@ -119,20 +125,20 @@ div.iframe {
     width: 50vw;
     height: 25vh;
   }
-  body.has-audio.has-attachments) > nav {
+  body.has-audio.has-attachments > .swipe-zone {
       bottom: calc(100px + .5rem);
   }
-  body.has-attachments:not(.has-audio) > nav,
-  body.has-audio:not(.has-attachments) > nav {
+  body.has-attachments:not(.has-audio) > .swipe-zone,
+  body.has-audio:not(.has-attachments) > .swipe-zone {
       bottom: calc(50px + .5rem);
   }
 }
 
-body.has-audio.has-attachments) .swipe-zone {
+body.has-audio.has-attachments > nav {
     bottom: calc(100px + .5rem);
 }
-body.has-attachments:not(.has-audio) .swipe-zone,
-body.has-audio:not(.has-attachments) .swipe-zone {
+body.has-attachments:not(.has-audio) nav,
+body.has-audio:not(.has-attachments) nav {
     bottom: calc(50px + .5rem);
 }
 
@@ -213,6 +219,9 @@ body:not(.active) .navigation {
     margin-right: var(--padding);
 }
 
+output:first-of-type {
+  margin-left:.5rem;
+}
 
 
 /* ===============================================================================

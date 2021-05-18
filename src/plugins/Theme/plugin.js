@@ -95,7 +95,7 @@
 							"href": "preview.html?" + key,
 							"depth": Math.max(0,+value.depth||0),
 							"audio": value.payload.hasOwnProperty("mp3") && value.payload.mp3.length ? true : undefined, // md5(value.payload.mp3)+".mp3"
-							"attachments": value.hasOwnProperty("attachments") ? value.attachments : undefined // good enough for previewer's needs
+							"attachments": value.hasOwnProperty("attachments") ? value.attachments.map(function(o) { o.file = undefined; return o }) : undefined // good enough for previewer's needs
 			         	});
 			        }
 			    }).then(resolve);
@@ -236,10 +236,28 @@
 				"padding": ".25rem",
 				"shadow": false,
 				"progress": true
+			},
+			"SLIDES": {
+				"background": "#999999",
+				"text": "#ffffff",
+				"font": "Roboto",
+				"size": "16px",
+				"boxshadow": "0 0 25px black",
+				"textshadow": false,
+				"margin": "5rem"
+			},
+			"BUTTONS": {
+				"background": "transparent",
+				"border": false,
+				"text": "#ffffff",
+				"rounded": false,
+				"boxshadow": false,
+				"padding": false,
+				"size": "2rem"
 			}
 		}
 		const lines = theme.split(/\r?\n/);
-		let BLOCK = "PAGE"
+		let BLOCK = "NAVIGATION"
 		lines.forEach((line) => {
 			line = line.trim().replace(/\'|\"|;+$/g,''); // trim whitespace, remove ; and " and '
 			if (!line.length) return;
@@ -255,7 +273,11 @@
 				});
 				return;
 			}
-			// otherwise record all properties
+
+			// ignore unhandled blocks
+			if (!properties.hasOwnProperty(BLOCK)) return;
+
+			// otherwise record all properties against known properites
 			// regexp adapted from https://stackoverflow.com/a/4607799/1238884 - split only first :
 			const [statement, value] = line.split(/\:(.+)/).map(Function.prototype.call, String.prototype.trim);
 			if (properties[BLOCK].hasOwnProperty(statement.toLowerCase())) {

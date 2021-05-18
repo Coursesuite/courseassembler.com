@@ -27,6 +27,7 @@ foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*',GLOB_ONLYD
 	<iframe frameborder='0' id='theme-preview' name='_theme-preview'></iframe>
 </fieldset>
 
-<p>This preview is for design purpose and does not reflect final page ordering or functionality.</p>
+<p class="small">This preview is for design purpose and does not reflect final page ordering or functionality.</p>
+
 
 </form>
