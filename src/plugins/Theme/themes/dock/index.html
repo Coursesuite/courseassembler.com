@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title>{{option-course-name}}</title>
+
+		<script type="module">
+			document.documentElement.classList.remove('no-js');
+			document.documentElement.classList.add('js');
+		</script>
+
+		<meta name="title" content="{{option-course-name}}" />
+		<meta name="description" content="{{option-course-description}}" />
+		<meta name="copyright" content="{{option-course-copyright}}" />
+		<meta name="timestamp" content="{{timestamp}}" />
+		<meta name="author" content="https://www.courseassembler.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link rel="stylesheet" type="text/css" href="plyr.css">
+		<link rel="stylesheet" type="text/css" href="_package.css">
+		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
+		<script type="text/javascript" src="plyr.js"></script>
+		<script type="text/javascript">
+		var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
+			pages = {{{pages}}};
+		</script>
+		<script type="text/javascript" src="_package.js"></script>
+		{{{analytics-code}}}
+		<meta name="theme-color" content="#ffffff">
+	</head>
+	<body onunload="doUnload()" onbeforeunload="doUnload()" class="active">
+		<article>
+			<main role="main" class="flex-1">
+				<div class="iframe">
+					<iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+					<iframe seamless frameborder="0" class="over" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+				</div>
+				<div class="audio">
+					<audio id="pageAudio"></audio>
+				</div>
+			</main>
+			<footer>
+					{{#if theme.ICONS.navigation}}<a href="javascript:left()" title="Previous page" class="btn"><span class="ca ca-arrow-left"></span></a>{{/if}}
+					{{#if theme.ICONS.print}}<a href="javascript:printCurrentPage()" title="Print current page" class="btn"><span class="ca ca-print"></span></a>{{/if}}
+					{{#if theme.ICONS.menu}}<a href="javascript:toggle()" title="Hide menu" class="menu-toggle btn"><span class="ca ca-menu"></span></a>{{/if}}
+					<span class="flex-1"></span>
+					{{#if theme.HEADER.progress}}<div class="progress-container">
+						<div class='graph-wheel' id='progressgraph'></div>
+						<div class='graph-text'><output id='progressnumber'></output>% complete</div>
+					</div>{{/if}}
+					{{#if theme.ICONS.fullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+					{{#if theme.ICONS.navigation}}<a href="javascript:right()" title="Next page" class="btn"><span class="ca ca-arrow-right"></span></a>{{/if}}
+				</div>
+			</footer>
+		</article>
+		{{#if theme.ICONS.menu}}<aside>
+			<header class="title">
+				{{#if theme.HEADER.image}}<div class="image"><img src="{{theme.HEADER.image}}"></div>{{/if}}
+				{{#if theme.HEADER.title}}<h1>{{option-course-name}}</h1>{{/if}}
+				{{#if theme.HEADER.description}}<p>{{option-course-description}}</p>{{/if}}
+			</header>
+			<nav id="scroll" class="flex-1" role="navigation">
+				<ol id="menu"></ol>
+			</nav>
+			<footer>
+				<div>
+					{{#if theme.FOOTER.copyright}}<p>{{option-course-copyright}}</p>{{/if}}
+					{{#if theme.FOOTER.brand}}<p class="watermark">Created using <a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>.</p>{{/if}}
+				</div>
+			</footer>
+		</aside>{{/if}}
+	</body>
+</html>

@@ -1,0 +1,653 @@
+
+
+{{#if theme.NAVIGATION.font}}
+@import url(https://fonts.googleapis.com/css2?display=swap&family={{urlencode theme.NAVIGATION.font}});
+{{/if}}
+
+/* ===============================================================================
+    core colour variables (uses a javascript ponyfill for var support in IE)
+================================================================================== */
+:root {
+    --bodyBackground: {{{theme.NAVIGATION.background}}};
+    --bodyText: {{theme.NAVIGATION.text}};
+    --bodySize: {{theme.NAVIGATION.size}};
+    --bodyFont: {{theme.NAVIGATION.font}};
+
+    --headerBackground: {{#if theme.HEADER.background}}{{theme.HEADER.background}}{{else}}transparent{{/if}};
+    --headerText: {{#if theme.HEADER.text}}{{theme.HEADER.text}}{{else}}inherit{{/if}};
+    --headerShadow: {{#if theme.HEADER.shadow}}{{theme.HEADER.shadow}}{{else}}none{{/if}};
+    --headerTitle: {{#if theme.HEADER.title}}block{{else}}none{{/if}};
+    --headerDescription: {{#if theme.HEADER.description}}block{{else}}none{{/if}};
+    --headerProgress: {{#if theme.HEADER.progress}}block{{else}}none{{/if}};
+
+    --footerBackground: {{#if theme.FOOTER.background}}{{theme.FOOTER.background}}{{else}}transparent{{/if}};
+    --footerText: {{#if theme.FOOTER.text}}{{theme.FOOTER.text}}{{else}}inherit{{/if}};
+    --footerShadow: {{#if theme.FOOTER.shadow}}{{theme.FOOTER.shadow}}{{else}}none{{/if}};
+    --footerCopyright: {{#if theme.FOOTER.copyright}}block{{else}}none{{/if}};
+    --footerBrand: {{#if theme.FOOTER.brand}}block{{else}}none{{/if}};
+
+    --itemBackground: {{#if theme.ITEM.background}}{{theme.ITEM.background}}{{else}}transparent{{/if}};
+    --itemText: {{#if theme.ITEM.text}}{{theme.ITEM.text}}{{else}}inherit{{/if}};
+    --itemShadow: {{#if theme.ITEM.shadow}}{{theme.ITEM.shadow}}{{else}}none{{/if}};
+    --itemBorder: {{#if theme.ITEM.border}}{{theme.ITEM.border}}{{else}}none{{/if}};
+    --itemPadding: {{#if theme.ITEM.padding}}{{theme.ITEM.padding}}{{else}}none{{/if}};
+    --itemRadius: {{#if theme.ITEM.rounded}}{{theme.ITEM.rounded}}{{else}}unset{{/if}};
+
+    --subitemBackground: {{#if theme.SUBITEM.background}}{{theme.SUBITEM.background}}{{else}}var(--itemBackground){{/if}};
+    --subitemText: {{#if theme.SUBITEM.text}}{{theme.SUBITEM.text}}{{else}}var(--itemText){{/if}};
+    --subitemShadow: {{#if theme.SUBITEM.shadow}}{{theme.SUBITEM.shadow}}{{else}}var(--itemShadow){{/if}};
+    --subitemBorder: {{#if theme.SUBITEM.border}}{{theme.SUBITEM.border}}{{else}}var(--itemBorder){{/if}};
+    --subitemPadding: {{#if theme.SUBITEM.padding}}{{theme.SUBITEM.padding}}{{else}}var(--itemPadding){{/if}};
+    --subitemRadius: {{#if theme.SUBITEM.rounded}}{{theme.SUBITEM.rounded}}{{else}}var(--itemRadius){{/if}};
+
+    --selectionBackground: {{#if theme.SELECTION.background}}{{theme.SELECTION.background}}{{else}}transparent{{/if}};
+    --selectionText: {{#if theme.SELECTION.text}}{{theme.SELECTION.text}}{{else}}inherit{{/if}};
+    --selectionShadow: {{#if theme.SELECTION.shadow}}{{theme.SELECTION.shadow}}{{else}}none{{/if}};
+    --selectionBorder: {{#if theme.SELECTION.border}}{{theme.SELECTION.border}}{{else}}none{{/if}};
+    --selectionPadding: {{#if theme.SELECTION.padding}}{{theme.SELECTION.padding}}{{else}}none{{/if}};
+    --selectionRadius: {{#if theme.SELECTION.rounded}}{{theme.SELECTION.rounded}}{{else}}unset{{/if}};
+
+    --attachmentBackground: {{#if theme.ATTACHMENTS.background}}{{theme.ATTACHMENTS.background}}{{else}}#ffffff{{/if}};
+    --attachmentItemBackground: {{#if theme.ATTACHMENTS.itembackground}}{{theme.ATTACHMENTS.itembackground}}{{else}}#ffffff{{/if}};
+    --attachmentText: {{#if theme.ATTACHMENTS.text}}{{theme.ATTACHMENTS.text}}{{else}}inherit{{/if}};
+    --attachmentRadius: {{#if theme.ATTACHMENTS.rounded}}{{theme.ATTACHMENTS.rounded}}{{else}}unset{{/if}};
+
+    --audioBackground: {{#if theme.AUDIO.background}}{{theme.AUDIO.background}}{{else}}#ffffff{{/if}};
+    --audioControls: {{#if theme.AUDIO.controls}}{{theme.AUDIO.controls}}{{else}}#4f5b5f{{/if}};
+
+    --padding: .25rem;
+    --iconSize: 2rem;
+    --dockHeight: {{#if theme.DOCK.height}}{{theme.DOCK.height}}{{else}}2rem{{/if}};
+    --dockOrder: {{#is "top" theme.DOCK.position}}-1{{else}}1{{/is}};
+    --dockBoxshadow: {{#if theme.DOCK.boxshadow}}{{theme.DOCK.boxshadow}}{{else}}none{{/if}};
+    --dockLeft: calc((var(--iconSize) + var(--padding)) * {{count theme.ICONS.navigation theme.ICONS.print}});
+}
+
+/* ------------------------------------------------------------------------------- */
+
+/* ===============================================================================
+    css normalise
+================================================================================== */
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}body{margin:0;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;margin:0.67em 0;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:bold;}dfn{font-style:italic;}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em;}pre{white-space:pre-wrap;}q{quotes:"\201C" "\201D" "\2018" "\2019";}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-0.5em;}sub{bottom:-0.25em;}img{border:0;}svg:not(:root){overflow:hidden;}figure{margin:0;}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em;}legend{border:0;padding:0;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,select{text-transform:none;}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer;}button[disabled],html input[disabled]{cursor:default;}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+/* ------------------------------------------------------------------------------- */
+
+
+/* ===============================================================================
+    icons /embedded fonts
+source: icomoon, zondicons;
+
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot'); IE9 Compat Modes
+  src: url('webfont.eot?#iefix') format('embedded-opentype'), IE6-IE8 
+       url('webfont.woff2') format('woff2'), Super Modern Browsers
+       url('webfont.woff') format('woff'), Pretty Modern Browsers
+       url('webfont.ttf')  format('truetype'), Safari, Android, iOS 
+       url('webfont.svg#svgFontName') format('svg'); Legacy iOS 
+}
+
+we want to target Safari, Android, iOS and Pretty Modern Browsers
+================================================================================== */
+
+@font-face {
+  font-family: 'ca';
+  src:
+    url(data:font/opentype;base64,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) format('truetype'),
+    url(data:application/font-woff;charset=utf-8;base64,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) format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.ca {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ca' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ca-tick:before {
+  content: "\e905";
+}
+.ca-menu-open:before {
+  content: "\e911";
+}
+.ca-menu-closed:before {
+  content: "\e915";
+}
+.ca-cross:before {
+  content: "\e907";
+}
+.ca-attachment:before {
+  content: "\e912";
+}
+.ca-print:before {
+  content: "\e913";
+}
+.ca-audio:before {
+  content: "\e914";
+}
+.ca-screen-reduce:before {
+  content: "\e900";
+}
+.ca-arrow-down:before {
+  content: "\e904";
+}
+.ca-arrow-left:before {
+  content: "\e906";
+}
+.ca-arrow-right:before {
+  content: "\e90c";
+}
+.ca-arrow-up:before {
+  content: "\e90d";
+}
+.ca-cheveron-down:before {
+  content: "\e908";
+}
+.ca-cheveron-left:before {
+  content: "\e909";
+}
+.ca-cheveron-right:before {
+  content: "\e90a";
+}
+.ca-cheveron-up:before {
+  content: "\e90b";
+}
+.ca-information:before {
+  content: "\e910";
+}
+.ca-menu:before {
+  content: "\e90e";
+}
+.ca-menu-alt:before {
+  content: "\e90f";
+}
+.ca-screen-expand:before {
+  content: "\e901";
+}
+.ca-checked:before {
+  content: "\e902";
+}
+.ca-unchecked:before {
+  content: "\e903";
+}
+
+
+
+/* ===============================================================================
+    icon buttons need more tappable surface
+================================================================================== */
+
+.btn {
+    width: var(--iconSize);
+}
+
+.btn .ca {
+    font-size: 1rem;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    overall layout
+================================================================================== */
+* {
+    font-weight: normal;
+}
+
+html {
+    font-size: var(--bodySize);
+}
+
+body {
+    position: relative;
+}
+
+article {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    font-family: var(--bodyFont, sans-serif);
+}
+article > main {
+    flex: 1;
+    position: relative;
+}
+main > iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+a,a:visited,a:active {
+    text-decoration: none;
+    outline: none;
+    transition: color .2s ease;
+    color: inherit;
+}
+
+body > article > footer {
+    order: var(--dockOrder);
+    height: var(--dockHeight);
+    display: flex;
+    align-items: center;
+    background: var(--bodyBackground);
+    color: var(--headerText);
+    {{#if theme.HEADER.shadow}}
+    text-shadow: 1px 1px 0 var(--headerShadow);
+    {{/if}}
+}
+
+body > article > footer > *:first-child {
+    margin-left: var(--padding);
+}
+
+body > article > footer > *:not(:last-child) {
+    margin-right: var(--padding);
+}
+
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    Styles relating to the popup menu
+================================================================================== */
+body > aside {
+    position: absolute;
+    width: calc(50vw - var(--dockLeft));
+    /* left depends on which buttons are enabled */
+    left: calc(var(--dockLeft) - (3 * var(--padding)));
+
+    /* height spaces in from top AND bottom to make it look even */
+    height: calc(100vh - (2 * var(--dockHeight)));
+    z-index: 20;
+
+    background: var(--bodyBackground);
+    color: var(--bodyText);
+    flex-direction: column;
+    display: flex;
+
+    box-shadow: var(--dockBoxshadow);
+
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all .2s ease;
+
+    {{#is "top" theme.DOCK.position}}
+    transform: translateY(calc(-1 * var(--dockHeight))) scale(0.5);
+    transform-origin: top left;
+    top: var(--dockHeight);
+    {{else}}
+    transform: translateY(var(--dockHeight)) scale(0.5);
+    transform-origin: bottom left;
+    bottom: var(--dockHeight);
+    {{/is}}
+}
+
+body.active > aside {
+    visibility: visible; !important;
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0) scale(1);
+}
+
+
+/* ===============================================================================
+    menu header
+================================================================================== */
+
+body > aside > header {
+    background: var(--headerBackground);
+    color: var(--headerText);
+    {{#if theme.HEADER.shadow}}
+    text-shadow: 1px 1px 0 var(--headerShadow);
+    {{/if}}
+}
+
+body > aside > header.title {
+    padding: var(--padding);
+}
+body > aside > header.title div.image {
+    text-align: center;
+}
+
+body > aside > header.title div.image > img {
+    max-width: 100%;
+}
+
+
+body > aside > header.title h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin: 0;
+    padding: 0;
+    display: var(--headerTitle);
+}
+body > aside > header.title p {
+    font-size: 1rem;
+    margin: .5rem 0 0;
+    padding: 0;
+    line-height: 1.5rem;
+    display: var(--headerDescription);
+}
+
+body > aside > footer {
+    position: relative;
+    border-top: 1px solid rgba(0,0,0,.1);
+    padding: var(--padding);
+    background: var(--footerBackground);
+    color: var(--footerText);
+    {{#if theme.FOOTER.shadow}}
+    text-shadow: 1px 1px 0 var(--footerShadow);
+    {{/if}}
+}
+
+/* draw a 'border' in the current text colour, except apply an alpha value so it appears as a light background colour */
+body > aside > footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background-color: currentColor;
+    opacity: .1;
+}
+
+body > aside > footer p {
+    margin: 0;
+    font-size: 0.8rem;
+}
+body > aside > footer p:not(.watermark) {
+    display: var(--footerCopyright);
+}
+body > aside > footer p.watermark {
+    font-size: 0.6rem;
+    text-align: center;
+    display: var(--footerBrand);
+}
+
+/* ===============================================================================
+    progress bar
+================================================================================== */
+.progress-container {
+    --size: 0.75rem;
+    font-size: var(--size);
+    color: inherit;
+    padding: var(--padding) 0;
+    display: flex;
+}
+.progress-container .graph-wheel {
+    transition: background .3s ease;
+    background: conic-gradient(currentColor 0%, transparent 0); /* no ie11 support */
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    height: calc(2 * var(--size));
+    width: calc(2 * var(--size));
+    margin-right: var(--padding);
+}
+
+/* Scrollbar Styling */
+nav#scroll {
+    scrollbar-color: {{theme.NAVIGATION.scrollbar}} transparent;
+}
+nav#scroll ::-webkit-scrollbar {
+    width: 10px;
+}
+nav#scroll ::-webkit-scrollbar-track {
+    background-color: transparent;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+nav#scroll ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: {{theme.NAVIGATION.scrollbar}}; 
+}
+
+/* ===============================================================================
+    left hand (expanded) menu items
+================================================================================== */
+
+nav#scroll {
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+nav#scroll ol {
+    list-style-position: inside;
+    padding: 0;
+    margin: 0;
+}
+nav#scroll li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav#scroll li > div {
+    display: flex;
+    align-items: center;
+    margin: 0 0 1px 0;
+    padding: var(--itemPadding) 0;
+    background: var(--itemBackground);
+    color: var(--itemText);
+    border: var(--itemBorder);
+    border-radius: var(--itemRadius);
+}
+nav#scroll li > div > a {
+{{#if theme.ITEM.shadow}}
+    text-shadow: 1px 1px 0 var(--itemShadow);
+{{/if}}
+    outline: none;
+}
+
+nav#scroll li.child > div {
+    display: flex;
+    align-items: center;
+    margin: 0 0 1px 0;
+    padding: var(--subitemPadding, var(--itemPadding)) 0;
+    background: var(--subitemBackground, var(--itemBackground));
+    color: var(--subitemText, var(--itemText));
+    border: var(--subitemBorder, var(--itemBorder));
+    border-radius: var(--subitemRadius, var(--itemRadius));
+}
+nav#scroll li.child > div > a {
+{{#if theme.SUBITEM.shadow}}
+    text-shadow: 1px 1px 0 var(--subitemShadow);
+{{/if}}
+    outline: none;
+}
+
+nav#scroll li.selected > div {
+    background: var(--selectionBackground);
+    color: var(--selectionText);
+    border: var(--selectionBorder);
+    border-radius: var(--selectionRadius);
+}
+nav#scroll li.selected > div > a {
+{{#if theme.SELECTION.shadow}}
+    text-shadow: 1px 1px 0 var(--selectionShadow);
+{{/if}}
+}
+
+li > div > span {
+    padding-right: 10px;
+}
+
+li.selected > div > span {
+    padding-right: 8px;
+}
+
+/* completion icon: over-ride icon rather than replacing class */
+li.completed > div .checkmark:before {
+    content: "\e902" !important;
+}
+li > div > a {
+    flex: 1;
+    padding: 5px;
+    word-break: break-word;
+}
+li > ol > li > div {
+    padding-left: 15px !important;
+    font-weight: 100;
+}
+li > ol {
+    display: none;
+}
+li.open > ol {
+    display: block;
+}
+li.parent > div a:before {
+    font-family: 'ca';
+    content: "\e915";
+}
+li.parent.open > div a:before {
+    font-family: 'ca';
+    content: "\e911";
+}
+
+li.selected > div {
+    background-color: var(--selection);
+}
+li.selected > div > a {
+    color: inherit;
+}
+li.selected > div {
+  color: var(--selectionText);
+  text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+
+
+
+/* ===============================================================================
+    styles that relate to the content iframes that fade over the top of each other when changing pages
+================================================================================== */
+article > main > div.iframe > iframe.over {
+    z-index: 10;
+}
+
+article > main > div.iframe > iframe.under {
+    z-index: 5;
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.fadeOut {
+    z-index: 10; /* same as iframe.over */
+    -webkit-animation-name: fadeOut; animation-name: fadeOut;
+    -webkit-animation-duration: .25s; animation-duration: .25s;
+    -webkit-animation-fill-mode: both; animation-fill-mode: both;
+}
+
+article > main {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  /* target iframe bug/"design feature" on iOS devices where its height is as long as its loaded content FFS */
+  article > main > div.iframe {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+article > main > div.iframe {
+    flex: 1;
+    position: relative;
+    background-color: white;
+    z-index: 1;
+}
+
+article > main > div.iframe > iframe {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%; width: 100%;
+}
+/* ------------------------------------------------------------------------------- */
+
+
+
+
+/* ===============================================================================
+    audio player (uses plyr.io v2.0.8 - NOT the latest)
+================================================================================== */
+article > main > div.audio {
+  width: 100%;
+  height: 50px;
+  z-index: 2;
+  display: none;
+}
+body.has-audio > main > div.audio {
+  display: block;
+}
+.plyr--audio .plyr__controls {
+    background-color: var(--audioBackground);
+    color: var(--audioControls);
+}
+
+/* ------------------------------------------------------------------------------- */
+
+/* ===============================================================================
+   attachments
+================================================================================== */
+div.attache {
+  padding: .5rem;
+  background: var(--attachmentBackground);
+}
+div.attache a {
+  background: var(--attachmentItemBackground);
+  color: var(--attachmentText);
+  padding: .25rem .5rem;
+  border-radius: var(--attachmentRadius);
+  display: inline-block;
+  margin-right: .5rem;
+}
+/* ------------------------------------------------------------------------------- */
+
+@media print {
+    aside,
+    nav,
+    .audio {
+        display: none !important;
+    }
+}

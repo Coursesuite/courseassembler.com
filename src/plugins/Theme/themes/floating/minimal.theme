@@ -1,0 +1,20 @@
+ICONS
+navigation
+
+NANO
+background: linear-gradient(to top, #222222 0%, #333333 100%)
+text: #ccc
+shadow: rgba(0,0,0,.1)
+padding: .5rem
+size: 24px
+rounded: 2rem
+progress: false
+
+ATTACHMENTS
+background: white
+itembackground: linear-gradient(to top, #222222 0%, #333333 100%)
+text: #ccc
+
+AUDIO
+background: #333333
+controls: #cccccc

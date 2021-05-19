@@ -79,6 +79,14 @@ class Lib {
                 } else if (isset($options['inverse'])) {
                     return $options['inverse']();
                 }
+            },
+            "count" => function (...$ar) {
+                $v = 0;
+                foreach ($ar as $value) {
+                    if (is_array($value)) continue;
+                    if ($value) $v++;
+                }
+                return $v;
             }
     	];
         $phpStr = LightnCandy::compile($template, array(

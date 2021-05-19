@@ -1,0 +1,43 @@
+DOCK
+boxshadow: 5px 5px 5px #2e97ac80
+height: 2rem
+position: bottom
+start: closed
+
+NAVIGATION
+font: Amatic SC
+size: 20px
+background: #4aa9ee
+text: white
+scrollbar: rgba(255,255,255,.25)
+
+ICONS
+attachments, audio, completion, menu, navigation
+
+HEADER
+background: #2e97ac
+text: white
+shadow: none
+
+FOOTER
+background: #4aa9ee
+text: white
+
+AUDIO
+background: #2e97ac
+controls: white
+
+ITEM
+background: transparent
+text: white
+shadow: rgba(0,0,0,.1)
+
+SELECTION
+background: white
+text: black
+shadow: off
+
+ATTACHMENTS
+background: #2e97ac
+rounded: 0px
+

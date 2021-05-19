@@ -254,6 +254,12 @@
 				"boxshadow": false,
 				"padding": false,
 				"size": "2rem"
+			},
+			"DOCK": {
+				"position" : "bottom",
+				"height": "2rem",
+				"boxshadow": false,
+				"start": "open"
 			}
 		}
 		const lines = theme.split(/\r?\n/);
