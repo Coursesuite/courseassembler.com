@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title>{{option-course-name}}</title>
+
+		<script type="module">
+			document.documentElement.classList.remove('no-js');
+			document.documentElement.classList.add('js');
+		</script>
+
+		<meta name="title" content="{{option-course-name}}" />
+		<meta name="description" content="{{option-course-description}}" />
+		<meta name="copyright" content="{{option-course-copyright}}" />
+		<meta name="timestamp" content="{{timestamp}}" />
+		<meta name="author" content="https://www.courseassembler.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link rel="stylesheet" type="text/css" href="plyr.css">
+		<link rel="stylesheet" type="text/css" href="_package.css">
+		<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
+		<script type="text/javascript" src="plyr.js"></script>
+		<script type="text/javascript">
+		var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
+			pages = {{{pages}}};
+		</script>
+		<script type="text/javascript" src="_package.js"></script>
+		{{{analytics-code}}}
+		<meta name="theme-color" content="#ffffff">
+	</head>
+	<body onunload="doUnload()" onbeforeunload="doUnload()" class="active">
+		<article>
+			<nav class="precede">
+				{{#if theme.ICONS.print}}<a href="javascript:printCurrentPage()" title="Print current page" class="btn"><span class="ca ca-print"></span></a>{{/if}}
+				<a href="javascript:left()" title="Previous page" class="btn" id="lb"><span class="ca ca-cheveron-left"></span><span /></a>
+			</nav>
+			<main role="main" class="flex-1">
+				<div class="iframe">
+					<iframe seamless frameborder="0" class="under" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+					<iframe seamless frameborder="0" class="over" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+				</div>
+				<div class="audio">
+					<audio id="pageAudio"></audio>
+				</div>
+			</main>
+			<nav class="advance">
+				{{#if theme.ICONS.print}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+				<a href="javascript:right()" title="Previous page" class="btn" id="rb"><span class="ca ca-cheveron-right"></span><span /></a>
+			</nav>
+		</article>
+	</body>
+</html>

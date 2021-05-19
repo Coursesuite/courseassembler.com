@@ -260,6 +260,12 @@
 				"height": "2rem",
 				"boxshadow": false,
 				"start": "open"
+			},
+			"CONTINUOUS" : {
+				"direction": "across",
+				"background": "#999999",
+				"text": "#ffffff",
+				"size": "20px"
 			}
 		}
 		const lines = theme.split(/\r?\n/);
@@ -320,6 +326,15 @@
 			case "true":
 			case "on":
 				text = true;
+				break;
+			case "horizontal":
+			case "across":
+				text = "row";
+				break;
+			case "vertical":
+			case "up":
+			case "down":
+				text = "column";
 				break;
 		}
 		return text;

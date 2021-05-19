@@ -1,0 +1,8 @@
+CONTINUOUS
+direction: across
+background: #32373d
+text: white
+size: 20px
+
+ICONS
+print, fullscreen

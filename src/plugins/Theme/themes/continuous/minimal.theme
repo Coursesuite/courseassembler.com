@@ -1,0 +1,8 @@
+CONTINUOUS
+direction: down
+background: #eeeeee
+text: black
+size: 20px
+
+ICONS
+print, fullscreen
