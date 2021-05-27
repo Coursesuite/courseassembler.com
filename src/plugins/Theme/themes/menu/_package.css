@@ -402,7 +402,6 @@ body > aside > header .icons {
 }
 body > aside > header .icons a {
     padding: var(--padding);
-    padding-left: 1rem;
 }
 body > aside > header .icons a.flex-end {
     

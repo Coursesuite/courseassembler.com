@@ -44,8 +44,13 @@
 				</div>
 			</main>
 			<nav class="advance">
-				{{#if theme.ICONS.print}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+				{{#if theme.ICONS.fullscreen}}<a href="javascript:fullscreen()" title="Toggle fullscreen" class="btn"><span class="ca ca-screen-expand"></span></a>{{/if}}
+                {{#if theme.CONTINUOUS.progress}}<div class="progress-container">
+                    <div class='graph-wheel' id='progressgraph'></div>
+                    {{#is 'column' theme.CONTINUOUS.direction}}<div class='graph-text'><output id='pagenumber'></output> of <output id="pagetotal"></output></div>{{/is}}
+                </div>{{/if}}
 				<a href="javascript:right()" title="Previous page" class="btn" id="rb"><span class="ca ca-cheveron-right"></span><span /></a>
+
 			</nav>
 		</article>
 	</body>

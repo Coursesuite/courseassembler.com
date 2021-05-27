@@ -2,7 +2,10 @@ CONTINUOUS
 direction: down
 background: #eeeeee
 text: black
+progress: true
 size: 20px
+speed: .5s
+padding: 1rem
 
 ICONS
 print, fullscreen

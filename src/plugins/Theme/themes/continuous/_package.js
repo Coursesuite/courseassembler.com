@@ -101,7 +101,8 @@ function whichAnimationEvent(){
   }
 }
 
-var animationEvent = whichAnimationEvent();
+var animationEvent = whichAnimationEvent(),
+	navDirection = "more";
 
 // 0. iframe.over is what is currently shown to the user and is the opposite of the iframe firing this function
 // 1. iframe.under has its onload and src set
@@ -113,12 +114,14 @@ function iframe(under) {
 	under.removeAttribute("onload"); // prevent retrigering
 	var over = under.previousElementSibling ? under.previousElementSibling : under.nextElementSibling ? under.nextElementSibling : null;
 	doOnce(over,animationEvent,reclassifyIframes); // triggered animation-end then removes event listener to prevent multiple binds over time
-	over.className = "fadeOut"; // starts animation
+	var dir = navDirection === "more" ? {{#is "column" theme.CONTINUOUS.direction}}"up" : "down"{{else}}"left" : "right"{{/is}};
+	over.classList.add(dir);
+	under.classList.add(dir)
 }
 
 function reclassifyIframes(el) {
 	var other = el.target.previousElementSibling ? el.target.previousElementSibling : el.target.nextElementSibling ? el.target.nextElementSibling : null;
-	other.className = "over"; // the element that was not faded becomes over, which cycles its z-index
+	other.className = "over"; // the element that was not faded becomes over
 	el.target.className = "under"; // the element that faded out becomes under for next time
 	setTimeout(function(){el.target.removeAttribute('src')},99); // kill off the hidden frame to free up memory
 	// you could autoplay audio here using `if (window._audio) window._audio.play();` but we no longer do that
@@ -248,6 +251,13 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		settings: ['speed','loop']
 	});
 
+	if (navigator.userAgent.toLowerCase().indexOf("mobile")!==-1) {
+		document.body.classList.add("is-mobile");
+		document.body.classList.add("active"); // start big
+	} else {
+		document.body.classList.remove("active"); // start small
+	}
+
     var _suspend = "",
         _lastPage = +getBookmark() || 0; // convertnum ~ http://stackoverflow.com/a/7540412/1238884
 
@@ -268,8 +278,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     	}
     }
 
-  // nested list / menu from a flat array
-    var menu = [], child = false;
+    var menu = [];
+
     for (var i=0;i<pages.length;i++) {
       var p = pages[i];
 
@@ -350,7 +360,8 @@ function goto(n,init) {
             return;
         }
     }
-    course.page=n;
+    navDirection = (n < course.page) ? "less" : "more";
+    course.page = n;
     load();
 }
 
@@ -384,9 +395,11 @@ function load() {
 	}
     if (_timeout) clearTimeout(_timeout);
     _now = (new Date).getTime() / 1000;
-    var ifr = document.querySelector("div.iframe>iframe.under");
+
+    var ifr = document.querySelector("div.iframe>iframe.under"); // the iframe we are transitioning TO
 	ifr.setAttribute("onload","iframe(this)");
 	ifr.setAttribute("src", src);
+
 	audioObj.pause(); // start in a paused state
 	if (current_page.hasOwnProperty("audio")) {
 		document.body.classList.add("has-audio");
@@ -430,19 +443,9 @@ function load() {
 		var attache = document.querySelector("main>.attache");
 		if (attache) attache.parentNode.removeChild(attache);
 	}
-    [].forEach.call(document.querySelectorAll("#scroll li"), function (el,index) {
-    	el.classList.remove("selected","open");
-    	if (index===course.page) el.classList.add("selected");
-    });
-    var li = document.querySelector("#scroll li.selected");
-    if (li) {
-    	var pli = li.parentNode.closest("li");
-	    if (pli) pli.classList.add("open");
-	    if (li.querySelector("ol")) li.classList.add("open");
-	    li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-	}
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showPageTitles();
+    showCurrentPageNumber();
     if (["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
     checkCourseCompletion();
     checkNavigation();
@@ -452,7 +455,7 @@ function showPageTitles() {
 	{{#is "column" theme.CONTINUOUS.direction}}
 	var l = document.querySelector('#lb>span:last-of-type'),
 		r = document.querySelector('#rb>span:last-of-type');
-	l.textContent = '-'; r.textContent = '-';
+	l.textContent = '(start)'; r.textContent = '(end)';
 	if (l && pages[course.page-1]) l.textContent = pages[course.page-1].title;
 	if (r && pages[course.page+1]) r.textContent = pages[course.page+1].title;
 	{{/is}}
@@ -471,9 +474,17 @@ function showCompletionGraph() {
 
 	n = document.getElementById("progressgraph");
 	if (n) n.style.background = 'conic-gradient(currentColor ' + pc + "%, transparent 0)";
+	if (n) n.title = pc + '% complete';
 
 	n = document.getElementById("progressnumber");
 	if (n) n.textContent = pc;
+}
+
+function showCurrentPageNumber() {
+	var n = document.getElementById("pagenumber"),
+		o = document.getElementById("pagetotal");
+	if (n) n.textContent = course.page +1;
+	if (o) o.textContent = pages.length;
 }
 
 // increment time spent on a page
@@ -548,6 +559,8 @@ function checkNavigation() {
 		p = (0===course.page), lb = document.querySelector('#lb');
 	if (n && rb) { rb.setAttribute("disabled",true)}else if (rb) {rb.removeAttribute("disabled")}
 	if (p && lb) { lb.setAttribute("disabled",true)}else if (lb){lb.removeAttribute("disabled")}
+
+
 }
 
 // DEPRECIATED: sets the time spent on a page and checks to see if this causes a completion

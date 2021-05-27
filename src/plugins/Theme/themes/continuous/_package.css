@@ -10,6 +10,7 @@
     --colour: {{#if theme.CONTINUOUS.text}}{{theme.CONTINUOUS.text}}{{else}}#000000{{/if}};
     --iconSize: {{#if theme.CONTINUOUS.size}}{{theme.CONTINUOUS.size}}{{else}}2rem{{/if}};
     --direction: {{#if theme.CONTINUOUS.direction}}{{theme.CONTINUOUS.direction}}{{else}}row{{/if}};
+    --speed: {{#if theme.CONTINUOUS.speed}}{{theme.CONTINUOUS.speed}}{{else}}1s{{/if}};
 
     --attachmentBackground: {{#if theme.ATTACHMENTS.background}}{{theme.ATTACHMENTS.background}}{{else}}#ffffff{{/if}};
     --attachmentItemBackground: {{#if theme.ATTACHMENTS.itembackground}}{{theme.ATTACHMENTS.itembackground}}{{else}}#ffffff{{/if}};
@@ -19,7 +20,7 @@
     --audioBackground: {{#if theme.AUDIO.background}}{{theme.AUDIO.background}}{{else}}#ffffff{{/if}};
     --audioControls: {{#if theme.AUDIO.controls}}{{theme.AUDIO.controls}}{{else}}#4f5b5f{{/if}};
 
-    --padding: .25rem;
+    --padding: {{#if theme.CONTINUOUS.padding}}{{theme.CONTINUOUS.padding}}{{else}}.25rem{{/if}};
 }
 
 /* ------------------------------------------------------------------------------- */
@@ -201,20 +202,29 @@ main > iframe {
     width: 100%; height: 100%;
 }
 
-a,a:visited,a:active {
+a,a:visited,a:active,a:focus {
     text-decoration: none;
     outline: none;
     transition: color .2s ease;
     color: inherit;
 }
 
+a[disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
+
 article > nav {
+{{#is "column" theme.CONTINUOUS.direction}}
+    align-items: center;
+{{/is}}
     padding: var(--padding);
     display: flex;
     color: var(--colour);
     background: var(--background);
     flex-direction: {{#is "row" theme.CONTINUOUS.direction}}column{{else}}row{{/is}};
     font-size: var(--iconSize);
+    z-index: 20;
 }
 
 article > nav > a[id] {
@@ -245,29 +255,104 @@ article > nav > a[id] {
 /* ===============================================================================
     styles that relate to the content iframes that fade over the top of each other when changing pages
 ================================================================================== */
-article > main > div.iframe > iframe.over {
-    z-index: 10;
+article > main > div.iframe > iframe.over { /* within the viewport */
+  transform: translateY(0) translateX(0);
+  z-index: 1;
 }
 
-article > main > div.iframe > iframe.under {
-    z-index: 5;
+article > main > div.iframe > iframe.under { /* the iframe that comes in */
+  transform: translateY(100%) translateX(100%);
+  z-index: 1;
 }
 
-@-webkit-keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
+@keyframes over-up {
+  0% {transform: translateY(0) }
+  100% {transform: translateY(-100%)}
 }
 
-@keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
+@keyframes under-up {
+    0% {transform: translateY(100%) }
+    100% {transform: translateY(0)}
 }
 
-.fadeOut {
-    z-index: 10; /* same as iframe.over */
-    -webkit-animation-name: fadeOut; animation-name: fadeOut;
-    -webkit-animation-duration: .25s; animation-duration: .25s;
-    -webkit-animation-fill-mode: both; animation-fill-mode: both;
+@keyframes over-down {
+  0% {transform: translateY(0) }
+  100% {transform: translateY(100%)}
+}
+
+@keyframes under-down {
+  0% {transform: translateY(-100%) }
+  100% {transform: translateY(0)}
+}
+
+@keyframes over-left {
+  0% {transform: translateX(0) }
+  100% {transform: translateX(-100%)}
+}
+
+@keyframes under-left {
+    0% {transform: translateX(100%) }
+    100% {transform: translateX(0)}
+}
+
+@keyframes over-right {
+  0% {transform: translateX(0) }
+  100% {transform: translateX(100%)}
+}
+
+@keyframes under-right {
+  0% {transform: translateX(-100%) }
+  100% {transform: translateX(0)}
+}
+
+.over.down {
+    animation-name: over-down;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+.over.up {
+    animation-name: over-up;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+.under.down {
+    animation-name: under-down;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+.under.up {
+    animation-name: under-up;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+
+.over.left {
+    animation-name: over-left;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+.over.right {
+    animation-name: over-right;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+.under.left {
+    animation-name: under-left;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+}
+.under.right {
+    animation-name: under-right;
+    animation-duration: var(--speed);
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
 }
 
 article > main {
@@ -299,6 +384,34 @@ article > main > div.iframe > iframe {
 }
 /* ------------------------------------------------------------------------------- */
 
+
+/* ===============================================================================
+    progress bar
+================================================================================== */
+.progress-container {
+    --size: 1rem;
+    font-size: var(--size);
+    color: inherit;
+    display: inline-flex;
+    align-items: flex-start;
+    white-space: nowrap;
+}
+.progress-container .graph-wheel {
+    transition: background .3s ease;
+    background: conic-gradient(currentColor 0%, transparent 0); /* no ie11 support */
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    height: var(--size);
+    width: var(--size);
+    margin-right: var(--padding);
+{{#is "column" theme.CONTINUOUS.direction}}
+    margin-left: var(--padding);
+{{/is}}
+}
+
+output:first-of-type {
+  margin-left:.5rem;
+}
 
 
 

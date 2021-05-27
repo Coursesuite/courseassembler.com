@@ -1,0 +1,11 @@
+CONTINUOUS
+direction: down
+background: #78979a url(https://www.courseassembler.com/assets/transparent-diamonds.png)
+text: #0a2d45
+progress: true
+size: 14px
+speed: .18s
+padding: 7px
+
+ICONS
+print

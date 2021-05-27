@@ -4,7 +4,8 @@
 	var methods = ROOT.Plugins.Theme = ROOT.Plugins.Theme || {};
 
 	var nav_cache = [],
-		presets = [];
+		presets = [],
+		already_started = false;
 
 	// run when the plugin is first loaded
 	methods.init = function() {
@@ -55,6 +56,7 @@
 		const theme = atob(src);
 		const container = document.querySelector('.themePreviewOptions');
 		const details = container.querySelector("details");
+		$("input[name='selected_theme']").val(preset);
 		if (details) details.parentNode.removeChild(details);
 		container.appendChild(
 			fragmentFromString(
@@ -146,8 +148,10 @@
 
 	// run when the plugin is told to run
 	methods.start = function() {
+		if (already_started) return;
 		localforage.getItem('settingsCache')
 		.then(function(obj) {
+			already_started = true;
 			return obj.template || "menu";
 		})
 		.then(methods.selectTheme); // passes default parameter
@@ -262,10 +266,13 @@
 				"start": "open"
 			},
 			"CONTINUOUS" : {
-				"direction": "across",
+				"direction": "row",
 				"background": "#999999",
 				"text": "#ffffff",
-				"size": "20px"
+				"size": "20px",
+				"progress": false,
+				"speed": "1s",
+				"padding": ".25rem"
 			}
 		}
 		const lines = theme.split(/\r?\n/);
@@ -301,6 +308,7 @@
 		} else {
 			const themedata = document.querySelector('input[name="themedata"]');
 			themedata.value = JSON.stringify(properties);
+			DocNinja.routines.PersistSettings('Process Theme');
 			methods.update();
 		}
 	}

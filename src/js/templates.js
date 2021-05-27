@@ -1,95 +1,5 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['field-font'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined
-    };
-
-  return "<label class=\"field-font-picker\">\n	<input type='text' id='"
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":2,"column":24},"end":{"line":2,"column":32}}}) : helper)))
-    + "' name='"
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":2,"column":40},"end":{"line":2,"column":48}}}) : helper)))
-    + "' onblur='submitForm(this)' value='"
-    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":2,"column":83},"end":{"line":2,"column":92}}}) : helper)))
-    + "' placeholder='"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":2,"column":107},"end":{"line":2,"column":116}}}) : helper)))
-    + "'>\n</label>";
-},"useData":true});
-templates['field-picker'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined
-    };
-
-  return "<label class=\"field-colour-picker\">\n	<input type=\"hidden\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":2,"column":28},"end":{"line":2,"column":36}}}) : helper)))
-    + "-contrast\">\n	<input type=\"hidden\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":3,"column":28},"end":{"line":3,"column":36}}}) : helper)))
-    + "-contrast-alpha\">\n	<input type=\"text\" id=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":24},"end":{"line":4,"column":32}}}) : helper)))
-    + "\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":40},"end":{"line":4,"column":48}}}) : helper)))
-    + "\" value=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"value") || (depth0 != null ? lookupProperty(depth0,"value") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"value","hash":{},"data":data,"loc":{"start":{"line":4,"column":57},"end":{"line":4,"column":66}}}) : helper)))
-    + "\" class=\"cpicker\">\n	"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":5,"column":1},"end":{"line":5,"column":10}}}) : helper)))
-    + "\n</label>\n";
-},"useData":true});
-templates['field-shape'] = template({"1":function(container,depth0,helpers,partials,data) {
-    return " checked";
-},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined
-    };
-
-  return "<label class=\"field-shape-select\">\n<div class=\"field-shape-toggle\">\n  <input onclick=\"submitForm(this)\" type=\"radio\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":3,"column":55},"end":{"line":3,"column":63}}}) : helper)))
-    + "\" value=\"none\""
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),"none",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":77},"end":{"line":3,"column":122}}})) != null ? stack1 : "")
-    + ">\n  <label class=\"toggle toggle-yes\"><i class=\"fa fa-ban\"></i></label>\n  <input onclick=\"submitForm(this)\" type=\"radio\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":5,"column":55},"end":{"line":5,"column":63}}}) : helper)))
-    + "\" value=\"block\""
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),"block",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":78},"end":{"line":5,"column":124}}})) != null ? stack1 : "")
-    + ">\n  <label class=\"toggle toggle-yes\"><i class=\"fa fa-square\"></i></label>\n  <input onclick=\"submitForm(this)\" type=\"radio\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":7,"column":55},"end":{"line":7,"column":63}}}) : helper)))
-    + "\" value=\"rounded\""
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),"rounded",{"name":"compare","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":7,"column":80},"end":{"line":7,"column":128}}})) != null ? stack1 : "")
-    + ">\n  <label class=\"toggle toggle-yes\"><i class=\"fa fa-circle\"></i></label>\n  <span></span> \n  <p>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":10,"column":5},"end":{"line":10,"column":14}}}) : helper)))
-    + "</p>\n</div>\n</label>";
-},"useData":true});
-templates['field-toggle'] = template({"1":function(container,depth0,helpers,partials,data) {
-    return "1";
-},"3":function(container,depth0,helpers,partials,data) {
-    return "0";
-},"5":function(container,depth0,helpers,partials,data) {
-    return " checked";
-},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined
-    };
-
-  return "<label class=\"field-toggle-switch\">\n  <input type=\"hidden\" name=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":2,"column":29},"end":{"line":2,"column":37}}}) : helper)))
-    + "\" value=\""
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":2,"column":46},"end":{"line":2,"column":76}}})) != null ? stack1 : "")
-    + "\">\n  <input type=\"checkbox\" onclick=\"this.previousElementSibling.value=this.checked?1:0;submitForm(this)\" "
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"value") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":103},"end":{"line":3,"column":131}}})) != null ? stack1 : "")
-    + ">\n  <span class=\"field-toggle-slider\"></span>\n  <span class=\"field-toggle-text\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"label","hash":{},"data":data,"loc":{"start":{"line":5,"column":34},"end":{"line":5,"column":43}}}) : helper)))
-    + "</span>\n</label>";
-},"useData":true});
 templates['imscpmanifest'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -544,13 +454,11 @@ templates['preview-image'] = template({"compiler":[8,">= 4.3.0"],"main":function
         return undefined
     };
 
-  return "<!DOCTYPE html>\n<html lang=\"en\">\n	<head>\n		<meta charset=\"utf-8\">\n		<title>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":5,"column":9},"end":{"line":5,"column":17}}}) : helper)))
-    + "</title>\n		<meta name=\"viewport\" content=\"width=device-width, initial-scale=.5, maximum-scale=12.0, minimum-scale=.25, user-scalable=yes\"/>\n		<style>\n			html, body {\n				margin: 0;\n				min-height: 100vh;\n				overflow: auto;\n				background-color:#"
-    + alias4(((helper = (helper = lookupProperty(helpers,"backgroundColour") || (depth0 != null ? lookupProperty(depth0,"backgroundColour") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"backgroundColour","hash":{},"data":data,"loc":{"start":{"line":12,"column":22},"end":{"line":12,"column":42}}}) : helper)))
-    + ";\n			}\n			body > img, figure {\n				box-shadow: 0 0 1rem rgba(0,0,0,.1);\n			}\n			body > img {\n				max-width: 100%;\n				margin: 0 auto;\n				display: block;\n			}\n			figure.zoom {\n				margin: 0 auto;\n				background-repeat: no-repeat;\n				background-position: 50% 50%;\n				position: relative;\n				overflow: hidden;\n				cursor: zoom-in;\n			}\n			figure.zoom img:hover,\n			figure.zoom img:active {\n				opacity: 0;\n			}\n			figure.zoom img {\n				transition: opacity .5s;\n				display: block;\n				width: 100%;\n			}\n		</style>\n	</head>\n	<body>\n		<img src=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":42,"column":12},"end":{"line":42,"column":21}}}) : helper)))
-    + "\">\n		<script type=\"text/javascript\">\n			function zoom(e) {\n				var zoomer = e.currentTarget;\n				e.offsetX ? (offsetX = e.offsetX) : (offsetX = e.touches[0].pageX);\n				e.offsetY ? (offsetY = e.offsetY) : (offsetX = e.touches[0].pageX);\n				x = (offsetX / zoomer.offsetWidth) * 100;\n				y = (offsetY / zoomer.offsetHeight) * 100;\n				zoomer.style.backgroundPosition = x + \"% \" + y + \"%\";\n			}\n			window.addEventListener('DOMContentLoaded', function () {\n				document.querySelector(\"img\").addEventListener('load', function (e) {\n\n					var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),\n						vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),\n						nw = this.naturalWidth,\n						nh = this.naturalHeight,\n						img = e.target;\n\n					if (nw>vw||nh>vh) {\n						var f = document.createElement('figure');\n						f.style.backgroundImage = 'url(' + img.src + ')';\n						f.style.width = this.offsetWidth + 'px';\n						f.style.height = this.offsetHeight + 'px';\n						document.body.appendChild(f);\n						f.classList.add('zoom');\n						f.appendChild(img);\n						f.addEventListener('mousemove',zoom);\n						f.addEventListener('touchmove',zoom);\n					}\n\n				});\n			});\n		</script>\n	</body>\n</html>\n";
+  return "<!DOCTYPE html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <title>Image zoom with mousewheel</title>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\" />\n    <style>\n    	* {\n		  padding: 0;\n		  margin: 0;\n		  outline: 0;\n		}\n		html, body {\n		  margin: 0;\n		  padding: 0;\n		  width: 100%;\n		  height: 100%;\n		  overflow: hidden;\n		  position: relative;\n		  background-color: #"
+    + alias4(((helper = (helper = lookupProperty(helpers,"backgroundColour") || (depth0 != null ? lookupProperty(depth0,"backgroundColour") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"backgroundColour","hash":{},"data":data,"loc":{"start":{"line":21,"column":23},"end":{"line":21,"column":43}}}) : helper)))
+    + ";\n		}\n		#zoom {\n		  width: 100%;\n		  height: 100%;\n		  transform-origin: 0px 0px;\n		  transform: scale(1) translate(0px, 0px);\n		  cursor: grab;\n		}\n		div#zoom > img {\n		  width: 100%;\n		  height: auto;\n		}\n		.hint {\n\n		}\n\n		.fade-out {\n		  position: fixed;\n		  left: 50%;\n		  top: 90%;\n		  padding: 1.5rem;\n		  font-size: .75rem;\n		  font-family: sans-serif;\n		  background-color: rgba(0,0,0,.8);\n		  color: white;\n		  text-shadow: 0 1px 0 black;\n		  transform: translateX(-50%);\n		  animation-delay: 1.5s;\n		  animation-iteration-count: 1;\n		  animation-name: fadeOut;\n		  animation-timing-function: ease;\n		  animation-duration: .5s;\n		  animation-fill-mode: forwards;\n		  pointer-events: none;\n		}\n		@keyframes fadeOut {\n		  0% {\n		    opacity:1;\n		  }\n		  100% {\n		    opacity:0;\n		  }\n		}\n	</style>\n  </head>\n  <body>\n    <div class=\"zoom_outer\">\n      <div id=\"zoom\">\n        <img src=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":70,"column":18},"end":{"line":70,"column":27}}}) : helper)))
+    + "\" onload=\"resize(this)\">\n      </div>\n    </div>\n    <div class=\"fade-out\">\n    	Use the mouse/wheel to pan & zoom.\n    </div>\n    <script>\n      var scale = 1,\n        panning = false,\n        pointX = 0,\n        pointY = 0,\n        start = { x: 0, y: 0 },\n        zoom = document.getElementById(\"zoom\");\n\n      function setTransform() {\n        zoom.style.transform = \"translate(\" + pointX + \"px, \" + pointY + \"px) scale(\" + scale + \")\";\n      }\n\n      function resize(img) {\n      	if (img.naturalWidth < document.body.scrollWidth) img.style.width = img.naturalWidth + 'px';\n      }\n\n      zoom.ondblclick = function (e) {\n      	panning = false;\n      	scale = 1;\n      	pointX = 0;\n      	pointY = 0;\n      	setTransform();\n      }\n\n      zoom.onmousedown = function (e) {\n        e.preventDefault();\n        start = { x: e.clientX - pointX, y: e.clientY - pointY };\n        panning = true;\n      }\n\n      zoom.onmouseup = function (e) {\n        panning = false;\n      }\n\n      zoom.onmousemove = function (e) {\n        e.preventDefault();\n        if (!panning) {\n          return;\n        }\n        pointX = (e.clientX - start.x);\n        pointY = (e.clientY - start.y);\n        setTransform();\n      }\n\n      zoom.onwheel = function (e) {\n        var xs = (e.clientX - pointX) / scale,\n          ys = (e.clientY - pointY) / scale,\n          delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);\n        (delta > 0) ? (scale *= 1.2) : (scale /= 1.2);\n        pointX = e.clientX - xs * scale;\n        pointY = e.clientY - ys * scale;\n        setTransform();\n      }\n    </script>\n  </body>\n</html>";
 },"useData":true});
 templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -1302,13 +1210,11 @@ templates['wrapper-image'] = template({"compiler":[8,">= 4.3.0"],"main":function
         return undefined
     };
 
-  return "<!DOCTYPE html>\n<html lang=\"en\">\n	<head>\n		<meta charset=\"utf-8\">\n		<title>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":5,"column":9},"end":{"line":5,"column":17}}}) : helper)))
-    + "</title>\n		<meta name=\"viewport\" content=\"width=device-width, initial-scale=.5, maximum-scale=12.0, minimum-scale=.25, user-scalable=yes\"/>\n		<style>\n			html, body {\n				margin: 0;\n				min-height: 100vh;\n				overflow: auto;\n				background-color:#"
-    + alias4(((helper = (helper = lookupProperty(helpers,"backgroundColour") || (depth0 != null ? lookupProperty(depth0,"backgroundColour") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"backgroundColour","hash":{},"data":data,"loc":{"start":{"line":12,"column":22},"end":{"line":12,"column":42}}}) : helper)))
-    + ";\n			}\n			body > img, figure {\n				box-shadow: 0 0 1rem rgba(0,0,0,.1);\n			}\n			body > img {\n				max-width: 100%;\n				margin: 0 auto;\n				display: block;\n			}\n			figure.zoom {\n				margin: 0 auto;\n				background-repeat: no-repeat;\n				background-position: 50% 50%;\n				position: relative;\n				overflow: hidden;\n				cursor: zoom-in;\n			}\n			figure.zoom img:hover,\n			figure.zoom img:active {\n				opacity: 0;\n			}\n			figure.zoom img {\n				transition: opacity .5s;\n				display: block;\n				width: 100%;\n			}\n		</style>\n	</head>\n	<body>\n		<img src=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":42,"column":12},"end":{"line":42,"column":21}}}) : helper)))
-    + "\">\n		<script type=\"text/javascript\">\n			function zoom(e) {\n				var zoomer = e.currentTarget;\n				e.offsetX ? (offsetX = e.offsetX) : (offsetX = e.touches[0].pageX);\n				e.offsetY ? (offsetY = e.offsetY) : (offsetX = e.touches[0].pageX);\n				x = (offsetX / zoomer.offsetWidth) * 100;\n				y = (offsetY / zoomer.offsetHeight) * 100;\n				zoomer.style.backgroundPosition = x + \"% \" + y + \"%\";\n			}\n			window.addEventListener('DOMContentLoaded', function () {\n				document.querySelector(\"img\").addEventListener('load', function (e) {\n\n					var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),\n						vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),\n						nw = this.naturalWidth,\n						nh = this.naturalHeight,\n						img = e.target;\n\n					if (nw>vw||nh>vh) {\n						var f = document.createElement('figure');\n						f.style.backgroundImage = 'url(' + img.src + ')';\n						f.style.width = this.offsetWidth + 'px';\n						f.style.height = this.offsetHeight + 'px';\n						document.body.appendChild(f);\n						f.classList.add('zoom');\n						f.appendChild(img);\n						f.addEventListener('mousemove',zoom);\n						f.addEventListener('touchmove',zoom);\n					}\n\n				});\n			});\n		</script>\n	</body>\n</html>";
+  return "<!DOCTYPE html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <title>Image zoom with mousewheel</title>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\" />\n    <style>\n    	* {\n		  padding: 0;\n		  margin: 0;\n		  outline: 0;\n		}\n		html, body {\n		  margin: 0;\n		  padding: 0;\n		  width: 100%;\n		  height: 100%;\n		  overflow: hidden;\n		  position: relative;\n		  background-color: #"
+    + alias4(((helper = (helper = lookupProperty(helpers,"backgroundColour") || (depth0 != null ? lookupProperty(depth0,"backgroundColour") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"backgroundColour","hash":{},"data":data,"loc":{"start":{"line":21,"column":23},"end":{"line":21,"column":43}}}) : helper)))
+    + ";\n		}\n		#zoom {\n		  width: 100%;\n		  height: 100%;\n		  transform-origin: 0px 0px;\n		  transform: scale(1) translate(0px, 0px);\n		  cursor: grab;\n		}\n		div#zoom > img {\n		  width: 100%;\n		  height: auto;\n		}\n		.hint {\n\n		}\n\n		.fade-out {\n		  position: fixed;\n		  left: 50%;\n		  top: 90%;\n		  padding: 1.5rem;\n		  font-size: .75rem;\n		  font-family: sans-serif;\n		  background-color: rgba(0,0,0,.8);\n		  color: white;\n		  text-shadow: 0 1px 0 black;\n		  transform: translateX(-50%);\n		  animation-delay: 1.5s;\n		  animation-iteration-count: 1;\n		  animation-name: fadeOut;\n		  animation-timing-function: ease;\n		  animation-duration: .5s;\n		  animation-fill-mode: forwards;\n		  pointer-events: none;\n		}\n		@keyframes fadeOut {\n		  0% {\n		    opacity:1;\n		  }\n		  100% {\n		    opacity:0;\n		  }\n		}\n	</style>\n  </head>\n  <body>\n    <div class=\"zoom_outer\">\n      <div id=\"zoom\">\n        <img src=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":70,"column":18},"end":{"line":70,"column":27}}}) : helper)))
+    + "\" onload=\"resize(this)\">\n      </div>\n    </div>\n    <div class=\"fade-out\">\n    	Use the mouse/wheel to pan & zoom.\n    </div>\n    <script>\n      var scale = 1,\n        panning = false,\n        pointX = 0,\n        pointY = 0,\n        start = { x: 0, y: 0 },\n        zoom = document.getElementById(\"zoom\");\n\n      function setTransform() {\n        zoom.style.transform = \"translate(\" + pointX + \"px, \" + pointY + \"px) scale(\" + scale + \")\";\n      }\n\n      function resize(img) {\n      	if (img.naturalWidth < document.body.scrollWidth) img.style.width = img.naturalWidth + 'px';\n      }\n\n      zoom.ondblclick = function (e) {\n      	panning = false;\n      	scale = 1;\n      	pointX = 0;\n      	pointY = 0;\n      	setTransform();\n      }\n\n      zoom.onmousedown = function (e) {\n        e.preventDefault();\n        start = { x: e.clientX - pointX, y: e.clientY - pointY };\n        panning = true;\n      }\n\n      zoom.onmouseup = function (e) {\n        panning = false;\n      }\n\n      zoom.onmousemove = function (e) {\n        e.preventDefault();\n        if (!panning) {\n          return;\n        }\n        pointX = (e.clientX - start.x);\n        pointY = (e.clientY - start.y);\n        setTransform();\n      }\n\n      zoom.onwheel = function (e) {\n        var xs = (e.clientX - pointX) / scale,\n          ys = (e.clientY - pointY) / scale,\n          delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);\n        (delta > 0) ? (scale *= 1.2) : (scale /= 1.2);\n        pointX = e.clientX - xs * scale;\n        pointY = e.clientY - ys * scale;\n        setTransform();\n      }\n    </script>\n  </body>\n</html>";
 },"useData":true});
 templates['wrapper-page'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {

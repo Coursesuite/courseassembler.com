@@ -76,6 +76,7 @@
 	// style containers to fit browser; additionally size internal elements if required
 	DocNinja.routines = {
 		PersistSettings: function(source) {
+			console.info(source);
 			window.gatherSettings().then(function(cache) {
 			 	localforage.setItem("settingsCache", cache);
 			 	localforage.setItem("bodyclases", document.body.className);
@@ -187,7 +188,7 @@
 		var data = [],
 			patch_count = false;
 		$.each($("form").serializeArray(), function (idx, value, ar) {
-			if (value.name === "nav" || value.value.indexOf("theme-")===1) return;
+			if (value.name === "nav" || value.value.indexOf("theme-")===0) return;
 			if ($.isNumeric(value.value)) value.value = parseFloat(value.value);
 			if (value.value === "false") value.value = false;
 			if (value.value === "true") value.value = true;
@@ -206,6 +207,7 @@
 		// 	});
 		// });
 		//console.dir(data);
+console.dir(data);
 		return Promise.resolve(data);
 	};
 
