@@ -1,5 +1,5 @@
 CONTINUOUS
-direction: down
+direction: vertical
 background: #eeeeee
 text: black
 progress: true

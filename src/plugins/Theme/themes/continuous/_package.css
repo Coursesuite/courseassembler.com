@@ -4,7 +4,7 @@
     core colour variables (uses a javascript ponyfill for var support in IE)
 ================================================================================== */
 :root {
-    --bodySize: {{theme.CONTINUOUS.size}};
+    --bodySize: {{#if theme.CONTINUOUS.size}}{{theme.CONTINUOUS.size}}{{else}}16px{{/if}};
 
     --background: {{#if theme.CONTINUOUS.background}}{{theme.CONTINUOUS.background}}{{else}}transparent{{/if}};
     --colour: {{#if theme.CONTINUOUS.text}}{{theme.CONTINUOUS.text}}{{else}}#000000{{/if}};
@@ -424,7 +424,7 @@ article > main > div.audio {
   z-index: 2;
   display: none;
 }
-body.has-audio > main > div.audio {
+body.has-audio > article > main > div.audio {
   display: block;
 }
 .plyr--audio .plyr__controls {

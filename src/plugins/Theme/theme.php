@@ -27,7 +27,7 @@ $data = [
 	"navlock" => 0,
     "audio" => true,
 	"pages" => Request::post("nav"),
-    "theme" => json_decode(Request::post("themedata"), JSON_NUMERIC_CHECK),
+    "theme" => json_decode(Request::post("theme"), JSON_NUMERIC_CHECK),
 ];
 
 // header('content-type: text/plain');
@@ -63,6 +63,9 @@ die(Lib::render($index, $data));
 
 class Lib {
     public static function render($template, $data, $partials = []) {
+
+        // IMPORTANT
+        // these helpers must have javascript equivalents for runtime compilation
     	$helpers = [
 			"urlencode" => function ($arg1) {
                 $entities = array('%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
@@ -72,6 +75,9 @@ class Lib {
             "json" => function($obj, $pretty = false) {
                 $params = JSON_NUMERIC_CHECK; // | JSON_PRETTY_PRINT
                 return json_encode($obj, $params);
+            },
+            "stringify" => function ($obj) { // doesn't match javascript but works in Lightncandy the way we need
+                return $obj;
             },
             "is" => function ($arg1, $arg2, $options) {
                 if (strcasecmp((string) $arg1, (string) $arg2) == 0) {

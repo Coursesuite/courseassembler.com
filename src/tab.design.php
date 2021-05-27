@@ -3,7 +3,7 @@
 <form id="colours" class="w-80 m-lr-auto m-t-large" method='post' action='plugins/Theme/theme.php' target='_theme-preview'>
 	<input type="hidden" name="template">
 	<input type="hidden" name="selected_theme">
-	<input type="hidden" name="themedata">
+	<input type="hidden" name="theme">
 	<input type="hidden" name="nav">
 	<input type="hidden" name="course-name">
 	<input type="hidden" name="course-description">

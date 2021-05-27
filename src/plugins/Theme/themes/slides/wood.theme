@@ -34,3 +34,7 @@ ATTACHMENTS
 background: transparent
 itembackground:rgba(255,255,255,.5)
 text: black
+
+AUDIO
+background: transparent
+controls: white

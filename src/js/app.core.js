@@ -76,14 +76,14 @@
 	// style containers to fit browser; additionally size internal elements if required
 	DocNinja.routines = {
 		PersistSettings: function(source) {
-			console.info(source);
+			console.info('PersistSettings:', source);
 			window.gatherSettings().then(function(cache) {
 			 	localforage.setItem("settingsCache", cache);
 			 	localforage.setItem("bodyclases", document.body.className);
 			});
 		},
 		Statistics: function(destination) {
-			console.info(destination);
+			console.info('Statistics', destination);
 		},
 		RegisterActions: function (details) {
 			details.forEach(function(detail, index) {
@@ -207,7 +207,6 @@
 		// 	});
 		// });
 		//console.dir(data);
-console.dir(data);
 		return Promise.resolve(data);
 	};
 

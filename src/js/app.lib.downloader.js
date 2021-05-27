@@ -67,6 +67,28 @@
 					setup[setting.name] = setting.value;
 				});
 				return Promise.resolve(setup);
+			}).then(function ensureThemeIsCompiled(setup) {
+				return new Promise(function(resolve,reject) {
+					if (setup.hasOwnProperty('theme') && setup.theme.length) resolve(setup);
+					if (!setup.template) setup.template = "menu";
+					if (!setup.selected_theme) setup.selected_theme = "default";
+					var user_theme = document.querySelector('textarea.theme-editor').value;
+					if (user_theme.length) {
+						setup.theme = DocNinja.Plugins.Theme.compile(user_theme);
+						return Promise.resolve(setup);
+					} else {
+						fetch("plugins/Theme/themes/" + setup.template + "/" + setup.selected_theme + ".theme").then(function(response) {
+							if (!response.ok) throw response;
+							response.text().then(function(theme) {
+								setup.theme = DocNinja.Plugins.Theme.compile(theme);
+								resolve(setup);
+							});
+						}).catch(function(m1ssing) {
+							console.dir(m1ssing);
+							reject(m1ssing);
+						});
+					}
+				});
 			}).then(function validateSettingsModel(setup) { // validate the data
 				var seemsok = true;
 				[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (el) {
@@ -205,6 +227,7 @@
 
 				} else { // was not imscp, so do this
 
+					// we package all our user-generated resources into a 'data' folder inside the zip
 					fold = zip.folder("data");
 
 					localforage.iterate(function package_iterate_localforage(value, key, iterationNumber) {
@@ -226,6 +249,8 @@
 								page["depth"] = Math.max(0,+obj.depth||0); // must exist
 								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
 								page["autonav"] = obj.hasOwnProperty("autoNav") && obj.autoNav;
+
+								// find and attach all page attachments as files within the zip
 								page["attachments"] = obj.hasOwnProperty("attachments") && obj.attachments.length ? (function () {
 									return obj.attachments.map(function(attachment) {
 										// store the attachment in a page subfolder
@@ -234,7 +259,7 @@
 										// we only want a list of filenames
 										return attachment.name;
 									});
-								})() : false;
+								})() : undefined;
 								setup.pages[li.index()] = page; // push to index (nth LI) so it comes out in order in the template
 							}
 							if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
@@ -245,7 +270,7 @@
 
 							} else if ("image"==obj.kind) { // convert it using the preview renderer
 								fold.file(obj.payload.name, obj.payload.image.split(',')[1], {base64: true});
-								obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
+								obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload); //TODO match preview-image with wrapper-image template
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								fold.file(filename,obj.payload.html);
@@ -301,7 +326,7 @@
 						zip.file("doc.ninja", JSON.stringify(manifest));
 						if (manifest.audio) { // include plyr to do web audio
 							['plyr.js','plyr.css','plyr.svg'].map(function(name) {
-								var p = $.ajax({url:'js/runtimes/'+name, dataType:"text"});
+								var p = $.ajax({url:'js/runtimes/'+name, dataType:"text"}); // $.ajax returns a promise of the file data
 								zip.file(name, p);
 							});
 						 	setup["audio"] = true;
@@ -309,8 +334,8 @@
 						setup["timestamp"] = manifest["timestamp"].toString(36);
 						setup["tier"] = App.Tier;
 
-						var templates = Handlebars.templates = Handlebars.templates || {}, // in global scope
-							template = $("#nav-selection figure.selected").attr("data-name"), // e.g. GreyOrangeButtonMenu
+						var templates = Handlebars.templates = Handlebars.templates || {}, // in global scope, compiled during publish from the handlebars/ folder
+							template = setup.template || $("#nav-selection figure.selected").attr("data-name"), // e.g. Menu, Continuous, Slides, etc
 							promises = [];
 
 						return new Promise(function package_template_compiler(outerResolve, outerReject) {
@@ -333,8 +358,8 @@
 								});
 							}
 
+							// zip of template is hosted on an external location; grab it, unzip it into the download zip we are packing
 							if (template.indexOf("://")!==-1) {
-								// zip of template is hosted on an external location; grab it
 								new JSZip.external.Promise(function package_load_external_template(innerResolve, innerReject) {
 								    JSZipUtils.getBinaryContent(template, function(err, data) {
 								        if (err) {
@@ -351,7 +376,7 @@
 									externalZip.forEach(function(relativePath,file) {
 										if (relativePath.startsWith("__MACOSX")) return; // skip
 										switch (relativePath) {
-											case "index.html": // compile into handlebars templates
+											case "index.html": // compile these files into handlebars templates
 											case "_package.js":
 											case "_package.css":
 												promises.push(compile_template(relativePath,file));
@@ -365,8 +390,15 @@
 								});
 
 							} else {
-								// regular internal template, load files from urls and proces them
-								var urls = ["designs/" + template + "/index.html","designs/" + template + "/_package.js", "designs/" + template + "/_package.css"];
+
+								// reference to core files in selected template; theme is already compiled
+								var urls = [
+									// "designs/" + template + "/index.html",
+									"plugins/Theme/themes/" + setup.template + "/index.html",
+									"plugins/Theme/themes/" + setup.template + "/_package.js",
+									"plugins/Theme/themes/" + setup.template + "/_package.css"
+								];
+
 								promises = urls.map(function package_process_internal_template(url) {
 									return new Promise(function(resolve,reject) {
 										var fh = new Headers(); fh.append('pragma','no-cache'); fh.append('cache-control','no-store'); // avoid caching templates until I can work out a better version control
@@ -393,7 +425,6 @@
 						if (setup['option-ga-id']) {
 							setup['analytics-code'] = Handlebars.templates["script-ga-index"](setup);
 						}
-						// console.dir(setup);
 						return Promise.all([
 							zip.file("index.html", Handlebars.templates["index.html"](setup)),
 							zip.file("_package.js", Handlebars.templates["_package.js"](setup)),
@@ -681,7 +712,6 @@ localforage.iterate(function( ... ) {
 			// xhr.open("POST", "https://preview.coursesuite.ninja/", true);
 			xhr.onload = function (e) {
 				$span.html(_html);
-				console.dir(this.responseText);
 				if (this.status == 200) {
 					// var obj = JSON.parse(this.responseText);
 					popIframe('preview/index.php' + location.search);

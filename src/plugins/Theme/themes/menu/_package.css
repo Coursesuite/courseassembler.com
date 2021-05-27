@@ -312,8 +312,8 @@ body > nav > a {
 }
 
 body > main > nav {
-    background: var(--headerBackground);
-    color: var(--headerText);
+    background: var(--bodyBackground);
+    color: var(--bodyText);
     display: flex;
     justify-content: space-between;
     padding: var(--padding);

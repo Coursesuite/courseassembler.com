@@ -306,8 +306,9 @@
 		if (compile) {
 			return properties;
 		} else {
-			const themedata = document.querySelector('input[name="themedata"]');
-			themedata.value = JSON.stringify(properties);
+			const theme_form_element = document.querySelector('input[name="theme"]');
+			theme_form_element.value = JSON.stringify(properties);
+			console.dir(theme_form_element.value);
 			DocNinja.routines.PersistSettings('Process Theme');
 			methods.update();
 		}

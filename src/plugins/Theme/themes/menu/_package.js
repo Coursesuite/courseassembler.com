@@ -304,8 +304,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
       var p = pages[i],
           q = pages[i+1],
           r = true,
-          audio = p.hasOwnProperty('audio'),
-          attach = p.hasOwnProperty('attachments');
+          audio = p.hasOwnProperty('audio') && p.audio.length,
+          attach = p.hasOwnProperty('attachments') && p.attachments.length;
       if (q) {
         if (q.depth > p.depth) {
           child = true;

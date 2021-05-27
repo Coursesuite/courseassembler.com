@@ -270,6 +270,8 @@ Handlebars.registerHelper("compare", function(g, c, e, d) {
 // json serialize helper - {{json var}}
 Handlebars.registerHelper('json', function(context) { return JSON.stringify(context); });
 
+Handlebars.registerHelper('stringify', function(context) { return JSON.stringify(context); });
+
 Handlebars.registerHelper('log', function(context) { console.dir(context); });
 
 Handlebars.registerHelper('titlecase', function(str) { return str.charAt(0).toUpperCase + str.slice(1); })
@@ -284,6 +286,31 @@ Handlebars.registerHelper('pips', function (num) {
 	}
 	list.push("<option value='" + n + "'>");
 	return list.join("");
+});
+
+/* these helpers match to plugins/Theme/theme.php */
+
+Handlebars.registerHelper('is', function (a, b, context) {
+	return (a == b) ? context.fn(this) : context.inverse(this);
+});
+
+Handlebars.registerHelper('urlencode', function (a) {
+	var f = Array('%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D'),
+		r = Array('+', '!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]"),
+		s = encodeURIComponent(a);
+	for (var i=0; i<f.length; i++) {
+		s = s.replace(f[i],r[i]);
+	}
+	return s;
+});
+
+Handlebars.registerHelper('count', function () {
+	var c = 0;
+	for (var i = 0; i < arguments.length; i++ ) {
+		if (typeof arguments[i] === 'object') continue;
+		if (arguments[i]) c++; // if argument loosely evaluates to true
+	}
+	return c;
 })
 
 // jquery cookie plugin - https://github.com/carhartl/jquery-cookie

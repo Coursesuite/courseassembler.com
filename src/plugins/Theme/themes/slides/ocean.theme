@@ -33,4 +33,8 @@ copyright: false
 ATTACHMENTS
 background: transparent
 itembackground: #f8f8f8
-text: black
+text: #2c5e87
+
+AUDIO
+background: transparent;
+controls: #2c5e87

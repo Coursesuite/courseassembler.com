@@ -617,7 +617,7 @@ article > main > div.audio {
   z-index: 2;
   display: none;
 }
-body.has-audio > main > div.audio {
+body.has-audio > article > main > div.audio {
   display: block;
 }
 .plyr--audio .plyr__controls {

@@ -30,3 +30,7 @@ background: radial-gradient(circle, #fefefe59 0%, #00000030 73%)
 
 ATTACHMENTS
 background: transparent
+
+AUDIO
+background: transparent
+controls: white
