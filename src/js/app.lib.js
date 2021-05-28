@@ -1637,7 +1637,7 @@ function submitForm(el) {
 	if (form) form.submit();
 }
 
-// stub for proxied sco's to latch to during preview
+// stub for proxied sco's to latch to during preview / theme design (our SCO finder looks for ninjaApiProxy object)
 function apiProxy() {
 	this.cache = {};
 	this.LMSInitialize = function() { return "true"; };
