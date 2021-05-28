@@ -18,6 +18,12 @@ button > i{
 	color: currentcolor;
 }
 
+details .inline-help {
+	float: right;
+	display: inline-block;
+	padding: .5rem;
+}
+
 /* --------------------------
 	banner button variant
 -------------------------- */
