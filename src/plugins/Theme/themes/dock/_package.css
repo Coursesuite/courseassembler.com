@@ -642,6 +642,9 @@ div.attache a {
   display: inline-block;
   margin-right: .5rem;
 }
+div.attache a[data-file-name] > span {
+    pointer-events: none;
+}
 /* ------------------------------------------------------------------------------- */
 
 @media print {
