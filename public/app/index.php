@@ -3,13 +3,16 @@ define("APP",true);
 include("load.php");
 
 // todo: implement caching
-foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*.json') as $json) {
-	$obj = json_decode(file_get_contents($json));
-	$themes[substr(basename($json), 0, -5)] = [
-		"name" => $obj->name,
-		"elements" => $obj->elements
-	];
-}
+// $themes = [];
+// foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*.json') as $json) {
+// 	$themes[] = substr(basename($json), 0, -5);
+// 	// $obj = json_decode(file_get_contents($json));
+// 	// $themes[substr(basename($json), 0, -5)] = $obj->elements; 
+// 	// [ //substr(basename($json), 0, -5)] = 
+// 	// 	"name" => $obj->name,
+// 	// 	"elements" => $obj->elements
+// 	// ];
+// }
 
 $jsApp = new stdClass();
 $jsApp->Home = $verifier->home;
@@ -17,7 +20,7 @@ $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
-$jsApp->Themes = [$themes];
+// $jsApp->Themes = $themes;
 
 // if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
@@ -46,8 +49,6 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.1/css/bootstrap-colorpicker.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" rel="stylesheet" type="text/css" media="none" onload="if(media!=='all')media='all'">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
@@ -111,13 +112,12 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.js" async="true"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datalist-polyfill/1.24.4/datalist-polyfill.min.js" integrity="sha512-njgkJe8kuqyz2AauUKsvQ3fhqbLsshNovMTWXLmy7x+lfrHdF8TxDlLQofXG9EBYirKYWmNJlGs0qA7340U6ug==" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>
@@ -168,9 +168,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	<section id="change-settings">
 		<section id="nav-selection">
 			<h3 class="w-80 m-lr-auto m-t-large">Designs are not applicable when <b>IMSCP Compatibility</b> is selected.</h3>
-			<form id="colours" class="w-80 m-lr-auto m-t-large"><input type="hidden" name="template">
 			<?php include "tab.design.php"; ?>
-			</form>
 		</section>
 	</section>
 
@@ -331,6 +329,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					<li>Slideshare (e.g. http://www.slideshare.net/billkarwin/models-for-hierarchical-data)</li>
 					<li>SoundCloud (e.g. https://soundcloud.com/epicmountain/nuke-the-moon)</li>
 					<li>Websites that support OEMBED</li>
+					<li>Iframe embeds (no tracking / cross domain script)</li>
 					<li>Any URL can be inserted as an image</li>
 				</ul>
 				<textarea id="paste-url-obj" placeholder="Paste your code/embed code into this box then press Insert" noresize autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
@@ -356,6 +355,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<a href="javascript:;" data-action="close-import-content"><span class="ninja-close"></span></a>
 		</header>
 		<section class="drag-to-upload">
+			<p>We currently support CourseAssembler and Video2Scorm zip packages.</p>
 			<div class="dropzone" onclick="document.getElementById('muplControl').click()">
 				<h3>Drag and drop a Course Assembler zip package here</h3>
 				<p>Or click here to browse</p>
@@ -372,14 +372,10 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 		</div>
 	</div>
 
-	<div class="modal theme-editor">
+	<div class="modal message">
 		<div class="modal-box">
-			<header>
-				Edit theme
-			</header>
-			<section>
-				editor content
-			</section>
+			<header> </header>
+			<section> </section>
 		</div>
 	</div>
 

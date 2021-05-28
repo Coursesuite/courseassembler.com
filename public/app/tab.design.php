@@ -1,55 +1,34 @@
+<?php defined("APP")?assert(1):die(); ?>
+
+<form id="colours" class="w-80 m-lr-auto m-t-large" method='post' action='plugins/Theme/theme.php' target='_theme-preview'>
+	<input type="hidden" name="template">
+	<input type="hidden" name="selected_theme">
+	<input type="hidden" name="theme">
+	<input type="hidden" name="nav">
+	<input type="hidden" name="course-name">
+	<input type="hidden" name="course-description">
+	<input type="hidden" name="course-copyright">
+
+<fieldset class='grid'><legend>Navigation style</legend>
 <?php
- defined("APP")?assert(1):die();
-
-
-$css = " class='selected'";
-
-$groupings = [];
-if (!empty($api_template)) {
-	$groupings[] = "Your Template";
+foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*',GLOB_ONLYDIR) as $file) {
+	$path = basename($file);
+	$caption = ucwords($path);
+	echo "<figure data-action='set-theme-base' data-name='{$path}'><img src='plugins/Theme/themes/{$path}/preview.jpg'><figcaption>{$caption}</figcaption></figure>", PHP_EOL;
 }
+?>
+</fieldset>
 
-// get a distinct list of folders, which are in the pattern Grouping_SentenceCaseName
-$designs = array_filter(glob(realpath(dirname(__FILE__)) . '/designs/*'), 'is_dir'); // [!_]*
-array_walk($designs, function($v) use (&$groupings) {
-	if (substr(basename($v),0,1)!=="_") {
-		$groupings[] = basename($v);
-	}
-	// $group = explode('_', basename($v))[0];
-	// if (!in_array($group, $groupings)) $groupings[] = $group;
-});
+<fieldset class='themePreviewOptions'>
+	<legend>Themes</legend>
 
-echo "<p>You can view the source code or contribute to these designs <a href='https://github.com/Coursesuite/courseassembler-templates' style='border-bottom:1px dotted currentcolor'>by clicking here</a></p>";
+</fieldset>
 
-// Draw in each grouping the list of designs
-foreach ($groupings as $group) {
+<fieldset id='themePreviewContainer'><legend>Preview</legend>
+	<iframe frameborder='0' id='theme-preview' name='_theme-preview'></iframe>
+</fieldset>
 
-	echo "<fieldset>", "<legend>", $group, "</legend>", PHP_EOL;
+<p class="small">This preview is for design purpose and does not reflect final page ordering or functionality.</p>
 
-	if ($group === "Your Template") {
-		echo "<p class='theme-options m-t-half'>A template has been provided for you.</p>", PHP_EOL;
-		echo "<div class='grid'><div><figure data-name='{$api_template}' class='selected'><img src='img/api_template.jpg'><figcaption>Your template</figcaption></figure></div></div>";
-		$css = "";
-	}
 
-	if ($group === "Basic") {
-		echo "<p class='theme-options'>Basic themes have a settable base colour: <input type='text' id='nav-colour' name='navbg' value='#189082' class='jscolor {hash:true, onFineChange:\"colourpreview(this)\"}}' onChange='colourpersist(this)' /></p>", PHP_EOL;
-		// echo "<input type='hidden' name='layout' value='side-bar' readonly='readonly' title='Name of selected design'>", PHP_EOL;
-		echo "<input type='hidden' name='navtext' value='255,255,255'>", PHP_EOL;
-	}
-
-	echo "<div class='grid'>", PHP_EOL;
-	$designs = array_filter(glob(realpath(dirname(__FILE__)) . "/designs/{$group}/*"), 'is_dir');
-	array_walk($designs, function($fold) use (&$css, $group) {
-		$bn = basename($fold);
-		$fn = rawurlencode($group) . '/' . rawurlencode($bn);
-		echo "<div>","<figure data-name='{$fn}'{$css}>";
-		echo "<img src='designs/{$fn}/preview.jpg'>";
-		$svg = realpath("designs/{$fn}/overlay.svg"); // returns false if not found
-		if ($svg) include($svg);
-		echo "<figcaption>", trim(preg_replace('/([A-Z])/', ' $1', $bn)), "</figcaption>"; // SentenceCaseName => Sentence Case Name
-		echo "</figure>", "</div>", PHP_EOL;
-		$css = "";
-	});
-	echo "</div>", "</fieldset>", PHP_EOL;
-}
+</form>

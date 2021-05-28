@@ -677,7 +677,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     border-color: #1694CA;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, .06), 0 0 5px rgba(19, 131, 179, .7)
 }
-#header {
+/*#header {
     background: #1694CA;
     color: #fff;
     text-align: center;
@@ -692,7 +692,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 }
 #header #logo-svg path {
     fill: #fff
-}
+}*/
 .searchbox {
     margin-top: .5rem;
     position: relative;
@@ -748,7 +748,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     }
 }
 #sidebar {
-    background-color: #38424D;
+    background: #38424D url(https://www.courseassembler.com/assets/transparent-diamonds.png);
     position: fixed;
     top: 0;
     width: 300px;
@@ -859,8 +859,9 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     padding-right: 1rem
 }
 #sidebar ul li.active>a {
-    background: #fff;
-    color: #555!important;
+    background:rgba(255,255,255,.25);
+    border-radius: 10px 0 0 10px;
+    color: #eee!important;
     margin-left: -1rem;
     margin-right: -1rem;
     padding-left: 1rem;
@@ -1671,7 +1672,7 @@ pre .copy-to-clipboard:hover {
     transform-style: preserve-3d
 }
 #header {
-    background-color: #20639b
+    padding: 1rem;
 }
 #header .searchbox {
     background-color: rgba(255, 255, 255, .2);
@@ -1683,4 +1684,21 @@ pre .copy-to-clipboard:hover {
 .scrollbar-inner {
     overflow-y: auto;
     height: calc(100vh - 57.66px);
+}
+
+.scrollbar-inner {
+    scrollbar-color: transparent;
+}
+.scrollbar-inner::-webkit-scrollbar {
+    width: 10px;
+}
+.scrollbar-inner::-webkit-scrollbar-track {
+    background-color: transparent;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+.scrollbar-inner::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.25); 
 }

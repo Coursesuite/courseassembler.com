@@ -149,6 +149,7 @@ var MarkDownEditor = (function () {
 		var layout = {
 			name: "layout",
 			action: function(editor) {
+				alert('not implemented');
 				// what do we do here?
 			},
 			className: "fa fa-font",
@@ -161,7 +162,7 @@ var MarkDownEditor = (function () {
 			autofocus: true,
 			forceSync: false,
 			placeholder: "Markdown / HTML is allowed.\nDrag images onto this editor to embed them\nTo nest markdown inside html, add attribute markdown=\"1\" of tags containing markdown.",
-			toolbar: ["bold","italic","heading","|","code","quote","unordered-list","ordered-list","table","|","link","image","|","preview","side-by-side","fullscreen","|",layout,"|","guide"],
+			toolbar: ["bold","italic","heading","|","code","quote","unordered-list","ordered-list","table","|","link","image","|","preview","side-by-side","|",layout,"|","guide"], // "fullscreen"
 			fullscreen: true,
 			split:true,
 			initialValue:value

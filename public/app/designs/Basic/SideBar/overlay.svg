@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720">
-  <title>Basic_SideBar</title>
-  <g id="menu">
-    <g id="menubar">
-      <path d="M26.41,24C21.68,24,18,28.66,18,34.82V694.18c0,6.16,3.79,10.82,8.52,10.82H239V24ZM229,399H27V354.73H229Zm0-88.55H27V266.19H229Zm0-89.84H27V176.35H229Zm0-88.55H27V87.8H229Z"/>
-    </g>
-  </g>
-</svg>

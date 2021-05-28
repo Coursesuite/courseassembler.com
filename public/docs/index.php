@@ -59,7 +59,7 @@ foreach ($rii as $file) {
 
 }
 
-function render($ol, $path_to_here = '.') {
+function render($ol, $path_to_here = '.', $current_url) {
 	global $list_tag;
 	$result = [];
 	foreach ($ol as $key => $value) {
@@ -80,13 +80,14 @@ function render($ol, $path_to_here = '.') {
 			}
 		}
 
-		$result[] = "<li>";
+		$css = ($current_url === "{$path_to_here}/{$key}/{$link}") ? 'active' : '';
+		$result[] = "<li class='{$css}'>";
 		if (empty($link)) {
 			$result[] = $label;
 		} else {
 			$result[] = "<a href='?url={$path_to_here}/{$key}/{$link}'>{$label}</a>";
 		}
-		$children = render($value, $path_to_here . '/' . $key);
+		$children = render($value, $path_to_here . '/' . $key, $current_url);
 		if (!empty($children)) {
 			$result[] = "<{$list_tag}>";
 			$result = array_merge($result, $children);
@@ -98,11 +99,10 @@ function render($ol, $path_to_here = '.') {
 
 }
 
-$output = render($files);
-
+$url = isset($_GET['url']) ? $_GET['url'] : $home;
+$output = render($files, '.', $url);
 $menu = "<{$list_tag}>" . PHP_EOL . implode('' , $output) . "</{$list_tag}>" . PHP_EOL;
 
-$url = isset($_GET['url']) ? $_GET['url'] : $home;
 $content = <<<EOT
 ---
 title: ¯\_(ツ)_/¯

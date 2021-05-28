@@ -8,13 +8,13 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="app.min.20210401105358.css">
+	<link rel="stylesheet" type="text/css" href="app.min.20210528083209.css">
 	<script type="text/javascript">window.fd={logging:false};</script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
-	<script type="text/javascript" src="app.min.20210401105358.js"></script>
+	<script type="text/javascript" src="app.min.20210528083209.js"></script>
 	<script type="text/javascript">window.addEventListener("load", QuizBuilder.Init, false);</script>
 </head>
 <body>
@@ -23,17 +23,17 @@
 		<div class="focus-group" label="Settings">
 			<div class="row">
 				<div class="column">
-					<label for="title_field">Title</label>
+					<label for="title_field">Heading</label>
 					<input type="text" placeholder="Enter a title for your quiz" id="title_field">
 					<label for="resultsButton_field">Results button text</label>
 					<input type="text" id="resultsButton_field" value="Results">
 				</div>
 				<div class="column">
-					<label for="reveal_field">Mark answers</label>
+					<label for="reveal_field">Marking</label>
 					<select id="reveal_field">
-						<option value="answer" selected>Check Answer button, show status</option>
-						<option value="complete">Mark on completion, show status</option>
-						<option value="false">Mark on completion, do not show status</option>
+						<option value="answer" selected>Show 'Check Answer' button, feedback visible</option>
+						<option value="complete">Mark after last question, feedback visible</option>
+						<option value="false">Mark after last question, feedback hidden</option>
 					</select>
 					<label for="checkButton_field">Answer button text</label>
 					<input type="text" id="checkButton_field" value="Check answer">

@@ -196,10 +196,38 @@
 				var manifest = zip.file("imsmanifest.xml"),
 					docninja = zip.file("doc.ninja"),
 					vidninja = zip.file("vid.ninja"),
-					quizninja = zip.file("quiz.ninja");
+					quizninja = zip.file("quiz.ninja"),
+					v2scorm = zip.file("v2s.ninja");
 
 				if (null !== vidninja) {
 					finalReject("Package type [vid.ninja] is not yet supported.");
+
+				} else if (null !== v2scorm) {
+					zip.file("index.html").async("string").then(function(text) {
+						var li = DocNinja.Navigation.Nodes.Last(),
+							fileid = DocNinja.PurityControl.Nav.GetFileId(),
+							fileinfo = {
+								depth: 0,
+								format: "plain",
+								kind: "proxy",
+								name: li.textContent.replace('.zip','').replace('_',' '),
+								payload: { html: '' }
+							},
+							dom = (new DOMParser()).parseFromString(text, "text/html");
+
+						// var li = document.createElement("li");
+						// li.innerHTML = fileinfo.name;
+						// li.setAttribute("data-fileid", );
+						// DocNinja.navItems.appendChild(li);
+
+						DocNinja.PurityControl.Nav.Add(DocNinja.navItems, fileid, fileinfo, null, "cache");
+						_ReImportNinjaFile(zip, dom, fileid, fileinfo).then(function(results) {
+							// create a new node in the dom for this ...
+							DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + results.fileId + "']"), results.fileInfo, "ready");
+							// ... because the callee of importZip will remove the origin li for some reason
+							finalResolve();
+						});
+					});
 
 				} else if (null !== quizninja) {
 					finalReject("Package type [quiz.ninja] is not yet supported.");
