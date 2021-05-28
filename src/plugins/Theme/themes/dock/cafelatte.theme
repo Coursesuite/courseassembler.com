@@ -1,43 +1,72 @@
+Caution
+This theme is pretty ugly!
+But it shows many things you can do with a theme, including inline comments like this one.
+
 DOCK
 boxshadow: 0 0 25px black
 height: 3rem
 position: top
 start: closed
 
+start could be 'open' or 'closed'. when it is 'open' the user can close it by clicking the three-line menu icon.
+
 NAVIGATION
 font: Playfair Display
 size: 22px
-background: url(https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80) center / cover scroll
+
+
+there are multiple backgrounds here which are stacked using comma notation (highest to lowest in z-index)
+
+background: radial-gradient(ellipse at bottom left, #000000, transparent), url(https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80) center / cover scroll
+
+
 text: black
 scrollbar: #496B48e3
 
+hex notation can be three values e.g. #369 which is the same as 6 value notation #336699. 8 value notation adds an alpha channel on the end e.g. #3366997f is #369 with alpha of 50%
+
 ICONS
+i want all the icons to be enabled.
 attachments, audio, completion, navigation, print, menu, fullscreen
 
 HEADER
-background: #774833e3
+background: #774833e3 radial-gradient(circle at bottom, #000000, transparent)
 text: white
 shadow: none
+
+probably best to host your own image somewhere rather that hotlinking off someone else... but for an example :
+
 image: https://images.unsplash.com/photo-1500353391678-d7b57979d6d2?ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTB8ODUzODA1MXx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=60
 
 FOOTER
-background: #496B48e3
+background: #496B48e3 url(https://thumbs.dreamstime.com/b/seamless-background-green-white-dots-background-texture-green-white-dots-125344727.jpg)
 text: black
 copyright: off
 
 ITEM
-background: rgba(255,255,255,.5)
+background: rgba(255,255,255,.5) linear-gradient(43deg, #4158D044 0%, #C850C066 46%, #FFCC7088 100%);
+
 text: black
 shadow: off
 padding: 0rem
 
 SUBITEM
-background: rgba(255,255,255,.75)
+background: rgba(255,255,255,.75) linear-gradient(238deg, #FBAB7Edd 0%, #F7CE6888 100%);
+
 text: black
 shadow: off
+
 padding: 0rem
+0rem? or just 0? I mean zero is zero in any unit isn't it?
 
 SELECTION
-background: rgba(255,255,255,.85)
+
+background: radial-gradient(ellipse at top left, #ffffff, transparent), radial-gradient(circle at bottom, #000000, transparent)
 text: black
 shadow: off
+
+well that's all there is. The following line simply shows a block and property that doesn't affect anything (it is ignored)
+
+BLAH
+profit: yes
+
