@@ -8,14 +8,18 @@ taxonomy:
 visible: false
 ---
 
-We have some new features planned or under development for this app. 
+We have a number of feature requests. Please get in touch info@courseassembler.com to let us know yours. Development is costly and time consuming, so not everything you want can be supported. 
 
-* ~~Adding support for converting Google Docs / Spreadsheets / Presentations~~ Done!
-* ~~Adding support for dropping on packages produced with other Coursesuite apps~~ Supports Video 2 Scorm
+* Add more quiz question types (drag and drop, fill in the words, simple formula, etc)
+* Add single page interactions
+* Support turning off scrub bar on videos from YouTube and Vimeo
+* Support recording video from screen capture or webcam
+* ~~Support navigating to next page after audio finishes~~
+* Settable options for centering and scaling tools for each page
+* Ability to upload custom themes / custom players
+* Ability to store, share, collaborate on and import multiple packages
+* Better Markdown editor / layout, font, colour etc
 * Add support for adding an acknowledgement-style flag or button on a page so that a user is recorded as acknowleding / accepting the package
-* ~~Make a multiplatform version of the app that you can run on your desktop~~ Won't Do.
-* Pre-conversion options (formatting / styling related)
-* Questions / Quizzes ...
-* ~~Support embedded audio and video in powerpoint presentations~~ Done!
-
-If you'd like to suggest a feature, please [raise a ticket](https://help.coursesuite.ninja/) on our helpdesk. We can't promise to implement all your suggestions.
+* ~~Make a multiplatform version of the app that you can run on your desktop~~ Possible but won't do.
+* Mobile device support
+* xAPI endpoint (LRS verbs / patch)
