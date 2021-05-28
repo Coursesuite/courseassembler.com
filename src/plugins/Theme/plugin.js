@@ -338,6 +338,8 @@
 				break;
 			case "horizontal":
 			case "across":
+			case "left":
+			case "right":
 				text = "row";
 				break;
 			case "vertical":
