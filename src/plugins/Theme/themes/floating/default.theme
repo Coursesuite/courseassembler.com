@@ -11,6 +11,7 @@ text: white
 shadow: rgba(0,0,0,.2)
 padding: .25rem .5rem
 rounded: 3px
+position: bottom
 
 ATTACHMENTS
 background: #336699

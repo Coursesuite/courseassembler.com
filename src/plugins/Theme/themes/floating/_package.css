@@ -120,11 +120,12 @@ div.iframe {
   .swipe-zone {
     position: absolute;
     z-index: 19; /* less than nav */
-    bottom: 0;
+    {{theme.NANO.postion}}: 0;
     right: 0;
     width: 50vw;
     height: 25vh;
   }
+  {{#is "bottom" theme.NANO.position}}
   body.has-audio.has-attachments > .swipe-zone {
       bottom: calc(100px + .5rem);
   }
@@ -132,13 +133,14 @@ div.iframe {
   body.has-audio:not(.has-attachments) > .swipe-zone {
       bottom: calc(50px + .5rem);
   }
+  {{/is}}
 }
 
-body.has-audio.has-attachments > nav {
+body.has-audio.has-attachments > nav:not(.top) {
     bottom: calc(100px + .5rem);
 }
-body.has-attachments:not(.has-audio) nav,
-body.has-audio:not(.has-attachments) nav {
+body.has-attachments:not(.has-audio) nav:not(.top),
+body.has-audio:not(.has-attachments) nav:not(.top) {
     bottom: calc(50px + .5rem);
 }
 
@@ -149,7 +151,14 @@ body > nav {
 
     position: absolute;
     right: 1rem;
+}
+
+body > nav.bottom {
     bottom: 1rem;
+}
+
+body > nav.top {
+    top: 1rem;
 }
 
 body > nav:hover {

@@ -320,6 +320,10 @@ Whether text and icons have a shadow. Can be `false` for none or a colour value 
 
 Whether or not to show a progress graph indicating how much of the course is completed.
 
+*position* : `bottom`
+
+Whether or not the navigation control appears at the `top` or `bottom` of the page. The controls are always positioned on the right side.
+
 ----
 
 Applies to: Nano layout

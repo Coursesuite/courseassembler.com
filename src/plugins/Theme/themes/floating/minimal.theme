@@ -9,6 +9,7 @@ padding: .5rem
 size: 24px
 rounded: 2rem
 progress: false
+position: top
 
 ATTACHMENTS
 background: white

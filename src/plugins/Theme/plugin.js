@@ -239,7 +239,8 @@
 				"size": "20px",
 				"padding": ".25rem",
 				"shadow": false,
-				"progress": true
+				"progress": true,
+				"position": "bottom"
 			},
 			"SLIDES": {
 				"background": "#999999",
@@ -308,7 +309,6 @@
 		} else {
 			const theme_form_element = document.querySelector('input[name="theme"]');
 			theme_form_element.value = JSON.stringify(properties);
-			console.dir(theme_form_element.value);
 			DocNinja.routines.PersistSettings('Process Theme');
 			methods.update();
 		}
