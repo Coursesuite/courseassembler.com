@@ -1,8 +1,7 @@
-	<div class="uk-section uk-padding-remove-bottom">
+	<div class="uk-section faq-container">
 		<div class="uk-container">
 			<h1>Frequently Asked Questions</h1>
 		</div>
-	</div>
 
 	<div class="uk-container uk-margin-large">
 		<?php
@@ -13,6 +12,7 @@
 			echo $Parser->text($file["contents"]), PHP_EOL;
 		}
 		?>
+	</div>
 	</div>
 
 <?php
