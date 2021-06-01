@@ -99,6 +99,11 @@ fi
 echo "Copying font files"
 cp -R css/font/fonts css/
 
+echo "createing preview space"
+cd preview
+mkdir data
+cd ..
+
 echo "Cleaning root files"
 rm *.bash
 rm dockerCompileScript.sh
