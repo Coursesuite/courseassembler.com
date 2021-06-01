@@ -87,15 +87,16 @@
 		},
 		RegisterActions: function (details) {
 			details.forEach(function(detail, index) {
-				detail.order = index+1;
+				// detail.order = index+1;
 				DocNinja.routines.RegisterAction(detail);
 			})
 		},
 		RegisterAction: function (details) {
-			var t = details.type,
-				o = Math.max(0, +details.order-1); // order needs to start at 1
+			var t = details.type;
+				// o = DocNinja.options.actions[t] && DocNinja.options.actions[t].length || 0; // Math.max(0, +details.order-1); // order needs to start at 1
 			if (!DocNinja.options.actions.hasOwnProperty(t)) DocNinja.options.actions[t] = [];
-			DocNinja.options.actions[t][o] = details;
+			DocNinja.options.actions[t][details.order] = details;
+			console.dir(DocNinja.options.actions);
 		},
 		InitActions: function () { // tell plugins they need to register their actions
 			PLUGINS.forEach(function(v) {

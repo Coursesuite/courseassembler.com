@@ -258,6 +258,8 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 }
 
 .ga-page { color: var(--content); }
+.ga-url { color: var(--url); }
+.ga-cloud { color: var(--cloud); }
 .ga-markdown { color: var(--markdown) }
 .ga-quiz { color: var(--quiz); }
 .ga-intro { color: var(--intro); }

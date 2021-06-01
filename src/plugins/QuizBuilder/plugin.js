@@ -7,8 +7,8 @@
 		DocNinja.routines.RegisterAction({
 			plugin: context,
 			icon: '<div class="ga-quiz"><a data-action="add-quiz"><i class="ninja-inbox-check"></i>Add a quiz</a></div>',
-			type: 'page',
-			order: 4,
+			type: 'interaction',
+			order: 1,
 			supports: ['edit','view','export','compile'],
 			handler: 'add-quiz'
 		});
