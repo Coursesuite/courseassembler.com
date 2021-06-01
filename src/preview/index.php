@@ -24,7 +24,9 @@ $hash = isset($_GET["hash"]) ? $_GET["hash"] : $debug ? "debug" : null;
 if (empty($hash)) die("bad method");
 if (empty($hash) && $debug) $hash = "debug";
 
+
 $root = realpath("./data/");
+if (!$root) $root = realpath('.') . '/data';
 if (!file_exists($root)) mkdir ($root, 0777, true);
 
 $folder = "{$root}/{$hash}";

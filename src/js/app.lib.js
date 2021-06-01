@@ -828,9 +828,12 @@ function handleAction(node, e) {
 			w.focus();
 			break;
 
-		case "add-content":
+		case "add-upload":
+		case "add-paste":
+		case "add-choose":
 			closePopover();
 			classie.addClass(document.body,"modal-add");
+			document.querySelector(".modal.add-content nav>a[href='#" + tgt.dataset.action + "']").click();
 			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 			break;
 		case "close-add-content":
@@ -1560,7 +1563,8 @@ function highestZindex() {
 function popIframe(url) {
     var b = document.createElement("div"),
         d = document.createElement("iframe"),
-        c = document.createElement("div");
+        c = document.createElement("div"),
+        a = document.createElement("a");
     o = "cs-overlay";
     if (x = document.querySelector("#" + o)) return document.body.style.overflow = "auto", document.body.removeChild(x), !1;
     b.id = o;
@@ -1569,14 +1573,31 @@ function popIframe(url) {
     d.setAttribute("allowfullscreen","true");
     d.style = "position:absolute;width:90%;height:90%;left:5%;top:5%;box-shadow:0 10px 25px rgba(0,0,0,.5);";
     d.src = url;
-    c.style = "position:absolute;top:calc(5% - 24px);left:96%;width:24px;height:24px;cursor:pointer";
+    c.style = "position:absolute;top:calc(5% - 32px);left:95%;width:32px;height:32px;cursor:pointer";
     c.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path stroke=\"white\" stroke-width=\"3px\" d=\"M0 0l24 24M0 24L24 0\"/></svg>";
     c.onclick = popIframe;
+    a.href = url;
+    a.target = "_blank";
+    a.title = "Click to copy preview link to clipboard";
+    a.innerHTML = "<span class='ninja-paperclip'></span>";
+    a.style = "position:absolute;top:calc(5% + 16px);font-size:32px;cursor:pointer;left:95%";
+    a.onclick = function(e) { textToClipboard(this.href); alert('Copied link to previewer to clipboard!'); return false; }
     b.appendChild(c);
+    b.appendChild(a);
     document.body.appendChild(b);
     document.body.style.overflow = "hidden";
     return 1
 };
+
+// copies the text to the clipboard
+function textToClipboard (text) {
+    var dummy = document.createElement("textarea");
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+}
 
 // async function get_free_space() {
 // 	if (navigator.storage && navigator.storage.estimate) {
