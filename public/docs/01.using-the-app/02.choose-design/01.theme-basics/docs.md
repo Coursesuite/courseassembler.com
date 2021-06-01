@@ -6,7 +6,7 @@ taxonomy:
         - document-ninja
 ---
 
-You can choose from a range of /navigation styles/ and /preset themes/ to quickly provide a way for your learners to navigate the package. Different navigation styles offer their own presets, and you can customise any of them to suit your particular needs. It's best to first add a few documents to the Course Assembler before you decide on a design, as you will get a feel for the layout and functionality of the final package.
+You can choose from a range of _navigation styles_ and _preset themes_ to quickly provide a way for your learners to navigate the package. Different navigation styles offer their own presets, and you can customise any of them to suit your particular needs. It's best to first add a few documents to the Course Assembler before you decide on a design, as you will get a feel for the layout and functionality of the final package.
 
 > NOTE:
 > This preview is for design purpose and does not reflect final page ordering or functionality. You can use the 'Preview' function under the Download page to see final functionality.
