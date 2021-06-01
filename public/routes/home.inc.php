@@ -54,7 +54,7 @@
 					        <tr>
 					            <th>Licence</th>
 					            <th>Price</th>
-					            <th>Buy</th>
+					            <th>Checkout</th>
 					        </tr>
 					    </thead>
 					    <tbody>
@@ -66,7 +66,7 @@
 					        <tr>
 					            <td>10 Days</td>
 					            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price" data-fsc-item-path-value="course-assembler-10">$10</td>
-					            <td><a href="#" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Popular!</a></td>
+					            <td><a href="#" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 					        </tr>
 					        <tr>
 					            <td>30 Days</td>
@@ -110,7 +110,7 @@
 		</div>
 		</div>
 
-		<div class=" uk-background-muted uk-section">
+		<div class=" wavey-container uk-section">
 		<div class="uk-container">
 			<h2 class="uk-text-center">All the features you need, none of the junk you don't.</h2>
 			<div uk-grid class="uk-child-width-1-2@m uk-padding uk-padding-remove-vertical">
@@ -216,6 +216,8 @@
 			</div>
 		</div>
 		</div>
+
+<?php require "faq.inc.php"; ?>
 
 		<div class="uk-container uk-margin-xlarge">
 			<h2 class="uk-text-center uk-margin-xlarge-bottom tilt">Course Assembler is an assembly line for your content.</h2>

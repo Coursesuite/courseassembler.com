@@ -15,7 +15,7 @@
 		<meta property="og:url" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/">
 		<meta property="og:site_name" content="Course Assembler ">
 		<meta property="og:image" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/assets/meta_card.png">
-		<link href="assets/style.css" rel="stylesheet" type="text/css"/>
+		<link href="/assets/style.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/css/uikit.min.css" />
         <script src="https://polyfill.io/v3/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
@@ -29,26 +29,25 @@
 	<body class="<?php echo str_replace('.inc.php','',$fn); ?>">
 		<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
 			<div class="uk-container uk-container-expand coursesuite-bar">
-				<div class=" uk-padding-small">
-					<img src="assets/coursesuite-glyph.svg" style="width:1rem" class="embiggen">
-					<a href="https://www.coursesuite.com/?from=courseassembler" target="_blank">Coursesuite</a>
-					<a href="https://www.courseassembler.com/?from=courseassembler" target="_blank">Course Assembler</a>
-					<a href="https://video.to-scorm.com/?from=courseassembler" target="_blank">Video 2 Scorm</a>
-					<a href="https://presentation.to-scorm.com/?from=courseassembler" target="_blank">Audio Presentation Ninja</a>
-					<a href="https://coursebuildr.coursesuite.ninja/app/login/?from=courseassembler" target="_blank">CourseBuilder</a>
+				<div class="uk-padding-small uk-padding-remove-vertical uk-text-meta">
+					Other Scorm Apps:
+					<a href="https://pdf.to-scorm.com/">PDF 2 Scorm</a>
+					<a href="https://video.to-scorm.com/">Video 2 Scorm</a>
+					<a href="https://presentation.to-scorm.com/">Audio+Presentation 2 Scorm</a>
+					<a href="https://coursebuildr.coursesuite.ninja/app/login/">CourseBuilder</a>
 				</div>
 			</div>
 			<div class="uk-container uk-container-expand">
 				<nav uk-navbar>
 					<div class="uk-navbar-left">
-						<a href="/" class="uk-navbar-item uk-logo"><img src="assets/header.svg" class="uk-margin-small-right" width="280"></a>
+						<a href="/" class="uk-navbar-item uk-logo"><img src="/assets/header.svg" class="uk-margin-small-right" width="280"></a>
 					</div>
 					<div class="uk-navbar-right uk-visible@m">
 						<ul class="uk-navbar-nav">
 							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
-							<li><a href="/faq">Faq</a></li>
-							<li><a href="/changelog">Changelog<?php badge('/changelog'); ?></a></li>
+							<li><a href="/blog">Blog</a></li>
 							<li><a href="/docs" target="_blank">Documentation</a></li>
+							<li><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw&region=follow_link&screen_name=CourseAssembler&tw_p=followbutton" title="Follow @CourseAssembler on Twitter"><span uk-icon="icon: twitter;"></span></a></li>
 						</ul>
 						<div class="uk-navbar-item">
 							<?php include "_launch.inc.php"; ?>
@@ -57,6 +56,6 @@
 				</nav>
 			</div>
 		</div>
-        <link rel="stylesheet" href="assets/outdated-browser-rework/outdated-browser.css">
+        <link rel="stylesheet" href="/assets/outdated-browser-rework/outdated-browser.css">
         <div id="outdated"></div>
-        <script src="assets/outdated-browser-rework/outdated-browser.js"></script>
+        <script src="/assets/outdated-browser-rework/outdated-browser.js"></script>

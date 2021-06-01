@@ -11,7 +11,7 @@
 					</ul>
 				</div>
 				<div>
-					<p>&copy; Copyright <?php echo date("Y"); ?> <a href="https://www.coursesuite.com">Coursesuite</a>, all rights reserved. <a href="/privacy">Policies</a> | <a href="mailto:info@courseassembler.com">Email us</a> | <a href="https://help.coursesuite.ninja" target="_blank">Support</a> | <span uk-icon="twitter"></span> <a href="https://twitter.com/assemblercourse">@assemblercourse</a>.</p>
+					<p>&copy; Copyright <?php echo date("Y"); ?> <a href="https://www.coursesuite.com">Coursesuite</a>, all rights reserved. <a href="/privacy">Policies</a> | <a href="mailto:info@courseassembler.com">Email</a> | <a href="https://twitter.com/courseassembler">@courseassembler</a>.</p>
 				</div>
 				<div >
 					<?php include "_sharing.inc.php"; ?>
@@ -31,7 +31,7 @@
     ></script>
 	<script
 		type='text/javascript'
-		src='assets/main.js'
+		src='/assets/main.js'
 	></script>
     </body>
 </html>
