@@ -1,5 +1,6 @@
 <?php
 define("APP", realpath("."));
+define("CACHE", false);
 
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -7,13 +8,15 @@ require "../vendor/autoload.php";
 $Router = new AltoRouter();
 
 $Router->map('GET','/','home.inc.php', 'Home');
-$Router->map('GET','/faq','faq.inc.php', 'FAQ');
-$Router->map('GET','/changelog','changelog.inc.php', 'Changelog');
-$Router->map('GET','/contact','contact.inc.php','Contact');
+// $Router->map('GET','/faq','faq.inc.php', 'FAQ');
+// $Router->map('GET','/contact','contact.inc.php','Contact');
 $Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('GET','/validate/[*:key]?', 'keyValidator');
 $Router->map('GET','/app/[*:key]?', 'launch');
-$Router->map('GET','/blog/[**:entry]', 'blogEntry');
+
+$Router->map('GET','/blog/[:entry]', '../entries/index.php', 'Blog entry');
+$Router->map('GET','/blog', '../entries/index.php', 'Blog');
+$Router->map('GET','/blog/', '../entries/index.php', 'Blog ');
 
 $Router->map('POST','/email', 'handleContactForm');
 $Router->map('POST','/checkout', 'handleOrder');
@@ -74,10 +77,18 @@ if ($match) {
 	      	break;
 
 	    default:
-			// otherwise
-			$page_title = $match["name"];
-			render($fn, $page_title);
 
+			$page_title = $match["name"];
+			$page_disk = "cache." . strtolower($page_title) . ".html";
+
+	    if (!file_exists($page_disk) || !CACHE) {
+				ob_start();
+				render($fn, $page_title);
+				file_put_contents($page_disk, ob_get_contents());
+				//ob_end_flush();
+				ob_end_clean();
+			}
+			include $page_disk;
 	}
 } else {
   header("HTTP/1.0 404 Not Found");
@@ -88,7 +99,7 @@ function render($fn, $page_title = '') {
 	require $path. '/_header.inc.php';
 	include $path . "/{$fn}";
 	require $path . '/_footer.inc.php';
-	die();
+//	die();
 }
 
 // count the number of files changed in a directory in the given time
@@ -111,4 +122,3 @@ function badge($fold, $ago = "-1 week") {
 	}
 }
 
-?>
