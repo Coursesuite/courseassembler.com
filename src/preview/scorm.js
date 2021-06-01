@@ -205,7 +205,7 @@ function SCORMapi1_2() {
         } else {
             errorCode = "201";
         }
-        console.log("LMSInitialize", param, errorCode);
+       // console.log("LMSInitialize", param, errorCode);
                 return "false";
     }
 
@@ -231,7 +231,7 @@ function SCORMapi1_2() {
                                 // trigger TOC update
                 var sURL = "http://moodle25" + "/mod/scorm/prereqs.php?a=5&scoid=12&attempt=1&mode=&currentorg=&sesskey=YoiI0DYj13";
                 //var callback = M.mod_scorm.connectPrereqCallback;
-               	console.log("LMSFinish Callback", cmi, sURL, result);
+              // 	console.log("LMSFinish Callback", cmi, sURL, result);
                 //YUI().use('yui2-connection', function(Y) {
                 //    Y.YUI2.util.Connect.asyncRequest('GET', sURL, callback, null);
                 //});
@@ -242,7 +242,7 @@ function SCORMapi1_2() {
         } else {
             errorCode = "201";
         }
-        console.log("LMSFinish", result, errorCode);
+       // console.log("LMSFinish", result, errorCode);
                 return "false";
     }
 
@@ -263,7 +263,7 @@ function SCORMapi1_2() {
                         }
                             if (subelement == element) {
                             errorCode = "0";
-                            console.log("LMSGetValue", element, errorCode);
+                       //     console.log("LMSGetValue", element, errorCode);
                                                         return eval(element);
                         } else {
                             errorCode = "0"; // Need to check if it is the right errorCode
@@ -298,7 +298,7 @@ function SCORMapi1_2() {
         } else {
             errorCode = "301";
         }
-        console.log("LMSGetValue", element, errorCode);
+     //   console.log("LMSGetValue", element, errorCode);
                 return "";
     }
 
@@ -365,7 +365,7 @@ function SCORMapi1_2() {
                                         eval(element+'=value;');
                                         errorCode = "0";
                                        // console.log("lms set value", element, value);
-                                       console.log("LMSSetValue", element, errorCode);
+                                 //      console.log("LMSSetValue", element, errorCode);
                                                                                 return "true";
                                     } else {
                                         errorCode = eval('datamodel["'+elementmodel+'"].writeerror');
@@ -378,7 +378,7 @@ function SCORMapi1_2() {
                                     }
                                     errorCode = "0";
                                       //  console.log("lms set value", element, value);
-                                      console.log("LMSSetValue", element, errorCode);
+                               //       console.log("LMSSetValue", element, errorCode);
                                                                         return "true";
                                 }
                             }
@@ -397,7 +397,7 @@ function SCORMapi1_2() {
         } else {
             errorCode = "301";
         }
-        console.log("LMSSetValue", element, errorCode);
+     //   console.log("LMSSetValue", element, errorCode);
                return "false";
     }
 
@@ -416,7 +416,7 @@ function SCORMapi1_2() {
                 //                                result = ('true' == result) ? 'true' : 'false';
                 result = true;
                 errorCode = (result =='true')? '0' : '101';
-                console.log("LMSCommit", param, errorCode);
+         //       console.log("LMSCommit", param, errorCode);
                                 return result;
             } else {
                 errorCode = "301";
@@ -424,7 +424,7 @@ function SCORMapi1_2() {
         } else {
             errorCode = "201";
         }
-        console.log("LMSCommit", result, errorCode);
+     //   console.log("LMSCommit", result, errorCode);
                 return "false";
     }
 
@@ -456,7 +456,7 @@ function SCORMapi1_2() {
         if (param == "") {
             param = errorCode;
         }
-        console.log("LMSGetDiagnostic", param);
+    //    console.log("LMSGetDiagnostic", param);
                 return param;
     }
 
@@ -570,7 +570,7 @@ function SCORMapi1_2() {
                 }
             }
         }
-        console.log("[internal] CollectData", data,parent, "return", datastring);
+   //     console.log("[internal] CollectData", data,parent, "return", datastring);
         return datastring;
     }
 
@@ -622,7 +622,7 @@ function SCORMapi1_2() {
         // result = DoRequest(myRequest,"http://moodle25/mod/scorm/datamodel.php","id=0&a=5&sesskey=YoiI0DYj13"+datastring);
         //results = String(result).split('\n');
         errorCode = 0; //results[1];
-        console.log("[internal] StoreData", data,storetotaltime);
+   //     console.log("[internal] StoreData", data,storetotaltime);
         return ""; // results[0];
     }
 
@@ -637,7 +637,6 @@ function SCORMapi1_2() {
 }
 
 var API = new SCORMapi1_2();
-console.log("API", API);
 
 var errorCode = "0";
 function underscore(str) {
