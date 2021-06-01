@@ -72,7 +72,7 @@
 					if (setup.hasOwnProperty('theme') && setup.theme.length) resolve(setup);
 					if (!setup.template) setup.template = "menu";
 					if (!setup.selected_theme) setup.selected_theme = "default";
-					var user_theme = document.querySelector('textarea.theme-editor').value;
+					var user_theme = document.querySelector('textarea.theme-editor') ? document.querySelector('textarea.theme-editor').value : "";
 					if (user_theme.length) {
 						setup.theme = DocNinja.Plugins.Theme.compile(user_theme);
 						return Promise.resolve(setup);
