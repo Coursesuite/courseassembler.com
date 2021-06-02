@@ -58,8 +58,8 @@ if (file_exists("{$p}/cache.db") && CACHE) {
 	    	"dir" => $fn,
 	    	"date" => date("F j, Y", $key),
 	    	"slug" => "blog/{$slug}",
-	    	"summary" => file_get_contents("{$p}/{$fold}/0.html")
-	    	// "more" => file_exists("{$p}/{$fold}/1.html")
+	    	"summary" => file_get_contents("{$p}/{$fold}/0.html"),
+	    	"more" => file_exists("{$p}/{$fold}/1.html")
 	    ];
 	}
 	krsort($entries);
@@ -71,7 +71,8 @@ if ($page === "blog") {
 		$slug = $entry['slug'];
 		echo "<h2>", $entry['date'], "</h2>";
 		echo "<div>", $entry['summary'], "</div>";
-		echo "<p class='uk-small'><a href='{$slug}'>Read more / Comment ...</a></p>", PHP_EOL;
+		$more = $entry['more'] ? "Read more / " : ""; 
+		echo "<p class='uk-small'><a href='{$slug}'>{$more}Comments ...</a></p>", PHP_EOL;
 		echo "<hr>", PHP_EOL;
 	}
 } else {

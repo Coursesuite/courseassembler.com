@@ -1,4 +1,4 @@
-a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2021";s:4:"slug";s:16:"blog/1-june-2021";s:7:"summary";s:830:"<h3>Themes overhaul, part 1</h3>
+a:35:{i:1622469600;a:5:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2021";s:4:"slug";s:16:"blog/1-june-2021";s:7:"summary";s:830:"<h3>Themes overhaul, part 1</h3>
 <p>Themes have had an <a href="/docs/?url=./01.using-the-app/02.choose-design/01.theme-basics/docs.md">overhaul</a>. The TL;DR is:</p>
 <ul>
 <li>There are now now primary styles that define the overall functionality of a theme.</li>
@@ -8,61 +8,63 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>You can turn things on and off (like print or navigation icons, or the completion tick).</li>
 <li>Oh yeah! You can now add a <i>print</i> icon which just prints the current page. Neat!</li>
 </ul>
-";}i:1617195600;a:4:{s:3:"dir";s:13:"April 1, 2021";s:4:"date";s:13:"April 1, 2021";s:4:"slug";s:17:"blog/1-april-2021";s:7:"summary";s:329:"<h3>Introducing the ... introduction</h3>
+";s:4:"more";b:1;}i:1619791200;a:5:{s:3:"dir";s:11:"May 1, 2021";s:4:"date";s:11:"May 1, 2021";s:4:"slug";s:15:"blog/1-may-2021";s:7:"summary";s:368:"<h3>Goodbye IE11</h3>
+<p>It's time. We have dropped IE11 support everywhere, including the content player due to its ever-increasing cost on our company. It's just too expensive to support going forward.</p>
+<p>If you disagree with this decision or desparately need IE11 support, clarify your reasonings and then show real-world statistics in the comments section.</p>";s:4:"more";b:0;}i:1617195600;a:5:{s:3:"dir";s:13:"April 1, 2021";s:4:"date";s:13:"April 1, 2021";s:4:"slug";s:17:"blog/1-april-2021";s:7:"summary";s:329:"<h3>Introducing the ... introduction</h3>
 <ul>
 <li>Added <b>Intro Page</b>. You can now choose a pre-built introduction page with basic styling features that is populated with your course name, description and copyright during publishing.</li>
 <li>Changed layout of 'Upload files/links' to better explain each feature.</li>
-</ul>";}i:1616418000;a:4:{s:3:"dir";s:14:"March 23, 2021";s:4:"date";s:14:"March 23, 2021";s:4:"slug";s:18:"blog/23-march-2021";s:7:"summary";s:178:"
+</ul>";s:4:"more";b:0;}i:1616418000;a:5:{s:3:"dir";s:14:"March 23, 2021";s:4:"date";s:14:"March 23, 2021";s:4:"slug";s:18:"blog/23-march-2021";s:7:"summary";s:178:"
 <ul>
 <li>[Bugfix] Rebuilt preview function internally ( previously redirected to <a href="https://preview.coursesuite.ninja/">https://preview.coursesuite.ninja/</a> )</li>
-</ul>";}i:1616158800;a:4:{s:3:"dir";s:14:"March 20, 2021";s:4:"date";s:14:"March 20, 2021";s:4:"slug";s:18:"blog/20-march-2021";s:7:"summary";s:233:"
+</ul>";s:4:"more";b:0;}i:1616158800;a:5:{s:3:"dir";s:14:"March 20, 2021";s:4:"date";s:14:"March 20, 2021";s:4:"slug";s:18:"blog/20-march-2021";s:7:"summary";s:233:"
 <ul>
 <li>[Bugfix] Audio on multiple pages could sometimes overlap</li>
 <li>[Bugfix] Downloading multiple attachments on one page could fail with a 'Failed - network error' message</li>
 <li>Minor styling changes in designs</li>
-</ul>";}i:1615726800;a:4:{s:3:"dir";s:14:"March 15, 2021";s:4:"date";s:14:"March 15, 2021";s:4:"slug";s:18:"blog/15-march-2021";s:7:"summary";s:469:"
+</ul>";s:4:"more";b:0;}i:1615726800;a:5:{s:3:"dir";s:14:"March 15, 2021";s:4:"date";s:14:"March 15, 2021";s:4:"slug";s:18:"blog/15-march-2021";s:7:"summary";s:469:"
 <ul>
 <li>You can now attach one or more files to each page.</li>
 <li>Users can download attachments in each design (link layout is a work-in-progress).</li>
 <li>You can now automatically navigate to the next page after audio finishes playing (set audio autoplay to be on).</li>
 <li>[Bugfix] Audio doesn't overlap as much when switching pages</li>
 <li><a href="/docs/?url=./01.using-the-app/01.add-documents/03.item-options/docs.md">Updated documentation</a></li>
-</ul>";}i:1614862800;a:4:{s:3:"dir";s:13:"March 5, 2021";s:4:"date";s:13:"March 5, 2021";s:4:"slug";s:17:"blog/5-march-2021";s:7:"summary";s:51:"
+</ul>";s:4:"more";b:0;}i:1614862800;a:5:{s:3:"dir";s:13:"March 5, 2021";s:4:"date";s:13:"March 5, 2021";s:4:"slug";s:17:"blog/5-march-2021";s:7:"summary";s:51:"
 <ul>
 <li>[Bugfix] Fixed licencing issue</li>
-</ul>";}i:1599055200;a:4:{s:3:"dir";s:17:"September 3, 2020";s:4:"date";s:17:"September 3, 2020";s:4:"slug";s:21:"blog/3-september-2020";s:7:"summary";s:89:"
+</ul>";s:4:"more";b:0;}i:1599055200;a:5:{s:3:"dir";s:17:"September 3, 2020";s:4:"date";s:17:"September 3, 2020";s:4:"slug";s:21:"blog/3-september-2020";s:7:"summary";s:89:"
 <ul>
 <li>Removed BG Colour on iframe embeds (blocked by cross-site scripting)</li>
-</ul>";}i:1597932000;a:4:{s:3:"dir";s:15:"August 21, 2020";s:4:"date";s:15:"August 21, 2020";s:4:"slug";s:19:"blog/21-august-2020";s:7:"summary";s:179:"<ul>
+</ul>";s:4:"more";b:1;}i:1597932000;a:5:{s:3:"dir";s:15:"August 21, 2020";s:4:"date";s:15:"August 21, 2020";s:4:"slug";s:19:"blog/21-august-2020";s:7:"summary";s:179:"<ul>
 <li>Fixed wrapping of question numbers in Quiz</li>
 <li>[Bugfix] Earlier warnings for invalid URLs (Cannot read property 'result' of null)</li>
 <li>Updated Sentry </li>
-</ul>";}i:1591020000;a:4:{s:3:"dir";s:12:"June 2, 2020";s:4:"date";s:12:"June 2, 2020";s:4:"slug";s:16:"blog/2-june-2020";s:7:"summary";s:184:"
+</ul>";s:4:"more";b:0;}i:1591020000;a:5:{s:3:"dir";s:12:"June 2, 2020";s:4:"date";s:12:"June 2, 2020";s:4:"slug";s:16:"blog/2-june-2020";s:7:"summary";s:184:"
 <ul>
 <li>Fixed zoom image on embedded image renderer for images that are larger than the viewport</li>
 <li>Added option to explicitly embed pasted urls as a website (image)</li>
-</ul>";}i:1590501600;a:4:{s:3:"dir";s:12:"May 27, 2020";s:4:"date";s:12:"May 27, 2020";s:4:"slug";s:16:"blog/27-may-2020";s:7:"summary";s:288:"
+</ul>";s:4:"more";b:0;}i:1590501600;a:5:{s:3:"dir";s:12:"May 27, 2020";s:4:"date";s:12:"May 27, 2020";s:4:"slug";s:16:"blog/27-may-2020";s:7:"summary";s:288:"
 <ul>
 <li>Video (mp4) is able to be embedded</li>
 <li>Added icon for renaming pages (existing behaviour of pressing enter to rename not affected)</li>
 <li>Fixed corner cases of BG Colour button showing errors</li>
 <li>Internal logging additions to assist runtime error tracking</li>
-</ul>";}i:1590156000;a:4:{s:3:"dir";s:12:"May 23, 2020";s:4:"date";s:12:"May 23, 2020";s:4:"slug";s:16:"blog/23-may-2020";s:7:"summary";s:134:"
+</ul>";s:4:"more";b:0;}i:1590156000;a:5:{s:3:"dir";s:12:"May 23, 2020";s:4:"date";s:12:"May 23, 2020";s:4:"slug";s:16:"blog/23-may-2020";s:7:"summary";s:134:"
 <ul>
 <li>Added support for H5P packages (.h5p extension) (Uses xAPI completions - ensure your packages have xAPI enabled).</li>
-</ul>";}i:1589637600;a:4:{s:3:"dir";s:12:"May 17, 2020";s:4:"date";s:12:"May 17, 2020";s:4:"slug";s:16:"blog/17-may-2020";s:7:"summary";s:234:"
+</ul>";s:4:"more";b:0;}i:1589637600;a:5:{s:3:"dir";s:12:"May 17, 2020";s:4:"date";s:12:"May 17, 2020";s:4:"slug";s:16:"blog/17-may-2020";s:7:"summary";s:234:"
 <ul>
 <li>You can now add Markdown pages with a simple editor.</li>
 <li>You can drag images from your desktop into the Markdown editor to upload them.</li>
 <li>Redesigned Add content button to support upcoming content types</li>
-</ul>";}i:1587650400;a:4:{s:3:"dir";s:14:"April 24, 2020";s:4:"date";s:14:"April 24, 2020";s:4:"slug";s:18:"blog/24-april-2020";s:7:"summary";s:92:"<ul>
+</ul>";s:4:"more";b:1;}i:1587650400;a:5:{s:3:"dir";s:14:"April 24, 2020";s:4:"date";s:14:"April 24, 2020";s:4:"slug";s:18:"blog/24-april-2020";s:7:"summary";s:92:"<ul>
 <li>Cleaned up icons on PDF toolbar</li>
 <li>Added print icon to PDF toolbar</li>
-</ul>";}i:1587132000;a:4:{s:3:"dir";s:14:"April 18, 2020";s:4:"date";s:14:"April 18, 2020";s:4:"slug";s:18:"blog/18-april-2020";s:7:"summary";s:702:"<h3>Audio and autoplay</h3>
+</ul>";s:4:"more";b:0;}i:1587132000;a:5:{s:3:"dir";s:14:"April 18, 2020";s:4:"date";s:14:"April 18, 2020";s:4:"slug";s:18:"blog/18-april-2020";s:7:"summary";s:702:"<h3>Audio and autoplay</h3>
 <p>Popular current browsers have recently made a change where users are required to interact with a page (e.g. click on it, scroll it, tap it, etc) before the page is allowed to play audio. This stops advertisments and streaming video to blast out at you unexpectedly. This also stops pages from automatically playing any audio recorded on them. Generally once your user has launche the course the browsers considers that an interaction for all subsequent pages. Audio has been changed to match this behaviour, namely <i>Audio no longer autoplays on page load (unexpected behaviour, requires user interaction)</i>.</p>
 
 <p>[bugfix] Fixed problem re-importing page audio</p>
-";}i:1587045600;a:4:{s:3:"dir";s:14:"April 17, 2020";s:4:"date";s:14:"April 17, 2020";s:4:"slug";s:18:"blog/17-april-2020";s:7:"summary";s:1393:"<h3>Directly embed iframes</h3>
+";s:4:"more";b:0;}i:1587045600;a:5:{s:3:"dir";s:14:"April 17, 2020";s:4:"date";s:14:"April 17, 2020";s:4:"slug";s:18:"blog/17-april-2020";s:7:"summary";s:1393:"<h3>Directly embed iframes</h3>
 <p>There's embedding, and then there's <i>o</i>embedding. The <b>o</b> makes the difference - oembeds generally allow the url or external page to have some kind of tracking done on it, such as tracking how much of a video was watched, or knowing which slide a user is looking at. Embeddding is simply linking to an external page without the possibility of tracking what the user is doing on that page. You can now <i>embed</i> an iframe</p>
 
 <p>Why can't you track an iframe? Because of browser security, tracking, and privacy. When you embed an iframe that links to and shows an external web page or set of pages (perhaps a Microsoft Stream video, or a portal page on your intranet) the course isn't able to track the pages or interactions within that iframe because of how browsers are designed. Good for privacy, bad for courses. When you embed an iframe the page is considered <i>completed</i> as soon as the learner looks at the page.</p>
@@ -71,34 +73,34 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 
 <code>&lt;iframe src="https://www.your-web-site.com/path/to/content.html"&gt;<&lt;iframe&gt;</code>
 
-<p>Then paste this in to the 'Url / Embed' section when adding a new page. The embed will stretch to take up the available space, so you don't have to add any width or height properties yourself.</p> ";}i:1572440400;a:4:{s:3:"dir";s:16:"October 31, 2019";s:4:"date";s:16:"October 31, 2019";s:4:"slug";s:20:"blog/31-october-2019";s:7:"summary";s:198:"
+<p>Then paste this in to the 'Url / Embed' section when adding a new page. The embed will stretch to take up the available space, so you don't have to add any width or height properties yourself.</p> ";s:4:"more";b:0;}i:1572440400;a:5:{s:3:"dir";s:16:"October 31, 2019";s:4:"date";s:16:"October 31, 2019";s:4:"slug";s:20:"blog/31-october-2019";s:7:"summary";s:198:"
 <ul>
 <li>Fixed issue relating to reloading a suspended a quiz</li>
 <li>Added optional zoom controls to converted PDF documents</li>
 <li>Added optional PDF download to non-split documents</li>
-</ul>";}i:1563890400;a:4:{s:3:"dir";s:13:"July 24, 2019";s:4:"date";s:13:"July 24, 2019";s:4:"slug";s:17:"blog/24-july-2019";s:7:"summary";s:181:"
+</ul>";s:4:"more";b:0;}i:1563890400;a:5:{s:3:"dir";s:13:"July 24, 2019";s:4:"date";s:13:"July 24, 2019";s:4:"slug";s:17:"blog/24-july-2019";s:7:"summary";s:181:"
 <ul>
 <li>Fixed SlideShare resume at slide</li>
 <li>Fixed SlideShare completion rule</li>
 <li>Updated SlideShare nagivation icons for readability</li>
 <li>Minor bug fixes</li>
-</ul>";}i:1562680800;a:4:{s:3:"dir";s:13:"July 10, 2019";s:4:"date";s:13:"July 10, 2019";s:4:"slug";s:17:"blog/10-july-2019";s:7:"summary";s:287:"
+</ul>";s:4:"more";b:0;}i:1562680800;a:5:{s:3:"dir";s:13:"July 10, 2019";s:4:"date";s:13:"July 10, 2019";s:4:"slug";s:17:"blog/10-july-2019";s:7:"summary";s:287:"
 <ul>
 <li>Added better mobile navigation for side-bar derived designs</li>
 <li>Embedded media on Powerpoint (pptx) slides now plays in player after conversion</li>
 <li>Resolved scrolling issue in themes on iOS-based devices</li>
 <li>Better internal error logging and reporting</li>
-</ul>";}i:1561903200;a:4:{s:3:"dir";s:12:"July 1, 2019";s:4:"date";s:12:"July 1, 2019";s:4:"slug";s:16:"blog/1-july-2019";s:7:"summary";s:218:"
+</ul>";s:4:"more";b:0;}i:1561903200;a:5:{s:3:"dir";s:12:"July 1, 2019";s:4:"date";s:12:"July 1, 2019";s:4:"slug";s:16:"blog/1-july-2019";s:7:"summary";s:218:"
 <ul>
 <li>Reworked the icons and layouts of all themes</li>
 <li>Added 3 new themes</li>
 <li>Improvements to IE11 for published packages</li>
 <li>YouTube/Drive-hosted videos now play properly on Google Slides</li>
-</ul>";}i:1560434400;a:4:{s:3:"dir";s:13:"June 14, 2019";s:4:"date";s:13:"June 14, 2019";s:4:"slug";s:17:"blog/14-june-2019";s:7:"summary";s:173:"
+</ul>";s:4:"more";b:0;}i:1560434400;a:5:{s:3:"dir";s:13:"June 14, 2019";s:4:"date";s:13:"June 14, 2019";s:4:"slug";s:17:"blog/14-june-2019";s:7:"summary";s:173:"
 <ul>
 <li>Fixed SideBar menu icon not rendering properly on Edge, IE11</li>
 <li>Tweaks to how document centering / scaling works for split and non-split documents</li>
-</ul>";}i:1553518800;a:4:{s:3:"dir";s:14:"March 26, 2019";s:4:"date";s:14:"March 26, 2019";s:4:"slug";s:18:"blog/26-march-2019";s:7:"summary";s:341:"
+</ul>";s:4:"more";b:0;}i:1553518800;a:5:{s:3:"dir";s:14:"March 26, 2019";s:4:"date";s:14:"March 26, 2019";s:4:"slug";s:18:"blog/26-march-2019";s:7:"summary";s:341:"
 <ul>
 <li>Added Shift + Double-tap-delete to remove navigation item with its children</li>
 <li>Updated documentation</li>
@@ -106,7 +108,7 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>Added ability to export a quiz to a JSON file</li>
 <li>Added the ability to import a quiz from a JSON file</li>
 <li>Various minor optimisations and bug fixes </li>
-</ul>";}i:1552568400;a:4:{s:3:"dir";s:14:"March 15, 2019";s:4:"date";s:14:"March 15, 2019";s:4:"slug";s:18:"blog/15-march-2019";s:7:"summary";s:634:"
+</ul>";s:4:"more";b:0;}i:1552568400;a:5:{s:3:"dir";s:14:"March 15, 2019";s:4:"date";s:14:"March 15, 2019";s:4:"slug";s:18:"blog/15-march-2019";s:7:"summary";s:634:"
 <ul>
 <li>Restyled and rebranded app (previously Document Ninja)</li>
 <li>Renamed themes to be easier to understand</li>
@@ -117,11 +119,11 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>Fixed up re-importing packages (persists more settings)</li>
 <li>Updated various embed options (e.g. soundcloud support broke in January 2019 - it's back again!)</li>
 <li>Dropped Imgur embedding (it may come back again in a future release)</li>
-</ul>";}i:1545051600;a:4:{s:3:"dir";s:17:"December 18, 2018";s:4:"date";s:17:"December 18, 2018";s:4:"slug";s:21:"blog/18-december-2018";s:7:"summary";s:156:"
+</ul>";s:4:"more";b:0;}i:1545051600;a:5:{s:3:"dir";s:17:"December 18, 2018";s:4:"date";s:17:"December 18, 2018";s:4:"slug";s:21:"blog/18-december-2018";s:7:"summary";s:156:"
 <ul>
 <li>Added option to apply background colour to all pages.</li>
 <li>All documents/presentations/images are now centered in the preview area.</li>
-</ul>";}i:1537279200;a:4:{s:3:"dir";s:18:"September 19, 2018";s:4:"date";s:18:"September 19, 2018";s:4:"slug";s:22:"blog/19-september-2018";s:7:"summary";s:2412:"
+</ul>";s:4:"more";b:0;}i:1537279200;a:5:{s:3:"dir";s:18:"September 19, 2018";s:4:"date";s:18:"September 19, 2018";s:4:"slug";s:22:"blog/19-september-2018";s:7:"summary";s:2412:"
 <ul>
 <li>New button designs for consistency across the app.</li>
 <li>Add Content button now features the drag, upload, paste and cloud functions in one popup.</li>
@@ -151,12 +153,12 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>Made score selection more consistent</li>
 <li>Made the selection on the design page stand out more</li>
 <li>Changed slideshare embeds to pick up the page background colour better.</li>
-</ul>";}i:1526392800;a:4:{s:3:"dir";s:12:"May 16, 2018";s:4:"date";s:12:"May 16, 2018";s:4:"slug";s:16:"blog/16-may-2018";s:7:"summary";s:166:"
+</ul>";s:4:"more";b:0;}i:1526392800;a:5:{s:3:"dir";s:12:"May 16, 2018";s:4:"date";s:12:"May 16, 2018";s:4:"slug";s:16:"blog/16-may-2018";s:7:"summary";s:166:"
 <ul>
 <li>Quickly add multiple choice quizzes to your course.</li>
 <li>Embed images or videos into your quiz.</li>
 <li>Try out quizzes inside the DocNinja.</li>
-</ul>";}i:1512997200;a:4:{s:3:"dir";s:17:"December 12, 2017";s:4:"date";s:17:"December 12, 2017";s:4:"slug";s:21:"blog/12-december-2017";s:7:"summary";s:590:"<ul>
+</ul>";s:4:"more";b:0;}i:1512997200;a:5:{s:3:"dir";s:17:"December 12, 2017";s:4:"date";s:17:"December 12, 2017";s:4:"slug";s:21:"blog/12-december-2017";s:7:"summary";s:590:"<ul>
 <li>Updated externally targetted links on new documents to include rel=&quot;noopener&quot;</li>
 <li>Ensure links are externally targetted on non-split documents</li>
 <li>Fixed spacing between pages on non-split documents</li>
@@ -165,7 +167,7 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>Fixed Kloudless integration for loading and saving documents to cloud-based storage sources</li>
 <li>Fixed spaces in downloaded zip name</li>
 <li>Various minor bugs noted after Firefox Quantum update.</li>
-</ul>";}i:1511442000;a:4:{s:3:"dir";s:17:"November 24, 2017";s:4:"date";s:17:"November 24, 2017";s:4:"slug";s:21:"blog/24-november-2017";s:7:"summary";s:396:"
+</ul>";s:4:"more";b:0;}i:1511442000;a:5:{s:3:"dir";s:17:"November 24, 2017";s:4:"date";s:17:"November 24, 2017";s:4:"slug";s:21:"blog/24-november-2017";s:7:"summary";s:396:"
 <ul>
 <li>Fixed bug in Firefox drag-to-reorder</li>
 <li>Updated indentation icons</li>
@@ -174,7 +176,7 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>Fixed a bug in scrolling in Side Bar, Drop-Down and Drop-Up menus</li>
 <li>Added data-compression to cmi.core.suspend_data to help avoid hitting 4000 byte api limit</li>
 <li>Fixed issue when re-loading suspend_data</li>
-</ul>";}i:1511355600;a:4:{s:3:"dir";s:17:"November 23, 2017";s:4:"date";s:17:"November 23, 2017";s:4:"slug";s:21:"blog/23-november-2017";s:7:"summary";s:396:"
+</ul>";s:4:"more";b:0;}i:1511355600;a:5:{s:3:"dir";s:17:"November 23, 2017";s:4:"date";s:17:"November 23, 2017";s:4:"slug";s:21:"blog/23-november-2017";s:7:"summary";s:396:"
 <ul>
 <li>Fixed bug in Firefox drag-to-reorder</li>
 <li>Updated indentation icons</li>
@@ -183,36 +185,36 @@ a:34:{i:1622469600;a:4:{s:3:"dir";s:12:"June 1, 2021";s:4:"date";s:12:"June 1, 2
 <li>Fixed a bug in scrolling in Side Bar, Drop-Down and Drop-Up menus</li>
 <li>Added data-compression to cmi.core.suspend_data to help avoid hitting 4000 byte api limit</li>
 <li>Fixed issue when re-loading suspend_data</li>
-</ul>";}i:1509454800;a:4:{s:3:"dir";s:16:"November 1, 2017";s:4:"date";s:16:"November 1, 2017";s:4:"slug";s:20:"blog/1-november-2017";s:7:"summary";s:205:"
+</ul>";s:4:"more";b:0;}i:1509454800;a:5:{s:3:"dir";s:16:"November 1, 2017";s:4:"date";s:16:"November 1, 2017";s:4:"slug";s:20:"blog/1-november-2017";s:7:"summary";s:205:"
 <ul>
 <li>Changed licensing model over to new system</li>
 <li>Introduced stubs to allow future updates to push content or messages</li>
 <li>Updated internal scripts inside published package code</li>
-</ul>";}i:1495548000;a:4:{s:3:"dir";s:12:"May 24, 2017";s:4:"date";s:12:"May 24, 2017";s:4:"slug";s:16:"blog/24-may-2017";s:7:"summary";s:282:"
+</ul>";s:4:"more";b:0;}i:1495548000;a:5:{s:3:"dir";s:12:"May 24, 2017";s:4:"date";s:12:"May 24, 2017";s:4:"slug";s:16:"blog/24-may-2017";s:7:"summary";s:282:"
 <ul>
 <li>Offer pro-tier designs</li>
 <li>Built stubs for theme customiser (future undated release)</li>
 <li>Optimise converted PDF files (convert PNG to JPG during save operation to reduce file size)</li>
 <li>Changed timestamping on engine files to avoid cache conflicts</li>
-</ul>";}i:1495116000;a:4:{s:3:"dir";s:12:"May 19, 2017";s:4:"date";s:12:"May 19, 2017";s:4:"slug";s:16:"blog/19-may-2017";s:7:"summary";s:287:"
+</ul>";s:4:"more";b:0;}i:1495116000;a:5:{s:3:"dir";s:12:"May 19, 2017";s:4:"date";s:12:"May 19, 2017";s:4:"slug";s:16:"blog/19-may-2017";s:7:"summary";s:287:"
 <ul>
 <li>Fixed contrasting colours on default templates</li>
 <li>Added Kloudless chooser and saver support for loading/saving packages to cloud services (e.g. Dropbox, Google Drive, etc)</li>
 <li>Changed header styling code to allow easier white-labelling via forthcoming API</li>
-</ul>";}i:1472738400;a:4:{s:3:"dir";s:17:"September 2, 2016";s:4:"date";s:17:"September 2, 2016";s:4:"slug";s:21:"blog/2-september-2016";s:7:"summary";s:257:"
+</ul>";s:4:"more";b:0;}i:1472738400;a:5:{s:3:"dir";s:17:"September 2, 2016";s:4:"date";s:17:"September 2, 2016";s:4:"slug";s:21:"blog/2-september-2016";s:7:"summary";s:257:"
 <ul>
 <li>Added design preview at tier 2</li>
 <li>Bugfixed ticket #608286</li>
 <li>Replaced colour picker</li>
 <li>Added ability to paste any website and convert to a splittable document</li>
 <li>Repositioned watermark on tier 1 published courses</li>
-</ul>";}i:1472133600;a:4:{s:3:"dir";s:15:"August 26, 2016";s:4:"date";s:15:"August 26, 2016";s:4:"slug";s:19:"blog/26-august-2016";s:7:"summary";s:155:"<ul>
+</ul>";s:4:"more";b:0;}i:1472133600;a:5:{s:3:"dir";s:15:"August 26, 2016";s:4:"date";s:15:"August 26, 2016";s:4:"slug";s:19:"blog/26-august-2016";s:7:"summary";s:155:"<ul>
 <li>Fixed Edge rendering issues</li>
 <li>Changed oembed endpoints due to depreciated third-party libraries</li>
 <li>Many misc small updates</li>
-</ul>";}i:1466690400;a:4:{s:3:"dir";s:13:"June 24, 2016";s:4:"date";s:13:"June 24, 2016";s:4:"slug";s:17:"blog/24-june-2016";s:7:"summary";s:126:"
+</ul>";s:4:"more";b:0;}i:1466690400;a:5:{s:3:"dir";s:13:"June 24, 2016";s:4:"date";s:13:"June 24, 2016";s:4:"slug";s:17:"blog/24-june-2016";s:7:"summary";s:126:"
 <ul>
 <li>Started writing down changelog!</li>
 <li>Fixed up commit log in git</li>
 <li>Removed mention of Beta code</li>
-</ul>";}}
+</ul>";s:4:"more";b:0;}}

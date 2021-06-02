@@ -95,6 +95,7 @@
 			var t = details.type;
 				// o = DocNinja.options.actions[t] && DocNinja.options.actions[t].length || 0; // Math.max(0, +details.order-1); // order needs to start at 1
 			if (!DocNinja.options.actions.hasOwnProperty(t)) DocNinja.options.actions[t] = [];
+			if (!details.hasOwnProperty('order')) details.order = DocNinja.options.actions[t].length;
 			DocNinja.options.actions[t][details.order] = details;
 		},
 		InitActions: function () { // tell plugins they need to register their actions

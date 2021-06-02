@@ -31,16 +31,16 @@
 	--help: #1db2ee;
 	--reset: #843da2;
 
-	--markdown: #1db2ee;
 
 	--positive: #7fba42;
 
-	--content: darkgreen;
-	--cloud: darkgray;
-	--url:  goldenrod;
+	--markdown: #20629b;
+	--content: #20629b;
+	--cloud: #20629b;
+	--url:  #20629b;
 	--quiz: #9b4dca;
-	--resource: #fc3;
-	--intro: #f93;
+	--intro: #20629b;
+	--resource: #9b4dca;
 
 	--content-icon: #d4d4d4;
 
