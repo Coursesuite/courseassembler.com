@@ -26,7 +26,7 @@
 		<?php include "_cookie.inc.php"; ?>
 		<?php include "_analytics.inc.php"; ?>
 	</head>
-	<body class="<?php echo str_replace('.inc.php','',$fn); ?>">
+	<body class="<?php echo preg_replace('/[^a-z0-9]/i','',str_replace(['.inc','.php'],'',$fn)); ?>">
 		<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
 			<div class="uk-container uk-container-expand coursesuite-bar">
 				<div class="uk-padding-small uk-padding-remove-vertical uk-text-meta">

@@ -220,7 +220,7 @@
 <?php require "faq.inc.php"; ?>
 
 		<div class="uk-container uk-margin-xlarge">
-			<h2 class="uk-text-center uk-margin-xlarge-bottom tilt">Course Assembler is an assembly line for your content.</h2>
+			<h2 class="uk-text-center uk-margin-xlarge-bottom tilt"><span>Course Assembler is an assembly line for your content.</span></h2>
 			<div class="uk-child-width-1-2@m" uk-grid>
 				<div>
 					<div class="uk-grid-medium uk-flex-middle uk-margin-bottom" uk-grid>

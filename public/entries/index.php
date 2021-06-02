@@ -1,6 +1,6 @@
 <div class="uk-container uk-margin-large">
 
-<h2 class="uk-text-center uk-margin-xlarge-bottom tilt">Blog</h2>
+<h2 class="uk-text-center uk-margin-xlarge-bottom tilt"><span>Blog</span></h2>
 <?php
 
 /*
@@ -15,6 +15,28 @@ when in list mode the blog will list the contents of 0.html
 when in entry mode the blog will list the contents of each file in name order, concatented. this way you can have extended entries.
 
 */
+$disqus = <<<DISQUS
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = location.href;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = location.href; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://courseassembler.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+DISQUS;
+
 $page = isset($_GET['path']) ? $_GET['path'] : '';
 
 $cache = false;
@@ -36,8 +58,8 @@ if (file_exists("{$p}/cache.db") && CACHE) {
 	    	"dir" => $fn,
 	    	"date" => date("F j, Y", $key),
 	    	"slug" => "blog/{$slug}",
-	    	"summary" => file_get_contents("{$p}/{$fold}/0.html"),
-	    	"more" => file_exists("{$p}/{$fold}/1.html")
+	    	"summary" => file_get_contents("{$p}/{$fold}/0.html")
+	    	// "more" => file_exists("{$p}/{$fold}/1.html")
 	    ];
 	}
 	krsort($entries);
@@ -49,7 +71,7 @@ if ($page === "blog") {
 		$slug = $entry['slug'];
 		echo "<h2>", $entry['date'], "</h2>";
 		echo "<div>", $entry['summary'], "</div>";
-		if ($entry['more']) echo "<p class='uk-small'><a href='{$slug}'>Read more ...</a></p>", PHP_EOL;
+		echo "<p class='uk-small'><a href='{$slug}'>Read more / Comment ...</a></p>", PHP_EOL;
 		echo "<hr>", PHP_EOL;
 	}
 } else {
@@ -64,10 +86,10 @@ if ($page === "blog") {
 				}
 			}
 			echo str_replace(['src="',"src='"],['src="/entries/'.$entry["dir"].'/',"src='/entries/".$entry["dir"]."/"],ob_get_clean());
-
 		}
 	}
-	echo "<p class='uk-small'><a href='/blog'>Back</a></p>", PHP_EOL;
+	echo "<p class='uk-small'><a href='/blog' class='uk-button uk-button-primary'>Back to blog</a></p>", PHP_EOL;
+	echo $disqus;
 }
 ?>
 </div>
