@@ -14,9 +14,9 @@ $Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('GET','/validate/[*:key]?', 'keyValidator');
 $Router->map('GET','/app/[*:key]?', 'launch');
 
-// $Router->map('GET','/blog/[:entry]', '../entries/index.php', 'Blog entry');
-// $Router->map('GET','/blog', '../entries/index.php', 'Blog');
-// $Router->map('GET','/blog/', '../entries/index.php', 'Blog ');
+// $Router->map('GET','/blog/[:entry]', 'blog');
+// $Router->map('GET','/blog', 'blog');
+// $Router->map('GET','/blog/', 'blog');
 
 $Router->map('POST','/email', 'handleContactForm');
 $Router->map('POST','/checkout', 'handleOrder');
@@ -27,6 +27,12 @@ $match = $Router->match();
 if ($match) {
 	$fn = $match["target"];
 	switch ($fn) {
+
+		case "blog";
+			header('location: /blog/index.php?page=' + $match['params']['entry']);
+			die();
+			break;
+
 		case "handleContactForm":
 
 			$sender_email = stripslashes($_POST["email"]);
