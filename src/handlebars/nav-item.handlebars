@@ -1,5 +1,6 @@
 <div class="nav-item dn-flex dn-flex-lr">
 {{#compare state "import"}}
+	<span class="label dn-flex-1">Importing <em>{{title}}</em></span>
 	<span class="progress-bar dn-flex-1"><progress max="100" value="0"><span>0</span>%</progress></span>
 	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:CancelConversion('{{id}}');"><i class="ninja-cancel"></i></a></span>
 {{else}}{{#compare state "conversion"}}
