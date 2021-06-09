@@ -38,3 +38,9 @@ src/*/edit.min.*.css
 public/app/*
 
 src/preview/data/*
+
+src/warehouse/*
+!src/warehouse/manage.php
+!src/warehouse/preview.php
+!src/warehouse/scorm.js
+!src/warehouse/style.css
