@@ -9,7 +9,7 @@ if (!isset($_SESSION['sesskey'])) {
 error_reporting(E_ERROR);
 ini_set("display_errors", 1);
 
-putenv("HOME_URL=http://courseassembler.com.test/");
+putenv("HOME_URL=https://courseassembler.com.test/");
 define('DEVELOPER', true);
 
 require_once('../vendor/autoload.php');
