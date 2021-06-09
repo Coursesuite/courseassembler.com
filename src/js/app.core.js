@@ -141,6 +141,10 @@
 		hideOverlays();
 		DocNinja.fileConversion.HandleUpload(files);
 	}
+	window.importFromServer = function(name) {
+		hideOverlays();
+		DocNinja.fileConversion.HandleServerImport(name);
+	}
 
 
 	// store the item order by just caching the whole html... significantly faster

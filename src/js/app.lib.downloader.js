@@ -660,8 +660,51 @@ localforage.iterate(function( ... ) {
 			});
 		};
 
+		// store the file on the server underneath the users licenced file area
+		_publishTo = function (content, name, setup) {
+			var div = document.querySelector("div.progress-button[data-destination='publish']"),
+				$span = $(">button>span", div),
+				_html = $span.html();
+			$span.html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading ...");
+			var fd = new FormData();
+			fd.append("action", "storecourse");
+			fd.append("file", content, name);
+			fd.append("setup", JSON.stringify(setup));
+			fetch('warehouse/manage.php?hash=' + App.Hash, {
+			    method: 'POST',
+			    body: fd
+			}).then(function(response) {
+				if (response.ok) {
+					$span.html("Uploaded");
+					return response.json();
+				}
+				throw response;
+			}).then(function(json) {
+				setTimeout(function() {
+					$span.html(_html);
+				},3456);
+
+				// create a new row on the import screen
+				var tr = document.createElement("tr");
+				tr.dataset.src = json.name;
+				tr.innerHTML = "<td>" + json.name + "</td><td>" + json.date + "</td><td>" + json.filesize + "</td><td><button data-action='import-saved-course'>Import</button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td>";
+				var tbody = document.querySelector("#import-files .table-file-list tbody");
+				if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]'));
+				tbody.appendChild(tr);
+				alert("Your package has been stored to the server. You can access stored courses under the Import feature.");
+			}).catch(function(message) {
+				console.dir(message);
+				alert("There was a problem storing the file to the server.");
+				$span.html("<i class='fa fa-eye'></i> Upload error");
+				var ui = new UIProgressButton(div); ui.stop(-1);
+				setTimeout(function() {
+					$span.html(_html)
+				},3456);
+			});
+		};
+
 		// perform a PUT/POST to the destination url
-		var _publishTo = function (content, name) {
+		var _publishApi = function (content, name) {
 			var div = document.querySelector("div.progress-button[data-destination='publish']"),
 				$span = $(">button>span", div),
 				_html = $span.html();
@@ -708,13 +751,13 @@ localforage.iterate(function( ... ) {
 			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp'),
 				fd = new FormData();
 			fd.append("file", content, name);
-			xhr.open("POST", "preview/index.php" + location.search, true);
+			xhr.open("POST", "warehouse/preview.php" + location.search, true);
 			// xhr.open("POST", "https://preview.coursesuite.ninja/", true);
 			xhr.onload = function (e) {
 				$span.html(_html);
 				if (this.status == 200) {
 					// var obj = JSON.parse(this.responseText);
-					popIframe('preview/index.php' + location.search);
+					popIframe('warehouse/preview.php' + location.search);
 					// var popup = window.open(obj.href,'previewninja');
 					// if (typeof popup == 'undefined' || popup == null) {
 					// 	alert("We tried to popup up the window, but your browser has blocked it (check your browser location bar). Please allow popups from this site, or copy and open this link:\n\n" + obj.href);

@@ -66,7 +66,7 @@
 		container.children.forEach(function(node){
 			if (node.nodeName === 'A')
 			node.classList[(node.dataset.preset === preset) ? "add" : "remove"]('selected');
-		})
+		});
 		processTheme(theme);
 	}
 
@@ -353,7 +353,7 @@
 
 	methods.load = function(template) {
 		return new Promise(function(resolve,reject) {
-			fetch('plugins/Theme/presets.php?base=' + template)
+			fetch('plugins/Theme/presets.php?hash=' + App.Hash + '&base=' + template)
 			.then(function(response) {
 				if (response.ok) {
 					return response.json();

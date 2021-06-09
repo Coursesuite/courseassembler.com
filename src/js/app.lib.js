@@ -1084,9 +1084,12 @@ function hideOverlays(cog) {
 }
 
 function performAction(tgt, e) {
-	hideOverlays();
 	var id = tgt.closest("[data-fileid]") ? tgt.closest("[data-fileid]").dataset.fileid : DocNinja.filePreview.CurrentFile(), // self or li or container
 		attrib = tgt.getAttribute("data-action");
+
+	// for every rule there is always an exception
+	if (attrib !== "remove-saved-course") hideOverlays();
+
 	switch (attrib) {
 
 		case "preview":
@@ -1381,6 +1384,71 @@ function performAction(tgt, e) {
 		// case "handle-preset":
 		// 	console.dir(tgt);
 		// 	break;
+
+		// stoping a copy of a theme preset into the users licenced server-side folder location
+		case "store-preset":
+			fetch('warehouse/manage.php?hash=' + App.Hash, {
+			    method: 'POST',
+			    body: new URLSearchParams({
+			        'action': 'storetheme',
+			        'selection': document.querySelector('fieldset.themePreviewOptions a[data-preset].selected').dataset.preset,
+			        'theme': document.querySelector('input[name="template"]').value,
+			        'data': document.querySelector('textarea.theme-editor').value
+			    })
+			}).then(function(response) {
+				if (response.ok) {
+					return response.json();
+				}
+				throw response;
+			}).then(function(obj) {
+				var container = document.querySelector('fieldset.themePreviewOptions'),
+						themeLink = container.querySelector("a[data-preset='" + obj.key + "']");
+				if (themeLink) {
+					themeLink.dataset.src = btoa(document.querySelector('textarea.theme-editor').value);
+				} else {
+					container.querySelector('details').insertAdjacentHTML('beforebegin', Handlebars.templates["theme-preset"]({
+						key: obj.key,
+						image: "img/user-preset.jpg",
+						theme: btoa(document.querySelector('textarea.theme-editor').value),
+						copy: true
+					}));
+				}
+				container.children.forEach(function(node){
+					if (node.nodeName === 'A')
+					node.classList[(node.dataset.preset === obj.key) ? "add" : "remove"]('selected');
+				});
+			}).catch(function(message) {
+				console.dir(message);
+				alert('Storing preset failed; see console for details');
+			});
+			break;
+
+		case "remove-saved-course":
+			var fn = tgt.closest("tr").dataset.src,
+					fd = new URLSearchParams({
+						"action": "removecourse",
+						"name": fn
+					});
+			fetch("warehouse/manage.php?hash=" + App.Hash, {
+				method: "POST",
+				body: fd
+			}).then(function(response) {
+				if (response.ok) {
+					return response.json()
+				}
+				throw resposne;
+			}).then(function(json) {
+				tgt.closest("tbody").removeChild(tgt.closest("tr"));
+			}).catch(function(msg) {
+				console.dir(msg);
+				alert("There was a problem removing the file " + fn);
+			});
+			break;
+
+		case "import-saved-course":
+			var fn = tgt.closest("tr").dataset.src;
+			DocNinja.fileConversion.HandleServerImport(fn);
+			break;
 
 
 		default:

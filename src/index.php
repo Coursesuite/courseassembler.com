@@ -15,6 +15,7 @@ include("load.php");
 // }
 
 $jsApp = new stdClass();
+$jsApp->Hash = $verifier->hash;
 $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
@@ -36,6 +37,15 @@ if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 // api url = coursesuite url / api / dl / apikey / appkey / template.zip
 $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 
+// sort function used by directoryiterator
+function dSort($a, $b) {
+	$col = 2; // 0=name, 1=size, 2=timestamp
+	$x = $b[$col]; // x = b if decending order
+	$y = $a[$col]; // y = b if ascending order
+	if (strcmp($x,$y) < 0) return -1;
+	elseif (strcmp($x,$y) > 0) return 1;
+	else return 0;
+}
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -251,21 +261,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 		</form>
 
 		<div class="w-80 m-lr-auto m-t-regular">
-			<div class='grid-h grid-c <?php echo (isset($verifier->api->publish) && !empty($verifier->api->publish)) ? 'grid-4' : 'grid-3'; ?>'>
-
-				<div class="progress-button elastic" data-destination="download">
-					<button><span><i class="ninja-download"></i> Download</span></button>
-					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
-					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
-					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
-				</div>
-
-				<div class="progress-button elastic" data-destination="kloudless">
-					<button><span><i class="ninja-upload2"></i> Save to Cloud</span></button>
-					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
-					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
-					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
-				</div>
+			<div class='grid-h grid-c grid-4'>
 
 				<div class="progress-button elastic" data-destination="preview">
 					<button><span><i class="fa fa-eye"></i> Preview</span></button>
@@ -274,14 +270,27 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3" /><path d="m35,35l9.3,9.3" /><path d="m35,35l-9.3,9.3" /><path d="m35,35l9.3,-9.3" /></svg>
 				</div>
 
-<?php if (isset($verifier->api->publish) && !empty($verifier->api->publish)) { ?>
-				<div class="progress-button elastic" data-destination="publish">
-					<button><span><i class="ninja-upload"></i> Publish to LMS</span></button>
+				<div class="progress-button elastic" data-destination="kloudless">
+					<button><span><i class="ninja-upload2"></i> Save to cloud</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
 				</div>
-<?php } ?>
+
+				<div class="progress-button elastic" data-destination="publish">
+					<button><span><i class="ninja-upload"></i> Save to server</span></button>
+					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+				</div>
+
+				<div class="progress-button elastic" data-destination="download">
+					<button><span><i class="ninja-download"></i> Download zip</span></button>
+					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+				</div>
+
 			</div>
 
 		</div>
@@ -299,7 +308,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	</div>
 
 	<div class="modal add-content">
-		<div class="modal-box">
+		<div class="modal-box tabbed-content">
 		<header>
 			<span><i class="ninja-document-add"></i>Add content</span>
 			<a href="javascript:;" data-action="close-add-content"><span class="ninja-close"></span></a>
@@ -334,14 +343,14 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 				</ul>
 				<textarea id="paste-url-obj" placeholder="Paste your code/embed code into this box then press Insert" noresize autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<label class="label-block"><input type="checkbox" id="paste-url-website" value="1">Embed URL as image</label>
-				<button data-action="process-paste"><i class="ninja-paste"></i>Insert</button>
+				<button data-action="process-paste" class="pad-button"><i class="ninja-paste"></i>Insert</button>
 			</div>
 		</section>
 		<section class="paste-to-embed" id="add-choose">
 			<div class="cloudzone">
 				<h3>Upload from the Cloud</h3>
 				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
-				<button data-action="upload-kloudless"><i class="ninja-upload2"></i>Choose ...</button>
+				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-upload2"></i>Choose ...</button>
 			</div>
 		</section>
 		<p class="tip">💡Tip: Check the Settings menu for conversion options before you start.</p>
@@ -349,25 +358,55 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 	</div>
 
 	<div class="modal import-content">
-		<div class="modal-box">
+		<div class="modal-box tabbed-content">
 		<header>
 			<span><i class="ninja-folder-outline-add"></i>Import content (zip)</span>
 			<a href="javascript:;" data-action="close-import-content"><span class="ninja-close"></span></a>
 		</header>
-		<section class="drag-to-upload">
+		<nav>
+			<a href="#import-upload" class="active" data-action="tab-switch">Upload</a>
+			<a href="#import-cloud" data-action="tab-switch">Cloud</a>
+			<a href="#import-files" data-action="tab-switch">Saved courses</a>
+		</nav>
+		<section class="drag-to-upload active" id="import-upload">
 			<p>We currently support CourseAssembler and Video2Scorm zip packages.</p>
 			<div class="dropzone" onclick="document.getElementById('muplControl').click()">
-				<h3>Drag and drop a Course Assembler zip package here</h3>
+				<h3>Drag and drop a supported zip package here</h3>
 				<p>Or click here to browse</p>
 				<input type="file" id="muplControl" style="display:none" onchange="manualImport(this.files)" />
 			</div>
 		</section>
-		<p class="or"><span>or</span></p>
-		<section class="paste-to-embed">
+		<section class="paste-to-embed" id="import-cloud">
 			<div class="cloudzone">
 				<h3>Import from the Cloud</h3>
-				<button data-action="upload-kloudless"><i class="ninja-upload2"></i>Choose ...</button>
+				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
+				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-upload2"></i>Choose ...</button>
 			</div>
+		</section>
+		<section class="list-server-files" id="import-files">
+			<p>These are your saved courses. Click Import next to a course to add it.</p>
+			<table class="table-file-list"><thead><tr><th>Filename</th><th>Date created</th><th>Size</th><th>Actions</th></tr></thead>
+			<tbody><?php
+			if (file_exists("warehouse/{$verifier->hash}/published/")) {
+				$zips = new DirectoryIterator("./warehouse/{$verifier->hash}/published/");
+				$rows = [];
+				foreach ($zips as $zip) {
+					if (!$zip->isDot() && !$zip->isDir()) {
+						$rows[] = [
+							$zip->getFilename(),
+							$zip->getSize(),
+							$zip->getCTime()
+						];
+					}
+				}
+				usort($rows, 'dSort');
+				forEach($rows as $row) {
+					echo "<tr data-src='", $row[0], "'><td>", $row[0], "</td><td>", date("D d M Y H:i:s", $row[2]), "</td><td>", Utils::FormatBytes($row[1]), "</td><td><button data-action='import-saved-course'>Import</button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td></tr>", PHP_EOL;
+				}
+			} else {
+				echo "<tr><td colspan='4'>No files.</td></tr>";
+			}
+			?></tbody></table>
 		</section>
 		</div>
 	</div>

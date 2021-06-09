@@ -11,6 +11,10 @@ do {
 } while ($exit === false);
 require_once($path . 'vendor/autoload.php');
 
+// validate the basic request
+$verifier = Licence::validate(Request::get("hash"));
+if (!$verifier->valid) Utils::Stop(400, 'Bad method');
+
 // we need the theme name ('base')
 $base = Request::get('base');
 if (empty($base)) die("incorrect usage");
@@ -28,5 +32,16 @@ foreach (glob(realpath(dirname(__FILE__)) . '/themes/' . $base . '/*.theme') as 
 	$presets[] = $obj;
 }
 
-header("content-type: application/json");
-echo json_encode($presets);
+$userpath = realpath("../../warehouse/{$verifier->hash}/{$base}");
+if (file_exists($userpath)) {
+	foreach (glob("{$userpath}/*.theme") as $theme) {
+		$text = file_get_contents($theme);
+		$key = substr(basename($theme), 0, -6);
+		$obj = new stdClass();
+		$obj->key = $key;
+		$obj->image = 'img/user-preset.jpg';
+		$obj->theme = base64_encode($text);
+		$presets[] = $obj;
+	}
+}
+Utils::Stop(200, json_encode($presets), false, "application/json");

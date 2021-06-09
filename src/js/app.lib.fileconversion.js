@@ -504,6 +504,47 @@
 			}
 		};
 
+		_handleServerImport = function(name) {
+			var fd = new URLSearchParams({
+					"action": "loadcourse",
+					"name": name
+				}),
+				li = document.createElement('li');
+			fetch("warehouse/manage.php?hash=" + App.Hash, {
+				method: "POST",
+				body: fd
+			}).then(function(response) {
+				if (response.ok) {
+					return response.blob();
+				}
+				throw response;
+			}).then(function(blob) {
+				var reader = new FileReader(),
+					fileId = DocNinja.PurityControl.Nav.GetFileId(0);
+				li.innerHTML = Handlebars.templates["nav-item"]({
+					"state":"import",
+					"id":fileId,
+					"title":name
+				});
+				li.setAttribute("data-fileid", fileId); // "file-" + (new Date().getTime()).toString(36));
+				DocNinja.navItems.appendChild(li);
+				reader.onload = function (e) {
+					_beginConversion(reader,
+					                 {"files":[{name: name, type: "application/zip", extension: "zip"} ]},
+					                 li,
+					                 "application",
+					                 "zip"
+					                );
+					reader = null;
+				}
+				reader.readAsArrayBuffer(blob);
+			}).catch(function(msg) {
+				console.dir(msg);
+				alert("There was a problem importing the file from the server");
+				if (li.parentNode) li.parentNode.removeChild(li);
+			});
+		};
+
 		_handleFileUpload = function(files) {
 			for (var i = 0; i < files.length; i++) {
 				(function (file, index) { // iife closure to protect reader object
@@ -610,6 +651,7 @@
 			BeginConversion: _beginConversion,
 			HandleUrlUpload: _handleUrlUpload,
 			HandleUpload: _handleFileUpload,
+			HandleServerImport: _handleServerImport,
 			HandleCloudUpload: _handleCloudUpload,
 			OptimiseImageMaybe: _optimiseImage
 		}
