@@ -49,6 +49,19 @@ class Request
     }
 
     /**
+     * Returns just the character data in a post as captured by the regular expression
+     *
+     * @param mixed $key key
+     * @param string $method 'post' or 'get'
+     */
+    public static function regex($key, $expression = "/[^a-z]/i", $method = 'post') {
+        $method = strtolower($method);
+        $data = self::$method($key); // e.g. self::post() or self::get()
+        $data = preg_replace($expression,'',$data);
+        return $data;
+    }
+
+    /**
      * gets/returns the value of a specific key of the GET super-global
      * @param mixed $key key
      * @param mixed null or http://php.net/manual/en/filter.filters.sanitize.php
