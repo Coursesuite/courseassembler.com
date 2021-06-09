@@ -36,9 +36,16 @@ class Licence extends Controller {
 			},
 			"app": {
 				"addons": []
-			}
+			},
+			"hash": ""
 		}');
-		if (defined('DEVELOPER')) { // bypass licencing
+
+		$debug = ($_SERVER['SERVER_NAME'] === '127.0.0.1');
+		$hash = isset($key) ? $key : $debug ? "debug" : null;
+		if (empty($hash) && $debug) $hash = "debug";
+		$result->hash = $hash;
+		if (empty($hash)) return $result;
+		if (defined('DEVELOPER') || $debug) { // bypass licencing
 			$result->licence->error = "ready";
 			$result->valid = true;
 			$result->tier = 99;
