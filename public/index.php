@@ -14,9 +14,9 @@ $Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('GET','/validate/[*:key]?', 'keyValidator');
 $Router->map('GET','/app/[*:key]?', 'launch');
 
-// $Router->map('GET','/blog/[:entry]', '../entries/index.php', 'Blog entry');
-// $Router->map('GET','/blog', '../entries/index.php', 'Blog');
-// $Router->map('GET','/blog/', '../entries/index.php', 'Blog ');
+// $Router->map('GET','/blog/[:entry]', 'blog');
+// $Router->map('GET','/blog', 'blog');
+// $Router->map('GET','/blog/', 'blog');
 
 $Router->map('POST','/email', 'handleContactForm');
 $Router->map('POST','/checkout', 'handleOrder');
@@ -27,6 +27,12 @@ $match = $Router->match();
 if ($match) {
 	$fn = $match["target"];
 	switch ($fn) {
+
+		case "blog";
+			header('location: /blog/index.php?page=' + $match['params']['entry']);
+			die();
+			break;
+
 		case "handleContactForm":
 
 			$sender_email = stripslashes($_POST["email"]);
@@ -81,14 +87,14 @@ if ($match) {
 			$page_title = $match["name"];
 			$page_disk = "cache." . strtolower($page_title) . ".html";
 
-	    if (!file_exists($page_disk) || !CACHE) {
-				ob_start();
+	    //if (!file_exists($page_disk) || !CACHE) {
+			//	ob_start();
 				render($fn, $page_title);
-				file_put_contents($page_disk, ob_get_contents());
-				//ob_end_flush();
-				ob_end_clean();
-			}
-			include $page_disk;
+		 //file_put_contents($page_disk, ob_get_contents());
+				ob_end_flush();
+				//ob_end_clean();
+			//}
+			//include $page_disk;
 	}
 } else {
   header("HTTP/1.0 404 Not Found");
