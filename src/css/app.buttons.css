@@ -77,7 +77,7 @@ button.colour-dot.white { background-color: #ffffff; }
 
 button[data-action='toggle-add-content']:hover {border-color: var(--content);color: var(--content);}
 button[data-action='add-quiz']:hover {border-color: var(--quiz);color: var(--quiz);}
-button[data-action='import-content']:hover {border-color: var(--resource);color: var(--resource);}
+button[data-action='import-content']:hover {border-color: var(--import);color: var(--import);}
 
 button[data-action='page-bgcolour']:hover {border-color: var(--bgcolour);color: var(--bgcolour);}
 button[data-action='set-score']:hover {border-color: var(--score);color: var(--score);}

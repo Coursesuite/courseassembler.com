@@ -30,7 +30,7 @@ body[class*='modal-'] .modal > .modal-box {
 	transform: translate(-50%, -50%);
 	background-color: white;
 	box-shadow: 5px 5px 0 rgba(0,0,0,.5);
-	width: 30%;
+	width: 50%;
 	min-width: 530px;
 	color: #333;
 	text-shadow: none;
@@ -39,23 +39,45 @@ body[class*='modal-'] .modal > .modal-box {
 	border: 1px solid var(--content);
 }
 .modal.import-content > .modal-box {
-	border: 1px solid var(--resource);
+	border: 1px solid var(--import);
 }
-.modal.add-content nav {
+.modal .tabbed-content nav {
 	display: flex;
 }
-.modal.add-content nav>a.active {
+.modal .tabbed-content nav>a.active {
     border-bottom-color: var(--content);
 }
-.modal.add-content nav>a {
+.modal .tabbed-content nav>a {
     display: block;
     padding: 1rem;
     border-bottom: 4px solid #f8f8f8;
     margin: 0 1rem;
     outline: none;
 }
-.modal.add-content>div.modal-box>section{ display:none;padding:25px; }
-.modal.add-content>div.modal-box>section.active{ display:block; }
+
+.modal>div.modal-box.tabbed-content>section{ display:none;padding:25px; }
+.modal>div.modal-box.tabbed-content>section.active{ display:block; }
+
+.modal .table-file-list {
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+	width: 100%;
+}
+.modal .table-file-list th, .modal .table-file-list td {
+	border: 1px solid #ccc;
+	text-align: left;
+	padding: .25rem .5rem;
+	white-space: nowrap;
+}
+.modal .table-file-list tbody tr:nth-child(:odd) td,
+.modal .table-file-list thead th {
+	background-color: #ddd;
+}
+
+.modal .table-file-list button > i {
+	margin: 0;
+}
+
 .modal.add-content>div.modal-box>section .t-l { text-align: left; }
 .modal-box textarea {
 	display: block;
@@ -68,7 +90,7 @@ body[class*='modal-'] .modal > .modal-box {
 	margin-bottom: 1em;
 }
 
-.modal.add-content p.tip {
+.modal .tabbed-content p.tip {
 	font-size: 0.9rem;
     text-align: center;
     border-top: 4px solid #f8f8f8;
@@ -76,11 +98,11 @@ body[class*='modal-'] .modal > .modal-box {
     padding: 1rem;
 }
 
-.modal button {
+.modal .pad-button {
 	padding: 1em;
 }
 .modal.import-content button:hover i {
-	color: var(--resource);
+	color: var(--import);
 }
 .modal.add-content button:hover i {
 	color: var(--content);
@@ -139,7 +161,7 @@ body[class*='modal-'] .modal > .modal-box {
 }
 
 .modal.import-content header {
-    background-color: var(--resource);
+    background-color: var(--import);
 }
 
 .modal section.drag-to-upload .dropzone {

@@ -22,11 +22,11 @@
 
 	--edge: #d7d7d7;
 	--base: #20629b;
+	--preview: #68A031;
 	--selection: #ffee00;
 	--encasing: #e8e8e8;
 
 	/* buttons */
-
 	--settings: #eea51d;
 	--help: #1db2ee;
 	--reset: #843da2;
@@ -41,6 +41,7 @@
 	--quiz: #9b4dca;
 	--intro: #20629b;
 	--resource: #9b4dca;
+	--import: #FAC851;
 
 	--content-icon: #d4d4d4;
 
