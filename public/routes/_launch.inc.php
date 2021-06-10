@@ -44,15 +44,15 @@
 	            <td><a href="#" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	        <tr>
-	            <td>60 Days</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-60" data-format="%price" data-fsc-item-path-value="course-assembler-10">$50</td>
-	            <td><a href="#" data-fsc-item-path-value="course-assembler-60" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
-	        </tr>
-	        <tr>
 	            <td>1 year</td>
 	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-365" data-format="%price" data-fsc-item-path-value="course-assembler-10">$199</td>
 	            <td><a href="#" data-fsc-item-path-value="course-assembler-365" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
+	        <!--tr>
+	            <td>Subscribe (6-month recurring)</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-0" data-format="%price" data-fsc-item-path-value="course-assembler-0">$125</td>
+	            <td><a href="#" data-fsc-item-path-value="course-assembler-0" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
+	        </tr-->
 	    </tbody>
 	</table>
 
