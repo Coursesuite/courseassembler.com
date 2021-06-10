@@ -14,7 +14,7 @@
 foreach (glob(realpath(dirname(__FILE__)) . '/plugins/Theme/themes/*',GLOB_ONLYDIR) as $file) {
 	$path = basename($file);
 	$caption = ucwords($path);
-	echo "<figure data-action='set-theme-base' data-name='{$path}'><img src='plugins/Theme/themes/{$path}/preview.jpg'><figcaption>{$caption}</figcaption></figure>", PHP_EOL;
+	echo "<figure data-action='set-theme-base' data-name='{$path}'><img src='plugins/Theme/themes/{$path}/preview.jpg' loading='lazy'><figcaption>{$caption}</figcaption></figure>", PHP_EOL;
 }
 ?>
 </fieldset>
