@@ -1741,8 +1741,16 @@ function sanitizeFilename(input, dfault) {
 }
 
 // innerHTML to document fragment (nodes)
+// GOTCHA doesn't work for table cells or rows!
 function fragmentFromString(strHTML) {
     return document.createRange().createContextualFragment(strHTML);
+}
+// innerHTML to nodes
+// Works on table cells and rows..
+function StringToFragment(string) {
+    var renderer = document.createElement('template');
+    renderer.innerHTML = string;
+    return renderer.content;
 }
 
 // initialise a colour picker (binds its own clicker)
