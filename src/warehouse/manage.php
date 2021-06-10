@@ -40,6 +40,15 @@ switch ($action) {
 		Utils::Stop(400);
 		break;
 
+	case "loadtheme":
+		$theme = Request::regex("theme");
+		$name = Request::regex("name","/[^a-z0-9-]/i");
+		if (file_exists("{$workingdir}/{$theme}/{$name}.theme")) {
+			Utils::Stop(200, file_get_contents("{$workingdir}/{$theme}/{$name}.theme"));
+		}
+		Utils::Stop(404);
+		break;
+
 	case "storecourse":
 		$result->ok = false;
 		if (!isset($_FILES['file'])) {

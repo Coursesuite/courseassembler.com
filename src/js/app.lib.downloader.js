@@ -69,6 +69,7 @@
 				return Promise.resolve(setup);
 			}).then(function ensureThemeIsCompiled(setup) {
 				return new Promise(function(resolve,reject) {
+					var loadUrl = "", loadParams = { method: "GET" };
 					if (setup.hasOwnProperty('theme') && setup.theme.length) resolve(setup);
 					if (!setup.template) setup.template = "menu";
 					if (!setup.selected_theme) setup.selected_theme = "default";
@@ -77,7 +78,20 @@
 						setup.theme = DocNinja.Plugins.Theme.compile(user_theme);
 						return Promise.resolve(setup);
 					} else {
-						fetch("plugins/Theme/themes/" + setup.template + "/" + setup.selected_theme + ".theme").then(function(response) {
+						if (setup.selected_theme.endsWith("-copy")) {
+							loadUrl = "warehouse/manage.php?hash=" + App.Hash;
+							loadParams = {
+							    method: 'POST',
+							    body: new URLSearchParams({
+							        'action': 'loadtheme',
+							        'theme': setup.template,
+							        'name': setup.selected_theme
+							    })
+							};
+						} else {
+							loadUrl = "plugins/Theme/themes/" + setup.template + "/" + setup.selected_theme + ".theme";
+						}
+						fetch(loadUrl,loadParams).then(function(response) {
 							if (!response.ok) throw response;
 							response.text().then(function(theme) {
 								setup.theme = DocNinja.Plugins.Theme.compile(theme);
@@ -680,6 +694,9 @@ localforage.iterate(function( ... ) {
 				}
 				throw response;
 			}).then(function(json) {
+				if (!json.ok) {
+					throw json.error;
+				}
 				setTimeout(function() {
 					$span.html(_html);
 				},3456);
@@ -688,7 +705,7 @@ localforage.iterate(function( ... ) {
 				var tbody = document.querySelector("#import-files .table-file-list tbody");
 				if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]'));
 				tbody.appendChild(
-					fragmentFromString(
+					StringToFragment(
 						Handlebars.templates["import-tr"](json)
 					)
 				);
