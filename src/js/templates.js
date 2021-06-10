@@ -1039,7 +1039,7 @@ templates['theme-preset'] = template({"compiler":[8,">= 4.3.0"],"main":function(
     + alias4(((helper = (helper = lookupProperty(helpers,"theme") || (depth0 != null ? lookupProperty(depth0,"theme") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"theme","hash":{},"data":data,"loc":{"start":{"line":1,"column":88},"end":{"line":1,"column":97}}}) : helper)))
     + "'><img src='"
     + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":1,"column":109},"end":{"line":1,"column":118}}}) : helper)))
-    + "' width='80' height='60'></a>";
+    + "' width='80' height='60' loading='lazy'></a>";
 },"useData":true});
 templates['wrapper-h5p'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
