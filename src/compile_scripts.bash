@@ -99,17 +99,12 @@ fi
 echo "Copying font files"
 cp -R css/font/fonts css/
 
-echo "createing preview space"
-cd preview
-mkdir data
-cd ..
-
 echo "Cleaning root files"
 rm *.bash
 rm dockerCompileScript.sh
 rm importcss.php
 rm -f old_*.mp3
-rm test.html
+#rm test.html
 rm load.dev.php
 
 echo "Cleaning css"
@@ -134,8 +129,8 @@ rm font.css
 rm -rf font
 cd ..
 
-echo "Cleaning help"
-rm -rf ./help
+#echo "Cleaning help"
+#rm -rf ./help
 
 echo "Cleaning handlebars"
 rm -rf ./handlebars
@@ -159,6 +154,15 @@ rm app.lib.downloader.js
 rm app.lib.navigation.js
 rm app.lib.edithandler.js
 cd ..
+
+echo "Cleaning warehouse"
+cd warehouse
+find . -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
+cd ..
+
+echo "Setting permissions"
+chmod -R 02777 warehouse
+
 
 # todo: do the plugins scan again but pipe into rm -f
 
