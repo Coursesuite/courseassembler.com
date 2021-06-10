@@ -101,7 +101,6 @@ foreach ($iter as $file) {
 }
 echo implode(PHP_EOL, $css), PHP_EOL;
 ?>
-		<style id="fiddle">#nav-selection svg path,#nav-selection svg rect {fill:#3D3590;stroke:#000000;stroke-width:4px;stroke-opacity:0.75;}$nav-selection svg circle{stroke:#3D3590}</style>
 		<script src="js/modernizr.custom.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
@@ -401,7 +400,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 				}
 				usort($rows, 'dSort');
 				forEach($rows as $row) {
-					echo "<tr data-src='", $row[0], "'><td>", $row[0], "</td><td>", date("D d M Y H:i:s", $row[2]), "</td><td>", Utils::FormatBytes($row[1]), "</td><td><button data-action='import-saved-course'>Import</button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td></tr>", PHP_EOL;
+					echo "<tr data-src='", $row[0], "'><td>", $row[0], "</td><td>", date("D d M Y H:i:s", $row[2]), "</td><td>", Utils::FormatBytes($row[1]), "</td><td><button data-action='import-saved-course'>Import</button><button data-action='download-saved-course'><i class='ninja-paperclip'></i></button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td></tr>", PHP_EOL;
 				}
 			} else {
 				echo "<tr><td colspan='4'>No files.</td></tr>";

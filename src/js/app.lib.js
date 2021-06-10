@@ -1088,8 +1088,15 @@ function performAction(tgt, e) {
 		attrib = tgt.getAttribute("data-action");
 
 	// for every rule there is always an exception
-	if (attrib !== "remove-saved-course") hideOverlays();
+	switch (attrib) {
+		case "remove-saved-course":
+		case "download-saved-course":
+			break;
+		default:
+			hideOverlays();
+	}
 
+	// ok now do the action.
 	switch (attrib) {
 
 		case "preview":
@@ -1409,8 +1416,7 @@ function performAction(tgt, e) {
 					container.querySelector('details').insertAdjacentHTML('beforebegin', Handlebars.templates["theme-preset"]({
 						key: obj.key,
 						image: "img/user-preset.jpg",
-						theme: btoa(document.querySelector('textarea.theme-editor').value),
-						copy: true
+						theme: btoa(document.querySelector('textarea.theme-editor').value)
 					}));
 				}
 				container.children.forEach(function(node){
@@ -1449,6 +1455,37 @@ function performAction(tgt, e) {
 			var fn = tgt.closest("tr").dataset.src;
 			DocNinja.fileConversion.HandleServerImport(fn);
 			break;
+
+		case "download-saved-course":
+			var fn = tgt.closest("tr").dataset.src,
+					fd = new URLSearchParams({
+						"action": "loadcourse",
+						"name": fn
+					});
+			fetch("warehouse/manage.php?hash=" + App.Hash, {
+				method: "POST",
+				body: fd
+			}).then(function(response) {
+				if (response.ok) {
+					return response.blob();
+				}
+				throw response;
+			}).then(function(blob) {
+				[].forEach.call(document.querySelectorAll('a[data-done]'), function (el) { el.parentNode.removeChild(el) });
+				var url = URL.createObjectURL(blob),
+						a = document.createElement('a');
+				a.dataset.done = true;
+				a.href = url;
+				a.style = 'display:none';
+				a.download = fn;
+				document.body.appendChild(a);
+				a.click();
+
+			}).catch(function(bloop) {
+				console.dir(bloop);
+				alert("Sorry an error occurred accessing this course.");
+			});
+			break;			
 
 
 		default:

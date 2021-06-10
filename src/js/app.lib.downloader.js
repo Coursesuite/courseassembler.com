@@ -685,12 +685,13 @@ localforage.iterate(function( ... ) {
 				},3456);
 
 				// create a new row on the import screen
-				var tr = document.createElement("tr");
-				tr.dataset.src = json.name;
-				tr.innerHTML = "<td>" + json.name + "</td><td>" + json.date + "</td><td>" + json.filesize + "</td><td><button data-action='import-saved-course'>Import</button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td>";
 				var tbody = document.querySelector("#import-files .table-file-list tbody");
 				if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]'));
-				tbody.appendChild(tr);
+				tbody.appendChild(
+					fragmentFromString(
+						Handlebars.templates["import-tr"](json)
+					)
+				);
 				alert("Your package has been stored to the server. You can access stored courses under the Import feature.");
 			}).catch(function(message) {
 				console.dir(message);
