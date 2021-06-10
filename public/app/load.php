@@ -3,7 +3,7 @@ require_once('../../vendor/autoload.php');
 session_start();
 if (!isset($_SESSION['sesskey'])) $_SESSION['sesskey'] = md5(time());
 $verifier = Licence::validate(Request::get('hash'));
-$timestamp = '20210602115340';
-$minified_css = 'css/app.min.20210602115340.css';
-$minified_app = 'js/app.min.20210602115340.js';
+$timestamp = '20210610122241';
+$minified_css = 'css/app.min.20210610122241.css';
+$minified_app = 'js/app.min.20210610122241.js';
 ?>
