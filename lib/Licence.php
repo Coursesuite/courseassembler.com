@@ -41,8 +41,13 @@ class Licence extends Controller {
 		}');
 
 		$debug = ($_SERVER['SERVER_NAME'] === '127.0.0.1');
-		$hash = isset($key) ? $key : $debug ? "debug" : null;
-		if (empty($hash) && $debug) $hash = "debug";
+		if (isset($key)) {
+			$hash = $key;
+		} else if ($debug) {
+			$hash = "debug";
+		} else {
+			$hash = null;
+		}
 		$result->hash = $hash;
 		if (empty($hash)) return $result;
 		if (defined('DEVELOPER') || $debug) { // bypass licencing
