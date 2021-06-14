@@ -703,7 +703,11 @@ localforage.iterate(function( ... ) {
 
 				// create a new row on the import screen
 				var tbody = document.querySelector("#import-files .table-file-list tbody");
-				if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]'));
+				try {
+					if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]').parentElement);
+				} catch (ex) {
+					// we want to ignore this error from the main promise
+				}
 				tbody.appendChild(
 					StringToFragment(
 						Handlebars.templates["import-tr"](json)
