@@ -258,7 +258,11 @@
 								page["index"] = iterationNumber;
 								page["title"] = $.trim(li.text().replace(/\s+/g, " "));
 								page["score"] = ~~obj.score || 1; // convert to integer
-								page["content"] = ("youtube vimeo soundcloud slideshare".indexOf(obj.format)!=-1) ? "media" : obj.kind; // media track timespent in the child frame
+								if (obj.kind === 'plugin') {
+									page["content"] = [obj.kind,obj.plugin].join(":");
+								} else {
+									page["content"] = ("youtube vimeo soundcloud slideshare video".indexOf(obj.format)!=-1) ? "media" : obj.kind; // media track timespent in the child frame
+								}
 								page["href"] = "data/" + filename;
 								page["depth"] = Math.max(0,+obj.depth||0); // must exist
 								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
@@ -349,7 +353,7 @@
 						 	setup["audio"] = true;
 						}
 						setup["timestamp"] = manifest["timestamp"].toString(36);
-						setup["tier"] = App.Tier;
+						// setup["tier"] = App.Tier;
 
 						var templates = Handlebars.templates = Handlebars.templates || {}, // in global scope, compiled during publish from the handlebars/ folder
 							template = setup.template || $("#nav-selection figure.selected").attr("data-name"), // e.g. Menu, Continuous, Slides, etc
@@ -408,7 +412,7 @@
 
 							} else {
 
-								// reference to core files in selected template; theme is already compiled
+								// reference to core files in selected template
 								var urls = [
 									// "designs/" + template + "/index.html",
 									"plugins/Theme/themes/" + setup.template + "/index.html",
@@ -571,7 +575,7 @@
 						uiButtonInstance.stop(-1); // >0 = success
 					});
 /*
-ES6
+ES6 / psuedocode
 localforage.iterate(function( ... ) {
     // do stuff in loop
 })
