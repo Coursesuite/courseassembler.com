@@ -245,7 +245,7 @@
 					fold = zip.folder("data");
 
 					localforage.iterate(function package_iterate_localforage(value, key, iterationNumber) {
-						if (key === "order") manifest["order"] = value;
+						if (key === "order") manifest["order"] = value; // convertOrderForManifest(value); //TODO: match line 245 of importer/plugin.js
 						if (key === "settingsCache") manifest["settingsCache"] = value;
 						if (key.indexOf("file-") != -1) { // only with this prefix, in case we store other things
 							var page = {},
@@ -313,6 +313,9 @@
 										break;
 								}
 								fold.file(filename, obj.payload.html);
+
+							} else if ("plugin"===obj.kind&&"Section"===obj.plugin) {
+								// nothing do do here - this isn't a page, just a menu item
 
 							} else {
 								alert("Uh-oh! The `" + page["title"] + "` page contains no data.");
