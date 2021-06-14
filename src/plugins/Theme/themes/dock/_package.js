@@ -489,7 +489,11 @@ function load() {
     var li = document.querySelector("#scroll li.selected");
     if (li) {
     	var pli = li.parentNode.closest("li");
-	    if (pli) pli.classList.add("open");
+    	// expand all parents
+    	while (pli) {
+		    pli.classList.add("open");
+		    pli = pli.parentNode.closest("li");
+		}
 	    if (li.querySelector("ol")) li.classList.add("open");
 	    li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 	}
