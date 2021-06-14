@@ -274,7 +274,7 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 .dn-popover .content-types a > i {
 	display: block;
 	text-align: center;
-	font-size: 3.5rem;
+	font-size: 32px;
 	margin-bottom: .5rem;
 	color: inherit;
 }
@@ -285,6 +285,7 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 .ga-markdown { color: var(--markdown) }
 .ga-quiz { color: var(--quiz); }
 .ga-intro { color: var(--intro); }
+.ga-section { color: var(--section); }
 
 
 /*.dn-popover .content-types {
@@ -330,7 +331,7 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 }
 .dn-popover > header::before {
 	position: absolute;
-	font-family: 'scormninja' !important;
+	font-family: 'courseassembler' !important;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
