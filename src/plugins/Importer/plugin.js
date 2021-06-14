@@ -270,7 +270,7 @@
 									// if has audio
 										// wait till it has been re-imported
 									if (results.fileInfo.hasOwnProperty("audio")) {
-										proms.push(new Promise(audioResolve, audioReject) {
+										proms.push(new Promise(function(audioResolve, audioReject) {
 											var audioName = results.fileInfo.audio;
 											// fileInfo might be stale by now
 											localforage.getItem(results.fileId).then(function(o) {
@@ -284,7 +284,7 @@
 												});
 											})
 											.catch(audioReject);
-										});
+										}));
 									}
 
 									// TODO: support attachments in doc.ninja output
