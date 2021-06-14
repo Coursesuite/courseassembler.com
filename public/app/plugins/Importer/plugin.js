@@ -272,7 +272,7 @@
 											folder.file(audioName).async("base64").then(function(mp3data) {
 												o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
 												localforage.setItem(results.fileId,o).then(function () {
-													DocNinja.Navigation.Icons.Add.Audio(results.fileId);
+													DocNinja.Navigation.Icons.Add('audio', results.fileId);
 													resume();
 												});
 											});

@@ -46,6 +46,12 @@ function dSort($a, $b) {
 	elseif (strcmp($x,$y) > 0) return 1;
 	else return 0;
 }
+
+// https://docs.sentry.io/platforms/javascript/install/cdn/
+//https://cloudconvert.com/api/v2
+// https://app.fastspring.com/app/custom.xml
+
+
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -318,7 +324,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<a href="#add-choose" data-action="tab-switch">Cloud</a>
 		</nav>
 		<section class="drag-to-upload active" id="add-upload">
-			<p>Drag and drop your files directly below, or click the box to browse. We support most document and presentation formats.</p>
+			<p>Drag and drop your files directly below, or click the box to select a file from your device.<br>We support most document and presentation formats, images and H5P packages.</p>
 			<div class="dropzone" onclick="document.getElementById('uplControl').click()">
 				<h3>Drag and drop your content here</h3>
 				<p>Or click here to browse</p>
