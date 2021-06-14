@@ -123,7 +123,7 @@
 			// if (simpleHtml==1) qs += "&converteroptions[simple_html]=1";
 			if (data.blob) formData.append("file", data.blob, data.name);
 
-			// console.log("qs", qs, data);
+			//console.log("qs", qs, data);
 			// the file conversion proccess
 
 			// while I could make or use a generic object and hang off promises for results,
