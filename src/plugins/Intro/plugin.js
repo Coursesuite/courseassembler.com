@@ -6,9 +6,9 @@
 	DocNinja.Plugins.Intro.RegisterPlugin = function(context) {
 		DocNinja.routines.RegisterAction({
 			plugin: context,
-			icon: '<div class="ga-intro"><a data-action="add-intro-page"><i class="ninja-layout"></i>Intro Page</a></div>',
+			icon: '<div class="ga-intro"><a data-action="add-intro-page"><i class="ninja-home"></i>Intro Page</a></div>',
 			type: 'page',
-			order: 1,
+			order: 4,
 			supports: ['edit','view','compile','audio'],
 			handler: 'add-intro-page'
 		});
