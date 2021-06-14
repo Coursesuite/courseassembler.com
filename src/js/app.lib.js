@@ -738,7 +738,7 @@ function handlePopover(tgt) {
 
 		case "toggle-add-content":
 			b.style.right = 'initial';
-			b.style.minWidth = '375px';
+			b.style.width = '475px';
 			b.style.left = '10px';
 			b.style.top = (rekt.y + rekt.height + 9) + "px"
 			// b.style.left = rekt.x + (rekt.width / 3) + 'px';
@@ -1003,8 +1003,9 @@ function popover_attachFiles(file) {
 			dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"]({name: fileName}));
 			// closePopover();
 			localforage.setItem(id, obj).then(function () {
-				var updated = DocNinja.Navigation.Icons.Add.File(id);
-				if (updated) window.setItemOrder();
+				DocNinja.PurityControl.Nav.Check();
+				// var updated = DocNinja.Navigation.Icons.Add('attachment',id);
+				// if (updated) window.setItemOrder();
 			});
 		});
 	}
@@ -1114,12 +1115,16 @@ function performAction(tgt, e) {
 			}
 			break;
 
-		case "item-increase":
-			DocNinja.PurityControl.Nav.Indent(tgt.closest("li"));
-			break;
+		// case "item-increase":
+		// 	DocNinja.PurityControl.Nav.Indent(tgt.closest("li"));
+		// 	break;
 
-		case "item-decrease":
-			DocNinja.PurityControl.Nav.Outdent(tgt.closest("li"));
+		// case "item-decrease":
+		// 	DocNinja.PurityControl.Nav.Outdent(tgt.closest("li"));
+		// 	break;
+
+		case "item-depth-cycle":
+			DocNinja.PurityControl.Nav.CycleDepth(tgt.closest("li"));
 			break;
 
 		case "upload-kloudless":
@@ -1291,7 +1296,7 @@ function performAction(tgt, e) {
 
 		case "clear-storage":
 			localforage.clear(function (err) {
-				document.getElementById("fiddle").innerHTML = "";
+				// document.getElementById("fiddle").innerHTML = "";
 				// $("#nav-colour").attr("style", "");
 				DocNinja.filePreview.Reset();
 				DocNinja.navItems.innerHTML = "";
@@ -1585,11 +1590,17 @@ function changeTab(e) {
 	}, DocNinja.options.tabSpeed );
 }
 
+
+// given a fileid, store key Name with value Value
+// returns a promise which resolves when the value is saved
 function persistProperty(fileId, propertyName, propertyValue) {
-	localforage.getItem(fileId, function persist_property_get(err, value) {
-		var data = value || {};
-		data[propertyName] = propertyValue;
-		localforage.setItem(fileId, data);
+	return new Promise(function(resolve,reject) {
+		localforage.getItem(fileId, function persist_property_get(err, value) {
+			var data = value || {};
+			data[propertyName] = propertyValue;
+			localforage.setItem(fileId, data).then(resolve);
+		})
+		.catch(reject);
 	});
 }
 
@@ -1784,3 +1795,12 @@ function apiProxy() {
 	this.LMSSetValue = function (param,value) { this.cache[param] = value; return "true"; }
 }
 window.ninjaApiProxy = new apiProxy();
+
+function convertOrderForManifest(html) {
+	var frag = StringToFragment(html),
+		ord = [];
+	[].forEach.call(frag.querySelectorAll("li[data-fileid]"), function (n) {
+		ord.push(n.dataset.fileid)
+	});
+	return ord;
+}

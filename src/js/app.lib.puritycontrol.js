@@ -18,31 +18,82 @@
 			return possible;
 		}
 
-		var indent = function (li) {
-			if (!li.previousSibling) return;
-			var depth = +li.getAttribute("data-depth") || 0;
-			_set_depth(li, depth+1);
-			var toggle = li.querySelector(".toggle-button-wrapper");
-			classie.removeClass(toggle, "current-state-increase");
-			classie.addClass(toggle, "current-state-decrease");
-			toggle.querySelector("a.toggle-switch").setAttribute("title", "Outdent (make into a parent item)");
-			toggle.querySelector("a.toggle-switch").setAttribute("data-action","item-decrease");
-			setItemOrder();
+		// cycle indentation of THIS node plus any under it that might need changing too
+		var _change_depth = function(li) {
+			var previous = li.previousElementSibling,
+				depth = parseInt(li.dataset.depth, 10);
+			var pd = (previous) ? parseInt(previous.dataset.depth, 10) : 0;
+			var depthAllowed = Math.min(DocNinja.options.maxDepth, Math.max(0, pd + 1));
+
+			// increment the depth
+			depth = depth + 1;
+
+			// wrap around depth at the maximum possible (one higher than previous element)
+			var newDepth = depth % (depthAllowed + 1);
+
+			if (!previous) newDepth = 0; // 0th item can't indent
+
+			// store THIS nodes new depth
+			persistProperty(li.dataset.fileid, "depth", newDepth)
+			.then(function() {
+
+				// go through next siblings to see if we need to reduce their depths
+				var next = li.nextElementSibling,
+					proms = [];
+				while (next) {
+					if (parseInt(next.dataset.depth, 10) > (newDepth+1)) { // difference is now too great, step it back one
+						proms.push(new Promise(function (y,n) {
+							var k = next.dataset.fileid;
+							localforage.getItem(k)
+							.then(function(o) {
+								persistProperty(k, "depth", parseInt(o.depth,10) - 1).then(y);
+							})
+						}));
+						next = next.nextElementSibling;
+					} else {
+						next = false; // stop - no more need to process any further
+					}
+				}
+				return Promise.all(proms);
+			})
+			.then(setItemOrder) // redraw all nodes after all promises resolve
+			.catch(console.warn);
+
 		}
-		var outdent = function (li) {
-			var depth = +li.getAttribute("data-depth") || 0;
-			_set_depth(li, depth-1);
-			var toggle = li.querySelector(".toggle-button-wrapper");
-			classie.removeClass(toggle, "current-state-decrease");
-			classie.addClass(toggle, "current-state-increase");
-			toggle.querySelector("a.toggle-switch").setAttribute("title", "Indent (make into a child item)");
-			toggle.querySelector("a.toggle-switch").setAttribute("data-action","item-increase");
-			setItemOrder();
-		}
+
+		// var indent = function (li) {
+		// 	if (!li.previousSibling) return;
+		// 	var depth = +li.getAttribute("data-depth") || 0;
+		// 	_set_depth(li, depth+1);
+		// 	var toggle = li.querySelector(".toggle-button-wrapper");
+		// 	classie.removeClass(toggle, "current-state-increase");
+		// 	classie.addClass(toggle, "current-state-decrease");
+		// 	toggle.querySelector("a.toggle-switch").setAttribute("title", "Outdent (make into a parent item)");
+		// 	toggle.querySelector("a.toggle-switch").setAttribute("data-action","item-decrease");
+		// 	setItemOrder();
+		// }
+		// var outdent = function (li) {
+		// 	var depth = +li.getAttribute("data-depth") || 0;
+		// 	_set_depth(li, depth-1);
+		// 	var toggle = li.querySelector(".toggle-button-wrapper");
+		// 	classie.removeClass(toggle, "current-state-decrease");
+		// 	classie.addClass(toggle, "current-state-increase");
+		// 	toggle.querySelector("a.toggle-switch").setAttribute("title", "Indent (make into a child item)");
+		// 	toggle.querySelector("a.toggle-switch").setAttribute("data-action","item-increase");
+		// 	setItemOrder();
+		// }
 
 		// li.innerHTML = _nav_url(act, fileinfo.name, fileid, "import");
 		var _nav_url = function (action, title, id, state, format, kind, hasAudio) {
-			return Handlebars.templates["nav-item"]({"action": action, "title": title, "id": id, "state": state, "format": format, "kind": kind, "audio": hasAudio});
+			return Handlebars.templates["nav-item"]({
+				"action": action,
+				"title": title,
+				"id": id,
+				"state": state,
+				"format": format,
+				"kind": kind,
+				"audio": hasAudio
+			});
 			// return '<span class="drag-handle"><i class="ninja-sort"></i></span><a href="javascript:;" data-action="item-' + action + '"><i class="ninja-' + action + '"></i></a><a href="javascript:;" data-action="preview">' + title + '</a>';
 		}
 		var _set_depth = function (li,depth) {
@@ -64,68 +115,131 @@
 				localforage.setItem(fileid, data);
 			});
 		}
-		var checkstructure = function () {
 
-			checkDummyItem();
-			checkCounters();
+		// Check
 
-			/* our LI can look like:
+		// return promise
+		// promise contains promise.all of each li
+		// inner promise resolves after icon check
+		// outer promise resolves after all
+		// should delay any save until after promise.all
+		var checkstructure = function (redraw) {
 
-			 <li draggable="false" data-depth="1" class="selected" data-converted="false" data-fileid="file-ijdeyhvn">
-				<span class="drag-handle"><i class="ninja-reorder"></i></span>
-				<a draggable="false" href="javascript:;" data-action="item-decrease"><i class="ninja-decrease"></i></a>
-				<a draggable="false" href="javascript:;" data-action="preview">student_guide</a>
-			 </li>
+			return new Promise(function(checked,failed) {
 
-			 <li data-converted="false" data-fileid="file-ijdmqom1"><div class="file-conversion">
-			     <p><a href="javascript:CancelConversion('file-ijdmqom1');" class="cancel">Cancel</a>Converting to html.</p>
-			     </div>
-			 </li>
+				checkDummyItem();
+				checkCounters();
 
-			<li data-fileid="file-irr7003k-0" data-depth="0" data-converted="false" class="">
-				<div class="nav-item display-flex flex-left-right">
-				<span class="drag-handle" title="Drag up or down to re-order item"><i class="ninja-reorder"></i></span>
-				<span class="indent"><span class="toggle-button-wrapper current-state-increase"><a class="toggle-switch" data-action="item-increase" href="javascript:;"><span></span></a></span></span>
-				<span class="label flex-1"><a href="javascript:" data-action="preview">TW Student Manual V3 0_MG rework</a></span>
-				<span class="status"><span></span></span>
-			</div></li>
-			*/
+				/* our LI can look like:
+<li draggable="false" data-depth="1" class="selected" data-converted="true" data-fileid="file-ijklmnop-1" class="audio attachment">
+	<span class="drag-handle"><i class="ninja-reorder"></i></span>
 
-			// each li in container
-			var curr = 0;
-			[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (elm, idx) {
+</li>
 
-				// jank? failed conversion?
-				if (!(elm.hasAttribute("data-state") || elm.hasAttribute("data-converted"))) {
-					$(elm).remove();
-					return;
-				}
+	:: [o..] Name Attach Audio [Video Home Header Document Embed Quiz Image Markdown Embed Intro Interaction h5p] Rename
 
-				if (elm.getAttribute("data-converted") === "false") return;  // continue; // don't mess with current conversions
-				if (elm.getAttribute("data-converted") === "true" && !elm.hasAttribute("data-state")) elm.setAttribute("data-state","ready");
-				var depth = +elm.getAttribute("data-depth") || 0;
-				if (depth < 0 || (idx==0 && depth>0)) _set_depth(elm, 0);
-				if (idx>0) {
-					if (depth > curr+2) _set_depth(elm,curr+1);
-				}
-				curr = depth;
-				var a = elm.querySelector("span.label>a");
-				if (a && a.textContent.trim() === "") a.textContent = "(untitled)";
+				 <li draggable="false" data-depth="1" class="selected" data-converted="false" data-fileid="file-ijdeyhvn">
+					<span class="drag-handle"><i class="ninja-reorder"></i></span>
+					<a draggable="false" href="javascript:;" data-action="item-decrease"><i class="ninja-decrease"></i></a>
+					<a draggable="false" href="javascript:;" data-action="preview">student_guide</a>
+				 </li>
 
-				// ensure the list item have the correct icons
-				// this is async but that is ok at this point since the nodes are already rendered
-				localforage.getItem(elm.dataset.fileid).then(function checkstructure_setIcons(obj) {
-					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
-						DocNinja.Navigation.Icons.Add.Audio(elm.dataset.fileid);
-					} else {
-						DocNinja.Navigation.Icons.Remove.Audio(elm.dataset.fileid);
+				 <li data-converted="false" data-fileid="file-ijdmqom1"><div class="file-conversion">
+				     <p><a href="javascript:CancelConversion('file-ijdmqom1');" class="cancel">Cancel</a>Converting to html.</p>
+				     </div>
+				 </li>
+
+				<li data-fileid="file-irr7003k-0" data-depth="0" data-converted="false" class="">
+					<div class="nav-item display-flex flex-left-right">
+					<span class="drag-handle" title="Drag up or down to re-order item"><i class="ninja-reorder"></i></span>
+					<span class="indent"><span class="toggle-button-wrapper current-state-increase"><a class="toggle-switch" data-action="item-increase" href="javascript:;"><span></span></a></span></span>
+					<span class="label flex-1"><a href="javascript:" data-action="preview">TW Student Manual V3 0_MG rework</a></span>
+					<span class="status"><span></span></span>
+				</div></li>
+				*/
+
+				// each li in container
+				var curr = 0,
+					liPromises = [];
+				[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (elm, idx) {
+
+					// jank? failed conversion?
+					if (!(elm.hasAttribute("data-state") || elm.hasAttribute("data-converted"))) {
+						$(elm).remove();
+						return;
 					}
-					if (obj&&obj.hasOwnProperty('attachments') && obj.attachments.length) {
-						DocNinja.Navigation.Icons.Add.File(elm.dataset.fileid);
-					} else {
-						DocNinja.Navigation.Icons.Remove.File(elm.dataset.fileid);
-					}
+
+					// skip current conversions
+					if (elm.getAttribute("data-converted") === "false") return;  // continue; // don't mess with current conversions
+
+					// clean up attributes of conversions that have finished
+					if (elm.getAttribute("data-converted") === "true" && !elm.hasAttribute("data-state")) elm.setAttribute("data-state","ready");
+
+					// ensure a valid depth
+					// var depth = +elm.getAttribute("data-depth") || 0;
+					// if (depth < 0 || (idx==0 && depth>0)) _set_depth(elm, 0);
+					// if (idx>0) {
+					// 	if (depth > curr+2) _set_depth(elm,curr+1);
+					// }
+					// curr = depth;
+
+					// ensure pages have a title of some sort
+					var a = elm.querySelector("span.label>a");
+					if (a && a.textContent.trim() === "") a.textContent = "(untitled)";
+
+					// ensure the list item have the correct icons
+					// this is async but that is ok at this point since the nodes are already rendered
+					// todo: r
+
+					liPromises.push(new Promise(function(feResolve, feReject) {
+						localforage.getItem(elm.dataset.fileid)
+						.then(function checkstructure_setIcons(obj) {
+
+							if (!obj.hasOwnProperty('depth')) obj.depth = 0;
+
+							// persist useful dataset properties for css/speed
+							for (prop in obj) {
+								if (['depth','kind','plugin','format','type'].indexOf(prop) !== -1) {
+									if (prop === 'depth') {
+										obj[prop] = Math.min(DocNinja.options.maxDepth, Math.max(0, parseInt(obj[prop],10)));
+									}
+									elm.dataset[prop] = obj[prop];
+								}
+							}
+
+							// this is a forced redraw .. think of a way to prevent repaint
+							elm.innerHTML = Handlebars.templates['nav-item'](obj);
+
+		 					// if (obj&&obj.hasOwnProperty('format') && ['youtube','vimeo','video'].indexOf(obj.format)!==-1) {
+		 					// 	elm.classList.add('audio')
+		// console.dir(elm.dataset.fileid);
+		// 						DocNinja.Navigation.Icons.Add.Video(elm.dataset.fileid);
+		// 					} else {
+		// 						DocNinja.Navigation.Icons.Remove.Video(elm.dataset.fileid);
+		// 					}
+		 					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
+		 						elm.classList.add('audio');
+		 					}
+		// 						DocNinja.Navigation.Icons.Add.Audio(elm.dataset.fileid);
+		// 					} else {
+		// 						DocNinja.Navigation.Icons.Remove.Audio(elm.dataset.fileid);
+		// 					}
+		 					if (obj&&obj.hasOwnProperty('attachments') && obj.attachments.length) {
+		 						elm.classList.add('attachments');
+		 					}
+		// 						DocNinja.Navigation.Icons.Add.File(elm.dataset.fileid);
+		// 					} else {
+		// 						DocNinja.Navigation.Icons.Remove.File(elm.dataset.fileid);
+		// 					}
+						})
+						.then(feResolve)
+						.catch(feReject);
+					}));
 				});
+				// resolve the outer promise when all LI's have processed
+				Promise.all(liPromises)
+				.then(checked)
+				.catch(failed);
 			});
 			// generally you want to call window.SetItemOrder() after this routine to save possible node changes
 		}
@@ -135,6 +249,7 @@
 			li.setAttribute("data-fileid", fileid);
 			li.setAttribute("data-depth", fileinfo.depth);
 			li.setAttribute("data-state", state);
+			// li.setAttribute("data-kind", fileinfo.kind)
 			// if (attrs) for (key in attrs) if attrs.hasOwnProperty(key) li.setAttribute(key, attrs[key]);
 
 			var act = (fileinfo.depth > 0 ? 'decrease' : 'increase');
@@ -733,12 +848,13 @@
 				TextToHtml: _txt2html
 			},
 			Nav: {
-				Indent: indent,
-				Outdent: outdent,
+				// Indent: indent,
+				// Outdent: outdent,
 				Add: origin,
 				Update: _update,
 				Check: checkstructure,
-				GetFileId: _fileid
+				GetFileId: _fileid,
+				CycleDepth: _change_depth
 			},
 			Utils: {
 				UrlPath: pathname,
