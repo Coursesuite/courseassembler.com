@@ -42,7 +42,8 @@
 		sndpop: new Audio("pop.mp3"),
 		sndtrash: new Audio("crumple.mp3"),
 		pageBackgroundColour: '#ace1fc',
-		actions: []
+		actions: [],
+		maxDepth: 2 // indentation depth
 	};
 
 	DocNinja.navItems = document.getElementById( 'nav-item-list' );
