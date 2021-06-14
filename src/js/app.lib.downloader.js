@@ -259,7 +259,7 @@
 								page["title"] = $.trim(li.text().replace(/\s+/g, " "));
 								page["score"] = ~~obj.score || 1; // convert to integer
 								if (obj.kind === 'plugin') {
-									page["content"] = [obj.kind,obj.plugin].join(":");
+									page["content"] = [obj.kind,obj.plugin].join(":").toLowerCase();
 								} else {
 									page["content"] = ("youtube vimeo soundcloud slideshare video".indexOf(obj.format)!=-1) ? "media" : obj.kind; // media track timespent in the child frame
 								}
