@@ -46,11 +46,33 @@ function dSort($a, $b) {
 	elseif (strcmp($x,$y) > 0) return 1;
 	else return 0;
 }
-
+$headJS = [];
 // https://docs.sentry.io/platforms/javascript/install/cdn/
 //https://cloudconvert.com/api/v2
 // https://app.fastspring.com/app/custom.xml
 
+$headJS[] = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>';
+$headJS[] = '<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-0FLZ6RBMYH");</script>';
+
+if ($verifier->code->minified) {
+// $headJS[] = '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>';
+// $headJS[] = '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>';
+    $headJS[] = '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>';
+    $headJS[] = '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>';
+}
+
+$headJS[] = '<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>';
+//$headJS[] = '<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>';
+// $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datalist-polyfill/1.24.4/datalist-polyfill.min.js" integrity="sha512-njgkJe8kuqyz2AauUKsvQ3fhqbLsshNovMTWXLmy7x+lfrHdF8TxDlLQofXG9EBYirKYWmNJlGs0qA7340U6ug==" crossorigin="anonymous"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -66,30 +88,9 @@ function dSort($a, $b) {
 		<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'G-0FLZ6RBMYH');
-		</script>
 <?php
-// alternate bug tracker to sentry.io
-if (false) {
-	echo '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>', PHP_EOL;
-	echo '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>', PHP_EOL;
-}
 
-// sentry.io console tracing for published app
-if ($verifier->code->minified) {
-    // echo '<script src="https://browser.sentry-cdn.com/6.2.3/bundle.tracing.min.js" integrity="sha384-gDTsbUCgFQKbxNZj/RvveTOuAPZgNMjQzMdsD2TI/7YSPN+r49xERr43VxADcGVV" crossorigin="anonymous"></script>', PHP_EOL;
-    // echo '<script src="https://js.sentry-cdn.com/1108ee823d3d47b1b9df334357028940.min.js" crossorigin="anonymous"></script>', PHP_EOL;
-
-	echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
-	echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
-}
+echo implode(PHP_EOL, $headJS), PHP_EOL;
 
 // include styles defined in plugins
 $p = realpath('./plugins');
@@ -124,24 +125,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 <?php } else { ?>
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 <?php } ?>
-		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datalist-polyfill/1.24.4/datalist-polyfill.min.js" integrity="sha512-njgkJe8kuqyz2AauUKsvQ3fhqbLsshNovMTWXLmy7x+lfrHdF8TxDlLQofXG9EBYirKYWmNJlGs0qA7340U6ug==" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>
-<?php
-// custom css defined over api
-if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
-	echo "		<style id='cssoverapi'>" . $verifier->api->header->css . "</style>";
-}
-?>
 </head>
 
 <?php if ($verifier->valid) { ?>

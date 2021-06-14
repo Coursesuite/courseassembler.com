@@ -11,10 +11,10 @@
 		header: document.getElementById("banner"),
 		nav: document.getElementById("tabs"),
 		scrollArea: document.getElementById("scroll-area"),
-		scrollAreaObj: new GeminiScrollbar({
-		    element: document.getElementById("scroll-area"),
-		    forceGemini: true
-		}).create(),
+		// scrollAreaObj: new GeminiScrollbar({
+		//     element: document.getElementById("scroll-area"),
+		//     forceGemini: true
+		// }).create(),
 		containers: [].slice.call( document.querySelectorAll( '#pagewrap div.container' ) ),
 		tabSpeed: 398,
 		bpx: ['5%','10%','20%','30%','60%','70%','80%','90%'],

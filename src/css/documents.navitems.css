@@ -32,6 +32,8 @@
 
 #nav-actions, #scroll-area {
     border-right-color: var(--edge);
+    overflow: hidden;
+    overflow-y: auto;
 }
 #nav-item-list>li, #nav-item-list ol>li, .toolbar {
     border-bottom-color: var(--edge);
