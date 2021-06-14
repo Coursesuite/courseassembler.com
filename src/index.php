@@ -276,7 +276,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 				</div>
 
 				<div class="progress-button elastic" data-destination="kloudless">
-					<button><span><i class="ninja-upload2"></i> Save to cloud</span></button>
+					<button><span><i class="ninja-cloud_upload"></i> Save to cloud</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
@@ -355,7 +355,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class="cloudzone">
 				<h3>Upload from the Cloud</h3>
 				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
-				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-upload2"></i>Choose ...</button>
+				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-cloud_download"></i>Choose ...</button>
 			</div>
 		</section>
 		<p class="tip">💡Tip: Check the Settings menu for conversion options before you start.</p>
@@ -385,7 +385,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class="cloudzone">
 				<h3>Import from the Cloud</h3>
 				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
-				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-upload2"></i>Choose ...</button>
+				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-cloud_download"></i>Choose ...</button>
 			</div>
 		</section>
 		<section class="list-server-files" id="import-files">
