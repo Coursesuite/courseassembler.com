@@ -112,7 +112,7 @@ cd css
 rm inline.py
 rm app.css
 rm minify.css
-rm -f font.zip
+rm -f *.zip
 rm variables.css
 rm normalize.css
 rm CircularProgressButton.css
@@ -174,6 +174,10 @@ rm -rf 2004/
 rm -rf 1.2/
 cd ..
 
-echo "Finished"
+echo "Finishing up ..."
 cd ..
 cd ..
+rm src/js/app.min.*
+rm src/css/app.min.*.css
+
+echo "Done"
