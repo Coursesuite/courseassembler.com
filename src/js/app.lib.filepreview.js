@@ -67,6 +67,7 @@
 						if (data.hasOwnProperty("supports")) {
 							useFrameDoc = false;
 							var has_payload = (Object.keys(data.payload).length>0);
+							if (data.plugin === 'Section') pluginAction = 'edit'; // only possible action; TODO: figure out plugins that can only edit, not view
 							if (pluginAction === 'edit') has_payload = false; // even if it actually has one
 							if (data.supports.indexOf("view") !== -1 && has_payload) {
 								frame.setAttribute("src","plugins/" + data.plugin + "/view.html?" + id);
