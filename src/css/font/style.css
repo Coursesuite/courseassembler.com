@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'courseassembler';
   src:
-    url('fonts/courseassembler.ttf?hnezv4') format('truetype'),
-    url('fonts/courseassembler.woff?hnezv4') format('woff'),
-    url('fonts/courseassembler.svg?hnezv4#courseassembler') format('svg');
+    url('fonts/courseassembler.ttf?a99x2v') format('truetype'),
+    url('fonts/courseassembler.woff?a99x2v') format('woff'),
+    url('fonts/courseassembler.svg?a99x2v#courseassembler') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -32,6 +32,12 @@
 }
 .ninja-indent-2:before {
   content: "\e907";
+}
+.ninja-cloud_download:before {
+  content: "\e909";
+}
+.ninja-cloud_upload:before {
+  content: "\e90b";
 }
 .ninja-power_input:before {
   content: "\e91c";
@@ -93,20 +99,14 @@
 .ninja-volume_up:before {
   content: "\e050";
 }
-.ninja-image:before {
-  content: "\e90b";
-}
-.ninja-eye:before {
-  content: "\e908";
-}
-.ninja-download2:before {
-  content: "\e904";
-}
 .ninja-paste:before {
   content: "\ec52";
 }
 .ninja-upload:before {
   content: "\ec8c";
+}
+.ninja-marker:before {
+  content: "\e923";
 }
 .ninja-file-plus:before {
   content: "\e9a1";
@@ -171,9 +171,9 @@
 .ninja-keyboard:before {
   content: "\e906";
 }
+.ninja-eye:before {
+  content: "\e908";
+}
 .ninja-menu:before {
   content: "\f0c9";
-}
-.ninja-upload2:before {
-  content: "\e901";
 }

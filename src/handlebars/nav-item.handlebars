@@ -5,7 +5,7 @@
 	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:CancelConversion('{{id}}');"><i class="ninja-cancel"></i></a></span>
 {{else}}{{#compare state "conversion"}}
 	<span class="conversion-spinner dn-flex dn-flex-v-center"><img src="img/dual-ring-loader.svg" width="24" height="24" alt=""></span>
-	<span class="label dn-flex-1">Converting <em>{{title}}</em> to HTML5</span>
+	<span class="label dn-flex-1">Converting <em>{{title}}</em></span>
 	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:CancelConversion('{{id}}');"><i class="ninja-cancel"></i></a></span>
 {{else}}{{#compare state "cache"}}
 	<span class="conversion-spinner dn-flex dn-flex-v-center"><img src="img/dual-ring-loader.svg" width="24" height="24" alt=""></span>
@@ -13,14 +13,11 @@
 	<span class="cancel-conversion dn-flex dn-flex-v-center"><a href="javascript:void(0);" onclick="CancelThis(this);"><i class="ninja-cancel"></i></a></span>
 {{else}}
 	<span class="drag-handle" title="Drag up or down to re-order item"><i class="ninja-reorder"></i></span>
-	<span class="indent"><span class="toggle-button-wrapper current-state-{{action}}"><a class="toggle-switch" data-action="item-{{action}}" href="javascript:;"><span/></a></span></span>
-	<span class="label dn-flex-1 dn-flex dn-flex-c-1"><a href="javascript:" data-action="preview">{{title}}</a></span>
+	<a class="toggle-switch indent" data-action="item-depth-cycle" href="javascript:;"><i class="ninja-indent-{{depth}}"></i></a>
+	<span class="format-icon"><i class="{{#compare format "in" "youtube,vimeo,soundcloud,video"}}ninja-film{{else}}{{#compare format "in" "oembed,package,iframe"}}ninja-link{{else}}{{#compare plugin "QuizBuilder"}}ninja-check-square{{else}}{{#compare plugin "Section"}}ninja-power_input{{else}}{{#compare plugin "Intro"}}ninja-home{{else}}{{#compare plugin "Markdown"}}ninja-edit{{else}}{{#compare kind "image"}}ninja-image1{{else}}ninja-file-text{{/compare}}{{/compare}}{{/compare}}{{/compare}}{{/compare}}{{/compare}}{{/compare}}"></i></span>
+	<span class="label dn-flex-1 dn-flex dn-flex-c-1"><a href="javascript:" data-action="preview">{{name}}</a></span>
 	<a class="rename-hint" data-action="toggle-rename" href="javascript:;"><i class="ninja-keyboard" title="Rename this page"></i></a>
-	{{#compare format "in" "youtube,vimeo,soundcloud,oembed"}}{{else}}{{#compare kind "plugin"}}{{else}}
-	<span class="audio-hint">{{#if audio}}<i class="ninja-volume_up" title="Page has audio"></i>{{/if}}</span>
-	{{/compare}}{{/compare}}
-	<span class="file-hint">{{#if attachment}}<i class="ninja-paperclip" title="Page has attachment(s)"></i>{{/if}}</span>
+	<span class="audio-icon" title="Page has audio"><i class="ninja-volume_up"></i></span>
+	<span class="attach-icon" title="Page has attachment(s)"><i class="ninja-paperclip"></i></span>
 {{/compare}}{{/compare}}{{/compare}}
 </div>
-
-
