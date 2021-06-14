@@ -31,15 +31,18 @@
 	--help: #1db2ee;
 	--reset: #843da2;
 
+	/* icons */
+	--format: #66809c;
 
 	--positive: #7fba42;
 
-	--markdown: #20629b;
+	--markdown: #309ed7;
 	--content: #20629b;
 	--cloud: #20629b;
 	--url:  #20629b;
+	--section: #309ed7;
 	--quiz: #9b4dca;
-	--intro: #20629b;
+	--intro: #309ed7;
 	--resource: #9b4dca;
 	--import: #FAC851;
 
