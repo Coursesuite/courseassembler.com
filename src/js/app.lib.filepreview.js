@@ -110,6 +110,9 @@
 				// data["supportsEdit"] = (data.kind === "file" && data.format && data.format !=="pdf"); // only FILE types are editable, but not if it was a PDF to begin with, since this format is normally uneditable
 				// data["supportsZoom"] = false; // (data.format=="pdf")&&(window.navigator.userAgent.toLowerCase().indexOf("firefox")==-1); // todo: work out why, check others
 
+				// sections are menu-only and don't support attachments
+				data["supportsAttachments"] = (!(data.hasOwnProperty("plugin") && data.plugin === "Section"));
+
 				fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
 				data = null; // early GC
 				$("#blocking").removeClass("active").remove();
