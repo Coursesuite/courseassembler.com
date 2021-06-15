@@ -269,7 +269,7 @@ a.cancel:hover {
 	left: 0;
 	bottom: 0;
 	opacity: 0;
-	background-color: #28C5F8;
+	background-color: var(--blocking);
 	transition: opacity 1s;
 }
 #blocking.active {

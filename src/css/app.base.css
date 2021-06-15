@@ -247,15 +247,31 @@ footer {
 	position: fixed;
 	bottom: 0;
 	width: 100vw;
-	background: var(--encasing);
+	background: var(--base);
 	border-top: 1px solid var(--edge);
 	height: var(--footerHeight);
 	font-size: 12px;
-	color: #999;
-	text-shadow: none;
+	color: #eee;
+	text-shadow: 0 1px 2px rgba(0,0,0,.1);
 	text-align: center;
-	padding-right: .5em;
 }
 footer a {
-	color: inherit;
+	color: #fff;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.ninja-spinner {
+	display: inline-block; /* animations on work on block-ish items only apparently */
+	animation-name: spin;
+	animation-duration: 768ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear; 
 }
