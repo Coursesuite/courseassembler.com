@@ -47,6 +47,8 @@ function dSort($a, $b) {
 	else return 0;
 }
 $headJS = [];
+$headCSS =[];
+
 // https://docs.sentry.io/platforms/javascript/install/cdn/
 //https://cloudconvert.com/api/v2
 // https://app.fastspring.com/app/custom.xml
@@ -74,22 +76,23 @@ $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/aj
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
 
+$headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">';
+// $headCSS[] = '<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">';
+// $headCSS[] = '<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">';
+
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Course Assembler</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Rapidly convert your content to HTML5, add quizzes and video and package with a SCORM wrapper" />
 		<meta name="keywords" content="Course Assembler, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
-		<meta name="author" content="www.coursesuite.com" />
-		<title>Course Assembler</title>
+		<meta name="author" content="https://github.com/Coursesuite" />
 		<link rel="shortcut icon" href="/favicon.ico">
-		<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
 <?php
 
+echo implode(PHP_EOL, $headCSS), PHP_EOL;
 echo implode(PHP_EOL, $headJS), PHP_EOL;
 
 // include styles defined in plugins
