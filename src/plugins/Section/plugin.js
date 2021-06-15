@@ -14,7 +14,7 @@
 			icon: '<div class="ga-section"><a data-action="add-new-section"><i class="ninja-power_input"></i>Add section header</a></div>',
 			type: 'page',
 			order: 6,
-			supports: ['edit','compile'],
+			supports: ['view','compile'],
 			handler: 'add-new-section' // if this matches the icon data-action, it calles the Add() method on this plugin .. 
 		});
 	}

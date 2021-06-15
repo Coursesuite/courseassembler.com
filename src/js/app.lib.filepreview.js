@@ -67,7 +67,7 @@
 						if (data.hasOwnProperty("supports")) {
 							useFrameDoc = false;
 							var has_payload = (Object.keys(data.payload).length>0);
-							if (data.plugin === 'Section') pluginAction = 'edit'; // only possible action; TODO: figure out plugins that can only edit, not view
+							if (data.plugin === 'Section') pluginAction = 'view'; // only possible action; TODO: figure out plugins that can only edit, not view
 							if (pluginAction === 'edit') has_payload = false; // even if it actually has one
 							if (data.supports.indexOf("view") !== -1 && has_payload) {
 								frame.setAttribute("src","plugins/" + data.plugin + "/view.html?" + id);
@@ -245,7 +245,8 @@
 					NodeOrString;
 			[].forEach.call(DocNinja.navItems.querySelectorAll("li.selected"),function(el){el.classList.remove("selected")});
 			li.classList.add("selected");
-			scrollIfNeeded(li, document.querySelector(".gm-scroll-view"));
+			li.scrollIntoView({block: "nearest", behavior: "smooth"});
+			// scrollIfNeeded(li, DocNinja.options.scrollArea); // document.querySelector(".gm-scroll-view"));
 			_documentPreviewHandler(li, action);
 		}
 
