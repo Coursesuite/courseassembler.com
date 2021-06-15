@@ -686,7 +686,7 @@ localforage.iterate(function( ... ) {
 			var div = document.querySelector("div.progress-button[data-destination='publish']"),
 				$span = $(">button>span", div),
 				_html = $span.html();
-			$span.html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading ...");
+			$span.html("<i class='ninja-spinner'></i> Uploading ...");
 			var fd = new FormData();
 			fd.append("action", "storecourse");
 			fd.append("file", content, name);
@@ -724,7 +724,7 @@ localforage.iterate(function( ... ) {
 			}).catch(function(message) {
 				console.dir(message);
 				alert("There was a problem storing the file to the server.");
-				$span.html("<i class='fa fa-eye'></i> Upload error");
+				$span.html("<i class='ninja-eye'></i> Upload error");
 				var ui = new UIProgressButton(div); ui.stop(-1);
 				setTimeout(function() {
 					$span.html(_html)
@@ -737,7 +737,7 @@ localforage.iterate(function( ... ) {
 			var div = document.querySelector("div.progress-button[data-destination='publish']"),
 				$span = $(">button>span", div),
 				_html = $span.html();
-			$span.html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading ...");
+			$span.html("<i class='ninja-spinner'></i> Uploading ...");
 			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp'),
 				fd = new FormData();
 			fd.append("file", content, name);
@@ -759,7 +759,7 @@ localforage.iterate(function( ... ) {
 				// }
 			}
 			xhr.onerror = function (result) {
-				$span.html("<i class='fa fa-eye'></i> Upload error (too big?)");
+				$span.html("<i class='ninja-eye'></i> Upload error (too big?)");
 				var ui = new UIProgressButton(div); ui.stop(-1);
 				if (result.type === "error") {
 					setTimeout(function() {
@@ -776,7 +776,7 @@ localforage.iterate(function( ... ) {
 			var div = document.querySelector("div.progress-button[data-destination='preview']"),
 				$span = $(">button>span", div),
 				_html = $span.html();
-			$span.html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading ...");
+			$span.html("<i class='ninja-spinner'></i> Uploading ...");
 			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp'),
 				fd = new FormData();
 			fd.append("file", content, name);
@@ -794,7 +794,7 @@ localforage.iterate(function( ... ) {
 				}
 			}
 			xhr.onerror = function (result) {
-				$span.html("<i class='fa fa-eye'></i> Upload error (too big?)");
+				$span.html("<i class='ninja-eye'></i> Upload error (too big?)");
 				var ui = new UIProgressButton(div); ui.stop(-1);
 				if (result.type === "error") {
 					setTimeout(function() {
