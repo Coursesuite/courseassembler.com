@@ -54,7 +54,22 @@ function updateFrames(save) {
 	});
 }
 
+// function SetSize() {
+// 	// var maxH = Math.min(768, (document.body.offsetHeight * 4) / 3)
+// 	// var maxW = Math.min(1024, document.body.offsetWidth),
+// 	// 	maxH = Math.min(768, (maxW * 3) / 4),
+// 	 	root = document.documentElement;
+// 	// console.log('w', maxW, 'h', maxH);
+// 	maxW = '100%'; maxH = '75%';
+// 	root.style.setProperty('--frame-width', maxW);
+// 	root.style.setProperty('--frame-height', maxH);
+// }
+
+// window.addEventListener('resize', SetSize);
+
 window.addEventListener("DOMContentLoaded", function() {
+
+	// SetSize();
 
 	localforage.getItem(fileid).then(function(obj) {
 

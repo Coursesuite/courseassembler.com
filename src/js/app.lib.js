@@ -548,17 +548,17 @@ function getObjects(obj, key, val) {
 // }
 
 
-function scrollIfNeeded(element, container) {
-  if (element.offsetTop < container.scrollTop) {
-    container.scrollTop = element.offsetTop;
-  } else {
-    var offsetBottom = element.offsetTop + element.offsetHeight;
-    var scrollBottom = container.scrollTop + container.offsetHeight;
-    if (offsetBottom > scrollBottom) {
-      container.scrollTop = offsetBottom - container.offsetHeight;
-    }
-  }
-}
+// function scrollIfNeeded(element, container) {
+//   if (element.offsetTop < container.scrollTop) {
+//     container.scrollTop = element.offsetTop;
+//   } else {
+//     var offsetBottom = element.offsetTop + element.offsetHeight;
+//     var scrollBottom = container.scrollTop + container.offsetHeight;
+//     if (offsetBottom > scrollBottom) {
+//       container.scrollTop = offsetBottom - container.offsetHeight;
+//     }
+//   }
+// }
 
 
 // the player can load sub-packages (such as quiz ninja or media ninja packages) that contain full scorm API's themselves
