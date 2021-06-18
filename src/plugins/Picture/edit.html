@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta charset="utf-8">
+	    <title>choose intro page style</title>
+
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css">
+	    <link rel="stylesheet" type="text/css" href="edit.css">
+
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+		<script src="gfontinput.js"></script>
+		<script src="edit.js"></script>
+    </head>
+
+    <body>
+    	<header>
+    		<div>
+	    		<fieldset>
+	    			<legend>Image</legend>
+					<label for="url">Image url</label>
+					<div class="inline">
+						<input type="text" placeholder="https://image.url/jpg" id="url">
+						<label class="ca-button"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg> Upload<input type="file" id="file"></label>
+					</div>
+
+					<label for="zoom">Zoomable?</label>
+					<input type="checkbox" id="zoom">
+				</fieldset>
+				<fieldset>
+					<legend>Layout</legend>
+	    			<div class="select-one">
+			    		<a href="#frame-1" data-action="select">1</a>
+			    		<a href="#frame-2" data-action="select">2</a>
+			    		<a href="#frame-3" data-action="select">3</a>
+			    		<a href="#frame-4" data-action="select">4</a>
+			    		<a href="#frame-5" data-action="select">5</a>
+			    		<a href="#frame-6" data-action="select">6</a>
+			    		<a href="#frame-7" data-action="select">7</a>
+			    		<a href="#frame-8" data-action="select">8</a>
+			    		<a href="#frame-9" data-action="select">9</a>
+			    		<a href="#frame-10" data-action="select">10</a>
+			    	</div>
+
+					<label for="header">Colours</label>
+					Page <input type="color" value="#000000" id="backgroundColour">
+					Figure <input type="color" value="#000000" id="figureBackground">
+
+			    </fieldset>
+			</div>
+			<fieldset>
+				<legend>Caption</legend>
+
+				<label for="header">Header</label>
+				<div class="inline">
+					<input type="text" id="header" placeholder="Can be blank">
+					<input type="color" value="#ffffff" id="headerColour">
+				</div>
+
+				<label for="caption">Caption</label>
+				<div class="inline">
+					<textarea id="caption" rows="5" wrap="soft" placeholder="Enter a picture caption"></textarea>
+					<input type="color" value="#eeeeee" id="captionColour">
+				</div>
+
+				<label for="font">Font</label>
+				<input type="text" id="font" placeholder="Google font name">
+
+			</fieldset>
+
+    	</header>
+
+    	<main>
+    		<div class="slides">
+	    		<iframe src="loading.html" id="frame-1" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-2" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-3" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-4" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-5" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-6" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-7" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-8" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-9" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-10" loading="lazy"></iframe>
+	    	</div>
+    	</main>
+
+    	<datalist id="fontsize">
+    		<option value="12">
+    		<option value="16">
+    		<option value="24">
+    		<option value="30">
+    		<option value="36">
+			<option value="42">
+		</datalist>
+
+    </body>
+</html>	

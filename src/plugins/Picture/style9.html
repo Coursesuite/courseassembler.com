@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta charset="utf-8">
+	    <title>courseassembler</title>
+
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+		<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js"></script>
+		<script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
+
+		<style id="zoomstyle">
+		#zoomer {
+		  width: 100%;
+		  height: 100%;
+		  transform-origin: 0px 0px;
+		  transform: scale(1) translate(0px, 0px);
+		  cursor: grab;
+		}
+		#zoomer>img {
+			width: 100%;
+			height: auto;
+		}
+		</style>
+	    <style id="main">
+		@import url("https://fonts.googleapis.com/css?display=swap&family=Montserrat");
+		:root {
+			--header: #333333;
+			--caption: #666666;
+			--pbg: #000000;
+			--fbg: transparent;
+			--hbg: rgba(255,255,255,.1);
+			--cbg: rgba(255,255,255,.2);
+			--hs: black;
+			--cs: black;
+		}
+		html {
+		  box-sizing: border-box;
+		  font-size: 16px;
+		  font-family:-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
+		}
+		*, *:before, *:after {
+			box-sizing: inherit;
+			text-rendering: optimizeLegibility;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-tap-highlight-color: transparent;
+		}
+		html, body { min-height: 100vh; }
+		body {
+			background-color: var(--pbg);
+		    margin: 0;
+		    padding: 0;
+		    position: relative;
+		    font-size: 16px;
+		    overflow: hidden;
+		}
+
+		.header {
+		  font-size: 4.6rem;
+		  line-height: 1.1;
+		  color: var(--header);
+		  background-color: var(--hbg);
+		  text-shadow: 0px 1px 0 var(--hs);
+		  margin: 0;
+		  padding: 1rem;
+		}
+		.caption {
+		  font-size: 1.1rem;
+		  line-height: 1.5;
+		  color: var(--caption);
+		  background-color: var(--cbg);
+		  text-shadow: 0px 1px 0 var(--cs);
+		  margin: 0;
+		  padding: 1rem;
+		}
+		figure {
+			background-color: var(--fbg);
+			position: relative;
+			margin: 0;
+			padding: 1rem;
+			width: 100%;
+		}
+		figure img {
+			min-height: 125px;
+			width: 100%;
+			object-fit: contain;
+			object-position: top center;
+		}
+		figure figcaption {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 50%;
+			width: 50%;
+			transform: translate(50%,50%);
+		}
+		@media (max-width: 992px) {
+		  .header {
+		    font-size: 3.68rem;
+		  }
+		}
+		@media (max-width: 768px) {
+		  .header {
+		    font-size: 3.22rem;
+		    font-size: calc( 2.26rem + (4.6 - 2.26) * ((100vw - 20rem) / (48 - 20)));
+		    line-height: calc( 1.1 * (2.26rem + (4.6 - 2.26) * ((100vw - 20rem) / (48 - 20))));
+		  }
+		  .caption {
+		    font-size: 0.88rem;
+		    font-size: calc( 1.0350000000000001rem + (1.1 - 1.0350000000000001) * ((100vw - 20rem) / (48 - 20)));
+		    line-height: calc( 1.4 * (1.0350000000000001rem + (1.1 - 1.0350000000000001) * ((100vw - 20rem) / (48 - 20))));
+		  }
+		}
+		</style>
+	    <script id="zoomscript" type="text/javascript">
+		var scale = 1,
+			panning = false,
+			pointX = 0,
+			pointY = 0,
+			start = { x: 0, y: 0 };
+
+		doOnLoad(function() {
+			bind(document.getElementById("zoomer"));
+		});
+
+		function setTransform(node) {
+			node.style.transform = "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
+		}
+
+		function bind(node) {
+			node.ondblclick = function (e) {
+				panning = false;
+				scale = 1;
+				pointX = 0;
+				pointY = 0;
+				setTransform(node);
+			}
+
+			node.onmousedown = function (e) {
+				e.preventDefault();
+				start = { x: e.clientX - pointX, y: e.clientY - pointY };
+				panning = true;
+			}
+
+			node.onmouseup = function (e) {
+				panning = false;
+			}
+
+			node.onmousemove = function (e) {
+				e.preventDefault();
+				if (!panning) {
+					return;
+				}
+				pointX = (e.clientX - start.x);
+				pointY = (e.clientY - start.y);
+				setTransform(node);
+			}
+
+			node.onwheel = function (e) {
+				var xs = (e.clientX - pointX) / scale,
+					ys = (e.clientY - pointY) / scale,
+					delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);
+					(delta > 0) ? (scale *= 1.2) : (scale /= 1.2);
+					pointX = e.clientX - xs * scale;
+					pointY = e.clientY - ys * scale;
+				setTransform(node);
+			}
+		}
+	    </script>
+		<script type="text/javascript">
+		var init = (function(){
+			var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+			return {
+				seconds: Math.max(0,+qs[0]||0),
+				index: qs[1] ? +qs[1] : -1
+			}
+		})();
+		function incr() {
+			parent.dispatchEvent(new CustomEvent("statuschange", {detail: init}));
+			init.seconds += 1; // time spent on page, in seconds
+			setTimeout(incr, 1000);
+		}
+		doOnLoad(incr);
+		</script>
+    </head>
+
+    <body>
+    	<figure>
+    		<div id="zoomer"><img src="https://images.unsplash.com/photo-1489533119213-66a5cd877091?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80"></div>
+			<figcaption>
+				<h1 class="header">The image header will be put here</h1>
+				<div class="caption">This will be replaced with the image caption if set</div>
+			</figcaption>
+		</figure>
+	</body>
+</html>
