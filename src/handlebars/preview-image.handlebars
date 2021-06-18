@@ -4,128 +4,27 @@
     <meta charset="UTF-8" />
     <title>Image zoom with mousewheel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <style>
-    	* {
-		  padding: 0;
-		  margin: 0;
-		  outline: 0;
-		}
-		html, body {
-		  margin: 0;
-		  padding: 0;
-		  width: 100%;
-		  height: 100%;
-		  overflow: hidden;
-		  position: relative;
+    html,body {
+    	min-height: 100vh;
+			font-size: 16px;
+    }
+		body {
+		  margin: 1rem;
 		  background-color: #{{backgroundColour}};
+		  text-align: center;
 		}
-		#zoom {
-		  width: 100%;
-		  height: 100%;
-		  transform-origin: 0px 0px;
-		  transform: scale(1) translate(0px, 0px);
-		  cursor: grab;
-		}
-		div#zoom > img {
-		  width: 100%;
-		  height: auto;
-		}
-		.zoom_outer {
-			text-align: center;
-		}
-
-		.fade-out {
-		  position: fixed;
-		  left: 50%;
-		  top: 90%;
-		  padding: 1.5rem;
-		  font-size: .75rem;
-		  font-family: sans-serif;
-		  background-color: rgba(0,0,0,.8);
-		  color: white;
-		  text-shadow: 0 1px 0 black;
-		  transform: translateX(-50%);
-		  animation-delay: 1.5s;
-		  animation-iteration-count: 1;
-		  animation-name: fadeOut;
-		  animation-timing-function: ease;
-		  animation-duration: .5s;
-		  animation-fill-mode: forwards;
-		  pointer-events: none;
-		}
-		@keyframes fadeOut {
-		  0% {
-		    opacity:1;
-		  }
-		  100% {
-		    opacity:0;
-		  }
+		img {
+			max-width: 100%;
 		}
 	</style>
   </head>
   <body>
-    <div class="zoom_outer">
-      <div id="zoom">
-        <img src="{{image}}" onload="resize(this)">
-      </div>
-    </div>
-    <div class="fade-out">
-    	Use the mouse/wheel to pan & zoom.<br>Double-click to reset
-    </div>
     <script>
-      var scale = 1,
-        panning = false,
-        pointX = 0,
-        pointY = 0,
-        start = { x: 0, y: 0 },
-        zoom = document.getElementById("zoom");
-
-      function setTransform() {
-        zoom.style.transform = "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
-      }
-
       function resize(img) {
       	if (img.naturalWidth < document.body.scrollWidth) img.style.width = img.naturalWidth + 'px';
       }
-
-      zoom.ondblclick = function (e) {
-      	panning = false;
-      	scale = 1;
-      	pointX = 0;
-      	pointY = 0;
-      	setTransform();
-      }
-
-      zoom.onmousedown = function (e) {
-        e.preventDefault();
-        start = { x: e.clientX - pointX, y: e.clientY - pointY };
-        panning = true;
-      }
-
-      zoom.onmouseup = function (e) {
-        panning = false;
-      }
-
-      zoom.onmousemove = function (e) {
-        e.preventDefault();
-        if (!panning) {
-          return;
-        }
-        pointX = (e.clientX - start.x);
-        pointY = (e.clientY - start.y);
-        setTransform();
-      }
-
-      zoom.onwheel = function (e) {
-        var xs = (e.clientX - pointX) / scale,
-          ys = (e.clientY - pointY) / scale,
-          delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);
-        (delta > 0) ? (scale *= 1.2) : (scale /= 1.2);
-        pointX = e.clientX - xs * scale;
-        pointY = e.clientY - ys * scale;
-        setTransform();
-      }
     </script>
+    <img src="{{image}}" onload="resize(this)">
   </body>
 </html>
