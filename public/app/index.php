@@ -46,50 +46,54 @@ function dSort($a, $b) {
 	elseif (strcmp($x,$y) > 0) return 1;
 	else return 0;
 }
+$headJS = [];
+$headCSS =[];
 
 // https://docs.sentry.io/platforms/javascript/install/cdn/
 //https://cloudconvert.com/api/v2
 // https://app.fastspring.com/app/custom.xml
 
+$headJS[] = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>';
+$headJS[] = '<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-0FLZ6RBMYH");</script>';
+
+if ($verifier->code->minified) {
+// $headJS[] = '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>';
+// $headJS[] = '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>';
+    $headJS[] = '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>';
+    $headJS[] = '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>';
+}
+
+$headJS[] = '<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>';
+//$headJS[] = '<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>';
+// $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datalist-polyfill/1.24.4/datalist-polyfill.min.js" integrity="sha512-njgkJe8kuqyz2AauUKsvQ3fhqbLsshNovMTWXLmy7x+lfrHdF8TxDlLQofXG9EBYirKYWmNJlGs0qA7340U6ug==" crossorigin="anonymous"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
+
+$headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">';
+// $headCSS[] = '<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">';
+// $headCSS[] = '<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">';
 
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Course Assembler</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Rapidly convert your content to HTML5, add quizzes and video and package with a SCORM wrapper" />
 		<meta name="keywords" content="Course Assembler, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
-		<meta name="author" content="www.coursesuite.com" />
-		<title>Course Assembler</title>
+		<meta name="author" content="https://github.com/Coursesuite" />
 		<link rel="shortcut icon" href="/favicon.ico">
-		<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		<link href="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/gemini-scrollbar.min.css" rel="stylesheet" type="text/css">
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'G-0FLZ6RBMYH');
-		</script>
 <?php
-// alternate bug tracker to sentry.io
-if (false) {
-	echo '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>', PHP_EOL;
-	echo '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>', PHP_EOL;
-}
 
-// sentry.io console tracing for published app
-if ($verifier->code->minified) {
-    // echo '<script src="https://browser.sentry-cdn.com/6.2.3/bundle.tracing.min.js" integrity="sha384-gDTsbUCgFQKbxNZj/RvveTOuAPZgNMjQzMdsD2TI/7YSPN+r49xERr43VxADcGVV" crossorigin="anonymous"></script>', PHP_EOL;
-    // echo '<script src="https://js.sentry-cdn.com/1108ee823d3d47b1b9df334357028940.min.js" crossorigin="anonymous"></script>', PHP_EOL;
-
-	echo '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>', PHP_EOL;
-	echo '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>', PHP_EOL;
-}
+echo implode(PHP_EOL, $headCSS), PHP_EOL;
+echo implode(PHP_EOL, $headJS), PHP_EOL;
 
 // include styles defined in plugins
 $p = realpath('./plugins');
@@ -124,24 +128,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 <?php } else { ?>
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 <?php } ?>
-		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datalist-polyfill/1.24.4/datalist-polyfill.min.js" integrity="sha512-njgkJe8kuqyz2AauUKsvQ3fhqbLsshNovMTWXLmy7x+lfrHdF8TxDlLQofXG9EBYirKYWmNJlGs0qA7340U6ug==" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>
-<?php
-// custom css defined over api
-if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
-	echo "		<style id='cssoverapi'>" . $verifier->api->header->css . "</style>";
-}
-?>
 </head>
 
 <?php if ($verifier->valid) { ?>
@@ -269,14 +255,14 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class='grid-h grid-c grid-4'>
 
 				<div class="progress-button elastic" data-destination="preview">
-					<button><span><i class="fa fa-eye"></i> Preview</span></button>
+					<button><span><i class="ninja-eye"></i> Preview</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z" /></svg>
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2" /><path d="m31.5,46.5l-8.5,-7.1" /></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3" /><path d="m35,35l9.3,9.3" /><path d="m35,35l-9.3,9.3" /><path d="m35,35l9.3,-9.3" /></svg>
 				</div>
 
 				<div class="progress-button elastic" data-destination="kloudless">
-					<button><span><i class="ninja-upload2"></i> Save to cloud</span></button>
+					<button><span><i class="ninja-cloud_upload"></i> Save to cloud</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
@@ -355,7 +341,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class="cloudzone">
 				<h3>Upload from the Cloud</h3>
 				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
-				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-upload2"></i>Choose ...</button>
+				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-cloud_download"></i>Choose ...</button>
 			</div>
 		</section>
 		<p class="tip">💡Tip: Check the Settings menu for conversion options before you start.</p>
@@ -385,7 +371,7 @@ if (isset($verifier->api->header->css) && !empty($verifier->api->header->css)) {
 			<div class="cloudzone">
 				<h3>Import from the Cloud</h3>
 				<p>We support a number of cloud providers. Click the button below then choose your cloud provider to begin the authentication process.</p>
-				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-upload2"></i>Choose ...</button>
+				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-cloud_download"></i>Choose ...</button>
 			</div>
 		</section>
 		<section class="list-server-files" id="import-files">
