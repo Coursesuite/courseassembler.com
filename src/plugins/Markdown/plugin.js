@@ -28,9 +28,10 @@
 			};
 		localforage.setItem(newId, fileInfo).then(function(obj) {
 			DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
-			DocNinja.PurityControl.Nav.Check();
+			//DocNinja.PurityControl.Nav.Check();
+			window.setItemOrder();
 			DocNinja.filePreview.Select(newId);
-			localforage.setItem("order", DocNinja.navItems.innerHTML);
+			//localforage.setItem("order", DocNinja.navItems.innerHTML);
 		});
 	}
 
@@ -48,8 +49,9 @@
 			};
 		localforage.setItem(navId, fileInfo).then(function(obj) {
 			DocNinja.PurityControl.Nav.Update(li, fileInfo, "ready");
-			DocNinja.PurityControl.Nav.Check();
-			localforage.setItem("order", DocNinja.navItems.innerHTML);
+			window.setItemOrder();
+			//DocNinja.PurityControl.Nav.Check();
+			//localforage.setItem("order", DocNinja.navItems.innerHTML);
 			DocNinja.filePreview.Select(navId, 'edit');
 		});
 	}

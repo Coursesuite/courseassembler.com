@@ -25,9 +25,10 @@
 			};
 		localforage.setItem(newId, fileInfo).then(function(obj) {
 			DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
-			DocNinja.PurityControl.Nav.Check();
+			window.setItemOrder();
+			//DocNinja.PurityControl.Nav.Check();
 			DocNinja.filePreview.Select(newId);
-			localforage.setItem("order", DocNinja.navItems.innerHTML);
+			//localforage.setItem("order", DocNinja.navItems.innerHTML);
 		});
 	}
 
