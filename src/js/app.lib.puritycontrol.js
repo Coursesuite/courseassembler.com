@@ -32,6 +32,7 @@
 			var newDepth = depth % (depthAllowed + 1);
 
 			if (!previous) newDepth = 0; // 0th item can't indent
+			if (previous && previous.dataset.plugin && previous.dataset.plugin === 'Section') newDepth = 0; // 1st item after section can't indent
 
 			// store THIS nodes new depth
 			persistProperty(li.dataset.fileid, "depth", newDepth)
@@ -193,7 +194,7 @@
 
 					liPromises.push(new Promise(function(feResolve, feReject) {
 						localforage.getItem(elm.dataset.fileid)
-						.then(function checkstructure_setIcons(obj) {
+						.then(function checkstructure_repaintIcons(obj) {
 
 							if (!obj.hasOwnProperty('depth')) obj.depth = 0;
 
@@ -207,8 +208,10 @@
 								}
 							}
 
-							// this is a forced redraw .. think of a way to prevent repaint
-							elm.innerHTML = Handlebars.templates['nav-item'](obj);
+							// this is a forced redraw .. think of a way to prevent repainting unneccesary items
+							var tmpl = Handlebars.templates['nav-item'](obj),
+								oHtml = elm.innerHTML;
+							if (tmpl !== oHtml) elm.innerHTML = tmpl; // only reflow items whose content has changed
 
 		 					// if (obj&&obj.hasOwnProperty('format') && ['youtube','vimeo','video'].indexOf(obj.format)!==-1) {
 		 					// 	elm.classList.add('audio')
@@ -219,6 +222,8 @@
 		// 					}
 		 					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
 		 						elm.classList.add('audio');
+		 					} else {
+		 						elm.classList.remove('audio');
 		 					}
 		// 						DocNinja.Navigation.Icons.Add.Audio(elm.dataset.fileid);
 		// 					} else {
@@ -226,11 +231,14 @@
 		// 					}
 		 					if (obj&&obj.hasOwnProperty('attachments') && obj.attachments.length) {
 		 						elm.classList.add('attachments');
+		 					} else {
+		 						elm.classList.remove('attachments');
 		 					}
 		// 						DocNinja.Navigation.Icons.Add.File(elm.dataset.fileid);
 		// 					} else {
 		// 						DocNinja.Navigation.Icons.Remove.File(elm.dataset.fileid);
 		// 					}
+							return elm.dataset.fileid;
 						})
 						.then(feResolve)
 						.catch(feReject);
@@ -241,7 +249,7 @@
 				.then(checked)
 				.catch(failed);
 			});
-			// generally you want to call window.SetItemOrder() after this routine to save possible node changes
+			// generally you want to call window.setItemOrder() after this routine to save possible node changes
 		}
 		// Nav.Add
 		var origin = function (container, fileid, fileinfo, node, state) {
