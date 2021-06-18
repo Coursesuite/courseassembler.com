@@ -54,28 +54,15 @@ function updateFrames(save) {
 	});
 }
 
-// function SetSize() {
-// 	// var maxH = Math.min(768, (document.body.offsetHeight * 4) / 3)
-// 	// var maxW = Math.min(1024, document.body.offsetWidth),
-// 	// 	maxH = Math.min(768, (maxW * 3) / 4),
-// 	 	root = document.documentElement;
-// 	// console.log('w', maxW, 'h', maxH);
-// 	maxW = '100%'; maxH = '75%';
-// 	root.style.setProperty('--frame-width', maxW);
-// 	root.style.setProperty('--frame-height', maxH);
-// }
-
-// window.addEventListener('resize', SetSize);
-
 window.addEventListener("DOMContentLoaded", function() {
 
-	// SetSize();
+	gFontInput.create('font');
 
 	localforage.getItem(fileid).then(function(obj) {
 
 		Object.assign(payload, obj.payload);
 
-		document.querySelector(".slider a[href='#frame-" + payload.template + "']").click();
+		document.querySelector("a[href='#frame-" + payload.template + "']").click();
 		document.querySelector("#bg").value = payload.backgroundColour;
 		document.querySelector("#color1").value = payload.color1;
 		document.querySelector("#color2").value = payload.color2;
@@ -102,9 +89,9 @@ window.addEventListener("DOMContentLoaded", function() {
 		reader.readAsDataURL(fileEvent.target.files[0]);
 	});
 
-	document.querySelector("main").addEventListener('click', function(e) {
+	document.querySelector(".select-one").addEventListener('click', function(e) {
 		if (e.target.dataset.action) {
-			[].forEach.call(document.querySelectorAll('.slider a[data-action]'), function (elm) {
+			[].forEach.call(document.querySelectorAll('a[data-action]'), function (elm) {
 				var action = (elm === e.target) ? "add" : "remove";
 				if (action === "add") {
 					payload.template = ~~elm.textContent;

@@ -1,60 +1,84 @@
 <!DOCTYPE html>
 <html>
     <head>
+	    <meta charset="utf-8">
 	    <title>choose intro page style</title>
 
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-	    <link href="https://unpkg.com/normalize.css" type="text/css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css">
 	    <link rel="stylesheet" type="text/css" href="edit.css">
 
-		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+		<script src="gfontinput.js"></script>
 		<script src="edit.js"></script>
 
     </head>
 
     <body>
-
     	<header>
-    		<nav>
-    			<span>
-    			<label>Image url: <input type="url" id="url" placeholder="https://image.url/jpg"></label>
-    			<label>or <input type="file" id="file"></label>
-    		</span><span>
-    			<label>Colours: <input type="color" id="bg" value="#f8f8f8" title="Page background"></label>
-    			<label><input type="color" id="color1" value="#FBAB7E" title="Gradient start"></label>
-    			<label><input type="color" id="color2" value="#F7CE68" title="Gradient end"></label>
-    		</span>
-    		</nav>
+    		<div>
+	    		<fieldset>
+	    			<legend>Image</legend>
+					<label for="url">Image url</label>
+					<div class="inline">
+						<input type="text" placeholder="https://image.url/jpg" id="url">
+						<label class="ca-button"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg> Upload<input type="file" id="file"></label>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Layout</legend>
+	    			<div class="select-one">
+			    		<a href="#frame-1" data-action="select">1</a>
+			    		<a href="#frame-2" data-action="select">2</a>
+			    		<a href="#frame-3" data-action="select">3</a>
+			    		<a href="#frame-4" data-action="select">4</a>
+			    		<a href="#frame-5" data-action="select">5</a>
+			    		<a href="#frame-6" data-action="select">6</a>
+			    		<a href="#frame-7" data-action="select">7</a>
+			    		<a href="#frame-8" data-action="select">8</a>
+			    	</div>
+			    </fieldset>
+			</div>
+			<fieldset>
+				<legend>Design</legend>
+
+				<div class="inline gap">
+					<div>
+						<label for="bg">Page background</label>
+		    			<input type="color" id="bg" value="#f8f8f8" title="Page background">
+		    		</div>
+
+					<div>
+						<label for="color1">Gradient start</label>
+						<input type="color" id="color1" value="#FBAB7E" title="Gradient start">
+					</div>
+
+					<div>
+						<label for="color2">Gradient end</label>
+						<input type="color" id="color2" value="#F7CE68" title="Gradient end">
+					</div>
+				</div>
+
+				<label for="font">Font</label>
+				<input type="text" id="font" placeholder="Google font name">
+
+    		</fieldset>
     	</header>
 
     	<main>
-    		<div class="slider">
-    			<div class="links">
-	    			<span>Style: </span>
-		    		<a href="#frame-1" data-action="select">1</a>
-		    		<a href="#frame-2" data-action="select">2</a>
-		    		<a href="#frame-3" data-action="select">3</a>
-		    		<a href="#frame-4" data-action="select">4</a>
-		    		<a href="#frame-5" data-action="select">5</a>
-		    		<a href="#frame-6" data-action="select">6</a>
-		    		<a href="#frame-7" data-action="select">7</a>
-		    		<a href="#frame-8" data-action="select">8</a>
-		    	</div>
-	    		<div class="slides">
-		    		<iframe src="loading.html" id="frame-1"></iframe>
-		    		<iframe src="loading.html" id="frame-2"></iframe>
-		    		<iframe src="loading.html" id="frame-3"></iframe>
-		    		<iframe src="loading.html" id="frame-4"></iframe>
-		    		<iframe src="loading.html" id="frame-5"></iframe>
-		    		<iframe src="loading.html" id="frame-6"></iframe>
-		    		<iframe src="loading.html" id="frame-7"></iframe>
-		    		<iframe src="loading.html" id="frame-8"></iframe>
-		    	</div>
-		    </div>
+    		<div class="slides">
+	    		<iframe src="loading.html" id="frame-1" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-2" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-3" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-4" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-5" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-6" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-7" loading="lazy"></iframe>
+	    		<iframe src="loading.html" id="frame-8" loading="lazy"></iframe>
+	    	</div>
     	</main>
 
     </body>
