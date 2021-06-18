@@ -922,7 +922,7 @@ function popover_audioUpload(file) {
 			document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
 			closePopover();
 			localforage.setItem(id, obj).then(function() {
-				DocNinja.PurityControl.Nav.Check();
+			//	// DocNinja.PurityControl.Nav.Check();
 				window.setItemOrder();
 			});
 		});
@@ -969,7 +969,7 @@ function popover_useRecording(mp3) {
 		document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
 		closePopover();
 		localforage.setItem(id, obj).then(function() {
-			DocNinja.PurityControl.Nav.Check();
+			// DocNinja.PurityControl.Nav.Check();
 			window.setItemOrder();
 		});
 	});
@@ -1003,7 +1003,8 @@ function popover_attachFiles(file) {
 			dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"]({name: fileName}));
 			// closePopover();
 			localforage.setItem(id, obj).then(function () {
-				DocNinja.PurityControl.Nav.Check();
+				window.setItemOrder();
+				// DocNinja.PurityControl.Nav.Check();
 				// var updated = DocNinja.Navigation.Icons.Add('attachment',id);
 				// if (updated) window.setItemOrder();
 			});
@@ -1032,7 +1033,7 @@ function renameNode(id, a) {
 		l.textContent=inp.dataset.oldValue;
 
 		p.appendChild(l);
-		setItemOrder();
+		setItemOrder(); // nothing has really changed
 		inp = null;
 		document.body.removeEventListener('click', cancelName);
 		var cp = document.getElementById('preview-frame');
@@ -1055,10 +1056,11 @@ function renameNode(id, a) {
 		}
 		if (!(isEnter || isEscape)) return true;
 		if (isEnter) {
-			persistProperty(id, "name", inp.value);
+			persistProperty(id, "name", inp.value).then(cancelName); // which undoes the input and forces re-render
 			inp.dataset.oldValue = inp.value;
+		} else {
+			cancelName();
 		}
-		cancelName();
 	}
 	inp.classList.add("rename-page");
 	p.appendChild(inp);
@@ -1301,7 +1303,8 @@ function performAction(tgt, e) {
 				DocNinja.filePreview.Reset();
 				DocNinja.navItems.innerHTML = "";
 				if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndtrash);
-				DocNinja.PurityControl.Nav.Check();
+				// DocNinja.PurityControl.Nav.Check();
+				window.setItemOrder();
 				// setItemOrder(); // overwrites "order" cache
 				// checkDummyItem();
 				$("form").each(function() {this.reset();});
@@ -1347,7 +1350,7 @@ function performAction(tgt, e) {
 				document.querySelector("button[data-action='set-audio']").removeAttribute("data-init");
 				closePopover();
 				localforage.setItem(id, obj).then(function() {
-					DocNinja.PurityControl.Nav.Check();
+					// DocNinja.PurityControl.Nav.Check();
 					window.setItemOrder();
 				});
 			});
@@ -1363,7 +1366,7 @@ function performAction(tgt, e) {
 				delete obj.attachments;
 				closePopover();
 				localforage.setItem(id, obj).then(function() {
-					DocNinja.PurityControl.Nav.Check();
+					// DocNinja.PurityControl.Nav.Check();
 					window.setItemOrder();
 				});
 			});
@@ -1386,7 +1389,7 @@ function performAction(tgt, e) {
 						delete obj.attachments;
 					}
 					localforage.setItem(id, obj).then(function() {
-						DocNinja.PurityControl.Nav.Check();
+						// DocNinja.PurityControl.Nav.Check();
 						window.setItemOrder();
 					});
 				}
