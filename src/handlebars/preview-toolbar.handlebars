@@ -15,11 +15,11 @@
 	{{/compare}}
 
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed,video"}}
-	<button data-fileid="{{id}}" data-action="set-score" data-popover="videorange" data-value="{{score}}" data-init="videorange" data-checked="{{scrub}}" data-value-max="100" data-label="Complete after percentage viewed ..."><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
+	<button data-fileid="{{id}}" data-action="set-score" data-popover="videorange" data-value="{{score}}" data-init="videorange" data-checked="{{scrub}}" data-value-max="100" data-label="Complete after percentage viewed ..."><i class="ninja-condition"></i>Completion rule <output>{{value}}</output></button>
 	{{/compare}}
 
 	{{#compare format "in" "slideshare"}}
-	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-education"></i>Completion rule <output>{{value}}</output></button>
+	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-condition"></i>Completion rule <output>{{value}}</output></button>
 	{{/compare}}
 
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed,package,video"}}{{else}}
