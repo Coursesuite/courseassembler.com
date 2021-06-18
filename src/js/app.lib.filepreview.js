@@ -67,8 +67,14 @@
 						if (data.hasOwnProperty("supports")) {
 							useFrameDoc = false;
 							var has_payload = (Object.keys(data.payload).length>0);
-							if (data.plugin === 'Section') pluginAction = 'view'; // only possible action; TODO: figure out plugins that can only edit, not view
-							if (pluginAction === 'edit') has_payload = false; // even if it actually has one
+
+							// Section only possible action; TODO: figure out plugins that can only edit, not view
+							if (data.plugin === 'Section') {
+								has_payload = true;
+								pluginAction = 'view';
+							};
+							if (pluginAction === 'edit') has_payload = false; // even if it actually has one, as edit will load it
+
 							if (data.supports.indexOf("view") !== -1 && has_payload) {
 								frame.setAttribute("src","plugins/" + data.plugin + "/view.html?" + id);
 							} else if (data.supports.indexOf("edit") !== -1 && !has_payload) {
@@ -79,6 +85,9 @@
 								frame.setAttribute("src",burl);
 								setTimeout(URL.revokeObjectURL,100,burl);
 							}
+						} else {
+							// uh, plugin had no 'supports' function; what do we do? Hopefully there's a default processor
+							frame.setAttribute("src", "plugins/" + data.plugin + "/?" + id);
 						}
 						break;
 
