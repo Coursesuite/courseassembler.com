@@ -383,10 +383,35 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 }
 
 .dn-popover section.score_slider_sizing {
-    padding: 45px 20px 10px;
+	padding: var(--standardGutter);
 }
-.dn-popover section.score_slider_sizing button {
-    margin-top: 45px;
+.dn-popover section.score_slider_sizing .range-wrap {
+	position: relative;
+}
+.dn-popover section.score_slider_sizing input[type='range'] {
+	margin: 2rem 0;
+	width: 100%;
+}
+.dn-popover section.score_slider_sizing output {
+	position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #058BFA;
+    color: white;
+    font-size: 14px;
+    padding: 2px;
+    width: 2rem;
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+}
+.dn-popover section.score_slider_sizing output::after {
+	content: '';
+	position: absolute;
+    border: 10px solid transparent;
+    border-top-color: #058BFA;
+    left: calc(50% - 10px);
+    top: calc(1rem + 5px);
 }
 .dn-popover section.score_slider_sizing .noUi-pips-horizontal {
 	height: 40px;

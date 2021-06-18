@@ -65,14 +65,14 @@
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
 	<div class='range-wrap'>
-		<input type='range' min='1' max='100' id='range_slider' list='range_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;this.nextElementSibling.style.left="calc("+this.value+"% - 1rem)";'>
+		<input type='range' min='1' max='100' id='range_slider' list='range_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;this.nextElementSibling.style.left=this.value+"%";'>
 		<output class='bubble'>{{value}}</output>
 	</div>
 	<datalist id='range_list'>{{{pips 100}}}</datalist>
 	<div>
 		<label><input type='checkbox' value='1' id='score_scrubber'> Show video scrubber</label>
 	</div>
-	<button onclick="popover_saveRange();"><i class="ninja-thumbs-up"></i>Save</button>
+	<button onclick="popover_saveRange();"><i class="ninja-save-disk"></i>Save</button>
 </section>
 {{/compare}}
 
@@ -80,11 +80,11 @@
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
 	<div class='range-wrap'>
-		<input type='range' min='1' max='{{valueMax}}' id='score_slider' list='score_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;var p=((Number(this.value)*100)/Number(this.max));this.nextElementSibling.style.left="calc("+p+"% - 1rem)";'>
+		<input type='range' min='1' max='{{valueMax}}' id='score_slider' list='score_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;var p=((Number(this.value)*100)/Number(this.max));this.nextElementSibling.style.left=p+"%";'>
 		<output class='bubble'>{{value}}</output>
 	</div>
 	<datalist id='score_list'>{{{pips valueMax}}}</datalist>
-	<button onclick="popover_saveScore();"><i class="ninja-thumbs-up"></i>Save</button>
+	<button onclick="popover_saveScore();"><i class="ninja-save-disk"></i>Save</button>
 </section>
 {{/compare}}
 
