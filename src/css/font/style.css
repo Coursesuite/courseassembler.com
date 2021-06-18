@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'courseassembler';
   src:
-    url('fonts/courseassembler.ttf?pkfk3o') format('truetype'),
-    url('fonts/courseassembler.woff?pkfk3o') format('woff'),
-    url('fonts/courseassembler.svg?pkfk3o#courseassembler') format('svg');
+    url('fonts/courseassembler.ttf?wkmqn3') format('truetype'),
+    url('fonts/courseassembler.woff?wkmqn3') format('woff'),
+    url('fonts/courseassembler.svg?wkmqn3#courseassembler') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -51,6 +51,12 @@
 .ninja-reorder:before {
   content: "\e900";
 }
+.ninja-presentation:before {
+  content: "\e901";
+}
+.ninja-condition:before {
+  content: "\e908";
+}
 .ninja-check-square:before {
   content: "\e902";
 }
@@ -95,6 +101,12 @@
 }
 .ninja-smartphone:before {
   content: "\e919";
+}
+.ninja-thumbs-down:before {
+  content: "\e90c";
+}
+.ninja-thumbs-up:before {
+  content: "\e91e";
 }
 .ninja-unlock:before {
   content: "\e91b";
