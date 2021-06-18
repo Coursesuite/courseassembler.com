@@ -31,11 +31,11 @@ To rearrange an item, click and hold the wavy icon to the left of the item title
 
 ### Indenting items (parent and child items)
 
-To indent an item, click the rounded button to the left of the item title. Click the button again to outdent an item. You are only able to indent or outdent by one level.
+Items can be indented - up to 3 levels of indentation are possible. This is a visual change only that may be supported in some themes. An 'indented' item is shown underneath the item above that has a lower indentation.
+
+Change the indentation by clicking on the three-way toggle icon. Subsequent (lower) pages may need to change to support your indentation. You can't indent a page more than one place away from its parent (higher) item.
 
 ![Indenting items](DocNinja_indent.gif)
-
-If you end up picking a visual theme with a menu or index (such as [Drop Down](choose-design/basic-themes#drop-down), [Drop Up](choose-design/basic-themes#drop-up) or [Side Bar](choose-design/basic-themes#side-bar)), indents determine whether items are *parent* or *child* items. In layman's terms, it's a simple hierarchy system - child (indented) items become 'sub-pages' branching out from underneath whichever parent (outdented) item is above them in the document list. When your course is played, child pages will also be hidden from view in the menu until the parent item is selected. So indents can be quite handy for grouping items with common topics or information.
 
 ![Indenting and parent/child hierarchy](AddDocuments_indent1b.png)
 ![Parent/child pages in course menus](AddDocuments_indent2.png)

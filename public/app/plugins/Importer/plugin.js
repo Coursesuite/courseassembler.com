@@ -242,7 +242,7 @@
 					}).then(function (ninja) {
 						// move nodes from precached order back to actual nodes in dom, in order, with all the cached properties - except the file content
 						var frag = document.createElement("ul");
-						frag.innerHTML = ninja.order;
+						frag.innerHTML = ninja.order; // TODO: create nodes, opposite of convertOrderForManifest
 						[].forEach.call(frag.querySelectorAll("li[data-fileid]"), function (node) {
 							var fileId = node.getAttribute("data-fileid"),
 								gob = getObjects(ninja.files, "key", fileId)[0],
@@ -265,21 +265,61 @@
 										fileId: (string)
 									}
 									*/
+
+									var proms = [];
+									// if has audio
+										// wait till it has been re-imported
 									if (results.fileInfo.hasOwnProperty("audio")) {
-										var audioName = results.fileInfo.audio;
-										// fileInfo might be stale by now
-										localforage.getItem(results.fileId).then(function(o) {
-											folder.file(audioName).async("base64").then(function(mp3data) {
-												o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
-												localforage.setItem(results.fileId,o).then(function () {
-													DocNinja.Navigation.Icons.Add('audio', results.fileId);
-													resume();
+										proms.push(new Promise(function(audioResolve, audioReject) {
+											var audioName = results.fileInfo.audio;
+											// fileInfo might be stale by now
+											localforage.getItem(results.fileId).then(function(o) {
+												folder.file(audioName).async("base64").then(function(mp3data) {
+													o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
+													localforage.setItem(results.fileId,o).then(function () {
+														// DocNinja.PurityControl.Nav.Check()
+														// DocNinja.Navigation.Icons.Add('audio', results.fileId);
+														audioResolve();
+													});
 												});
-											});
-										});
-									} else {
-										resume();
+											})
+											.catch(audioReject);
+										}));
 									}
+
+									// TODO: support attachments in doc.ninja output
+									// THEN: support bringing them back in here
+									// if has attachments
+										// wait till they all have been reimported
+									// if (results.fileInfo.hasOwnProperty("attachments")) {
+									// 	proms.push(new Promise(attachResolve, attachReject) {
+									// 		var audioName = results.fileInfo.audio;
+									// 		// fileInfo might be stale by now
+									// 		localforage.getItem(results.fileId).then(function(o) {
+									// 			folder.file(audioName).async("base64").then(function(mp3data) {
+									// 				o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
+									// 				localforage.setItem(results.fileId,o).then(function () {
+									// 					// DocNinja.PurityControl.Nav.Check()
+									// 					// DocNinja.Navigation.Icons.Add('audio', results.fileId);
+									// 					audioResolve();
+									// 				});
+									// 			});
+									// 		})
+									// 		.catch(audioReject);
+									// 	});
+									// }
+
+									// if has audio
+										// wait till they are re-imported
+
+									// resume - happens even if proms[] is empty
+									Promise.all(proms)
+									.then(resume);
+
+
+									// } else {
+									// 	resume();
+									// }
 								});
 							});
 						}, function() {
