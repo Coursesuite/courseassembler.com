@@ -151,9 +151,10 @@
 	// store the item order by just caching the whole html... significantly faster
 	// TODO: stop caching everything, rebuild nodes independantly
 	function setItemOrder() {
-		DocNinja.PurityControl.Nav.Check();
-		localforage.setItem("order", DocNinja.navItems.innerHTML);
-		DocNinja.routines.PersistSettings("setItemOrder");
+		DocNinja.PurityControl.Nav.Check().then(function(changes) {
+			localforage.setItem("order", DocNinja.navItems.innerHTML);
+			DocNinja.routines.PersistSettings("setItemOrder");
+		})
 		if (DocNinja.Plugins.Theme) DocNinja.Plugins.Theme.clearNavCache();
 	}
 
