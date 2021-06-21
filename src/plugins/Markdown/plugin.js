@@ -66,8 +66,9 @@
 	}
 
 	// called from edit.js during save (for custom transformations, if required)
-	DocNinja.Plugins.Markdown.Compile = function (obj) {
-		return obj;
-	}
+	DocNinja.Plugins.Markdown.Compile = function (obj, html) {
+		return html;
+	};
+
 
 })(window.DocNinja = window.DocNinja || {});

@@ -176,7 +176,7 @@
 									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 									if (obj.plugin) switch (obj.plugin) {
 										case "Markdown": // Markdown doesn't store final page, so re-render it
-											obj.payload.html = Handlebars.templates['wrapper-page'](obj.payload);
+											obj.payload.html = Handlebars.templates['wrapper-markdown'](obj.payload);
 											break;
 										case "Intro":
 											obj.payload.html = DocNinja.Plugins.Intro.Compile(obj.payload.html, obj.payload, setup);
@@ -310,7 +310,7 @@
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
 								if (obj.plugin) switch (obj.plugin) {
 									case "Markdown": // Markdown doesn't store final page, so re-render it
-										obj.payload.html = Handlebars.templates['wrapper-page'](obj.payload);
+										obj.payload.html = Handlebars.templates['wrapper-markdown'](obj.payload);
 										break;
 									case "Intro":
 										obj.payload.html = DocNinja.Plugins.Intro.Compile(obj.payload.html, obj.payload, setup);

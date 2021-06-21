@@ -6,6 +6,15 @@ function isDataURL(s) {
 }
 isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
 
+var fontPopover, cssVars = ['headerFont','bodyFont','color-header','color-primary','color-secondary'];
+
+window.addEventListener("DOMContentLoaded", function() {
+
+	gFontInput.create('headerFont');
+	gFontInput.create('bodyFont');
+
+});
+
 var MarkDownEditor = (function () {
 
 	var fileid,
@@ -123,7 +132,7 @@ var MarkDownEditor = (function () {
 		localforage.getItem(fileid).then(function(obj) {
 			obj=obj||{};obj.payload=obj.payload||{};
 			obj.payload.markdown = _data_;
-			obj.payload.html = parent.DocNinja.Plugins.Markdown.Compile(_marked_); // , undefined);
+			obj.payload.html = parent.DocNinja.Plugins.Markdown.Compile(obj, _marked_); // , undefined);
 			localforage.setItem(fileid,obj).then(function() {
 				// setTimeout(function(){node.setAttribute("label","Settings")},1000);
 				// node.setAttribute("label","Settings ... saved");
@@ -139,22 +148,76 @@ var MarkDownEditor = (function () {
 		fileid = window.location.search.split("?")[1] || "";
 		localforage.getItem(fileid).then(function(obj) {
 			var v = (obj && obj.payload && obj.payload.markdown) ? obj.payload.markdown : '';
+			if (obj && obj.payload && obj.payload.css) {
+				for (let name in obj.payload.css) {
+					document.getElementById(name).value = obj.payload.css[name];
+					var value = obj.payload.css[name];
+					document.documentElement.style.setProperty(`--${name}`, value);
+				}
+			}
 			_init(v);
 		});
+	}
+
+	window.popover_close = function() {
+		fontPopover.classList.remove("active");
+	}
+	window.popover_save = function () {
+		let css = {};
+
+		cssVars.forEach(function(name) {
+			css[name] = document.getElementById(name).value;
+			var value = css[name];
+			if (name === "baseSize") value += "px";
+			document.documentElement.style.setProperty(`--${name}`, value);
+		});
+
+		localforage.getItem(fileid).then(function(obj) {
+			obj.payload.css = css;
+			localforage.setItem(fileid, obj).then(function() {
+				fontPopover.classList.remove("active");
+			});
+		});
+	}
+
+	function saveRoutine(el) {
+		document.querySelector(".editor-toolbar .fa.fa-smile-o").style.display = "inline-block";
+		_data_ = el.simplemde.value();
+		_marked_ = el.simplemde.markdown(_data_);
+		if (_data_.length) MarkDownEditor.Save();
+		if (/!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/.test(_data_)) {
+			MarkDownEditor.FormatImages(el.simplemde.codemirror);
+		} else {
+			_remove_widgets(el.simplemde.codemirror);
+		}
+		setTimeout(function() {
+			document.querySelector(".editor-toolbar .fa.fa-smile-o").style.display = "none";
+		},789)
 	}
 
 	function _init(value) {
 		var el = document.querySelector("textarea");
 
+		fontPopover = document.querySelector('.font-popover');
+
 		var layout = {
 			name: "layout",
 			action: function(editor) {
-				alert('Style editor not yet implemented (sorry!)');
-				// what do we do here?
+				fontPopover.classList[fontPopover.classList.contains("active") ? "remove" : "add"]("active");
 			},
 			className: "fa fa-font",
 			title: "Set fonts & layout"
-		};
+		}, save = {
+			name: "save",
+			action: function(editor) {
+				saveRoutine(el);
+			},
+			className: "fa fa-save",
+			title: "Save content"
+		}, saveHint = {
+			className: "fa fa-smile-o",
+			name: "saveHint"
+		}
 
 		el.simplemde = new SimpleMDE({
 			element: el,
@@ -162,7 +225,7 @@ var MarkDownEditor = (function () {
 			autofocus: true,
 			forceSync: false,
 			placeholder: "Markdown / HTML is allowed.\nDrag images onto this editor to embed them\nTo nest markdown inside html, add attribute markdown=\"1\" of tags containing markdown.",
-			toolbar: ["bold","italic","heading","|","code","quote","unordered-list","ordered-list","table","|","link","image","|","preview","side-by-side","fullscreen","|",layout,"|","guide"], 
+			toolbar: [save,"|","bold","italic","heading","|","code","quote","unordered-list","ordered-list","table","|","link","image","|","preview","side-by-side","fullscreen","|",layout,"|","guide","|",saveHint], 
 			fullscreen: true,
 			split:true,
 			initialValue:value
@@ -175,14 +238,7 @@ var MarkDownEditor = (function () {
 
 		// automatically persist changes to localstorage
 		el.simplemde.codemirror.on("change", debounce(function(){
-			_data_ = el.simplemde.value();
-			_marked_ = el.simplemde.markdown(_data_);
-			if (_data_.length) MarkDownEditor.Save();
-			if (/!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/.test(_data_)) {
-				MarkDownEditor.FormatImages(el.simplemde.codemirror);
-			} else {
-				_remove_widgets(el.simplemde.codemirror);
-			}
+			saveRoutine(el);
 		}, 2048));
 
 		// prepare existing images

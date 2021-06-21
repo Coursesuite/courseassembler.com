@@ -12,7 +12,7 @@
 			if (obj === null) return;
 			if (obj.payload.html === undefined) {obj.payload.html = "There is no markdown content saved!";}
 			if (obj.payload.backgroundColour === undefined) obj.payload.backgroundColour = "f4f5f6";
-			var html = parent.Handlebars.templates['wrapper-page'](obj.payload);
+			var html = parent.Handlebars.templates['wrapper-markdown'](obj.payload);
 			var blob = new Blob([html],{type:"text/html"});
 			var url = URL.createObjectURL(blob);
 			window.location.href = url;

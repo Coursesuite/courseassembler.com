@@ -288,6 +288,15 @@ Handlebars.registerHelper('pips', function (num) {
 	return list.join("");
 });
 
+Handlebars.registerHelper('range', function(min,max) {
+	var list = [];
+	for (var i = min; i < max; i+= Math.floor(max-min) / 10) {
+		list.push("option value='" + Math.floor(i) + "'>");
+	}
+	list.push("option value='" + max + "'>");
+	return list.join('');
+});
+
 /* these helpers match to plugins/Theme/theme.php */
 
 Handlebars.registerHelper('is', function (a, b, context) {
@@ -311,6 +320,21 @@ Handlebars.registerHelper('count', function () {
 		if (arguments[i]) c++; // if argument loosely evaluates to true
 	}
 	return c;
+})
+
+// TODO this will probably break at some point
+Handlebars.registerHelper('inject', function(path) {
+	var str = "";
+	$.ajax({
+		url: path,
+		dataType: 'html',
+		async: false,
+		processData: false,
+		success: function(html) {
+			str = html;
+		}
+	})
+	return str;
 })
 
 // jquery cookie plugin - https://github.com/carhartl/jquery-cookie
