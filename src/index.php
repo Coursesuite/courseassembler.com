@@ -100,7 +100,7 @@ $p = realpath('./plugins');
 $plugins = [];
 $js = [];
 $css = [];
-$iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates|FontPicker)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
+$iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
 	if ($file[1] === "plugin") $plugins[] = basename(dirname($file[0]));
 	if ($file[2] === "css") {
