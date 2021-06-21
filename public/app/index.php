@@ -422,6 +422,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 	<script src="js/templates.js"></script>
 	<script src="js/uiProgressButton.js"></script>
 	<script src="js/mimedb.js"></script>
+	<script src="js/gfontinput.js"></script>
 	<script src="js/workers/promise-worker-index.js"></script>
 	<script src="js/app.lib.navigation.js"></script>
 	<script src="js/app.lib.fileconversion.js"></script>
