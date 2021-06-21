@@ -80,7 +80,7 @@
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
 	<div class='range-wrap'>
-		<input type='range' min='1' max='{{valueMax}}' id='score_slider' list='score_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;var p=((Number(this.value)*100)/Number(this.max));this.nextElementSibling.style.left=p+"%";'>
+		<input type='range' min='1' max='{{valueMax}}' id='score_slider' list='score_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;var p=(((Number(this.value)-Number(this.min))*100) / (Number(this.max) - Number(this.min)));this.nextElementSibling.style.left=p+"%";'>
 		<output class='bubble'>{{value}}</output>
 	</div>
 	<datalist id='score_list'>{{{pips valueMax}}}</datalist>
@@ -178,6 +178,39 @@
 		<button data-action="upload-page-attachments"><i class="ninja-upload3"></i>Attach file</button>
 		<button data-action="trash-page-attachments"><i class="ninja-discard"></i>Remove all</button>
 	</div>
+
+</section>
+{{/compare}}
+
+{{#compare popover "fontstyle"}}
+{{!--
+
+get popover fontstyle
+{
+	label: "font style",
+	minValue: 12,
+	maxValue: 48,
+	value: 16
+}
+gFontInput.create('fontstyle');
+
+--}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+
+	<div>
+		<label for="fontstyle">Font</label>
+		<input type="text" id="fontstyle" placeholder="Google font name">
+	</div>
+
+	<div class='range-wrap'>
+		<label for="size_slider">Font size</label>
+		<input type='range' min='{{valueMin}}' max='{{valueMax}}' id='size_slider' list='size_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;var p=(((Number(this.value)-Number(this.min))*100) / (Number(this.max) - Number(this.min)));this.nextElementSibling.style.left=p+"%";'>
+		<output class='bubble'>{{value}}</output>
+	</div>
+	<datalist id='size_list'>{{{range valueMin valueMax}}}</datalist>
+
+	<button onclick="popover_saveFontStyle();"><i class="ninja-save-disk"></i>Apply</button>
 
 </section>
 {{/compare}}
