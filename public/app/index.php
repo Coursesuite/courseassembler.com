@@ -100,7 +100,7 @@ $p = realpath('./plugins');
 $plugins = [];
 $js = [];
 $css = [];
-$iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates|FontPicker)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
+$iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
 	if ($file[1] === "plugin") $plugins[] = basename(dirname($file[0]));
 	if ($file[2] === "css") {
@@ -422,7 +422,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 	<script src="js/templates.js"></script>
 	<script src="js/uiProgressButton.js"></script>
 	<script src="js/mimedb.js"></script>
-	<script src="js/gfontinput.js"></script>
 	<script src="js/workers/promise-worker-index.js"></script>
 	<script src="js/app.lib.navigation.js"></script>
 	<script src="js/app.lib.fileconversion.js"></script>
