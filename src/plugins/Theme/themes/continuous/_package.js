@@ -465,13 +465,13 @@ function showPageTitles() {
 
 	if (l) {
 		var i = course.page - 1;
-		while (pages[i].content === 'plugin:section') i = i - 1;
+		while (pages[i] && pages[i].content === 'plugin:section') i = i - 1;
 		if (pages[i]) l.textContent = pages[i].title;
 	}
 
 	if (r) {
 		var i = course.page + 1;
-		while (pages[i].content === 'plugin:section') i = i + 1;
+		while (pages[i] && pages[i].content === 'plugin:section') i = i + 1;
 		if (pages[i]) r.textContent = pages[i].title;
 	}
 
