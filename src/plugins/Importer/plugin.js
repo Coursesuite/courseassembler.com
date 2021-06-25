@@ -63,7 +63,7 @@
 									break;
 								case "audio": // note audio is almost never embedded in the document now
 									fileInfo.payload["mp3"] = "data:audio/mp3;base64," + contents;
-									instance.closest("#wDS3ed").remove(); // the audio object ... man we need to fix that
+									if (instance.closest("#wDS3ed")) instance.closest("#wDS3ed").remove(); // the audio object ... man we need to fix that
 									break;
 							}
 							resolve(dom);
