@@ -47,6 +47,13 @@
     --selectionPadding: {{#if theme.SELECTION.padding}}{{theme.SELECTION.padding}}{{else}}none{{/if}};
     --selectionRadius: {{#if theme.SELECTION.rounded}}{{theme.SELECTION.rounded}}{{else}}unset{{/if}};
 
+    --sectionGap: {{#if theme.SECTION.gap}}{{theme.SECTION.gap}}{{else}}1rem{{/if}};
+    --sectionPadding: {{#if theme.SECTION.padding}}{{theme.SECTION.padding}}{{else}}none{{/if}};
+    --sectionBackground: {{#if theme.SECTION.background}}{{theme.SECTION.background}}{{else}}transparent{{/if}};
+    --sectionText: {{#if theme.SECTION.text}}{{theme.SECTION.text}}{{else}}inherit{{/if}};
+    --sectionBorder: {{#if theme.SECTION.border}}{{theme.SECTION.border}}{{else}}none{{/if}};
+    --sectionRadius: {{#if theme.SECTION.rounded}}{{theme.SECTION.rounded}}{{else}}unset{{/if}};
+
     --attachmentBackground: {{#if theme.ATTACHMENTS.background}}{{theme.ATTACHMENTS.background}}{{else}}#ffffff{{/if}};
     --attachmentItemBackground: {{#if theme.ATTACHMENTS.itembackground}}{{theme.ATTACHMENTS.itembackground}}{{else}}#ffffff{{/if}};
     --attachmentText: {{#if theme.ATTACHMENTS.text}}{{theme.ATTACHMENTS.text}}{{else}}inherit{{/if}};
@@ -457,6 +464,18 @@ nav#scroll li {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+nav#scroll ol[data-section]:not(:first-child) {
+    margin-top: var(--sectionGap);
+}
+
+nav#scroll li.section>span {
+    padding: var(--sectionPadding);
+    background: var(--sectionBackground);
+    color: var(--sectionText);
+    border: var(--sectionBorder);
+    border-radius: var(--sectionRadius);
 }
 
 nav#scroll li > div {

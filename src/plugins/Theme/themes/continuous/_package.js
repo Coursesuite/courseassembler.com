@@ -155,12 +155,16 @@ function doUnload() {
 
 // public method for navigating to the next-lowest page number
 function left() {
-    goto(course.page-1);
+	var i = course.page - 1;
+	while (pages[i].content === 'plugin:section') i = i - 1;
+    goto(i);
 }
 
 // public method for navigating to the next-highest page number
 function right() {
-    goto(course.page+1);
+	var i = course.page + 1;
+	while (pages[i].content === 'plugin:section') i = i + 1;
+    goto(i);
 }
 
 // adds or removes an "active" class on the body, usually to trigger css changes
@@ -446,7 +450,9 @@ function load() {
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showPageTitles();
     showCurrentPageNumber();
-    if (["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    if ((["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) && (current_page.content.indexOf("plugin:")===-1)) {
+    	tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    }
     checkCourseCompletion();
     checkNavigation();
 }
@@ -456,8 +462,21 @@ function showPageTitles() {
 	var l = document.querySelector('#lb>span:last-of-type'),
 		r = document.querySelector('#rb>span:last-of-type');
 	l.textContent = '(start)'; r.textContent = '(end)';
-	if (l && pages[course.page-1]) l.textContent = pages[course.page-1].title;
-	if (r && pages[course.page+1]) r.textContent = pages[course.page+1].title;
+
+	if (l) {
+		var i = course.page - 1;
+		while (pages[i].content === 'plugin:section') i = i - 1;
+		if (pages[i]) l.textContent = pages[i].title;
+	}
+
+	if (r) {
+		var i = course.page + 1;
+		while (pages[i].content === 'plugin:section') i = i + 1;
+		if (pages[i]) r.textContent = pages[i].title;
+	}
+
+	// if (l && pages[course.page-1]) l.textContent = pages[course.page-1].title;
+	// if (r && pages[course.page+1]) r.textContent = pages[course.page+1].title;
 	{{/is}}
 }
 

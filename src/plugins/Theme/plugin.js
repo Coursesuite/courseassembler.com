@@ -93,7 +93,7 @@
 							"index": iterationNumber,
 							"title": $.trim($("li[data-fileid='" + key + "']").text().replace(/\s+/g," ")),
 							"score": ~~value.score||1,
-							"content": ("youtube vimeo soundcloud slideshare".indexOf(value.format)!=-1) ? "media" : value.kind,
+							"content": ("youtube vimeo soundcloud slideshare".indexOf(value.format)!=-1) ? "media" : value.kind === "plugin" ? (value.kind + ":" + value.plugin).toLowerCase() : value.kind,
 							"href": "preview.html?" + key,
 							"depth": Math.max(0,+value.depth||0),
 							"audio": value.payload.hasOwnProperty("mp3") && value.payload.mp3.length ? true : undefined, // md5(value.payload.mp3)+".mp3"
@@ -220,6 +220,14 @@
 				"padding": ".25rem",
 				"rounded": false,
 				"border": false
+			},
+			"SECTION": {
+				"background":"transparent",
+				"text":"inherit",
+				"padding": ".25rem",
+				"rounded": false,
+				"border": false,
+				"gap": "1rem"
 			},
 			"AUDIO": {
 				"background": "#ffffff",

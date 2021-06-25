@@ -152,12 +152,16 @@ function doUnload() {
 
 // public method for navigating to the next-lowest page number
 function left() {
-    goto(course.page-1);
+	var i = course.page - 1;
+	while (pages[i].content === 'plugin:section') i = i - 1;
+    goto(i);
 }
 
 // public method for navigating to the next-highest page number
 function right() {
-    goto(course.page+1);
+	var i = course.page + 1;
+	while (pages[i].content === 'plugin:section') i = i + 1;
+    goto(i);
 }
 
 // adds or removes an "active" class on the body, usually to trigger css changes
@@ -278,66 +282,85 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     	}
     }
 
-    var menu = [], dest = document.getElementById('pages');
+    var menu = [], child = false, sections = [0], dest = document.getElementById('pages');
     while (dest.firstChild) dest.removeChild(dest.lastChild); // ensure emptiness
+
     for (var i=0;i<pages.length;i++) {
-    	var p = pages[i],
-    		option = document.createElement('option');
-    	option.value = i;
-    	option.textContent = Array(p.depth+1).join("-- ") + p.title;
-    	dest.appendChild(option);
-
-      // setting a completed property on this node should trigger a course completion check
-	  Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
-	  	enumerable: true,
-	  	get: function () {
-	  		return this._completed || false;
-	  	},
-	  	set: function (bool) {
-	  		this._completed = bool;
-	  		if (this._throttle) clearTimeout(this._throttle);
-	  		this._throttle = setTimeout(checkCourseCompletion,99,true);
-			var opt = document.querySelector('#pages :checked');
-			if (opt) opt.innerHTML = opt.textContent + " &check;";
-	  	}
-	  });
-
-	  // setting a status on this node might need to update other properties
-      Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
-      	enumerable: true,
-		get: function () {
-			return this._status || {};
-		},
-		set: function (data) {
-			this._status = data;
-			var myscore = 0;
-			if (data.slide) {
-				myscore = data.slide;
-				this.timeSpent = data.slide;
-			} else if (data.userdata) {
-
-				this.userdata = data.userdata;
-				myscore = data.score;
-				this.score = data.required;
-				this.timeSpent = 1;
-			} else if (data.duration) {
-				myscore = Math.round((data.seconds / data.duration) * 100);
-				this.timeSpent = data.seconds;
-			} else if (data.seconds) {
-				myscore = data.seconds;
-				this.timeSpent = data.seconds;
-			}
-			if (!this.completed) {
-				if (myscore >= this.score) {
-					this.completed = true;
-				}
-			}
-			showCompletionGraph();
-	    }
-	  });
+    	if (pages[i].content === 'plugin:section') {
+    		sections.push(i);
+    	}
     }
-    var node = document.getElementById("menu");
-    if (node) node.innerHTML = menu.join("");
+
+    for (var s = 0; s<sections.length; s++) {
+    	var st = pages[sections[s]], og;
+    	if (st.content === "plugin:section") {
+			og = document.createElement("optgroup");
+    		st = st.title;
+	    	og.setAttribute("label", st);
+	    	dest.appendChild(og);
+    	} else {
+    		og = dest;
+    	}
+
+    	var len = sections[s+1] || pages.length;
+
+	    for (var i=sections[s];i<len;i++) {
+	    	var p = pages[i],
+	    		option = document.createElement('option');
+	    	option.value = i;
+	    	option.textContent = Array(p.depth+1).join("-- ") + p.title;
+	    	og.appendChild(option);
+
+	      // setting a completed property on this node should trigger a course completion check
+			Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
+				enumerable: true,
+				get: function () {
+					return this._completed || false;
+				},
+				set: function (bool) {
+					this._completed = bool;
+					if (this._throttle) clearTimeout(this._throttle);
+					this._throttle = setTimeout(checkCourseCompletion,99,true);
+					var opt = document.querySelector('#pages :checked');
+					if (opt) opt.innerHTML = opt.textContent + " &check;";
+				}
+			});
+
+		  // setting a status on this node might need to update other properties
+			Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
+				enumerable: true,
+				get: function () {
+					return this._status || {};
+				},
+				set: function (data) {
+					this._status = data;
+					var myscore = 0;
+					if (data.slide) {
+						myscore = data.slide;
+						this.timeSpent = data.slide;
+					} else if (data.userdata) {
+
+						this.userdata = data.userdata;
+						myscore = data.score;
+						this.score = data.required;
+						this.timeSpent = 1;
+					} else if (data.duration) {
+						myscore = Math.round((data.seconds / data.duration) * 100);
+						this.timeSpent = data.seconds;
+					} else if (data.seconds) {
+						myscore = data.seconds;
+						this.timeSpent = data.seconds;
+					}
+					if (!this.completed) {
+						if (myscore >= this.score) {
+							this.completed = true;
+						}
+					}
+					showCompletionGraph();
+				}
+			});
+	    }
+	}
 
 	if (!screenfull.isEnabled) {
 		[].forEach.call(document.querySelectorAll("a[href='javascript:fullscreen()']"),function(el) {
@@ -465,7 +488,9 @@ function load() {
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showCurrentPageNumber();
     showCurrentPageTitle();
-    if (["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    if ((["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) && (current_page.content.indexOf("plugin:")===-1)) {
+    	tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    }
     checkCourseCompletion();
     checkNavigation();
 }

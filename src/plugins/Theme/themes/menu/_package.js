@@ -152,12 +152,16 @@ function doUnload() {
 
 // public method for navigating to the next-lowest page number
 function left() {
-    goto(course.page-1);
+	var i = course.page - 1;
+	while (pages[i].content === 'plugin:section') i = i - 1;
+    goto(i);
 }
 
 // public method for navigating to the next-highest page number
 function right() {
-    goto(course.page+1);
+	var i = course.page + 1;
+	while (pages[i].content === 'plugin:section') i = i + 1;
+    goto(i);
 }
 
 // adds or removes an "active" class on the body, usually to trigger css changes
@@ -280,10 +284,10 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
     // return html that builds one li node
     // as this process may return unclosed tags, we can't use createElement
-    function li(i,title,expandable,aud,att, child) {
+    function li(i,title,expandable,aud,att,child,depth) {
 		var html = [];
 		var liClass = (expandable == true) ? "parent": child ? "child" : "";
-		html.push('<li class="' + liClass + '">');
+		html.push('<li class="' + liClass + '" data-depth="'+depth+'">');
 		html.push('<div>');
 		html.push('<a href="#" onclick="event.preventDefault();goto(' + i + ')">' + title + '</a>');
 		if (aud && icons.audio) html.push("<span><span class='ca ca-audio' title='Page contains audio'></span></span>");
@@ -299,77 +303,98 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     }
 
     // nested list / menu from a flat array
-    var menu = [], child = false;
+    var menu = [], child = false, sections = [0];
     for (var i=0;i<pages.length;i++) {
-      var p = pages[i],
-          q = pages[i+1],
-          r = true,
-          audio = p.hasOwnProperty('audio') && p.audio.length,
-          attach = p.hasOwnProperty('attachments') && p.attachments.length;
-      if (q) {
-        if (q.depth > p.depth) {
-          child = true;
-          menu.push(li(i,p.title,true,audio,attach, child));
-          r = false;
-        } else if (q.depth < p.depth) {
-          menu.push(li(i,p.title,false,audio,attach, child));
-          child = false; // AFTER rendering node
-          for (j=0;j<p.depth;j++) menu.push("</li></ol>");
-          r = false;
-        }
-      }
-      if (r) {
-        menu.push(li(i,p.title,false,audio,attach, child));
-      }
-
-      // setting a completed property on this node should trigger a course completion check
-	  Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
-	  	enumerable: true,
-	  	get: function () {
-	  		return this._completed || false;
-	  	},
-	  	set: function (bool) {
-	  		this._completed = bool;
-	  		if (this._throttle) clearTimeout(this._throttle);
-	  		this._throttle = setTimeout(checkCourseCompletion,99,true);
-	  	}
-	  });
-
-	  // setting a status on this node might need to update other properties
-      Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
-      	enumerable: true,
-		get: function () {
-			return this._status || {};
-		},
-		set: function (data) {
-			this._status = data;
-			var myscore = 0;
-			if (data.slide) {
-				myscore = data.slide;
-				this.timeSpent = data.slide;
-			} else if (data.userdata) {
-
-				this.userdata = data.userdata;
-				myscore = data.score;
-				this.score = data.required;
-				this.timeSpent = 1;
-			} else if (data.duration) {
-				myscore = Math.round((data.seconds / data.duration) * 100);
-				this.timeSpent = data.seconds;
-			} else if (data.seconds) {
-				myscore = data.seconds;
-				this.timeSpent = data.seconds;
-			}
-			if (!this.completed) {
-				if (myscore >= this.score) {
-					this.completed = true;
-				}
-			}
-			showCompletionGraph();
-	    }
-	  });
+    	if (pages[i].content === 'plugin:section') {
+    		sections.push(i);
+    	}
     }
-    var node = document.getElementById("menu");
+
+    // render each section menu
+    for (var s = 0; s<sections.length; s++) {
+    	menu.push("<ol data-section='" + s + "'>");
+    	var len = sections[s+1] || pages.length;
+
+    	// starting at the index of the section, start rendering a new menu
+	    for (var i=sections[s];i<len;i++) {
+	      var p = pages[i],
+	          q = pages[i+1],
+	          r = true,
+	          audio = p.hasOwnProperty('audio') && p.audio.length,
+	          attach = p.hasOwnProperty('attachments') && p.attachments.length;
+	    	if (pages[i].content === 'plugin:section') {
+	    		menu.push("<li class='section'><span>" + p.title + "</span></li>");
+	    	} else {
+		      if (q) {
+		        if (q.depth > p.depth) {
+		          child = true;
+		          menu.push(li(i,p.title,true,audio,attach, child, p.depth));
+		          r = false;
+		        } else if (q.depth < p.depth) {
+		          menu.push(li(i,p.title,false,audio,attach, child, p.depth));
+		          child = false; // AFTER rendering node
+		          for (j=0;j<p.depth;j++) menu.push("</li></ol>");
+		          r = false;
+		        }
+		      }
+		      if (r) {
+		        menu.push(li(i,p.title,false,audio,attach, child, p.depth));
+		      }
+		    }
+
+	      // setting a completed property on this node should trigger a course completion check
+		  Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
+		  	enumerable: true,
+		  	get: function () {
+		  		return this._completed || false;
+		  	},
+		  	set: function (bool) {
+		  		this._completed = bool;
+		  		if (this._throttle) clearTimeout(this._throttle);
+		  		this._throttle = setTimeout(checkCourseCompletion,99,true);
+		  	}
+		  });
+
+		  // setting a status on this node might need to update other properties
+	      Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
+	      	enumerable: true,
+			get: function () {
+				return this._status || {};
+			},
+			set: function (data) {
+				this._status = data;
+				var myscore = 0;
+				if (data.slide) {
+					myscore = data.slide;
+					this.timeSpent = data.slide;
+				} else if (data.userdata) {
+
+					this.userdata = data.userdata;
+					myscore = data.score;
+					this.score = data.required;
+					this.timeSpent = 1;
+				} else if (data.duration) {
+					myscore = Math.round((data.seconds / data.duration) * 100);
+					this.timeSpent = data.seconds;
+				} else if (data.seconds) {
+					myscore = data.seconds;
+					this.timeSpent = data.seconds;
+				}
+				if (!this.completed) {
+					if (myscore >= this.score) {
+						this.completed = true;
+					}
+				}
+				showCompletionGraph();
+		    }
+		  });
+	    } // for (pages)
+
+	    // finished rendering this section
+    	menu.push("</ol>");
+    }
+
+    var node = document.getElementById("scroll");
     if (node) node.innerHTML = menu.join("");
 
 	if (!screenfull.isEnabled) {
@@ -432,7 +457,7 @@ function load() {
 	}
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
-	if (current_page.content === "plugin" || current_page.content === "h5p") {
+	if (current_page.content.indexOf("plugin") === 0 || current_page.content === "h5p") {
 		src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
@@ -501,7 +526,9 @@ function load() {
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showCurrentPageNumber();
     showCurrentPageTitle();
-    if (["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    if ((["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) && (current_page.content.indexOf("plugin:")===-1)) {
+    	tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
+    }
     checkCourseCompletion();
     checkNavigation();
 }

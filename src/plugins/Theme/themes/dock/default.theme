@@ -49,6 +49,13 @@ shadow: rgba(0,0,0,.5)
 rounded: false
 border: false
 
+SECTION
+background: transparent
+text: white
+rounded: false
+border: false
+gap: 1rem
+
 AUDIO
 background: #2D3136
 controls: white
