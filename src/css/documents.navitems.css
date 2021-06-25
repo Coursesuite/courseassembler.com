@@ -3,7 +3,7 @@
 	list-style-position: inside;
 	margin: 0;
 	padding: 0;
-	color: #444;
+	color: var(--navText);
 	text-shadow: none;
 }
 
@@ -39,11 +39,11 @@
     border-bottom-color: var(--edge);
 }
 #nav-item-list, #nav-item-list>li a, #nav-item-list ol>li a, #nav-item-list i, #nav-item-list .indent a>span {
-    color: inherit;
+    color: var(--navText);
 }
 
 #nav-item-list li:hover i, #nav-item-list li:hover a>span {
-    color: #444;
+    color: var(--navText);
 }
 
 #scroll-area {
@@ -116,7 +116,7 @@
 }
 #nav-item-list>li a,
 #nav-item-list ol>li a {
-	color: #444;
+	color: var(--navText);
 }
 #nav-item-list>li a:focus,
 #nav-item-list ol>li a:focus {

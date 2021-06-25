@@ -72,5 +72,8 @@
 	--zblocking: 10;
 	--zcog: 20;
 	--zmodal: 30;
+
+	/* nav item text */
+	--navText:  #444;
 }
 
