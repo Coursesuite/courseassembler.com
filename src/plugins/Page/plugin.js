@@ -152,6 +152,15 @@
 
 		return {
 
+			ModifyIframeScrubber: function(obj, state) { // if state = true remove .noscrub
+				var doc = document.implementation.createHTMLDocument(obj.name);
+				doc.documentElement.innerHTML = obj.payload.html;
+				doc.querySelector("body").classList[state ? "remove" : "add"]("noscrub");
+				console.dir(doc.body.classList);
+				obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+				return obj;
+			},
+
 			/* wrapper-iframe.handlebars modifier */
 			ModifyIframeBackgroundColour: function (obj, colour) {
 				var doc = document.implementation.createHTMLDocument(obj.name);

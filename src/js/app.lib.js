@@ -923,6 +923,7 @@ function popover_saveRange() {
 	localforage.getItem(id).then(function (obj) {
 		obj.score = score;
 		obj.scrub = scrubber;
+		obj = DocNinja.Page.ModifyIframeScrubber(obj, scrubber);
 		closePopover();
 		return localforage.setItem(id, obj);
 	});
@@ -971,6 +972,7 @@ function popover_savePageBackground() {
 					break;
 				case "url":
 					obj = DocNinja.Page.ModifyIframeBackgroundColour(obj, colour);
+					obj.payload.backgroundColour = colour;
 					break;
 				case "file":
 					obj = DocNinja.Page.ModifyPageBackgroundColour(obj, colour);

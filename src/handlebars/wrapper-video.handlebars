@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{title}}</title>
+<meta name="ninja:renderer" content="{{format}}" >
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdn.plyr.io">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+<style>
+html,body {
+	margin: 0;
+	height: 100%;
+	min-height: 100%
+}
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	overflow: hidden;
+	position: relative;
+	background-color:{{#if payload.backgroundColor}}#{{payload.backgroundColor}};{{else}}black{{/if}};
+}
+.plyr--video, .plyr__video-wrapper {
+	background-color: transparent;
+}
+body.noscrub .plyr__progress { display:none }
+</style>
+<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js"></script>
+<script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
+<script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
+</head>
+<body>
+{{{body}}}
+{{#compare format "youtube"}}<div id="player" data-plyr-provider="youtube" data-plyr-embed-id="{{videoId}}"></div>{{/compare}}
+{{#compare format "vimeo"}}<div id="player" data-plyr-provider="vimeo" data-plyr-embed-id="{{videoId}}"></div>{{/compare}}
+{{#compare format "video"}}<video controls crossorigin playsinline id="player">
+	<source src="{{src}}" type="{{mime}}" />
+</video>{{/compare}}
+
+<script type="text/javascript">
+var init = (function(){
+	var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : [0,0];
+	return {
+		timestamp: Math.max(0,+qs[0]||0),
+		index: qs[1] ? +qs[1] : -1
+	}
+})(),
+	played=!1,
+	duration=0,
+	player=new Plyr('#player');
+
+player.on('timeupdate',function(data) {
+	parent.dispatchEvent(new CustomEvent("statuschange", {
+		detail:{
+			index:init.index,
+			seconds:player.currentTime,
+			duration:duration
+		}
+	}));
+});
+
+player.on('play',function(data) {
+	if (!played && init.timestamp>0) {
+		player.currentTime = init.timestamp;
+	}
+	played=!0;
+});
+
+player.on('loadedmetadata', function () {
+	duration = player.duration;
+});
+
+player.on('ready', function () {
+	duration = player.duration;
+});
+</script>
+{{#if show_description}}<div class='description'>{{{description}}}</div>{{/if}}
+</body>
+</html>

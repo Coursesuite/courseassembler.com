@@ -29,6 +29,7 @@
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
 				fileinfo.format = "soundcloud";
+				fileinfo.score = 50;
 				resolve({
 					ready: true,
 					result: fileinfo
@@ -41,17 +42,21 @@
 				doc.documentElement.innerHTML = oembed.code;
 				ifr = doc.querySelector("iframe");
 				src = ifr.getAttribute("src");
+				fileinfo.videoId = src.split("/").pop().split("?").shift();
 				// ifr.setAttribute("src", src); // froogaloop required += "?api=1&player_id=player1");
 				ifr.setAttribute("id","player1");
-				fileinfo.payload.html = Handlebars.templates["wrapper-iframe"]({
+				fileinfo.payload.html = Handlebars.templates["wrapper-video"]({
 					title: oembed.title,
 					description: oembed.description,
-					body: doc.querySelector("body").innerHTML.replace(/&amp;/g, '&'),
-					format: "vimeo"
+					// body: doc.querySelector("body").innerHTML.replace(/&amp;/g, '&'),
+					format: "vimeo",
+					videoId: fileinfo.videoId
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
 				fileinfo.format = "vimeo";
+				fileinfo.scrub = true;
+				fileinfo.score = 50;
 				resolve({
 					ready: true,
 					result: fileinfo
@@ -68,15 +73,18 @@
 				src = "https://www.youtube.com/embed/" + fileinfo.videoId + "?enablejsapi=1&rel=0&showinfo=0&playsinline=1"
 				ifr.setAttribute("src", src); //  += "&enablejsapi=1&rel=0&showinfo=0"); modestbranding=1&
 				ifr.setAttribute("id","player1");
-				fileinfo.payload.html = Handlebars.templates["wrapper-iframe"]({
+				fileinfo.payload.html = Handlebars.templates["wrapper-video"]({
 					title: oembed.title,
 					description: oembed.description,
-					body: doc.querySelector("body").innerHTML,
-					format: "youtube"
+					// body: doc.querySelector("body").innerHTML,
+					format: "youtube",
+					videoId: fileinfo.videoId
 				});
 				fileinfo.name = _nomoji(oembed.title);
 				fileinfo.src = oembed;
 				fileinfo.format = "youtube";
+				fileinfo.scrub = true;
+				fileinfo.score = 50;
 				resolve({
 					ready: true,
 					result: fileinfo

@@ -1366,6 +1366,91 @@ templates['wrapper-redirect'] = template({"compiler":[8,">= 4.3.0"],"main":funct
     + alias4(((helper = (helper = lookupProperty(helpers,"src") || (depth0 != null ? lookupProperty(depth0,"src") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"src","hash":{},"data":data,"loc":{"start":{"line":7,"column":43},"end":{"line":7,"column":50}}}) : helper)))
     + "'\" />\n</head>\n<body>\n<p>Loading...</p>\n</body>\n</html>\n";
 },"useData":true});
+templates['wrapper-video'] = template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "#"
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"payload") : depth0)) != null ? lookupProperty(stack1,"backgroundColor") : stack1), depth0))
+    + ";";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "black";
+},"5":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div id=\"player\" data-plyr-provider=\"youtube\" data-plyr-embed-id=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"videoId") || (depth0 != null ? lookupProperty(depth0,"videoId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"videoId","hash":{},"data":data,"loc":{"start":{"line":35,"column":95},"end":{"line":35,"column":106}}}) : helper)))
+    + "\"></div>";
+},"7":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div id=\"player\" data-plyr-provider=\"vimeo\" data-plyr-embed-id=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"videoId") || (depth0 != null ? lookupProperty(depth0,"videoId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"videoId","hash":{},"data":data,"loc":{"start":{"line":36,"column":91},"end":{"line":36,"column":102}}}) : helper)))
+    + "\"></div>";
+},"9":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<video controls crossorigin playsinline id=\"player\">\n	<source src=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"src") || (depth0 != null ? lookupProperty(depth0,"src") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"src","hash":{},"data":data,"loc":{"start":{"line":38,"column":14},"end":{"line":38,"column":21}}}) : helper)))
+    + "\" type=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"mime") || (depth0 != null ? lookupProperty(depth0,"mime") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"mime","hash":{},"data":data,"loc":{"start":{"line":38,"column":29},"end":{"line":38,"column":37}}}) : helper)))
+    + "\" />\n</video>";
+},"11":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class='description'>"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"description") || (depth0 != null ? lookupProperty(depth0,"description") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"description","hash":{},"data":data,"loc":{"start":{"line":78,"column":49},"end":{"line":78,"column":66}}}) : helper))) != null ? stack1 : "")
+    + "</div>";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"title") || (depth0 != null ? lookupProperty(depth0,"title") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data,"loc":{"start":{"line":5,"column":7},"end":{"line":5,"column":16}}}) : helper)))
+    + "</title>\n<meta name=\"ninja:renderer\" content=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"format") || (depth0 != null ? lookupProperty(depth0,"format") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"format","hash":{},"data":data,"loc":{"start":{"line":6,"column":37},"end":{"line":6,"column":47}}}) : helper)))
+    + "\" >\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://cdn.plyr.io\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<link href=\"https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap\" rel=\"stylesheet\">\n<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.2/plyr.css\" />\n<style>\nhtml,body {\n	margin: 0;\n	height: 100%;\n	min-height: 100%\n}\nbody {\n	font-family: 'Source Sans Pro', sans-serif;\n	overflow: hidden;\n	position: relative;\n	background-color:"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"payload") : depth0)) != null ? lookupProperty(stack1,"backgroundColor") : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":22,"column":18},"end":{"line":22,"column":98}}})) != null ? stack1 : "")
+    + ";\n}\n.plyr--video, .plyr__video-wrapper {\n	background-color: transparent;\n}\nbody.noscrub .plyr__progress { display:none }\n</style>\n<script type=\"text/javascript\" src=\"https://polyfill.io/v3/polyfill.min.js\"></script>\n<script src=\"https://cdn.plyr.io/3.6.2/plyr.js\"></script>\n<script type=\"text/javascript\">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>\n</head>\n<body>\n"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"body") || (depth0 != null ? lookupProperty(depth0,"body") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"body","hash":{},"data":data,"loc":{"start":{"line":34,"column":0},"end":{"line":34,"column":10}}}) : helper))) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"format") : depth0),"youtube",{"name":"compare","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":35,"column":0},"end":{"line":35,"column":126}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"format") : depth0),"vimeo",{"name":"compare","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":36,"column":0},"end":{"line":36,"column":122}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"format") : depth0),"video",{"name":"compare","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":37,"column":0},"end":{"line":39,"column":20}}})) != null ? stack1 : "")
+    + "\n\n<script type=\"text/javascript\">\nvar init = (function(){\n	var qs = window.location.search.split(\"?\")[1] ? window.location.search.split(\"?\")[1].split(\",\") : [0,0];\n	return {\n		timestamp: Math.max(0,+qs[0]||0),\n		index: qs[1] ? +qs[1] : -1\n	}\n})(),\n	played=!1,\n	duration=0,\n	player=new Plyr('#player');\n\nplayer.on('timeupdate',function(data) {\n	parent.dispatchEvent(new CustomEvent(\"statuschange\", {\n		detail:{\n			index:init.index,\n			seconds:player.currentTime,\n			duration:duration\n		}\n	}));\n});\n\nplayer.on('play',function(data) {\n	if (!played && init.timestamp>0) {\n		player.currentTime = init.timestamp;\n	}\n	played=!0;\n});\n\nplayer.on('loadedmetadata', function () {\n	duration = player.duration;\n});\n\nplayer.on('ready', function () {\n	duration = player.duration;\n});\n</script>\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"show_description") : depth0),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":78,"column":0},"end":{"line":78,"column":79}}})) != null ? stack1 : "")
+    + "\n</body>\n</html>\n";
+},"useData":true});
 templates['xapimanifest'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {

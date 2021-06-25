@@ -399,13 +399,15 @@
 					fileinfo = {
 						name: name,
 						payload: {
-							html: Handlebars.templates['wrapper-iframe']({
+							html: Handlebars.templates['wrapper-video']({
 								title: name,
 								format: 'video',
 								src: drop.result,
 								mime: mime
 							})
 						},
+						scrub: true,
+						score: 50,
 						format: "video",
 						fileId: this_fileid,
 					}
