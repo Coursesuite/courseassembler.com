@@ -270,7 +270,11 @@
 
 								// find and attach all page attachments as files within the zip
 								page["attachments"] = obj.hasOwnProperty("attachments") && obj.attachments.length ? (function () {
-									return obj.attachments.map(function(attachment) {
+									return obj.attachments.map(function(attachment, attachmentIndex) {
+
+										// if the attachment file wasn't present somehow (somes after reimport it might fail?) delete the reference
+										if (!attachment.file.length) { delete obj.attachments[attachmentIndex]; return; }
+
 										// store the attachment in a page subfolder
 										zip.file("data/"+key+"/"+attachment.name,attachment.file.split(',')[1], {base64: true});
 
@@ -336,7 +340,13 @@
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
 								delete obj.payload.mp3;
 							}
-							if (obj.hasOwnProperty("attachments")) delete obj.attachments; // clean memory as we go
+							if (obj.hasOwnProperty("attachments")) {
+								obj.attachments.map(function(attachment) {
+									attachment.file = undefined;
+									delete attachment.file;
+								});
+							}
+							// if (obj.hasOwnProperty("attachments")) delete obj.attachments; // clean memory as we go
 							manifest["files"].push({"key":key,"value":JSON.stringify(obj)});
 							progress += increment;
 							uiButtonInstance.setProgress(progress);
@@ -344,7 +354,7 @@
 
 					}).then(function package_add_template(result) {
 						manifest["timestamp"] = (new Date().getTime());
-						zip.file("doc.ninja", JSON.stringify(manifest));
+						zip.file("doc.ninja", JSON.stringify(manifest,null,4));
 						if (manifest.audio) { // include plyr to do web audio
 							['plyr.js','plyr.css','plyr.svg'].map(function(name) {
 								var p = $.ajax({url:'js/runtimes/'+name, dataType:"text"}); // $.ajax returns a promise of the file data
