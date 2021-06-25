@@ -165,6 +165,7 @@
 										href: resource.base + filename
 									});
 								} else if ("h5p"==obj.kind) {
+									// TODO figure out if h5p works in imscp
 
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
@@ -340,6 +341,7 @@
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
 								delete obj.payload.mp3;
 							}
+							// we have already attached the file attachments; remove the filedata
 							if (obj.hasOwnProperty("attachments")) {
 								obj.attachments.map(function(attachment) {
 									attachment.file = undefined;
