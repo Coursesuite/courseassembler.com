@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 			Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
 				enumerable: true,
 				get: function () {
-					return this._completed || false;
+					return this._completed || (this.content === 'plugin:section'); // sections are automatically completed, everything else default:false
 				},
 				set: function (bool) {
 					this._completed = bool;
@@ -473,7 +473,7 @@ function load() {
 	document.getElementById('pages').value = course.page;
     setBookmark(course.page +1); // stored as 1-based index, not 0-based
     showCurrentPageNumber();
-    if ((["media","plugin","h5p","proxy"].indexOf(current_page.content)===-1) && (current_page.content.indexOf("plugin:")===-1)) {
+    if (["media","plugin:quizbuilder","h5p","proxy"].indexOf(current_page.content)===-1) {
     	tick(current_page.timeSpent); // run timespent looper, initialised with existing time spent
     }
     checkCourseCompletion();
