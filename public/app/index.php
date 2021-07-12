@@ -200,7 +200,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 						<label>
 							<input type="radio" name="navlock" value="true">
 							<?php include("img/forward.svg"); ?>
-							<p>Learner must complete pages before moving on</p>
+							<p>Learner must complete pages in order</p>
 						</label>
 					</div>
 				</fieldset>
@@ -218,6 +218,11 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 							<?php include("img/seen.svg"); ?>
 							<p>Learner completes <select id="count-set" name="enough-count"><option>0</option></select> out of <b class="count-total">10</b> pages.</p>
 						</label>
+						<!--label>
+							<input type="radio" name="rule" value="section" data-select="show-section">
+							<?php include("img/seen.svg"); ?>
+							<p>Learner completes section <select id="section-set" name="section-count"><option>0</option></select></p>
+						</label-->
 					</div>
 				</fieldset>
 

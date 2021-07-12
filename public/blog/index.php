@@ -1,80 +1,98 @@
 <?php
 
 /*
-a folder based blog.
+A single page folder based blog.
+Folders are listed in 4-digit years
+Sub folders are listed in 2-digit months
+Sub sub folders are listed in days
+Inside those are numbered files - 0.html, 1.html, 2.html etc
 
-folders are the date in Name Day, Year format (or really any format that strtotime can format)
+When rendering an index, it lists all the 0.html files in descending order
+When rendering a file, it lists all the files in that folder in ascending order (0.html then 1.html then 2.html)
 
-in each folder are one or more html file
-
-when in list mode the blog will list the contents of 0.html
-
-when in entry mode the blog will list the contents of each file in name order, concatented. this way you can have extended entries.
-
+Rendering files replaces paths with the relative path for <img src>
+Disqus comments are embedded into page entries
+Page markup is rendered in-file
+Features NO caching! You might want to consider some.
 */
 
-$page = isset($_GET['path']) ? strtolower($_GET['path']) : '';
-
-if (empty($page)) $page = "blog";
-
-$p = realpath('.');
-$fold = new DirectoryIterator($p);
-$entries = [];
-foreach ($fold as $fi) {
-    if ($fi->isDot()) continue;
-    if (!$fi->isDir()) continue;
-    $fn = $fi->getFilename();
-    if ($fn === 'cache.db') continue;
-    $key = strtotime($fn); // "2017-05-24 00:00:00.md" => 1495584000
-    $slug = strtolower(date("j-F-Y", $key));
-    $entries[$key] = [
-    	"dir" => $fn,
-    	"date" => date("F j, Y", $key),
-    	"slug" => "{$slug}",
-    	"summary" => file_get_contents("{$p}/{$fold}/0.html"),
-    	"more" => file_exists("{$p}/{$fold}/1.html")
-    ];
+// implement sorting into an iterator
+class SortingIterator implements IteratorAggregate {
+	private $iterator = null;
+	public function __construct(Traversable $iterator, $callback) {
+		if (!is_callable($callback)) {
+			throw new InvalidArgumentException('Given callback is not callable!');
+		}
+		$array = iterator_to_array($iterator);
+		usort($array, $callback);
+		$this->iterator = new ArrayIterator($array);
+	}
+	public function getIterator() {
+			return $this->iterator;
+	}
 }
-krsort($entries);
+
+function mysort($a, $b) {
+	return $a->getPathname() < $b->getPathname();
+}
+
+$BlogRoot = realpath('.'); $len = strlen(($BlogRoot));
+
+$page = isset($_GET['path']) ? strtolower($_GET['path']) : '';
 
 $output = [];
 $identifier = "Blog list";
 $description = "Course Assembler Blog & Update information.";
 
-if ($page === "blog") {
-	foreach ($entries as $entry) {
-		$slug = $entry['slug'];
-		$output[] = "<h2>" . $entry['date'] . "</h2>";
-		$output[] = "<div>" . $entry['summary'] . "</div>";
-		$more = $entry['more'] ? "Read more / " : ""; 
+if (empty($page)) {
+	$page = "blog";
+
+	$Directory = new RecursiveDirectoryIterator($BlogRoot);
+	$Iterator = new RecursiveIteratorIterator($Directory, RecursiveIteratorIterator::SELF_FIRST);
+	$SortedIterator = new SortingIterator($Iterator,'mysort');
+	$Regex = new RegexIterator($SortedIterator->getIterator(), '/^.+\.html$/i', RecursiveRegexIterator::GET_MATCH);
+	$Entries = [];
+	foreach ($Regex as $f) {
+		if (strpos($f[0],"0.html") > 0) $Entries[substr($f[0], $len)] = file_get_contents($f[0]);
+	}
+
+	foreach ($Entries as $entry => $contents) {
+		$entrypath = str_replace("0.html","", $entry);
+		$date = DateTime::createFromFormat("/Y/m/d/", $entrypath);
+		$slug = '/blog/' . str_replace('/','-',substr($entry, 1, -7));
+		$more = "";
+		$repl = "/blog/{$entrypath}/";
+
+		$output[] = "<h2>" . $date->format("j M, Y") . "</h2>";
+		$output[] = "<div>" . str_replace(['src="',"src='"],['src="'.$repl,"src='{$repl}"], $contents) . "</div>";
+		if (file_exists($BlogRoot . str_replace("0.html","1.html",$entry))) {
+			$more = "Read more / "; 
+		}
 		$output[] = "<p class='uk-small'><a href='{$slug}'>{$more}Comments ...</a></p>";
 		$output[] = "<hr>";
 	}
+
 } else {
-	$found = false;
-	foreach ($entries as $entry) {
-		if ($entry['slug'] === $page) {
-			$identifier = $entry['slug'];
-			$description = "";
-			ob_start();
-			echo "<h2>" . $entry['date'] . "</h2>";
-			// $di = new DirectoryIterator($p . "/" . $entry['dir'] . "/");
-			// foreach ($di as $f) {
-			foreach (array_diff(scandir($p . "/" . $entry['dir'] . "/"), array('..','.')) as $f) {
-				if (strpos($f,".html") !== false) {
-					if (empty($description)) {
-						$description = strip_tags(file_get_contents($p . "/" . $entry['dir'] . "/" . $f));
-						$description = str_replace(PHP_EOL,' ',$description);
-						$description = substr($description, 0, 127) . "...";
-					}
-//				if ($f->isFile() && $f->getExtension()==="html") {
-					include $p . "/" . $entry['dir'] . "/" . $f;
-					$found = true;
-				}
+
+	$date = DateTime::createFromFormat("Y-m-d", $page);
+	$entrypath = str_replace('-','/',$page);
+	$identifier = $page;
+	$found = true;
+
+	$output[] = "<h2>" . $date->format("j M, Y") . "</h2>";
+	foreach (array_diff(scandir($entrypath), ['.','..']) as $file) {
+		if (strpos($file, '.html') !== false) {
+			if (empty($description)) {
+				$description = strip_tags(file_get_contents($p . "/" . $entry['dir'] . "/" . $f));
+				$description = str_replace(PHP_EOL,' ',$description);
+				$description = substr($description, 0, 127) . "...";
 			}
-			$output[] = str_replace(['src="',"src='"],['src="/blog/'.$entry["dir"].'/',"src='/blog/".$entry["dir"]."/"],ob_get_clean());
+			$repl = "/blog/{$entrypath}/";
+			$filepath = "{$BlogRoot}/{$entrypath}/{$file}";
+			$output[] = str_replace(['src="',"src='"],['src="'.$repl,"src='{$repl}"],file_get_contents($filepath));
 		}
 	}
+
 	$output[] = "<p class='uk-small'><a href='/blog/' class='uk-button uk-button-primary'><span uk-icon='chevron-double-left'></span> Return to blog</a></p>";
 }
 

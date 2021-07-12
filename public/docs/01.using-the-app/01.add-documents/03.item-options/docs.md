@@ -74,18 +74,16 @@ To download your current audio file, click the 3-dot icon that appears to the ri
 
 To delete your audio, click the *Remove* button and it's gone. This deletes it immediately, so be sure you want it gone before clicking!
 
-On a final note, there's also a handy speaker icon to the right of the audio button to indicate whether an item has audio attached. If it's a standard icon, there's audio attached. If it's got a line through it, there's nothing here!
+On a final note, there's also a handy speaker icon to the right of the navigation item.
 
 ![Audio icon - audio attached](AddDocuments_AudioIcon1.png)
-![Audio icon - no audio attached](AddDocuments_AudioIcon2.png)
 
 ### Completion rule
 
 This option only appears on streaming media items. It's used to determine when the media will be marked as 'complete' as your users watch through it.
 
-To change the completion point, click on the **Completion rule** button in the top left and the following popup will appear.
+To change the completion point, click on the **Completion rule** button in the top left and the following popup will appear. Videos also have an option to hide the seek bar (sometimes called a scrub bar or progress bar). This ensures your learners must watch the video and not skip ahead.
 
-![Completion rule button](AddDocuments_CompletionRuleButton.png)
 ![Completion rule popup](AddDocuments_CompletionRule.png)
 
 The completion point is determined by a percentage slider and set to 50% by default (meaning the video is marked 'complete' at its halfway point). Click and drag the slider to the left or right to adjust the percentage to your preferred point.

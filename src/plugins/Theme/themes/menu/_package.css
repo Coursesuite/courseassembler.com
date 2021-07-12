@@ -65,6 +65,7 @@
     --padding: .25rem;
     --narrow: 2rem;
     --wide: 16rem;
+    --rightPad: 8px;
 }
 
 /* ------------------------------------------------------------------------------- */
@@ -470,6 +471,14 @@ nav#scroll ol[data-section]:not(:first-child) {
     margin-top: var(--sectionGap);
 }
 
+nav#scroll li.section {
+    display: flex;
+    justify-content: space-between;
+}
+nav#scroll li.section > span:last-of-type {
+    padding-right: var(--rightPad);
+}
+
 nav#scroll li.section>span {
     padding: var(--sectionPadding);
     background: var(--sectionBackground);
@@ -525,15 +534,15 @@ nav#scroll li.selected > div > a {
 }
 
 li > div > span {
-    padding-right: 10px;
+    padding-right: var(--rightPad);
 }
 
 li.selected > div > span {
-    padding-right: 8px;
+    padding-right: var(--rightPad);
 }
 
 /* completion icon: over-ride icon rather than replacing class */
-li.completed > div .checkmark:before {
+li.completed > .c .checkmark:before {
     content: "\e902" !important;
 }
 li > div > a {
@@ -570,6 +579,22 @@ li.selected > div {
   color: var(--selectionText);
   text-shadow: 0 -1px 0 rgba(0,0,0,.5);
 }
+
+/* keep section headers visible, or sections without headers, expand the current active section plus any the user toggled */
+ol[data-section].expandable > li.section {
+    cursor:pointer;
+}
+ol[data-section].expandable.open > li.section span.ca-menu-closed::before,
+ol[data-section].expandable.opened > li.section span.ca-menu-closed::before {
+    content: "\e911";
+}
+ol[data-section].expandable:not(.open):not(.opened) > li:not(.section) {
+    display: none;
+}
+ol[data-section].expandable.open > li:not(.section) {
+    display:unset;
+}
+
 /* ------------------------------------------------------------------------------- */
 
 

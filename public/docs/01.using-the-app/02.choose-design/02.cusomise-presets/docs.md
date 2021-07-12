@@ -244,6 +244,39 @@ A CSS border applied to the individual row. You can specify the whole CSS value,
 Applies to: Menu, Dock
 
 
+###SECTION
+
+A separator menu item that represents a section of navigation items, also represents a scorm objective grouping. Styles inherit from Item if not otherwise overridden.
+
+*background* : `transparent`
+
+The background colour of selected items in the menu. It is written to the page using the css `background` shorthand property so you can specify anything that CSS tag supports including gradients, data-encoded images, multiple backgrounds, etc. You can also use `transparent`.
+
+*text* : `inherit`
+
+This is the selection text colour for navigation items (when shown in a Menu).
+
+*padding* : `.25rem`
+
+The space between any text and the edge of the box, in any CSS notation such as `10px` or `1rem`. You can use `0` or `false` to turn off padding.
+
+*rounded* : `false`
+
+Specifies a 'radius' for the edge of the box in CSS notation such as `10px` or `.25rem`. You can use `false` or `none` to turn off rounded edges.
+
+*border* : `false`
+
+A CSS border applied to the individual row. You can specify the whole CSS value, for instance `1px solid red`.
+
+*gap* : `1rem`
+
+The top margin above the item.
+
+----
+
+Applies to: Menu, Dock
+
+
 ###AUDIO
 
 The audio player sits at the bottom of pages that have audio. It has a background and control colour. You can specify `transparent` on the background.

@@ -16,8 +16,22 @@
 				fileInfo.payload["image"] = imgData;
 				localforage.setItem(fileId, fileInfo, function() {
 					DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + fileId + "']"), fileInfo, "ready");
-					reimportResolve();
+					reimportResolve({fileInfo:fileInfo,fileId:fileId});
 				});
+			} else if (fileInfo.kind === "image" && domDocument.querySelector('img[src^="data:image"]')) {
+				var imgData = domDocument.querySelector('img[src^="data:image"]').src;
+				fileInfo.payload["image"] = imgData;
+				localforage.setItem(fileId, fileInfo, function() {
+					DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + fileId + "']"), fileInfo, "ready");
+					reimportResolve({fileInfo:fileInfo,fileId:fileId});
+				});
+
+			} else if (fileInfo.kind === "plugin" && fileInfo.plugin === "Section") {
+				localforage.setItem(fileId, fileInfo, function() {
+					DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + fileId + "']"), fileInfo, "ready");
+					reimportResolve({fileInfo:fileInfo,fileId:fileId});
+				});
+
 			} else {
 
 				function replaceElements(elements, dom, fileInfo) { // each item in the selection criteria
@@ -49,7 +63,7 @@
 									break;
 								case "audio": // note audio is almost never embedded in the document now
 									fileInfo.payload["mp3"] = "data:audio/mp3;base64," + contents;
-									instance.closest("#wDS3ed").remove(); // the audio object ... man we need to fix that
+									if (instance.closest("#wDS3ed")) instance.closest("#wDS3ed").remove(); // the audio object ... man we need to fix that
 									break;
 							}
 							resolve(dom);
@@ -256,72 +270,93 @@
 							var fileinfo = JSON.parse(file.value),
 								fileid = file.key,
 								folder = zip.folder("data");
-							folder.file(fileid + ".html").async("string").then(function(text) {
-								var dom = (new DOMParser()).parseFromString(text, "text/html");
-								_ReImportNinjaFile(folder, dom, fileid, fileinfo).then(function(results) {
-									/*
-									results = {
-										fileinfo: (json)
-										fileId: (string)
-									}
-									*/
 
-									var proms = [];
-									// if has audio
-										// wait till it has been re-imported
-									if (results.fileInfo.hasOwnProperty("audio")) {
-										proms.push(new Promise(function(audioResolve, audioReject) {
-											var audioName = results.fileInfo.audio;
-											// fileInfo might be stale by now
-											localforage.getItem(results.fileId).then(function(o) {
-												folder.file(audioName).async("base64").then(function(mp3data) {
-													o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
-													localforage.setItem(results.fileId,o).then(function () {
-														// DocNinja.PurityControl.Nav.Check()
-														// DocNinja.Navigation.Icons.Add('audio', results.fileId);
-														audioResolve();
-													});
-												});
-											})
-											.catch(audioReject);
-										}));
-									}
-
-									// TODO: support attachments in doc.ninja output
-									// THEN: support bringing them back in here
-									// if has attachments
-										// wait till they all have been reimported
-									// if (results.fileInfo.hasOwnProperty("attachments")) {
-									// 	proms.push(new Promise(attachResolve, attachReject) {
-									// 		var audioName = results.fileInfo.audio;
-									// 		// fileInfo might be stale by now
-									// 		localforage.getItem(results.fileId).then(function(o) {
-									// 			folder.file(audioName).async("base64").then(function(mp3data) {
-									// 				o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
-									// 				localforage.setItem(results.fileId,o).then(function () {
-									// 					// DocNinja.PurityControl.Nav.Check()
-									// 					// DocNinja.Navigation.Icons.Add('audio', results.fileId);
-									// 					audioResolve();
-									// 				});
-									// 			});
-									// 		})
-									// 		.catch(audioReject);
-									// 	});
-									// }
-
-									// if has audio
-										// wait till they are re-imported
-
-									// resume - happens even if proms[] is empty
-									Promise.all(proms)
-									.then(resume);
-
-
-									// } else {
-									// 	resume();
-									// }
+							// Header plugins have no file to read
+							if (fileinfo.kind === 'plugin' && fileinfo.plugin === 'Section') {
+								_ReImportNinjaFile(folder, undefined, fileid, fileinfo).then(function(results) {
+									resume();
 								});
-							});
+
+							} else {
+
+								folder.file(fileid + ".html").async("string").then(function(text) {
+									var dom = (new DOMParser()).parseFromString(text, "text/html");
+									_ReImportNinjaFile(folder, dom, fileid, fileinfo).then(function(results) {
+										/*
+										results = {
+											fileinfo: (json)
+											fileId: (string)
+										}
+										*/
+
+
+										var proms = [];
+										// if has audio
+											// wait till it has been re-imported
+										if (results.fileInfo.hasOwnProperty("audio")) {
+											proms.push(new Promise(function(audioResolve, audioReject) {
+												var audioName = results.fileInfo.audio;
+												// fileInfo might be stale by now
+												localforage.getItem(results.fileId).then(function(o) {
+													folder.file(audioName).async("base64").then(function(mp3data) {
+														o.payload["mp3"] = "data:audio/mp3;base64," + mp3data;
+														localforage.setItem(results.fileId,o).then(function () {
+															// DocNinja.PurityControl.Nav.Check()
+															// DocNinja.Navigation.Icons.Add('audio', results.fileId);
+															audioResolve();
+														});
+													});
+												})
+												.catch(audioReject);
+											}));
+										}
+
+										// TODO: support attachments in doc.ninja output
+										// THEN: support bringing them back in here
+										// if has attachments
+											// wait till they all have been reimported
+										if (results.fileInfo.hasOwnProperty("attachments")) {
+
+											// attachResolve finishes when the object is written
+											proms.push (new Promise(function(attachResolve,attachReject) {
+												let innerPromises = [],
+													attachments = results.fileInfo.attachments;
+
+												// innerPromise resolves when the work of loading and modifying the attachments array is done
+												attachments.map(function(instance,instanceIndex) {
+													innerPromises.push(new Promise(function(loadResolve, loadReject) {
+														const fileMime = Mime.get( instance.name.trimUntilExtn() );
+														folder.file(results.fileId + "/" + instance.name).async("base64").then(function(filedata) {
+															attachments[instanceIndex].file = `data:${fileMime};base64,${filedata}`;
+															loadResolve();
+														}).catch(loadReject)
+													}));
+												});
+
+												// after all innerPromises resolve we are safe to save the final attachments array
+												Promise.allSettled(innerPromises)
+												.then(function(innerPromiseResults) {
+													localforage.getItem(results.fileId)
+													.then(function(fi) {
+														fi.attachments = attachments;
+														localforage.setItem(results.fileId, fi)
+														.then(attachResolve);
+													})
+												}).catch(attachReject);
+											}));
+										}
+
+										// resume - happens even if proms[] is empty
+										Promise.all(proms)
+										.then(resume);
+
+
+										// } else {
+										// 	resume();
+										// }
+									});
+								});
+							}
 						}, function() {
 							// asycheach has slowed us down but has given us a guarenteed order, so it's now safe to save
 // console.log(" after all resumes");

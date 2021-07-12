@@ -13,10 +13,6 @@ Good news! We've got your back there too!
 
 Let's get started by clicking the **Import...** button toward the top left corner of the Assembler.
 
-![Import button](AddDocuments_import.png)
-
-The following popup should appear:
-
 ![Import window](AddDocuments_importPackagesPopup.png?resize=400,339)
 
 From here, we have several options available for importing packages into the Assembler:

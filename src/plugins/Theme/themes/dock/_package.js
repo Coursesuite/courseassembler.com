@@ -58,6 +58,7 @@ function getAPI(){if(null!=apiHandle)return apiHandle;var a=findAPI(window,"API_
 function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
 function findInJson(obj,prop,value){ for(var i=0,j=obj.length,k;i<j,k=obj[i];i++)if(value===k[prop])return k}
 function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});document.body.dispatchEvent(event);}
+function setObjective(oId,sId,sCompletion,sPercentComplete,sPassFail,sScore,sDescription){if(oId==null)oId=scormGetValue("cmi.objectives._count");var cmiO="cmi.objectives."+oId+".";scormSetValue(cmiO+"id",sId);if(_sAPI=="API_1484_11"){scormSetValue(cmiO+"completion_status",sCompletion);if(sPercentComplete!=null)scormSetValue(cmiO+"progress_measure",sPercentComplete);if(sPassFail!=null)scormSetValue(cmiO+"success_status",sPassFail);if(sScore!=null)scormSetValue(cmiO+"score.scaled",sScore);if(sDescription!=null)scormSetValue(cmiO+"description",sDescription)}else if(_sAPI=="API"){if(sCompletion=="unknown")sCompletion="incomplete";scormSetValue(cmiO+"status",sCompletion);if(sPassFail=="passed"||sPassFail=="failed")scormSetValue(cmiO+"status",sPassFail);if(sScore!=null){scormSetValue(cmiO+"score.min","0");scormSetValue(cmiO+"score.max","100");scormSetValue(cmiO+"score.raw",Math.round(sScore*1E5)/1E3+"")}}};
 
 function apiProxy() {
 	this.cache = {};
@@ -153,14 +154,14 @@ function doUnload() {
 // public method for navigating to the next-lowest page number
 function left() {
 	var i = course.page - 1;
-	while (pages[i].content === 'plugin:section') i = i - 1;
+	while (pages[i] && pages[i].content === 'plugin:section') i = i - 1;
     goto(i);
 }
 
 // public method for navigating to the next-highest page number
 function right() {
 	var i = course.page + 1;
-	while (pages[i].content === 'plugin:section') i = i + 1;
+	while (pages[i] && pages[i].content === 'plugin:section') i = i + 1;
     goto(i);
 }
 
@@ -241,6 +242,7 @@ function printCurrentPage() {
 }
 
 // initialise on page load
+var _sections=[0];
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
 	// ensure a shared instance audio player is created, even if it isn't used yet
@@ -286,8 +288,8 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     function li(i,title,expandable,aud,att,child,depth) {
 		var html = [];
 		var liClass = (expandable == true) ? "parent": child ? "child" : "";
-		html.push('<li class="' + liClass + '" data-depth="'+depth+'">');
-		html.push('<div>');
+		html.push('<li class="' + liClass + '" data-depth="'+depth+'" data-index="'+i+'">');
+		html.push('<div class="c">');
 		html.push('<a href="#" onclick="event.preventDefault();goto(' + i + ')">' + title + '</a>');
 		if (aud && icons.audio) html.push("<span><span class='ca ca-audio' title='Page contains audio'></span></span>");
 		if (att && icons.attachments) html.push("<span><span class='ca ca-attachment' title='Page contains attachments'></span></span>");
@@ -302,27 +304,28 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     }
 
     // nested list / menu from a flat array
-    var menu = [], child = false, sections = [0];
+    var menu = [], child = false;
     for (var i=0;i<pages.length;i++) {
     	if (pages[i].content === 'plugin:section') {
-    		sections.push(i);
+    		_sections.push(i);
     	}
     }
 
     // render each section menu
-    for (var s = 0; s<sections.length; s++) {
-    	menu.push("<ol data-section='" + s + "'>");
-    	var len = sections[s+1] || pages.length;
+    for (var s = 0; s<_sections.length; s++) {
+    	menu.push("<ol data-section='" + s + "' class='" + (pages[_sections[s]].content === 'plugin:section' ? "expandable" : "static open") + "'>");
+    	var len = _sections[s+1] || pages.length;
 
     	// starting at the index of the section, start rendering a new menu
-	    for (var i=sections[s];i<len;i++) {
+	    for (var i=_sections[s];i<len;i++) {
 	      var p = pages[i],
 	          q = pages[i+1],
 	          r = true,
 	          audio = p.hasOwnProperty('audio') && p.audio.length,
 	          attach = p.hasOwnProperty('attachments') && p.attachments.length;
 	    	if (pages[i].content === 'plugin:section') {
-	    		menu.push("<li class='section'><span>" + p.title + "</span></li>");
+		        var tick = '<span class="c"><span class="ca ca-unchecked checkmark" title="Ticked when section is completed"></span></span>';
+	    		menu.push("<li class='section' data-index='"+i+"'><span class='stitle'><span class='ca ca-menu-closed'></span>" + p.title + "</span>" + tick + "</li>");
 	    	} else {
 		      if (q) {
 		        if (q.depth > p.depth) {
@@ -345,7 +348,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		  Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
 		  	enumerable: true,
 		  	get: function () {
-		  		return this._completed || (this.content === 'plugin:section'); // sections are automatically completed, everything else default:false
+		  		return this._completed || (this.content === 'plugin:section'); // _sections are automatically completed, everything else default:false
 		  	},
 		  	set: function (bool) {
 		  		this._completed = bool;
@@ -402,12 +405,22 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		});
 	}
 
+	// make section headers expandable; an open header has been shown by need; an opened header has been shown by the user
+	document.querySelector('#scroll').addEventListener('click', function(e) {
+		// click event might come from multiple targets
+		if (e.target.classList && (['section','stitle','ca-menu-closed'].some(function(v){return e.target.classList.contains(v)}))) {
+			var ol = e.target.closest('ol[data-section]');
+			if (ol) (ol.classList[ol.classList.contains('opened') ? 'remove' : 'add']("opened"));
+		}
+	}, false);
+
     goto(Math.clip(_lastPage-1,0,Object.keys(pages).length),true); // lesson_location default is 1; we are zero based
     checkCourseCompletion();
 });
 
 // public method for navigating directly to a page by its index
 function goto(n,init) {
+	n = parseInt(n,10);
     if (n>=Object.keys(pages).length) return;
     if (n<0) return;
     if (n===course.page) return;
@@ -513,6 +526,8 @@ function load() {
     });
     var li = document.querySelector("#scroll li.selected");
     if (li) {
+		[].forEach.call(document.querySelectorAll('#scroll ol[data-section]:not(.static)'),function(v){v.classList.remove('open')});
+		li.closest('ol[data-section]').classList.add('open');
     	var pli = li.parentNode.closest("li");
     	// expand all parents
     	while (pli) {
@@ -582,15 +597,15 @@ function checkCourseCompletion() {
         pagelength = Object.keys(pages).length,
         menu = document.getElementById("scroll"),
     	setComplete = function() {
-	        if (!course.completed) {
-	            learnerWillReturn(false);
-	            if ("API_1484_11"==_sAPI) setPassFail("passed");
-	            setCompletionStatus("completed");
-	            setScore(course.score/100);
-	            scormCommit();
-	            course.completed = true;
-	        }
-	    };
+				if (!course.completed) {
+					learnerWillReturn(false);
+					if ("API_1484_11"==_sAPI) setPassFail("passed");
+					setCompletionStatus("completed");
+					setScore(course.score/100);
+					scormCommit();
+					course.completed = true;
+				}
+			};
 
 	// check properties & persisted values, update icons
     for (i=0;i<pagelength;i++) {
@@ -599,9 +614,29 @@ function checkCourseCompletion() {
         if (pages[i].timeSpent > pages[i].score) pages[i]._completed = true;  // !! set underlying property value to avoid recursion
         if (pages[i].completed) {
             passed++;
-            if (menu) menu.querySelectorAll("li")[i].classList.add("completed");
+            if (menu && pages[i].content !== "plugin:section") menu.querySelectorAll("li")[i].classList.add("completed");
         }
     }
+
+	// check each section to see if all objects in a section are completed
+    for (var s = 0; s<_sections.length; s++) {
+    	var from = _sections[s] + (pages[_sections[s]].content === "plugin:section" ? 1 : 0),
+			to = _sections[s+1] || pages.length,
+			needed = to - from,
+			done = 0;
+		for (var i=from;i<to;i++) {
+			done += (pages[i].completed ? 1 : 0);
+		}
+		// enough pages inside section to complete it - tick the section
+		var page = pages[_sections[s]],
+			objective_id = page.hasOwnProperty('objective') ? page.objective : ''+page.index;
+		if (done === needed) {
+			if (menu) menu.querySelectorAll("li")[_sections[s]].classList.add("completed");
+			setObjective(s,objective_id,"completed",1,"passed",done,page.title);
+		} else {
+			setObjective(s,objective_id,"incomplete",(done/needed),"unknown",done,page.title);
+		}
+	}
 
     // if you are coming back (not first launch) and the course is already completed, don't change it
     if (!isFirstLaunch() && getCompletionStatus() == "completed") {

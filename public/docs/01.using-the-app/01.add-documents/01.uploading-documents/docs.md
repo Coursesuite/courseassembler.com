@@ -10,7 +10,7 @@ visible: true
 
 To get any use out of the Course Assembler, we'll need some documents!
 
-Let's get started by clicking the **Add content** button toward the top left corner of the Assembler.
+Let's get started by clicking the **Add content** button toward the top left corner of the Assembler, then selecting the type of content you want to insert, such as Upload Files.
 
 ![Add content button](AddDocuments_addContent.png)
 
@@ -72,6 +72,6 @@ Once you've found your file, click on it to select it, then click the blue *Sele
 
 Each document will appear in the list and each item represents a 'page' in the final content package. Files are converted to HTML5 when uploaded to the Assembler - during file conversion, the left menu will change to show the conversion taking place (you can cancel it at any time by clicking the 'x' icon to the right of the file name). You can also continue working on other documents or dragging more documents onto the browser while files are still uploading.
 
-![Uploading files converting to HTML5](docNinja_uploadConversion.jpg)
+![Uploading files converting to HTML5](docNinja_uploadConversion.png)
 
 Files are also stored in your browser forever (or until you delete them or press Reset). This means you can close your browser and come back tomorrow and the files will still be loaded and ready.

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# https://www.npmjs.com/package/handlebars
+# npm install handlebars -g
+# https://www.npmjs.com/package/uglify-js
+# npm install uglify-js -g
+
 timestamp() {
   date +"%Y%m%d%H%M%S"
 }

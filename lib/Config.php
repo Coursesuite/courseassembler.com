@@ -10,7 +10,7 @@ class Config {
             'DB_HOST' => '127.0.0.1',
             'DB_NAME' => 'ca_licence',
             'DB_USER' => 'root',
-            'DB_PASS' => '',
+            'DB_PASS' => 'root',
             'DB_PORT' => '3306',
             'DB_CHARSET' => 'utf8',
 

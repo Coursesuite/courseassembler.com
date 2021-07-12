@@ -58,6 +58,7 @@ function getAPI(){if(null!=apiHandle)return apiHandle;var a=findAPI(window,"API_
 function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
 function findInJson(obj,prop,value){ for(var i=0,j=obj.length,k;i<j,k=obj[i];i++)if(value===k[prop])return k}
 function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});document.body.dispatchEvent(event);}
+function setObjective(oId,sId,sCompletion,sPercentComplete,sPassFail,sScore,sDescription){if(oId==null)oId=scormGetValue("cmi.objectives._count");var cmiO="cmi.objectives."+oId+".";scormSetValue(cmiO+"id",sId);if(_sAPI=="API_1484_11"){scormSetValue(cmiO+"completion_status",sCompletion);if(sPercentComplete!=null)scormSetValue(cmiO+"progress_measure",sPercentComplete);if(sPassFail!=null)scormSetValue(cmiO+"success_status",sPassFail);if(sScore!=null)scormSetValue(cmiO+"score.scaled",sScore);if(sDescription!=null)scormSetValue(cmiO+"description",sDescription)}else if(_sAPI=="API"){if(sCompletion=="unknown")sCompletion="incomplete";scormSetValue(cmiO+"status",sCompletion);if(sPassFail=="passed"||sPassFail=="failed")scormSetValue(cmiO+"status",sPassFail);if(sScore!=null){scormSetValue(cmiO+"score.min","0");scormSetValue(cmiO+"score.max","100");scormSetValue(cmiO+"score.raw",Math.round(sScore*1E5)/1E3+"")}}};
 
 function apiProxy() {
 	this.cache = {};
@@ -153,14 +154,14 @@ function doUnload() {
 // public method for navigating to the next-lowest page number
 function left() {
 	var i = course.page - 1;
-	while (pages[i].content === 'plugin:section') i = i - 1;
+	while (pages[i] && pages[i].content === 'plugin:section') i = i - 1;
     goto(i);
 }
 
 // public method for navigating to the next-highest page number
 function right() {
 	var i = course.page + 1;
-	while (pages[i].content === 'plugin:section') i = i + 1;
+	while (pages[i] && pages[i].content === 'plugin:section') i = i + 1;
     goto(i);
 }
 
@@ -241,6 +242,7 @@ function printCurrentPage() {
 }
 
 // initialise on page load
+var _sections=[0];
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
 	// ensure a shared instance audio player is created, even if it isn't used yet
@@ -284,31 +286,32 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
     for (var i=0;i<pages.length;i++) {
     	if (pages[i].content === 'plugin:section') {
-    		sections.push(i);
+    		_sections.push(i);
     	}
     }
 
-    for (var s = 0; s<sections.length; s++) {
-    	var st = pages[sections[s]], og;
+    for (var s = 0; s<_sections.length; s++) {
+    	var st = pages[_sections[s]], og, modifier = 0;
     	if (st.content === "plugin:section") {
 			og = document.createElement("optgroup");
     		st = st.title;
 	    	og.setAttribute("label", st);
 	    	dest.appendChild(og);
+			modifier = 1;
     	} else {
     		og = dest;
     	}
 
-    	var len = sections[s+1] || pages.length;
+    	var len = _sections[s+1] || pages.length;
 
-	    for (var i=sections[s];i<len;i++) {
+	    for (var i=_sections[s]+modifier;i<len;i++) {
 	    	var p = pages[i],
 	    		option = document.createElement('option');
 	    	option.value = i;
 	    	option.textContent = Array(p.depth+1).join("-- ") + p.title;
 	    	og.appendChild(option);
 
-	      // setting a completed property on this node should trigger a course completion check
+	        // setting a completed property on this node should trigger a course completion check
 			Object.defineProperty(p, "completed", { // setting this property should trigger course completion checking
 				enumerable: true,
 				get: function () {
@@ -323,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 				}
 			});
 
-		  // setting a status on this node might need to update other properties
+		    // setting a status on this node might need to update other properties
 			Object.defineProperty(p, "status", { // status can be {slide:n} or {seconds:n} or {seconds:n,duration:d} and should check the score
 				enumerable: true,
 				get: function () {
@@ -371,6 +374,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
 // public method for navigating directly to a page by its index
 function goto(n,init) {
+	n = parseInt(n,10);
     if (n>=Object.keys(pages).length) return;
     if (n<0) return;
     if (n===course.page) return;
@@ -419,7 +423,7 @@ function load() {
 	// }
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
-	if (current_page.content === "plugin" || current_page.content === "h5p") {
+	if (current_page.content.indexOf("plugin") === 0 || current_page.content === "h5p") {
 		src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
@@ -525,15 +529,15 @@ function checkCourseCompletion() {
         pagelength = Object.keys(pages).length,
         menu = document.getElementById("menu"),
     	setComplete = function() {
-	        if (!course.completed) {
-	            learnerWillReturn(false);
-	            if ("API_1484_11"==_sAPI) setPassFail("passed");
-	            setCompletionStatus("completed");
-	            setScore(course.score/100);
-	            scormCommit();
-	            course.completed = true;
-	        }
-	    };
+				if (!course.completed) {
+					learnerWillReturn(false);
+					if ("API_1484_11"==_sAPI) setPassFail("passed");
+					setCompletionStatus("completed");
+					setScore(course.score/100);
+					scormCommit();
+					course.completed = true;
+				}
+			};
 
 	// check properties & persisted values, update icons
     for (i=0;i<pagelength;i++) {
@@ -542,9 +546,29 @@ function checkCourseCompletion() {
         if (pages[i].timeSpent > pages[i].score) pages[i]._completed = true;  // !! set underlying property value to avoid recursion
         if (pages[i].completed) {
             passed++;
-            if (menu) menu.querySelectorAll("li")[i].classList.add("completed");
+            if (menu && pages[i].content !== "plugin:section") menu.querySelectorAll("li")[i].classList.add("completed");
         }
     }
+
+	// check each section to see if all objects in a section are completed
+    for (var s = 0; s<_sections.length; s++) {
+    	var from = _sections[s] + (pages[_sections[s]].content === "plugin:section" ? 1 : 0),
+			to = _sections[s+1] || pages.length,
+			needed = to - from,
+			done = 0;
+		for (var i=from;i<to;i++) {
+			done += (pages[i].completed ? 1 : 0);
+		}
+		// enough pages inside section to complete it - tick the section
+		var page = pages[_sections[s]],
+			objective_id = page.hasOwnProperty('objective') ? page.objective : ''+page.index;
+		if (done === needed) {
+			if (menu) menu.querySelectorAll("li")[_sections[s]].classList.add("completed");
+			setObjective(s,objective_id,"completed",1,"passed",done,page.title);
+		} else {
+			setObjective(s,objective_id,"incomplete",(done/needed),"unknown",done,page.title);
+		}
+	}
 
     // if you are coming back (not first launch) and the course is already completed, don't change it
     if (!isFirstLaunch() && getCompletionStatus() == "completed") {
