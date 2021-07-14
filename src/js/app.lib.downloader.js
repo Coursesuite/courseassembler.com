@@ -318,7 +318,8 @@
 										obj.payload.html = Handlebars.templates['wrapper-markdown'](obj.payload);
 										break;
 									case "Intro":
-										obj.payload.html = DocNinja.Plugins.Intro.Compile(obj.payload.html, obj.payload, setup);
+										obj.payload.html = DocNinja.Plugins.Intro.Compile(obj.payload.html, obj.payload, setup); // , fold);
+										// DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj);
 										break;
 								}
 								fold.file(filename, obj.payload.html);
