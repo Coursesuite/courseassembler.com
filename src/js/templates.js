@@ -1322,9 +1322,9 @@ templates['wrapper-markdown'] = template({"compiler":[8,">= 4.3.0"],"main":funct
     + alias4(((helper = (helper = lookupProperty(helpers,"title") || (depth0 != null ? lookupProperty(depth0,"title") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data,"loc":{"start":{"line":5,"column":8},"end":{"line":5,"column":17}}}) : helper)))
     + "</title>\n	<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\" />\n	<link rel=\"preconnect\" href=\"https://polyfill.io\">\n	<link rel=\"preconnect\" href=\"https://cdnjs.cloudflare.com\">\n	<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">\n	<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css\">\n	<link id=\"gfont\" href=\"https://fonts.googleapis.com/css2?family="
     + alias4((lookupProperty(helpers,"urlencode")||(depth0 && lookupProperty(depth0,"urlencode"))||alias2).call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"css") : depth0)) != null ? lookupProperty(stack1,"headerFont") : stack1),{"name":"urlencode","hash":{},"data":data,"loc":{"start":{"line":11,"column":65},"end":{"line":11,"column":93}}}))
-    + ":wght@300&family="
-    + alias4((lookupProperty(helpers,"urlencode")||(depth0 && lookupProperty(depth0,"urlencode"))||alias2).call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"css") : depth0)) != null ? lookupProperty(stack1,"bodyFont") : stack1),{"name":"urlencode","hash":{},"data":data,"loc":{"start":{"line":11,"column":110},"end":{"line":11,"column":136}}}))
-    + ":wght@300&display=swap\" rel=\"stylesheet\">\n	<style>\n    :root {\n	  --headerFont: '"
+    + "&family="
+    + alias4((lookupProperty(helpers,"urlencode")||(depth0 && lookupProperty(depth0,"urlencode"))||alias2).call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"css") : depth0)) != null ? lookupProperty(stack1,"bodyFont") : stack1),{"name":"urlencode","hash":{},"data":data,"loc":{"start":{"line":11,"column":101},"end":{"line":11,"column":127}}}))
+    + "&display=swap\" rel=\"stylesheet\">\n	<style>\n    :root {\n	  --headerFont: '"
     + alias4(alias5(((stack1 = (depth0 != null ? lookupProperty(depth0,"css") : depth0)) != null ? lookupProperty(stack1,"headerFont") : stack1), depth0))
     + "';\n	  --bodyFont: '"
     + alias4(alias5(((stack1 = (depth0 != null ? lookupProperty(depth0,"css") : depth0)) != null ? lookupProperty(stack1,"bodyFont") : stack1), depth0))
