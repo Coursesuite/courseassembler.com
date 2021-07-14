@@ -37,6 +37,7 @@ details .inline-help {
 	text-transform: uppercase;
 	color: white;
 }
+#banner button[data-action='pop-help'].bug { background-color: var(--bug);}
 #banner button[data-action='pop-help'] { background-color: var(--help);}
 #banner button[data-action='clear-storage'] { background-color: var(--reset);}
 #banner button[data-action="toggle-settings"] { background-color: var(--settings);}
