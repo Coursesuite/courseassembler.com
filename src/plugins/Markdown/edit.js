@@ -151,6 +151,7 @@ var MarkDownEditor = (function () {
 			if (obj && obj.payload && obj.payload.css) {
 				for (let name in obj.payload.css) {
 					document.getElementById(name).value = obj.payload.css[name];
+					var event = new Event('change'); document.getElementById(name).dispatchEvent(event);
 					var value = obj.payload.css[name];
 					document.documentElement.style.setProperty(`--${name}`, value);
 				}
