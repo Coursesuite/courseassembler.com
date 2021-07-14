@@ -1,9 +1,9 @@
 (function (DocNinja, undefined) {
 
 	DocNinja.Plugins = DocNinja.Plugins || {};
-	DocNinja.Plugins.Picture = DocNinja.Plugins.Picture || {};
+	var methods = DocNinja.Plugins.Picture = DocNinja.Plugins.Picture || {};
 
-	DocNinja.Plugins.Picture.RegisterPlugin = function(context) {
+	methods.RegisterPlugin = function(context) {
 		DocNinja.routines.RegisterAction({
 			plugin: context,
 			icon: '<div class="ga-picture"><a data-action="add-picture-page"><i class="ninja-image1"></i>Captioned image</a></div>',
@@ -14,7 +14,7 @@
 		});
 	};
 
-	DocNinja.Plugins.Picture.Add = function () {
+	methods.Add = function () {
 		var newId = DocNinja.PurityControl.Nav.GetFileId(),
 			fileInfo = {
 				name: "Picture",
@@ -31,23 +31,23 @@
 	}
 
 	function hexToRgb(hex) {
-	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-		return r + r + g + g + b + b;
-	});
+		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+		hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+			return r + r + g + g + b + b;
+		});
 
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result ? {
-		r: parseInt(result[1], 16),
-		g: parseInt(result[2], 16),
-		b: parseInt(result[3], 16)
-	} : null;
-}
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? {
+			r: parseInt(result[1], 16),
+			g: parseInt(result[2], 16),
+			b: parseInt(result[3], 16)
+		} : null;
+	}
 
 	// html: loaded from plugins/Intro/styleX.html
 	// payload: obj.payload object from localstorage instance
-	DocNinja.Plugins.Picture.Compile = function (html, payload) {
+	methods.Compile = function (html, payload) {
 		if (!html) return '';
 		var doc = document.implementation.createHTMLDocument('untitled');
 		doc.documentElement.innerHTML = html;
@@ -105,6 +105,14 @@
 		}
 
 		return "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+	}
+
+	methods.Import = function (domDocument) {
+		return new Promise(function(resolve,reject) { 
+			var imgData = domDocument.querySelector("img");
+			if (!imgData) reject("plugin:picture (required element not found)");
+			resolve(imgData.getAttribute("src"));
+		});
 	}
 
 })(window.DocNinja = window.DocNinja || {});

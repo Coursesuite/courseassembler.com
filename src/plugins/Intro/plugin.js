@@ -1,9 +1,9 @@
 (function (DocNinja, undefined) {
 
 	DocNinja.Plugins = DocNinja.Plugins || {};
-	DocNinja.Plugins.Intro = DocNinja.Plugins.Intro || {};
+	var methods =  DocNinja.Plugins.Intro = DocNinja.Plugins.Intro || {};
 
-	DocNinja.Plugins.Intro.RegisterPlugin = function(context) {
+	methods.RegisterPlugin = function(context) {
 		DocNinja.routines.RegisterAction({
 			plugin: context,
 			icon: '<div class="ga-intro"><a data-action="add-intro-page"><i class="ninja-home"></i>Intro Page</a></div>',
@@ -14,7 +14,7 @@
 		});
 	};
 
-	DocNinja.Plugins.Intro.Add = function () {
+	methods.Add = function () {
 		var newId = DocNinja.PurityControl.Nav.GetFileId(),
 			fileInfo = {
 				name: "Course Introduction",
@@ -34,7 +34,7 @@
 
 	// html: loaded from plugins/Intro/styleX.html
 	// payload: obj.payload object from localstorage instance
-	DocNinja.Plugins.Intro.Compile = function (html, payload, strings) {
+	methods.Compile = function (html, payload, strings) {
 		if (!html) return '';
 		var doc = document.implementation.createHTMLDocument('untitled');
 		doc.documentElement.innerHTML = html;
@@ -51,6 +51,14 @@
 			doc.querySelector(".copyright").textContent = strings['option-course-copyright'];
 		}
 		return "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+	}
+
+	methods.Import = function (domDocument) {
+		return new Promise(function(resolve,reject) { 
+			var imgData = domDocument.querySelector("body > img");
+			if (!imgData) reject("plugin:image (required element not found)");
+			resolve(imgData.getAttribute("src"));
+		});
 	}
 
 })(window.DocNinja = window.DocNinja || {});

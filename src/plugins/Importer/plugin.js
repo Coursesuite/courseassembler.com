@@ -32,6 +32,28 @@
 					reimportResolve({fileInfo:fileInfo,fileId:fileId});
 				});
 
+			} else if (fileInfo.kind === "plugin" && fileInfo.plugin === "Intro") {
+				DocNinja.Plugins.Intro.Import(domDocument)
+				.then(function(imageData) {
+					fileInfo.payload["image"] = imageData;
+					fileInfo.payload["html"] = "<!DOCTYPE html>" + domDocument.documentElement.outerHTML;
+					localforage.setItem(fileId, fileInfo, function() {
+						DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + fileId + "']"), fileInfo, "ready");
+						reimportResolve({fileInfo:fileInfo,fileId:fileId});
+					});
+				});
+
+			} else if (fileInfo.kind === "plugin" && fileInfo.plugin === "Picture") {
+				DocNinja.Plugins.Picture.Import(domDocument)
+				.then(function(imageData) {
+					fileInfo.payload["image"] = imageData;
+					fileInfo.payload["html"] = "<!DOCTYPE html>" + domDocument.documentElement.outerHTML;
+					localforage.setItem(fileId, fileInfo, function() {
+						DocNinja.PurityControl.Nav.Update(DocNinja.navItems.querySelector("li[data-fileid='" + fileId + "']"), fileInfo, "ready");
+						reimportResolve({fileInfo:fileInfo,fileId:fileId});
+					});
+				});
+
 			} else {
 
 				function replaceElements(elements, dom, fileInfo) { // each item in the selection criteria
