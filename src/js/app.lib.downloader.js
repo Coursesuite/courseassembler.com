@@ -167,6 +167,16 @@
 								} else if ("h5p"==obj.kind) {
 									// TODO figure out if h5p works in imscp
 
+								} else if ("video"===obj.format && obj.payload.hasOwnProperty('mime')) {
+									var video_name = key + '-' + obj.payload.mime.replace('/','.'); // e.g. video/mp4 -> video.mp4
+									fold.file(video_name, obj.payload.src); // video src is an arraybuffer
+									fold.file(filename, Handlebars.templates['wrapper-video']({ // video player template
+										title: obj.name,
+										format: 'video',
+										src: video_name,
+										mime: obj.payload.mime
+									}));
+
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
@@ -195,6 +205,7 @@
 							}
 
 							// append to manifest, but without the payload
+							if (obj.payload.src) delete obj.payload.src;
 							if (obj.payload.image) delete obj.payload.image;
 							if (obj.payload.html) delete obj.payload.html;
 							if (obj.payload.mp3) {
@@ -310,6 +321,16 @@
 								setup.pages[li.index()].href = "data/" + key + "/index.html";
 								DocNinja.Plugins.ExportH5P(obj, h5pFolder);
 
+							} else if ("video"===obj.format && obj.payload.hasOwnProperty('mime')) {
+								var video_name = key + '-' + obj.payload.mime.replace('/','.'); // e.g. video/mp4 -> video.mp4
+								fold.file(video_name, obj.payload.src); // video src is an arraybuffer
+								fold.file(filename, Handlebars.templates['wrapper-video']({ // video player template
+									title: obj.name,
+									format: 'video',
+									src: video_name,
+									mime: obj.payload.mime
+								}));
+
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
@@ -335,6 +356,7 @@
 							}
 
 							// append to manifest, but without the payload (no longer needed in memory)
+							if (obj.payload.src) delete obj.payload.src;
 							if (obj.payload.image) delete obj.payload.image;
 							if (obj.payload.html) delete obj.payload.html;
 							if (obj.payload.mp3) {

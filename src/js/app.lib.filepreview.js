@@ -33,16 +33,21 @@
 				_releaseIframe();
 				var frame = document.createElement("iframe"),
 					checkSource = false;
+
 				frame.setAttribute("seamless", true);
 				frame.setAttribute("id", "preview-frame");
 				frame.setAttribute("data-fileid", id);
 				frame.setAttribute("name", id);
 				frame.style.flex = 1;
 				preview.appendChild(frame);
+
+				var frameDoc = frame.contentDocument || frame.contentWindow.document;
 				var data = value,
 					parsedHtml = "",
 					wasPdf = false,
-					useFrameDoc = true;
+					blobRender = true,
+					useFrameDoc = false;
+
 				data["id"] = id;
 
 				// iterate plugins to find its supportable actions
@@ -65,7 +70,7 @@
 
 					case "plugin": // may implement their own previewer
 						if (data.hasOwnProperty("supports")) {
-							useFrameDoc = false;
+							blobRender = false;
 							var has_payload = (Object.keys(data.payload).length>0);
 
 							// Section only possible action; TODO: figure out plugins that can only edit, not view
@@ -92,25 +97,43 @@
 						break;
 
 					case "iframe":
+						blobRender = false;
 						useFrameDoc = false;
 						frame.setAttribute("src", data.payload.src);
 						break;
 
 					default:
-						parsedHtml = Handlebars.templates["preview-html"](data.payload);
-						if (data.format === "slideshare") {
-							useFrameDoc = false;
-							var frameDoc = frame.contentDocument || frame.contentWindow.document;
-							frameDoc.open();
-							frameDoc.write(parsedHtml);
-							frameDoc.close();
+						switch (data.format) {
+							case "video":
+								var vBlob = new Blob([data.payload.src], {type: data.payload.mime});
+								var vUrl = URL.createObjectURL(vBlob);
+								parsedHtml = Handlebars.templates['wrapper-video']({
+									title: data.name,
+									format: 'video',
+									src: vUrl,
+									mime: data.payload.mime
+								});
+								break;
+
+							case "slideshare":
+								blobRender = false;
+								useFrameDoc = true;
+								break;
+
+							default:
+								parsedHtml = Handlebars.templates["preview-html"](data.payload);
+								break;
 						}
 				}
-				if (useFrameDoc) {
+				if (blobRender) {
 					var blob = new Blob([parsedHtml],{type:"text/html"});
 					var burl = URL.createObjectURL(blob);
 					frame.setAttribute("src",burl);
 					setTimeout(URL.revokeObjectURL,100,burl);
+				} else if (useFrameDoc) {
+					frameDoc.open();
+					frameDoc.write(parsedHtml);
+					frameDoc.close();
 				}
 				// the converter might have pre-converted to pdf
 				wasPdf = (-1!==parsedHtml.indexOf("<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->"));

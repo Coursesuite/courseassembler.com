@@ -266,7 +266,8 @@
 			var this_fileid = liElem.getAttribute("data-fileid"),
 				fileinfo = {},
 				extn = '',
-				mime = 'application/octet-stream';
+				mime = 'application/octet-stream',
+				name = '';
 				// initialOutputFormat = "html";
 			extn = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.trimUntilExtn() : '';
 			name = (raw && raw.files && raw.files[0].name) ? raw.files[0].name.trimExtn() : '';
@@ -399,12 +400,14 @@
 					fileinfo = {
 						name: name,
 						payload: {
-							html: Handlebars.templates['wrapper-video']({
-								title: name,
-								format: 'video',
-								src: drop.result,
-								mime: mime
-							})
+							// html: Handlebars.templates['wrapper-video']({
+							// 	title: name,
+							// 	format: 'video',
+							// 	src: "blob.mp4",
+							// 	mime: mime
+							// }),
+							src: drop.result,
+							mime: mime
 						},
 						scrub: true,
 						score: 50,
@@ -572,8 +575,7 @@
 						                );
 						reader = null;
 					}
-
-					if ("zip"===mimetype[1]) {
+					if ("zip"===mimetype[1] || (mime === 'video/mp4')) {
 						reader.readAsArrayBuffer(file); // JSZip can accept ArrayBuffer
 					} else {
 						reader.readAsDataURL(file); // base64
