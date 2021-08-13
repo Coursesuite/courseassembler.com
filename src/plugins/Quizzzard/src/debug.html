@@ -104,7 +104,8 @@ div.question {
     padding-right: .75em;
     padding-top: calc(.375em - 1px);
     text-align: center;
-    white-space: nowrap;
+
+    margin-bottom: .2rem;
 
 }
 .button.active {
@@ -138,6 +139,7 @@ nav {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 nav > a:not(:first-of-type) {
@@ -641,10 +643,10 @@ div.feedback.negative {
 	<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.2/dist/css-vars-ponyfill.min.js"></script>
 	<script>
-var qs = window.location.search.split("?")[1]?window.location.search.split("?")[1].split(","):["[]",0];
+
+var qs = window.location.search.split("?")[1] ? window.location.search.split("?")[1].split(",") : ["[]",0];
 var _userdata=JSON.parse(unescape(qs[0]?qs[0]:"[]"));
-console.log(_userdata);
-var _page_index=qs[1];
+var _page_index = qs[1] ? +qs[1] : -1;
 
 // john resig's micro javascript template
 (function(){

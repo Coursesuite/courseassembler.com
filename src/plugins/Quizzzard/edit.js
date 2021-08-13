@@ -10,15 +10,6 @@ a.childs[b]:createElement(a.childs[b]));return c};
 /* Array.findIndex polyfill (ie11) */
 Array.prototype.findIndex||Object.defineProperty(Array.prototype,"findIndex",{value:function(c,d){if(null==this)throw new TypeError('"this" is null or not defined');var b=Object(this),e=b.length>>>0;if("function"!==typeof c)throw new TypeError("predicate must be a function");for(var a=0;a<e;){if(c.call(d,b[a],a,b))return a;a++}return-1},configurable:!0,writable:!0});
 
-/* https://github.com/rndme/download */
-(function(root,factory){if(typeof define==="function"&&define.amd)define([],factory);else if(typeof exports==="object")module.exports=factory();else root.download=factory()})(this,function(){return function download(data,strFileName,strMimeType){var self=window,defaultMime="application/octet-stream",mimeType=strMimeType||defaultMime,payload=data,url=!strFileName&&!strMimeType&&payload,anchor=document.createElement("a"),toString=function(a){return String(a)},myBlob=self.Blob||self.MozBlob||self.WebKitBlob||
-toString,fileName=strFileName||"download",blob,reader;myBlob=myBlob.call?myBlob.bind(self):Blob;if(String(this)==="true"){payload=[payload,mimeType];mimeType=payload[0];payload=payload[1]}if(url&&url.length<2048){fileName=url.split("/").pop().split("?")[0];anchor.href=url;if(anchor.href.indexOf(url)!==-1){var ajax=new XMLHttpRequest;ajax.open("GET",url,true);ajax.responseType="blob";ajax.onload=function(e){download(e.target.response,fileName,defaultMime)};setTimeout(function(){ajax.send()},0);return ajax}}if(/^data:([\w+-]+\/[\w+.-]+)?[,;]/.test(payload))if(payload.length>
-1024*1024*1.999&&myBlob!==toString){payload=dataUrlToBlob(payload);mimeType=payload.type||defaultMime}else return navigator.msSaveBlob?navigator.msSaveBlob(dataUrlToBlob(payload),fileName):saver(payload);else if(/([\x80-\xff])/.test(payload)){var i=0,tempUiArr=new Uint8Array(payload.length),mx=tempUiArr.length;for(i;i<mx;++i)tempUiArr[i]=payload.charCodeAt(i);payload=new myBlob([tempUiArr],{type:mimeType})}blob=payload instanceof myBlob?payload:new myBlob([payload],{type:mimeType});function dataUrlToBlob(strUrl){var parts=
-strUrl.split(/[:;,]/),type=parts[1],indexDecoder=strUrl.indexOf("charset")>0?3:2,decoder=parts[indexDecoder]=="base64"?atob:decodeURIComponent,binData=decoder(parts.pop()),mx=binData.length,i=0,uiArr=new Uint8Array(mx);for(i;i<mx;++i)uiArr[i]=binData.charCodeAt(i);return new myBlob([uiArr],{type:type})}function saver(url,winMode){if("download"in anchor){anchor.href=url;anchor.setAttribute("download",fileName);anchor.className="download-js-link";anchor.innerHTML="downloading...";anchor.style.display=
-"none";anchor.addEventListener("click",function(e){e.stopPropagation();this.removeEventListener("click",arguments.callee)});document.body.appendChild(anchor);setTimeout(function(){anchor.click();document.body.removeChild(anchor);if(winMode===true)setTimeout(function(){self.URL.revokeObjectURL(anchor.href)},250)},66);return true}if(/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)){if(/^data:/.test(url))url="data:"+url.replace(/^data:([\w\/\-\+]+)/,defaultMime);if(!window.open(url))if(confirm("Displaying New Document\n\nUse Save As... to download, then click back to return to this page."))location.href=
-url;return true}var f=document.createElement("iframe");document.body.appendChild(f);if(!winMode&&/^data:/.test(url))url="data:"+url.replace(/^data:([\w\/\-\+]+)/,defaultMime);f.src=url;setTimeout(function(){document.body.removeChild(f)},333)}if(navigator.msSaveBlob)return navigator.msSaveBlob(blob,fileName);if(self.URL)saver(self.URL.createObjectURL(blob),true);else{if(typeof blob==="string"||blob.constructor===toString)try{return saver("data:"+mimeType+";base64,"+self.btoa(blob))}catch(y){return saver("data:"+
-mimeType+","+encodeURIComponent(blob))}reader=new FileReader;reader.onload=function(e){saver(this.result)};reader.readAsDataURL(blob)}return true}});
-
 localforage.config({name: 'DocumentNinja'});
 Handlebars.registerHelper('json', function(context) { return JSON.stringify(context); });
 Handlebars.registerHelper('plus1', function(context) { return (~~context)+1; });
@@ -38,8 +29,8 @@ var QuizBuilder = (function () {
 		return _templates.quiz;
 	}
 
-	function _init() {
-		var fileid = window.location.search.split("?")[1] || "";
+	function _init(fileid) {
+		// var fileid = window.location.search.split("?")[1] || "";
 		localforage.getItem(fileid).then(function (obj) {
 			if (typeof ((obj||{}).payload||{}).quiz === 'undefined') {
 				_data_ = _fallback();
@@ -48,6 +39,15 @@ var QuizBuilder = (function () {
 			}
 			QuizBuilder.Bind();
 		});
+
+		var elements = document.querySelectorAll('.editable'),
+		    editor = new MediumEditor(elements, {
+				paste: {
+					cleanPastedHTML: true,
+					buttons: ['bold', 'italic', 'underline', 'h2', 'h3', 'quote']
+				}
+			});
+
 	};
 
 	function _add_question_button(parent,uid) {
@@ -69,7 +69,7 @@ var QuizBuilder = (function () {
 	function _bind() {
 
 		$("#save_button").addEventListener("click", QuizBuilder.Save, false);
-		$("#export_button").addEventListener("click", QuizBuilder.Export, false);
+		// $("#export_button").addEventListener("click", QuizBuilder.Export, false);
 
 		$("a[href='#default']").addEventListener("click", function (e) {
 			e.preventDefault();
@@ -238,7 +238,6 @@ var QuizBuilder = (function () {
 		var node = $("div[label='Settings']");
 		node.setAttribute("label","Settings ... saving");
 		var fileid = window.location.search.split("?")[1] || "";
-//console.dir(_data_);
 		localforage.getItem(fileid).then(function(obj) {
 			obj=obj||{};obj.payload=obj.payload||{};
 			obj.payload.quiz = _data_;
@@ -249,27 +248,6 @@ var QuizBuilder = (function () {
 			}).catch(function(err){
 				console.log(err);
 			});
-		});
-	}
-
-	function _export() {
-		var fileid = window.location.search.split("?")[1] || "";
-		localforage.getItem(fileid).then(function(obj) {
-			if (obj&&obj.payload&&obj.payload.quiz) {
-				obj.payload.quiz["source"] = "docninja.quiz"; // clue for importer
-
-				// prompt for download, IE compatible
-				download(JSON.stringify(obj.payload.quiz,null,2), obj.name + ".json", "application/json");
-
-			    // var dataStr = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj.payload.quiz,null,2));
-			    // var n = document.createElement('a');
-			    // n.setAttribute("href",     dataStr);
-			    // n.setAttribute("download", obj.name + ".json");
-			    // document.body.appendChild(n); // required for firefox
-			    // n.click();
-			    // n.remove();
-
-			}
 		});
 	}
 
@@ -295,7 +273,6 @@ var QuizBuilder = (function () {
 		var	newq = _question_clone();
 		var	i = qi.children.length + 1;
 		while(_data_.questions.find(function(val){return val.uid==="q"+i;})) i++;
-		// console.log("i ended up at",i);
 		_add_question_button(qi,"q"+i);
 		newq.uid = "q" + i;
 		newq.text = "New Question " + i + ". Replace this with your own question text.";
@@ -450,35 +427,10 @@ var QuizBuilder = (function () {
 		$("#distractor_show").max = ~~$("#distractor_show").max - 1;
 	};
 
-	// function _compile() {
-	// 	if (_data_.randomise===false) { // re-order questions to natural order
-	// 		var qq = JSON.parse(JSON.stringify(_data_.questions)); // clone node
-	// 		qq.map(function(value,index) {
-	// 			_data_.questions[index].order = qq[value.order];
-	// 		});
-	// 	}
-	// 	var dc = _data_.colour ? _data_.colour : "#508196";
-	// 	return Handlebars.templates["render"]({
-	// 		tint_colour: dc,
-	// 		quiz_json: _data_,
-	// 		buttons: {
-	// 			check: _data_.strings.answer,
-	// 			next: _data_.strings.next,
-	// 			results: _data_.strings.results,
-	// 			resit: _data_.strings.resit
-	// 		},
-	// 		templates: {
-	// 			endpage: _data_.strings.completion
-	// 		}
-	// 	});
-	// }
-
 	return {
 		Init: _init,
 		Bind: _bind,
 		Save: _save,
-		Export: _export,
-		// Compile: _compile,
 		Questions: {
 			Load: _questions_load,
 			Add: _questions_add,

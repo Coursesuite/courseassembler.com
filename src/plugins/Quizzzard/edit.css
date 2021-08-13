@@ -1,0 +1,51 @@
+html{
+    height: 100%;
+}
+body{
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+body > .row.main {
+    margin:0;
+    width:100%;
+    flex: 1;
+}
+
+.questions {
+    background-color: lightslategrey;
+}
+
+.main > .column {
+    padding: 0;
+}
+
+a {
+    color:blue;
+}
+
+.tmb {
+    display: flex;
+    flex-direction: column;
+    height:100%;
+}
+.tmb > section {
+    flex:1;
+}
+
+.tmb > * {
+    padding:1rem;
+}
+
+.tmb > header {
+    background-color: lightgray;
+}
+.tmb > footer {
+    background-color: darkgray;
+}
+
+.column.action {
+    padding: 1rem;
+}

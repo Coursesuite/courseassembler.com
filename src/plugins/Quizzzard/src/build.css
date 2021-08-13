@@ -98,7 +98,8 @@ div.question {
     padding-right: .75em;
     padding-top: calc(.375em - 1px);
     text-align: center;
-    white-space: nowrap;
+
+    margin-bottom: .2rem;
 
 }
 .button.active {
@@ -132,6 +133,7 @@ nav {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 nav > a:not(:first-of-type) {
