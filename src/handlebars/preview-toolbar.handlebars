@@ -63,6 +63,10 @@
 	<button data-fileid="{{id}}" data-action="page-files" data-popover="attachments" data-label="Manage page attachments" {{#if attachments}}data-init="initAttachments"{{/if}}><i class="ninja-folder-outline-add"></i>Files</button>
 	{{/if}}
 
+	{{#if supportsTransform}}
+	<button data-fileid="{{id}}" data-action="page-transform" data-popover="transform" data-label="Page scaling" data-init="select-transform"><i class="ninja-position"></i>Scaling</button>
+	{{/if}}
+
 	</div>
 
 	<div class="dn-flex-1 page-title text-center">

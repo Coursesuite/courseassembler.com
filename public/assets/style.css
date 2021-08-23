@@ -16,10 +16,9 @@ em {
 .tilt::before {
     content: '';
     display: block;
-    background-color: #ffed0188;
     background-image: url(rip.svg);
-    background-size: contain;
-    background-position: 0 101%;
+    background-size: 100% 100%;
+    background-position: top left;
     background-repeat:  no-repeat;
     width: 100%;
     height: 100px;
@@ -136,6 +135,19 @@ body.entriesindex h2.tilt {
     margin-left: 1em;
     background-color: #f8a82d;
     color: black;
+}
+.uk-navbar-nav .blog-item {
+	position: relative;
+}
+.uk-navbar-nav .blog-item.has-dot::after {
+	content: '';
+	width: 8px;
+	height: 8px;
+	border-radius: 4px;
+	background-color:#FFE937;
+	position: absolute;
+	top: 40%;
+	right: .35rem;
 }
 
 

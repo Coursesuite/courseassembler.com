@@ -341,6 +341,41 @@
 						splitResolve();
 					});
 				}); // split promise
+			},
+
+			ModifyDocumentTransforms: function(fileKey, obj, transform, applyAll) {
+				return new Promise(function(transformResolve, transformReject) {
+					// obj.fileId will have the format
+					// file-(some-value)-N
+					// each of the siblings of this split will have the same obj.fileId but their file KEY will change
+					let keys = [[fileKey, obj]], transforms = [];
+					localforage.iterate(function(value,key) {
+						if (applyAll && value.hasOwnProperty('fileId') && value.fileId === obj.fileId && key !== fileKey) {
+							keys.push([key,value]);
+						}
+					})
+					.then(function() {
+						keys.map(function(item) {
+							transforms.push(new Promise(function(itemResolve, itemReject) {
+								let doc = document.implementation.createHTMLDocument(item[1].payload.name);
+								doc.documentElement.innerHTML = item[1].payload.html;
+								item[1].payload['transform'] = transform;
+								DocNinja.PurityControl.ApplyTransform(doc, transform);
+								item[1].payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+								localforage.setItem(item[0], item[1]).then(function() {
+									itemResolve(item[0]);
+								});
+							}));
+						});
+						Promise.all(transforms)
+						.then(function(result) {
+							transformResolve(true);
+						})
+						.catch(function(error) {
+							transformReject(error);
+						});
+					});
+				});
 			}
 		}
 

@@ -834,6 +834,16 @@ function handlePopover(tgt) {
 					});
 				})
 				break;
+
+			case "select-transform":
+				var id = DocNinja.filePreview.CurrentFile();
+				localforage.getItem(id).then(function(obj) {
+					if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('transform')) {
+						[].forEach.call(document.querySelectorAll('input[name="transform-style"]'), function(el) {
+							if (el.value === obj.payload.transform) el.setAttribute('checked', true); 
+						});
+					}
+				});
 		}
 	}
 }
@@ -1037,6 +1047,22 @@ function popover_attachFiles(file) {
 		});
 	}
 	reader.readAsDataURL(file);
+}
+
+function popover_saveTransform(applyAll) {
+	var id = DocNinja.filePreview.CurrentFile();
+	localforage.getItem(id).then(function (obj) {
+		var value = document.querySelector('input[name="transform-style"]:checked').value;
+		if (value.length) {
+			DocNinja.Page.ModifyDocumentTransforms(id, obj, value, applyAll)
+			.then(function(result) {
+				closePopover();
+				DocNinja.filePreview.Refresh();
+			})
+		} else {
+			closePopover();
+		}
+	});
 }
 
 function renameNode(id, a) {

@@ -488,6 +488,17 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     + "</output>\n	</div>\n	<datalist id='size_list'>"
     + ((stack1 = (lookupProperty(helpers,"range")||(depth0 && lookupProperty(depth0,"range"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"valueMin") : depth0),(depth0 != null ? lookupProperty(depth0,"valueMax") : depth0),{"name":"range","hash":{},"data":data,"loc":{"start":{"line":211,"column":26},"end":{"line":211,"column":55}}})) != null ? stack1 : "")
     + "</datalist>\n\n	<button onclick=\"popover_saveFontStyle();\"><i class=\"ninja-save-disk\"></i>Apply</button>\n\n</section>\n";
+},"27":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<header onclick=\"closePopover()\">"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"label") || (depth0 != null ? lookupProperty(depth0,"label") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"label","hash":{},"data":data,"loc":{"start":{"line":219,"column":33},"end":{"line":219,"column":42}}}) : helper)))
+    + "</header>\n<section>\n	<div class=\"label-rows\">\n		<label><input type=\"radio\" name=\"transform-style\" value=\"horizontal-scale\"> Fit width</label>\n		<label><input type=\"radio\" name=\"transform-style\" value=\"fit-viewport\"> Fit height and width</label>\n		<label><input type=\"radio\" name=\"transform-style\" value=\"none\"> No scaling</label>\n	</div>\n\n	<p class=\"h\">Save and apply to:</p>\n	<button onclick=\"popover_saveTransform();\"><i class=\"ninja-save-disk\"></i>This page</button>\n	<button onclick=\"popover_saveTransform(true);\"><i class=\"ninja-save-disk\"></i>All pages in document</button>\n</section>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -517,7 +528,9 @@ templates['popovers'] = template({"1":function(container,depth0,helpers,partials
     + "\n"
     + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"attachments",{"name":"compare","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":172,"column":0},"end":{"line":183,"column":12}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"fontstyle",{"name":"compare","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":185,"column":0},"end":{"line":216,"column":12}}})) != null ? stack1 : "");
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"fontstyle",{"name":"compare","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":185,"column":0},"end":{"line":216,"column":12}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"popover") : depth0),"transform",{"name":"compare","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":218,"column":0},"end":{"line":231,"column":12}}})) != null ? stack1 : "");
 },"useData":true});
 templates['preview-html'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -811,8 +824,19 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
 },"49":function(container,depth0,helpers,partials,data) {
     return "data-init=\"initAttachments\"";
 },"51":function(container,depth0,helpers,partials,data) {
-    return "		&nbsp;\n";
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<button data-fileid=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"id","hash":{},"data":data,"loc":{"start":{"line":67,"column":22},"end":{"line":67,"column":28}}}) : helper)))
+    + "\" data-action=\"page-transform\" data-popover=\"transform\" data-label=\"Page scaling\" data-init=\"select-transform\"><i class=\"ninja-position\"></i>Scaling</button>\n";
 },"53":function(container,depth0,helpers,partials,data) {
+    return "		&nbsp;\n";
+},"55":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -821,9 +845,9 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     };
 
   return "		"
-    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"name") : depth0),{"name":"if","hash":{},"fn":container.program(54, data, 0),"inverse":container.program(56, data, 0),"data":data,"loc":{"start":{"line":72,"column":2},"end":{"line":72,"column":47}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"name") : depth0),{"name":"if","hash":{},"fn":container.program(56, data, 0),"inverse":container.program(58, data, 0),"data":data,"loc":{"start":{"line":76,"column":2},"end":{"line":76,"column":47}}})) != null ? stack1 : "")
     + "\n";
-},"54":function(container,depth0,helpers,partials,data) {
+},"56":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
@@ -831,8 +855,8 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
         return undefined
     };
 
-  return container.escapeExpression(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data,"loc":{"start":{"line":72,"column":14},"end":{"line":72,"column":22}}}) : helper)));
-},"56":function(container,depth0,helpers,partials,data) {
+  return container.escapeExpression(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data,"loc":{"start":{"line":76,"column":14},"end":{"line":76,"column":22}}}) : helper)));
+},"58":function(container,depth0,helpers,partials,data) {
     return "(untitled)";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -880,10 +904,12 @@ templates['preview-toolbar'] = template({"1":function(container,depth0,helpers,p
     + ((stack1 = (lookupProperty(helpers,"compare")||(depth0 && lookupProperty(depth0,"compare"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"format") : depth0),"pdf",{"name":"compare","hash":{},"fn":container.program(45, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":58,"column":1},"end":{"line":60,"column":24}}})) != null ? stack1 : "")
     + "\n\n"
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"supportsAttachments") : depth0),{"name":"if","hash":{},"fn":container.program(48, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":62,"column":1},"end":{"line":64,"column":8}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"supportsTransform") : depth0),{"name":"if","hash":{},"fn":container.program(51, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":66,"column":1},"end":{"line":68,"column":8}}})) != null ? stack1 : "")
     + "\n	</div>\n\n	<div class=\"dn-flex-1 page-title text-center\">\n"
-    + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"foobar") : depth0),{"name":"unless","hash":{},"fn":container.program(51, data, 0),"inverse":container.program(53, data, 0),"data":data,"loc":{"start":{"line":69,"column":2},"end":{"line":73,"column":13}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"foobar") : depth0),{"name":"unless","hash":{},"fn":container.program(53, data, 0),"inverse":container.program(55, data, 0),"data":data,"loc":{"start":{"line":73,"column":2},"end":{"line":77,"column":13}}})) != null ? stack1 : "")
     + "	</div>\n\n	<div class=\"dn-flex-end pad-right\">\n		<button data-fileid=\""
-    + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":77,"column":23},"end":{"line":77,"column":29}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":81,"column":23},"end":{"line":81,"column":29}}}) : helper)))
     + "\" data-action=\"trash\" data-popover=\"yesno\" data-label=\"Are you sure? (no undo)\"><i class=\"ninja-discard\"></i>Delete page</button>\n	</div>\n\n";
 },"useData":true});
 templates['scorm12manifest'] = template({"1":function(container,depth0,helpers,partials,data) {
@@ -994,6 +1020,9 @@ templates['script-ga'] = template({"compiler":[8,">= 4.3.0"],"main":function(con
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"option-ga-id") || (depth0 != null ? lookupProperty(depth0,"option-ga-id") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"option-ga-id","hash":{},"data":data,"loc":{"start":{"line":6,"column":14},"end":{"line":6,"column":30}}}) : helper)))
     + "', 'auto'); ga('set','anonymizeIp', true);\nga('send', 'pageview');\n</script>";
 },"useData":true});
+templates['script-transform-fit-viewport'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<script type=\"text/javascript\" id=\"transformFitViewport\">\n(function (win, doc, undefined) {\n    const pf = doc.querySelector('.pf'),\n        fitH = true, // true=fit height then width, false = only fit width\n        zoom = 1; // overall zoom factor\n    if (pf) {\n        if (fitH) document.body.style.overflow = 'hidden';\n        function recalc() {\n            const s = Math[fitH ? 'max' : 'min'](pf.clientWidth/win.innerWidth, pf.clientHeight/win.innerHeight);\n            pf.style.transform = 'translate(-50%, 0) scale(' + zoom/s + ')';\n        }\n        win.addEventListener('resize',recalc);\n        win.addEventListener('load',recalc);\n    }\n})(window, document);\n</script>";
+},"useData":true});
 templates['script-transform-horizontal-scale'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<script type=\"text/javascript\" id=\"transformHorizontalScale\">\n(function (win, doc, undefined) {\n    var node = doc.querySelector(\".pf\"),\n        w = parseInt(win.getComputedStyle(node,null).getPropertyValue(\"width\"),10),\n        dw =  (win.innerWidth || doc.body.clientWidth),\n        scale = 1,\n        over = \"auto\",\n        pf = doc.querySelectorAll(\".pf\"),\n        container = doc.querySelector(\"#page-container\");\n    function recalc() {\n        scale = 1;\n        dw = (win.innerWidth || doc.body.clientWidth);\n        if (w > dw) {\n            scale = dw / w;\n            over = \"hidden\";\n        } else {\n            over = \"auto\";\n        }\n        [].forEach.call(pf, function(el) {\n            el.style.transform = \"translate(-50%, 0%) \" + \"scale(\" + scale + \") \";\n        });\n        container.style.overflowX = over;\n    }\n    win.addEventListener('resize',recalc);\n    win.addEventListener('load',recalc);\n})(window, document);\n</script>";
 },"useData":true});
@@ -1076,6 +1105,9 @@ templates['style-pdf-bgmod'] = template({"1":function(container,depth0,helpers,p
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"split") : depth0),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.program(15, data, 0),"data":data,"loc":{"start":{"line":22,"column":20},"end":{"line":22,"column":70}}})) != null ? stack1 : "")
     + "\n    }\n    #sidebar {\n        background-image: none !important;\n        background-color: transparent !important;\n    }\n}\n"
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"split") : depth0),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":29,"column":0},"end":{"line":31,"column":7}}})) != null ? stack1 : "");
+},"useData":true});
+templates['style-transform-fit-viewport'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<style id=\"styleTransformFitViewport\">\nbody {\n	margin: 0;\n    position: relative;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, 0);\n	transform-style: flat;\n	transform-origin: top center;\n	position: absolute;\n	top: 0%;\n	left: 50%;\n}\n</style>";
 },"useData":true});
 templates['style-transform-horizontal-scale'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<style id=\"styleTransformHorizontalScale\">\nbody {\n	margin: 0;\n}\n.pf {\n	transform: scale(1,1) translate(-50%, 0%);\n	transform-style: flat;\n	transform-origin: top center 0px;\n	position: absolute;\n	top: 0%;\n	left: 50%;\n}\n</style>";

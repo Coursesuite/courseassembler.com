@@ -22,4 +22,13 @@ class Utils {
 		return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
 	}
 
+	public static function BlogDot() {
+		$style = 'blog-item';
+		$root = realpath('./blog/' . date("Y") . '/' . date("m"));
+		if (file_exists($root)) {
+			$style .= ' has-dot';
+		}
+		return $style;
+	}
+
 }

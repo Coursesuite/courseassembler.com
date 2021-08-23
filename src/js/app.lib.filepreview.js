@@ -16,6 +16,12 @@
 			}
 		}
 
+		_reloadCurrentPage = function () {
+			var a = document.createElement('a');
+			a.dataset.fileid = _getFileId();
+			_documentPreviewHandler(a,"view");
+		}
+
 		_documentPreviewHandler = function(a, pluginAction) {
 			// var id = a.parentNode.getAttribute("data-fileid");
 			$("#image-properties").empty();
@@ -145,6 +151,10 @@
 
 				// sections are menu-only and don't support attachments
 				data["supportsAttachments"] = (!(data.hasOwnProperty("plugin") && data.plugin === "Section"));
+
+				// some page types support transforms (e.g. scaling)
+				data['supportsTransform'] = data.hasOwnProperty('payload') && data.payload.hasOwnProperty('split') && data.payload.split;
+
 
 				fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
 				data = null; // early GC
@@ -300,6 +310,7 @@
 			Reset: _reset,
 			Save: _saveContents,
 			Preview: _documentPreviewHandler,
+			Refresh: _reloadCurrentPage,
 			Observe: _observer,
 			Select: _select,
 			CurrentFile: _getFileId

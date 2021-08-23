@@ -370,6 +370,22 @@
 			return doc;
 		}
 
+		// apply the appropriate transformation to a doc, replacing any 
+		var _hybridise = function(doc, transform) {
+			// clean out previous transforms
+			if (transform && transform.length > 0) {
+				[].forEach.call(doc.querySelectorAll("#transformFitViewport,#styleTransformFitViewport,#transformScaleCenter,#styleTransformScaleCenter,#transformHorizontalScale,#styleTransformHorizontalScale,#transformScaleStretch,#styleTransformScaleStretch"), function(el) {
+					el.parentNode.removeChild(el);
+				})
+				// apply the current transform
+				if (transform !== "none") {
+					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-" + transform]({}));
+					doc.querySelector("head").insertAdjacentHTML('beforeend', Handlebars.templates["style-transform-" + transform]({}));
+				}
+			}
+			return doc;
+		}
+
 		/*
 		 * ConvertHtmlForZip
 		 * Generally called by the DOWNLOAD part of the app on a page-by-page basis (dependant on page type)
@@ -441,7 +457,14 @@
 			var pagetype = obj.src&&obj.src.fetch&&obj.src.fetch.kind ? obj.src.fetch.kind : obj.type ? obj.type : "";
 			var is_split = (obj.payload.split&&obj.payload.split===true) || false;
 			var scr, sty;
-			if (is_split &&((destination !== "imscp") && (pagetype.indexOf("powerpoint")!==-1||pagetype.indexOf("presentation")!==-1))) {
+
+			if (is_split && destination === "imscp") {
+				_hybridise(doc, "none"); // remove all transforms
+
+			} else if (is_split && obj.payload.hasOwnProperty('transform') && obj.payload.transform.length) {
+				_hybridise(doc, obj.payload.transform);
+
+			} else if (is_split &&((destination !== "imscp") && (pagetype.indexOf("powerpoint")!==-1||pagetype.indexOf("presentation")!==-1))) {
 				doc = autowash(doc);
 // scr = doc.querySelector("#transformScaleCenter"); if (scr) scr.parentNode.removeChild(scr); scr = null;
 // sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
@@ -852,6 +875,7 @@
 			// ReImportNinjaFile: reImport,
 			// 20190605 InjectResizeScript: colonist,
 			CleanSplitPDF: smokingman,
+			ApplyTransform: _hybridise,
 			Conversion: {
 				TextToHtml: _txt2html
 			},

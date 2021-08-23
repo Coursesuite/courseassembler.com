@@ -45,7 +45,7 @@
 					<div class="uk-navbar-right uk-visible@m">
 						<ul class="uk-navbar-nav">
 							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
-							<li><a href="/blog">Blog</a></li>
+							<li><a href="/blog" class="<?php echo Utils::BlogDot(); ?>">Blog</a></li>
 							<li><a href="/docs" target="_blank">Documentation</a></li>
 							<li><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw&region=follow_link&screen_name=CourseAssembler&tw_p=followbutton" title="Follow @CourseAssembler on Twitter"><span uk-icon="icon: twitter;"></span></a></li>
 						</ul>

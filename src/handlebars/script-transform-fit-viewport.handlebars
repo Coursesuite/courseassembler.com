@@ -1,0 +1,16 @@
+<script type="text/javascript" id="transformFitViewport">
+(function (win, doc, undefined) {
+    const pf = doc.querySelector('.pf'),
+        fitH = true, // true=fit height then width, false = only fit width
+        zoom = 1; // overall zoom factor
+    if (pf) {
+        if (fitH) document.body.style.overflow = 'hidden';
+        function recalc() {
+            const s = Math[fitH ? 'max' : 'min'](pf.clientWidth/win.innerWidth, pf.clientHeight/win.innerHeight);
+            pf.style.transform = 'translate(-50%, 0) scale(' + zoom/s + ')';
+        }
+        win.addEventListener('resize',recalc);
+        win.addEventListener('load',recalc);
+    }
+})(window, document);
+</script>

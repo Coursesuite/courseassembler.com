@@ -484,3 +484,18 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 .toggle-form input[type='checkbox']:checked + label > span {
 	transform:  translateX(1em);
 }
+
+
+
+.dn-popover .label-rows label {
+	display: block;
+	text-align: left;
+	margin: .5rem;
+}
+.dn-popover .label-rows label input {
+	margin-right: .5rem;
+}
+.dn-popover p.h {
+	text-align: left;
+	font-weight: bold;
+}

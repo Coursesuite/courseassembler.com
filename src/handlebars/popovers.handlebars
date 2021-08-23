@@ -214,3 +214,18 @@ gFontInput.create('fontstyle');
 
 </section>
 {{/compare}}
+
+{{#compare popover "transform"}}
+<header onclick="closePopover()">{{label}}</header>
+<section>
+	<div class="label-rows">
+		<label><input type="radio" name="transform-style" value="horizontal-scale"> Fit width</label>
+		<label><input type="radio" name="transform-style" value="fit-viewport"> Fit height and width</label>
+		<label><input type="radio" name="transform-style" value="none"> No scaling</label>
+	</div>
+
+	<p class="h">Save and apply to:</p>
+	<button onclick="popover_saveTransform();"><i class="ninja-save-disk"></i>This page</button>
+	<button onclick="popover_saveTransform(true);"><i class="ninja-save-disk"></i>All pages in document</button>
+</section>
+{{/compare}}

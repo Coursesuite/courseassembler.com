@@ -411,7 +411,7 @@ function download(e) {
 			a.dataset.done = true;
 			a.href = url;
 			a.style = 'display:none';
-			a.download = e.target.dataset.fileName;
+			a.download = e.target.dataset.fileName.split('/').pop();
 			document.body.appendChild(a);
 			a.click();
 		});
@@ -425,7 +425,7 @@ function load() {
 	}
 	var current_page = pages[course.page];
 	var src = current_page.href + "?" + [(current_page.timeSpent||-1),course.page].join(",");
-	if (current_page.content.indexOf("plugin") === 0 || current_page.content === "h5p") {
+	if (current_page.content && (current_page.content.indexOf("plugin") === 0 || current_page.content === "h5p")) {
 		src = current_page.href + "?" + [escape(JSON.stringify(current_page.userdata) || []),course.page].join(",");
 	}
     if (_timeout) clearTimeout(_timeout);
