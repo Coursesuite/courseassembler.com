@@ -7,7 +7,7 @@
         scaled = false;
 
     doc.body.style.overflowX = "auto";
-    [].forEach.call(doc.querySelectorAll(".pf"), function(elm) {
+    Array.prototype.forEach.call(doc.querySelectorAll(".pf"), function(elm) {
         elm.style.transformStyle = "flat";
         elm.style.transformOrigin = "top left";
     });
@@ -19,13 +19,13 @@
           if (docw < pagew) {
             doc.body.style.overflowX = "none";
             var scale = (docw / pagew);
-            [].forEach.call(doc.querySelectorAll(".pf"), function(el, i) {
+            Array.prototype.forEach.call(doc.querySelectorAll(".pf"), function(el, i) {
                 el.style.transform = ["scale(",scale,",",scale,")"].join("");
                 el.style.marginBottom = "-" + (pageh - (pageh * scale)) + "px";
             });
             scaled = true;
           } else if (scaled) {
-            [].forEach.call(doc.querySelectorAll(".pf"), function(el) {
+            Array.prototype.forEach.call(doc.querySelectorAll(".pf"), function(el) {
                 el.style.transform = "scale(1,1)";
                 el.style.marginBottom = "unset";
             });

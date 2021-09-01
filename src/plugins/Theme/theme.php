@@ -58,7 +58,7 @@ $index = str_replace([
 ], $index);
 
 // Output the final template
-header("content-type: text-plain");
+// header("content-type: text-plain");
 die(Lib::render($index, $data));
 
 class Lib {

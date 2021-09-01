@@ -4,13 +4,13 @@
 
 		function _getDocumentDimensions(doc) {
 			var width = 0, height = 0;
-			[].forEach.call(doc.querySelectorAll("style"), function (el) {
+			for (const el of doc.querySelectorAll("style")) {
 				var tc = el.textContent;
 				if (tc.indexOf(".h0{height")!==-1) {
 					height = Math.ceil(parseFloat(tc.match(/\.h0\{height\:([^}]*)px\;\}/)[1])),
 					width = Math.ceil(parseFloat(tc.match(/\.w0\{width\:([^}]*)px\;\}/)[1]));
 				}
-			});
+			};
 			return [width,height];
 		}
 
@@ -165,12 +165,12 @@
 			ModifyIframeBackgroundColour: function (obj, colour) {
 				var doc = document.implementation.createHTMLDocument(obj.name);
 				doc.documentElement.innerHTML = obj.payload.html;
-				[].forEach.call(doc.querySelectorAll("style"),function(el) {
+				for (const el of doc.querySelectorAll("style")) {
 					var tc = el.textContent;
 					if (tc.indexOf("body {")!==-1) {
 						el.textContent = tc.replace(/background\-color\:(?:[^;]*);/,'background-color:#'+colour+';');
 					}
-				});
+				};
 				obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
 				obj.payload.backgroundColour = colour;
 				return obj;
@@ -248,9 +248,9 @@
 					pagetype = obj.src&&obj.src.fetch&&obj.src.fetch.kind ? obj.src.fetch.kind : obj.type?obj.type:"";
 				doc.documentElement.innerHTML = obj.payload.html;
 
-				[].forEach.call(document.querySelectorAll("#styleTransformScaleCenter, #transformScaleStretch, #transformHorizontalScale"), function(node) {
+				for (const code of document.querySelectorAll("#styleTransformScaleCenter, #transformScaleStretch, #transformHorizontalScale")) {
 					node.parentNode.removeChild(node);
-				});
+				};
 
 				delete obj.payload.layout;
 				if (position === "center") {

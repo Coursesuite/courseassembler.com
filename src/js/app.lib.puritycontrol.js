@@ -162,7 +162,7 @@
 				// each li in container
 				var curr = 0,
 					liPromises = [];
-				[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (elm, idx) {
+				Array.prototype.forEach.call(DocNinja.navItems.querySelectorAll("li"), function (elm, idx) {
 
 					// jank? failed conversion?
 					if (!(elm.hasAttribute("data-state") || elm.hasAttribute("data-converted"))) {
@@ -195,6 +195,7 @@
 					liPromises.push(new Promise(function(feResolve, feReject) {
 						localforage.getItem(elm.dataset.fileid)
 						.then(function checkstructure_repaintIcons(obj) {
+							if (!obj) return; // unsure why fileid doesn't exist now
 
 							if (!obj.hasOwnProperty('depth')) obj.depth = 0;
 
@@ -374,9 +375,7 @@
 		var _hybridise = function(doc, transform) {
 			// clean out previous transforms
 			if (transform && transform.length > 0) {
-				[].forEach.call(doc.querySelectorAll("#transformFitViewport,#styleTransformFitViewport,#transformScaleCenter,#styleTransformScaleCenter,#transformHorizontalScale,#styleTransformHorizontalScale,#transformScaleStretch,#styleTransformScaleStretch"), function(el) {
-					el.parentNode.removeChild(el);
-				})
+				for (const el of doc.querySelectorAll("#transformFitViewport,#styleTransformFitViewport,#transformScaleCenter,#styleTransformScaleCenter,#transformHorizontalScale,#styleTransformHorizontalScale,#transformScaleStretch,#styleTransformScaleStretch")) el.parentNode.removeChild(el);
 				// apply the current transform
 				if (transform !== "none") {
 					doc.querySelector("body").insertAdjacentHTML('beforeend', Handlebars.templates["script-transform-" + transform]({}));
@@ -407,12 +406,12 @@
 			doc = _mutation(doc);
 
 			// ensure nothing is left contenteditable
-			[].forEach.call(doc.querySelectorAll("[contenteditable]"), function (tag) {
+			for (const tag of doc.querySelectorAll("[contenteditable]")) {
 				tag.removeAttribute("contenteditable");
-			});
+			};
 
 			// externalise all images
-			[].forEach.call(doc.querySelectorAll("img[src*='data:image']"), function (img) {
+			for (const img of doc.querySelectorAll("img[src*='data:image']")) {
 				var src = img.getAttribute("src"),
 					extn = src.substring(src.indexOf("/")+1, src.indexOf(";")).toLowerCase(),
 					fn = md5(src) + "." + extn;
@@ -424,10 +423,10 @@
 					img.setAttribute("src", fn);
 					if (undefined !== resource) resource.files.push({href: resource.base + fn}); // imscp passes in resource object
 				}
-			});
+			};
 
 			// externalise all embedded javascripts
-			[].forEach.call(doc.querySelectorAll("script:not([src])"), function (js) {
+			for (const js of doc.querySelectorAll("script:not([src])")) {
 				var src = js.innerHTML,
 					fn = md5(src) + ".js";
 				if (destination === "imscp" && fn === "cc66387f94dcecedce232560ee5716a9.js") return; // skip this deprecated script. return is forEach's version of continue;
@@ -437,10 +436,10 @@
 				js.setAttribute("type","text/javascript");
 				js.setAttribute("src", fn);
 				if (undefined !== resource) resource.files.push({href: resource.base + fn}); // imscp passes in resource object
-			});
+			};
 
 			// externalise all embedded styles
-			[].forEach.call(doc.querySelectorAll("style"), function (sty) {
+			for (const sty of doc.querySelectorAll("style")) {
 				var src = sty.innerHTML,
 					fn = md5(src) + ".css";
 				fold.file(fn, src);
@@ -450,7 +449,7 @@
 				node.setAttribute("href", fn);
 				sty.parentNode.replaceChild(node,sty);
 				if (undefined !== resource) resource.files.push({href: resource.base + fn}); // imscp passes in resource object
-			});
+			};
 
 			// re-inject frame resize script into PDF results (ensures latest version for re-published packages)
 			// only scale+center if document is split; otherwise conversions that came from pdf always needs scale+margin transform
@@ -479,7 +478,7 @@
 // 	sty = doc.querySelector("#styleTransformScaleCenter"); if (sty) sty.parentNode.removeChild(sty); sty = null;
 // }
 				// search for old scripts (non-identified)
-// [].forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
+// Array.prototype.forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
 // 	if (el.textContent && el.textContent.indexOf("scale(1,1) translateY(0px)")!==-1) {
 // 		el.parentNode.removeChild(el);
 // 	}
@@ -529,15 +528,15 @@
 
 		// clean up old transform tags and script
 		var autowash = function (doc) {
-			[].forEach.call(doc.querySelectorAll("script"),function splitRemoveUnidentifiedTransforms(el) {
+			for (const el of doc.querySelectorAll("script")) {
 				if (el.textContent && el.textContent.indexOf("scale(1,1) translateY(0px)")!==-1) {
 					el.parentNode.removeChild(el);
 				}
-			});
-			["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch","#transformHorizontalScale"].forEach(function autowashRemoveOldTransforms(value) {
+			};
+			for (const value of ["#transformScaleCenter","#styleTransformScaleCenter","#transformScaleStretch","#transformHorizontalScale"]) {
 				var elm = doc.querySelector(value);
 				if (elm) elm.parentNode.removeChild(elm);
-			});
+			};
 			return doc;
 		}
 
@@ -575,13 +574,13 @@
 
 					// remove junk nodes
 					// TODO: figure out a way to remove #sidebar, .loading-indicator,
-					[].forEach.call(doc.querySelectorAll("meta[name='generator']"), function (node) {
+					for (const node of doc.querySelectorAll("meta[name='generator']")) {
 						node.parentNode.removeChild(node);
-					});
+					};
 
 					// Replace inserted youtube with embeded for google presentations
 					if (fileInfo && fileInfo.src && typeof fileInfo.src==='string' && fileInfo.src.indexOf('docs.google.com/presentation') !== -1) {
-						[].forEach.call(doc.querySelectorAll('a.l'), function google_slides_video_embed(node) {
+						for (const node of doc.querySelectorAll('a.l')) {
 							if (node.href.indexOf('youtube') !== -1 || node.href.indexOf('docs.google.com/file') !== -1) {
 								var embedLink = node.href.replace('watch?v=','embed/').replace('http://','https://');
 								var iframe = doc.createElement('iframe');
@@ -592,7 +591,7 @@
 								node.parentNode.appendChild(iframe);
 								node.parentNode.removeChild(node);
 							}
-						});
+						};
 					}
 
 					// replace loading indicator image so it exists but is as tiny as possible - the 1px transparent gif
@@ -760,7 +759,7 @@
 
 			// lose all scripts, sidebar, loading indicator
 			var node; //  = doc.querySelectorAll("head > script");
-			// [].forEach.call(node, function (n) {
+			// Array.prototype.forEach.call(node, function (n) {
 			// 	n.parentNode.removeChild(n);
 			// });
 			// node = doc.getElementById("sidebar"); if (node) node.parentNode.removeChild(node);
@@ -768,32 +767,30 @@
 
 			// target all links to new windows
 			node = doc.querySelectorAll("a:not([target])");
-			[].forEach.call(node, function (n) {
+			for (const n of node) {
 				n.setAttribute("target","_blank");
 				n.setAttribute("rel","noopener");
-			});
+			};
 
 			// don't need scripts
-			// [].forEach.call(doc.querySelectorAll("head > script"), function (node) {
+			// Array.prototype.forEach.call(doc.querySelectorAll("head > script"), function (node) {
 			// 	node.parentNode.removeChild(node);
 			// });
 
 			// don't need whatever this thing is
-			// [].forEach.call(doc.querySelectorAll("div.pi"), function (node) {
+			// Array.prototype.forEach.call(doc.querySelectorAll("div.pi"), function (node) {
 			// 	node.parentNode.removeChild(node);
 			// });
 
 			// don't need fancy styles (the fade-in nonsense)
-			[].forEach.call(doc.querySelectorAll("style"), function (node) {
+			for (const node of doc.querySelectorAll("style")) {
 				if (node.textContent.indexOf("Fancy styles for pdf2htmlEX")!==-1) {
 					node.parentNode.removeChild(node);
 				}
-			});
+			};
 
 			// remove excess junk, sidebar and loading indicator and bg-mod - not used in split documents
-			[].forEach.call(doc.querySelectorAll("meta[name='generator'], #sidebar, .loading-indicator, #pdf-bgmod, div.pi, head > script"), function (node) {
-				node.parentNode.removeChild(node);
-			});
+			for (const node of doc.querySelectorAll("meta[name='generator'], #sidebar, .loading-indicator, #pdf-bgmod, div.pi, head > script")) node.parentNode.removeChild(node);
 
 			node = doc.querySelector("head");
 			var ss = doc.createElement("style");

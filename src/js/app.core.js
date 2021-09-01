@@ -1,8 +1,7 @@
 ;(function(DocNinja, $, App, undefined) {
 	//testcomment
-	DocNinja.KLOUDLESS_APP_ID = atob("ZXpvWV9Gck9JdzlyYjladkhxZTVSV2hkeGFpdGwzQ2lQeElwbXZZdV9aZm1za1FsCg=="), // https://developers.kloudless.com/applications/course-assembler/details;
-	DocNinja.KLOUDLESS_INPUT = window.Kloudless.fileExplorer.explorer({app_id: DocNinja.KLOUDLESS_APP_ID}),
-	DocNinja.KLOUDLESS_OUTPUT = window.Kloudless.fileExplorer.explorer({app_id: DocNinja.KLOUDLESS_APP_ID});
+	// DocNinja.KLOUDLESS_APP_ID = atob("ZXpvWV9Gck9JdzlyYjladkhxZTVSV2hkeGFpdGwzQ2lQeElwbXZZdV9aZm1za1FsCg=="), // https://developers.kloudless.com/applications/course-assembler/details;
+	// DocNinja.KLOUDLESS_APIKEY = atob("QVBJS2V5IGo2OXZCMW5ZcEFkZV9PM2pySDJPVzJfWTVJYk9ZU3VwaHR2NV9qM0pkc2hkS0hCWg==");
 
 	// cache frequently used selectors
 	DocNinja.options = {
@@ -223,20 +222,20 @@
 							KLOUDLESS LOAD FILES
 	--------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-	DocNinja.KLOUDLESS_INPUT.on("success", function (files) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "https://api.kloudless.com/v1/accounts/" + files[0].account + "/storage/files/" + files[0].id + "/contents", true);
-		// xhr.setRequestHeader("Authorization", "Bearer " + files[0].bearer_token.key);
-		xhr.setRequestHeader("Authorization",atob("QVBJS2V5IGo2OXZCMW5ZcEFkZV9PM2pySDJPVzJfWTVJYk9ZU3VwaHR2NV9qM0pkc2hkS0hCWg=="));
-		xhr.responseType = "arraybuffer";
-		xhr.onload = function(oEvent) {
-			if (xhr.status === 200) {
-				var content = new Blob([xhr.response], {type: files[0].mime_type});
-				DocNinja.fileConversion.HandleCloudUpload(files[0].name, content, files[0].mime_type);
-			}
-		};
-		xhr.send();
-	});
+	// DocNinja.KLOUDLESS_INPUT.on("success", function (files) {
+	// 	var xhr = new XMLHttpRequest();
+	// 	xhr.open("GET", "https://api.kloudless.com/v1/accounts/" + files[0].account + "/storage/files/" + files[0].id + "/contents", true);
+	// 	// xhr.setRequestHeader("Authorization", "Bearer " + files[0].bearer_token.key);
+	// 	xhr.setRequestHeader("Authorization",atob("QVBJS2V5IGo2OXZCMW5ZcEFkZV9PM2pySDJPVzJfWTVJYk9ZU3VwaHR2NV9qM0pkc2hkS0hCWg=="));
+	// 	xhr.responseType = "arraybuffer";
+	// 	xhr.onload = function(oEvent) {
+	// 		if (xhr.status === 200) {
+	// 			var content = new Blob([xhr.response], {type: files[0].mime_type});
+	// 			DocNinja.fileConversion.HandleCloudUpload(files[0].name, content, files[0].mime_type);
+	// 		}
+	// 	};
+	// 	xhr.send();
+	// });
 
 
 	DocNinja.reloadSettingsFromCache = function(cache) {
@@ -702,14 +701,14 @@
 			/* -----------------------------------------
 				bind download button animation
 			----------------------------------------- */
-			[].forEach.call(document.querySelectorAll("div[data-destination]"), function (elm, idx) {
+			for (const elm of document.querySelectorAll("div[data-destination]")) {
 				new UIProgressButton(elm, {
 					callback: function core_download_button_callback(instance) {
-						DocNinja.routines.Statistics(instance.el.getAttribute("data-destination")); //,App);
+						DocNinja.routines.Statistics(instance.el.getAttribute("data-destination"));
 					},
 					onbegin: DocNinja.Downloader.Begin
 				});
-			});
+			}
 
 			/* -----------------------------------------
 				LOAD PAGE from cache (local storage)

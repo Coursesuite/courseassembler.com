@@ -55,6 +55,58 @@ Promise.settle = function(promises) {
   });
 }
 
+const loadScript = src => {
+	const id = md5(src);
+	return new Promise((resolve, reject) => {
+		if (document.head.querySelector('#_'+id)) {
+			resolve();
+		} else {
+			const script = document.createElement('script')
+			script.id = '_' + id
+			script.type = 'text/javascript'
+			script.onload = resolve
+			script.onerror = reject
+			script.src = src
+			document.head.append(script)
+		}
+	})
+}
+
+// function kloudlessInput() {
+// 	loadScript("https://static-cdn.kloudless.com/p/platform/sdk/kloudless.picker.js")
+// 	.then(function() {
+// 		if (window.Kloudless && !DocNinja.KLOUDLESS_INPUT) DocNinja.KLOUDLESS_INPUT = window.Kloudless.filePicker.picker({app_id: DocNinja.KLOUDLESS_APP_ID});
+// 		DocNinja.KLOUDLESS_INPUT.on("success", function (files) {
+// 			var xhr = new XMLHttpRequest();
+// 			xhr.open("GET", "https://api.kloudless.com/v1/accounts/" + files[0].account + "/storage/files/" + files[0].id + "/contents", true);
+// 			// xhr.setRequestHeader("Authorization", "Bearer " + files[0].bearer_token.key);
+// 			xhr.setRequestHeader("Authorization",DocNinja.KLOUDLESS_APIKEY);
+// 			xhr.responseType = "arraybuffer";
+// 			xhr.onload = function(oEvent) {
+// 				if (xhr.status === 200) {
+// 					var content = new Blob([xhr.response], {type: files[0].mime_type});
+// 					DocNinja.fileConversion.HandleCloudUpload(files[0].name, content, files[0].mime_type);
+// 				}
+// 			};
+// 			xhr.send();
+// 		});
+// 		DocNinja.KLOUDLESS_INPUT.choose();
+// 	});
+// }
+// function kloudlessOutput(ui, fn) {
+// 	loadScript("https://static-cdn.kloudless.com/p/platform/sdk/kloudless.picker.js")
+// 	.then(function() {
+// 		if (window.Kloudless && !DocNinja.KLOUDLESS_OUTPUT) DocNinja.KLOUDLESS_OUTPUT = window.Kloudless.filePicker.picker({app_id: DocNinja.KLOUDLESS_APP_ID});
+// 		DocNinja.KLOUDLESS_OUTPUT.on("cancel", function() {
+// 			ui.stop(-1);
+// 		});
+// 		DocNinja.KLOUDLESS_OUTPUT.on("success", function (meta) {
+// 			fn(_kloudlessUpload, uiButtonInstance, meta);
+// 		})
+// 		DocNinja.KLOUDLESS_OUTPUT.choose();
+// 	});
+// }
+
 
 // http://stackoverflow.com/a/43952261/1238884
 // usage:
@@ -117,52 +169,52 @@ var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456
 function dataURItoBlob(b){if (b&&b.indexOf(",")===-1) return; var a=atob(b.split(",")[1]);b=b.split(",")[0].split(":")[1].split(";")[0];for(var d=new ArrayBuffer(a.length),e=new Uint8Array(d),c=0;c<a.length;c++)e[c]=a.charCodeAt(c);a=new DataView(d);return new Blob([a],{type:b})};
 
 // convert data-uri scheme to ArrayBuffer (used to read a zip from a base64 encoded file)
-function dataURItoArrayBuffer(b){var a=atob(b.split(",")[1]);b=b.split(",")[0].split(":")[1].split(";")[0];for(var d=new ArrayBuffer(a.length),e=new Uint8Array(d),c=0;c<a.length;c++)e[c]=a.charCodeAt(c);return d};
+// function dataURItoArrayBuffer(b){var a=atob(b.split(",")[1]);b=b.split(",")[0].split(":")[1].split(";")[0];for(var d=new ArrayBuffer(a.length),e=new Uint8Array(d),c=0;c<a.length;c++)e[c]=a.charCodeAt(c);return d};
 
 // convert an array buffer to base64 data
 // function arrayBufferToBase64(ab) { return btoa(String.fromCharCode.apply(null, new Uint8Array(ab))); }
 
-function obj2url(obj) {
-  var str = [];
-  for(var p in obj)
-	if (obj.hasOwnProperty(p)) {
-	  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-	}
-  return str.join("&");
-}
+// function obj2url(obj) {
+//   var str = [];
+//   for(var p in obj)
+// 	if (obj.hasOwnProperty(p)) {
+// 	  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+// 	}
+//   return str.join("&");
+// }
 
 
-function arrayBufferToBase64( buffer ) {
-	var binary = '';
-	var bytes = new Uint8Array( buffer );
-	var len = bytes.byteLength;
-	for (var i = 0; i < len; i++) {
-		binary += String.fromCharCode( bytes[ i ] );
-	}
-	return window.btoa( binary );
-}
+// function arrayBufferToBase64( buffer ) {
+// 	var binary = '';
+// 	var bytes = new Uint8Array( buffer );
+// 	var len = bytes.byteLength;
+// 	for (var i = 0; i < len; i++) {
+// 		binary += String.fromCharCode( bytes[ i ] );
+// 	}
+// 	return window.btoa( binary );
+// }
 
-function base64ToArrayBuffer(base64) {
-	var binary_string =  window.atob(base64);
-	var len = binary_string.length;
-	var bytes = new Uint8Array( len );
-	for (var i = 0; i < len; i++)        {
-		bytes[i] = binary_string.charCodeAt(i);
-	}
-	return bytes.buffer;
-}
+// function base64ToArrayBuffer(base64) {
+// 	var binary_string =  window.atob(base64);
+// 	var len = binary_string.length;
+// 	var bytes = new Uint8Array( len );
+// 	for (var i = 0; i < len; i++)        {
+// 		bytes[i] = binary_string.charCodeAt(i);
+// 	}
+// 	return bytes.buffer;
+// }
 
 // plain javascript version of siblings() in jquery
-var getSiblings = function (elem) {
-	var siblings = [];
-	var sibling = elem.parentNode.firstChild;
-	for ( ; sibling; sibling = sibling.nextSibling ) {
-		if ( sibling.nodeType === 1 && sibling !== elem ) {
-			siblings.push( sibling );
-		}
-	}
-	return siblings;
-};
+// var getSiblings = function (elem) {
+// 	var siblings = [];
+// 	var sibling = elem.parentNode.firstChild;
+// 	for ( ; sibling; sibling = sibling.nextSibling ) {
+// 		if ( sibling.nodeType === 1 && sibling !== elem ) {
+// 			siblings.push( sibling );
+// 		}
+// 	}
+// 	return siblings;
+// };
 
 function safeGetProp(obj, props, defaultValue) {
   try {
@@ -372,17 +424,17 @@ x();"bottom"===a.start?(c.css({top:b.outerHeight()-c.outerHeight()}),n(0,!0)):"t
 */
 
 // prototyped helpers
-window.Object.defineProperty( Element.prototype, 'documentOffsetTop', {
-	get: function () {
-		return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop : 0 );
-	}
-} );
+// window.Object.defineProperty( Element.prototype, 'documentOffsetTop', {
+// 	get: function () {
+// 		return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop : 0 );
+// 	}
+// } );
 
-window.Object.defineProperty( Element.prototype, 'documentOffsetLeft', {
-	get: function () {
-		return this.offsetLeft + ( this.offsetParent ? this.offsetParent.documentOffsetLeft : 0 );
-	}
-} );
+// window.Object.defineProperty( Element.prototype, 'documentOffsetLeft', {
+// 	get: function () {
+// 		return this.offsetLeft + ( this.offsetParent ? this.offsetParent.documentOffsetLeft : 0 );
+// 	}
+// } );
 
 Element.prototype.empty = function () {
 	while (this.firstChild) {
@@ -402,8 +454,8 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
 	}
 }
 
-function isInDOMTree(a){return!!findUltimateAncestor(a).body}
-function findUltimateAncestor(a){for(;a.parentNode;)a=a.parentNode;return a};
+// function isInDOMTree(a){return!!findUltimateAncestor(a).body}
+// function findUltimateAncestor(a){for(;a.parentNode;)a=a.parentNode;return a};
 
 function xhrFields(fields) {
 	var qs = [];
@@ -724,8 +776,10 @@ function triggerOnChange(el) {
 var _g_popover_target;
 function closePopover(e) {
 	var b = document.querySelector("div.dn-backdrop");
-	b.removeEventListener("click", closePopover);
-	document.body.removeChild(b);
+	if (b) {
+		b.removeEventListener("click", closePopover);
+		document.body.removeChild(b);
+	}
 	document.body.removeChild(document.querySelector("div.dn-popover"));
 }
 
@@ -829,9 +883,9 @@ function handlePopover(tgt) {
 				var id = DocNinja.filePreview.CurrentFile();
 				dest.innerHTML = '';
 				localforage.getItem(id).then(function(obj) {
-					if (obj.hasOwnProperty('attachments')) [].forEach.call(obj.attachments, function feAttachment(file) {
+					if (obj.hasOwnProperty('attachments')) for (file of obj.attachments) {
 						dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"](file));
-					});
+					}
 				})
 				break;
 
@@ -839,9 +893,9 @@ function handlePopover(tgt) {
 				var id = DocNinja.filePreview.CurrentFile();
 				localforage.getItem(id).then(function(obj) {
 					if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('transform')) {
-						[].forEach.call(document.querySelectorAll('input[name="transform-style"]'), function(el) {
+						for (el of document.querySelectorAll('input[name="transform-style"]')) {
 							if (el.value === obj.payload.transform) el.setAttribute('checked', true); 
-						});
+						}
 					}
 				});
 		}
@@ -891,10 +945,10 @@ function handleAction(node, e) {
 
 		case "tab-switch":
 			e.preventDefault();
-			[].forEach.call(e.target.closest("nav").querySelectorAll("a"), function(n) {
+			for (n of e.target.closest("nav").querySelectorAll("a")) {
 				n.classList[n===e.target ? "add" : "remove"]("active");
 				document.querySelector(n.getAttribute("href")).classList[n===e.target ? "add" : "remove"]("active");
-			});
+			};
 			break;
 
 		// case "select-preset":
@@ -1023,30 +1077,32 @@ function popover_setLayout(position) {
 	});
 }
 
-function popover_attachFiles(file) {
-	var reader = new FileReader();
-	var id = DocNinja.filePreview.CurrentFile();
-	var fileName = file.name;
-	var dest = document.getElementById('page-file-attachments');
-	reader.onloadend = function (event) {
-		// console.dir(event);
-		localforage.getItem(id).then(function (obj) {
-			if (!obj.hasOwnProperty('attachments')) obj.attachments = [];
-			obj.attachments.push({
-				name: fileName,
-				file: event.target.result
+function popover_attachFiles(files) {
+
+	const id = DocNinja.filePreview.CurrentFile();
+	const dest = document.getElementById('page-file-attachments');
+	for (file of files) {
+		let reader = new FileReader();
+		let fileName = file.name || 'Untitled';
+		reader.onloadend = function (event) {
+			localforage.getItem(id).then(function (obj) {
+				if (!obj.hasOwnProperty('attachments')) obj.attachments = [];
+				obj.attachments.push({
+					name: fileName,
+					file: event.target.result
+				});
+				dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"]({name: fileName}));
+				// closePopover();
+				localforage.setItem(id, obj).then(function () {
+					window.setItemOrder();
+					// DocNinja.PurityControl.Nav.Check();
+					// var updated = DocNinja.Navigation.Icons.Add('attachment',id);
+					// if (updated) window.setItemOrder();
+				});
 			});
-			dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"]({name: fileName}));
-			// closePopover();
-			localforage.setItem(id, obj).then(function () {
-				window.setItemOrder();
-				// DocNinja.PurityControl.Nav.Check();
-				// var updated = DocNinja.Navigation.Icons.Add('attachment',id);
-				// if (updated) window.setItemOrder();
-			});
-		});
+		}
+		reader.readAsDataURL(file);
 	}
-	reader.readAsDataURL(file);
 }
 
 function popover_saveTransform(applyAll) {
@@ -1076,7 +1132,8 @@ function renameNode(id, a) {
 	inp.value = text;
 	inp.dataset.oldValue = text;
 	var cancelName = function() {
-		p.removeChild(inp);
+
+		if (inp) p.removeChild(inp);
 		// replace input with hyperlink containing oldValue
 
 		var l = document.createElement("a");
@@ -1182,7 +1239,8 @@ function performAction(tgt, e) {
 			break;
 
 		case "upload-kloudless":
-			DocNinja.KLOUDLESS_INPUT.choose();
+			kloudlessInput();
+			// DocNinja.KLOUDLESS_INPUT.choose();
 			break;
 
 		case "upload-dropbox":
@@ -1428,15 +1486,14 @@ function performAction(tgt, e) {
 			var fn = tgt.getAttribute("data-name");
 			localforage.getItem(id).then(function action_trash_page_files(obj) {
 				if (obj.hasOwnProperty('attachments')) {
-					[].forEach.call(obj.attachments, function faTrashOne(file, item) {
+					for (const [item,file] of obj.attachments.entries()) {
 						if (file.name === fn) {
 							obj.attachments[item] = undefined;
 							obj.attachments.splice(item,1);
-							// delete obj.attachments[item];
 							var lne = tgt.closest('.page-attachment-row');
 							lne.parentNode.removeChild(lne);
 						}
-					});
+					}// );
 					if (obj.attachments.length === 0) {
 						delete obj.attachments;
 					}
@@ -1479,10 +1536,11 @@ function performAction(tgt, e) {
 						theme: btoa(document.querySelector('textarea.theme-editor').value)
 					}));
 				}
-				container.children.forEach(function(node){
+				for (node of container.children) {
+				// container.children.forEach(function(node){
 					if (node.nodeName === 'A')
 					node.classList[(node.dataset.preset === obj.key) ? "add" : "remove"]('selected');
-				});
+				} //);
 			}).catch(function(message) {
 				console.dir(message);
 				alert('Storing preset failed; see console for details');
@@ -1531,7 +1589,7 @@ function performAction(tgt, e) {
 				}
 				throw response;
 			}).then(function(blob) {
-				[].forEach.call(document.querySelectorAll('a[data-done]'), function (el) { el.parentNode.removeChild(el) });
+				for (const el of document.querySelectorAll('a[data-done]')) el.parentNode.removeChild(el);
 				var url = URL.createObjectURL(blob),
 						a = document.createElement('a');
 				a.dataset.done = true;
@@ -1854,8 +1912,6 @@ window.ninjaApiProxy = new apiProxy();
 function convertOrderForManifest(html) {
 	var frag = StringToFragment(html),
 		ord = [];
-	[].forEach.call(frag.querySelectorAll("li[data-fileid]"), function (n) {
-		ord.push(n.dataset.fileid)
-	});
+	for (const n of frag.querySelectorAll("li[data-fileid]")) ord.push(n.dataset.fileid);
 	return ord;
 }

@@ -49,9 +49,7 @@ function updateFrame(iframe, save) {
 
 // load the content of each iframe and replace various payload properties in the source and update the iframes
 function updateFrames(save) {
-	[].forEach.call(document.querySelectorAll("iframe[id]"), function(iframe) {
-		updateFrame(iframe, save);
-	});
+	for (const iframe of document.querySelectorAll("iframe[id]")) updateFrame(iframe, save);
 }
 
 window.addEventListener("DOMContentLoaded", function() {
@@ -91,14 +89,14 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	document.querySelector(".select-one").addEventListener('click', function(e) {
 		if (e.target.dataset.action) {
-			[].forEach.call(document.querySelectorAll('a[data-action]'), function (elm) {
+			for (const elm of document.querySelectorAll('a[data-action]')) {
 				var action = (elm === e.target) ? "add" : "remove";
 				if (action === "add") {
 					payload.template = ~~elm.textContent;
 					if (e.x > 0) save();
 				}
 				elm.classList[action]("active");
-			});
+			};
 		}
 	})
 

@@ -48,12 +48,12 @@
 					// Ticket #260224 : target hrefs externally on unsplit pdf's
 					var doc = document.implementation.createHTMLDocument(data.payload.name);
 					doc.documentElement.innerHTML = data.payload.html;
-					[].forEach.call(doc.querySelectorAll("a:not([target])"), function (n) {
+					for (n of doc.querySelectorAll("a:not([target])")) {
 						if (n.getAttribute("href").indexOf("script:")===-1) {
 							n.setAttribute("target","_blank");
 							n.setAttribute("rel","noopener");
 						}
-					});
+					};
 					data.payload.html = "<!doctype html>" + doc.documentElement.outerHTML;
 				}
 				localforage.setItem(this_fileid, data, function (err, value) {

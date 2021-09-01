@@ -41,7 +41,7 @@
 
     // callback happens outside the scope of this object, so we call the gFontInput methods directly
     callback: function(entries, observer) {
-      [].forEach.call(entries, function(entry) {
+      Array.prototype.forEach.call(entries, function(entry) {
         if (entry.isIntersecting) {
           window.requestIdleCallback(function(){gFontInput.loadFont(entry.target.textContent)},{timeout:100});
           entry.target.addEventListener('click', gFontInput.clickHandler);
@@ -89,7 +89,7 @@
         threshold: 0.5
       });
 
-      [].forEach.call(this.container.querySelectorAll('div'), function(node) {
+      Array.prototype.forEach.call(this.container.querySelectorAll('div'), function(node) {
         observer.observe(node);
       });
 

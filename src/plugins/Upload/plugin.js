@@ -22,13 +22,13 @@
 				order: 2,
 				supports: []
 			},
-			{
-				plugin: context,
-				icon: '<div class="ga-cloud"><a data-action="add-choose"><i class="ninja-cloud_download"></i>Open from cloud</a></div>',
-				type: 'page',
-				order: 3,
-				supports: []
-			}
+			// {
+			// 	plugin: context,
+			// 	icon: '<div class="ga-cloud"><a data-action="add-choose"><i class="ninja-cloud_download"></i>Open from cloud</a></div>',
+			// 	type: 'page',
+			// 	order: 3,
+			// 	supports: []
+			// }
 		]);
 	}
 

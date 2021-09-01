@@ -20,10 +20,17 @@ function rrmdir($dir) {
 }
 
 $debug = ($_SERVER['SERVER_NAME'] === '127.0.0.1');
-$hash = isset($_GET["hash"]) ? $_GET["hash"] : $debug ? "debug" : null;
-if (empty($hash)) die("bad method");
-if (empty($hash) && $debug) $hash = "debug";
+$hash = null;
 
+if (isset($_GET['hash'])) {
+	$hash = $_GET['hash'];
+}
+
+if (is_null($hash) && $debug) {
+	$hash = "debug";
+}
+
+if (empty($hash)) die("bad method");
 
 $root = realpath("./{$hash}/");
 if (!$root) $root = realpath('.') . "/{$hash}";

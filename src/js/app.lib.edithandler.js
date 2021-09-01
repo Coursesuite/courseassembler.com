@@ -6,7 +6,7 @@
 		var _instances = [];
 		var _bindCM = function (layout) {
 			_destroyCM(); // unload existing
-			[].forEach.call(document.querySelectorAll("textarea[data-mimetype]"), function(element) {
+			for (element of document.querySelectorAll("textarea[data-mimetype]")) {
 				var mime = element.getAttribute("data-mimetype"),
 					filename = (mime === "text/html") ? "index.html" : (mime === "text/css") ? "_package.css" : "_package.js";
 				fetch("layouts/" + layout + "/" + filename)
@@ -31,7 +31,7 @@
 						});
 						_instances.push(editor);
 					});
-			});
+			};
 		}
 
 		var _destroyCM = function (clear) {

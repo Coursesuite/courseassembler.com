@@ -279,12 +279,12 @@
 						// move nodes from precached order back to actual nodes in dom, in order, with all the cached properties - except the file content
 						var frag = document.createElement("ul");
 						frag.innerHTML = ninja.order; // TODO: create nodes, opposite of convertOrderForManifest
-						[].forEach.call(frag.querySelectorAll("li[data-fileid]"), function (node) {
+						for (const node of frag.querySelectorAll("li[data-fileid]")) {
 							var fileId = node.getAttribute("data-fileid"),
 								gob = getObjects(ninja.files, "key", fileId)[0],
 								fileInfo = JSON.parse(gob.value);
 							DocNinja.PurityControl.Nav.Add(DocNinja.navItems, fileId, fileInfo, null, "cache");
-						});
+						}
 						frag = null;
 
 						// file.asyncEach will call in order, but folder.file may return OUT of order, but we are now updating nodes so that is ok

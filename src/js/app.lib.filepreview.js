@@ -285,10 +285,9 @@
 					DocNinja.navItems.querySelector("li[data-fileid='" + NodeOrString + "']")
 					:
 					NodeOrString;
-			[].forEach.call(DocNinja.navItems.querySelectorAll("li.selected"),function(el){el.classList.remove("selected")});
+			for (el of DocNinja.navItems.querySelectorAll("li.selected")) el.classList.remove("selected");
 			li.classList.add("selected");
 			li.scrollIntoView({block: "nearest", behavior: "smooth"});
-			// scrollIfNeeded(li, DocNinja.options.scrollArea); // document.querySelector(".gm-scroll-view"));
 			_documentPreviewHandler(li, action);
 		}
 

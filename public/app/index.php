@@ -14,6 +14,9 @@ include("load.php");
 // 	// ];
 // }
 
+// KLOUDLESS
+// 2021.09.01 - Kloudless developer has notified that the service has been terminated - so all cloud-related functionality has been pulled.
+
 $jsApp = new stdClass();
 $jsApp->Hash = $verifier->hash;
 $jsApp->Home = $verifier->home;
@@ -53,17 +56,19 @@ $headCSS =[];
 //https://cloudconvert.com/api/v2
 // https://app.fastspring.com/app/custom.xml
 
-$headJS[] = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>';
-$headJS[] = '<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-0FLZ6RBMYH");</script>';
-
 if ($verifier->code->minified) {
-// $headJS[] = '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>';
-// $headJS[] = '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>';
-    $headJS[] = '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>';
-    $headJS[] = '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>';
+	$headJS[] = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>';
+	$headJS[] = '<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-0FLZ6RBMYH");</script>';
+
+	$headJS[] = '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>';
+	$headJS[] = '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>';
+
+	$headJS[] = '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>';
+	$headJS[] = '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>';
 }
 
-$headJS[] = '<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>';
+// $headJS[] = '<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>';
+
 //$headJS[] = '<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gemini-scrollbar@1.5.3/index.min.js"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>';
@@ -258,7 +263,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		</form>
 
 		<div class="w-80 m-lr-auto m-t-regular">
-			<div class='grid-h grid-c grid-4'>
+			<div class='grid-h grid-c grid-3'>
 
 				<div class="progress-button elastic" data-destination="preview">
 					<button><span><i class="ninja-eye"></i> Preview</span></button>
@@ -266,14 +271,14 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2" /><path d="m31.5,46.5l-8.5,-7.1" /></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3" /><path d="m35,35l9.3,9.3" /><path d="m35,35l-9.3,9.3" /><path d="m35,35l9.3,-9.3" /></svg>
 				</div>
-
+<?php if (0) { ?>
 				<div class="progress-button elastic" data-destination="kloudless">
 					<button><span><i class="ninja-cloud_upload"></i> Save to cloud</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
 				</div>
-
+<?php } ?>
 				<div class="progress-button elastic" data-destination="publish">
 					<button><span><i class="ninja-upload"></i> Save to server</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
@@ -313,8 +318,10 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<nav>
 			<a href="#add-upload" class="active" data-action="tab-switch">Upload</a>
 			<a href="#add-paste" data-action="tab-switch">URL / Embed</a>
+<?php if (0) { ?>
 			<a href="#add-choose" data-action="tab-switch">Cloud</a>
-		</nav>
+<?php } ?>
+			</nav>
 		<section class="drag-to-upload active" id="add-upload">
 			<p>Drag and drop your files directly below, or click the box to select a file from your device.<br>We support most document and presentation formats, images and H5P packages.</p>
 			<div class="dropzone" onclick="document.getElementById('uplControl').click()">
@@ -343,6 +350,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<button data-action="process-paste" class="pad-button"><i class="ninja-paste"></i>Insert</button>
 			</div>
 		</section>
+<?php if (0) { ?>
 		<section class="paste-to-embed" id="add-choose">
 			<div class="cloudzone">
 				<h3>Upload from the Cloud</h3>
@@ -350,6 +358,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-cloud_download"></i>Choose ...</button>
 			</div>
 		</section>
+<?php } ?>
 		<p class="tip">💡Tip: Check the Settings menu for conversion options before you start.</p>
 		</div>
 	</div>
@@ -362,7 +371,9 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		</header>
 		<nav>
 			<a href="#import-upload" class="active" data-action="tab-switch">Upload</a>
+<?php if (0) { ?>
 			<a href="#import-cloud" data-action="tab-switch">Cloud</a>
+<?php } ?>
 			<a href="#import-files" data-action="tab-switch">Saved courses</a>
 		</nav>
 		<section class="drag-to-upload active" id="import-upload">
@@ -373,6 +384,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<input type="file" id="muplControl" style="display:none" onchange="manualImport(this.files)" />
 			</div>
 		</section>
+<?php if (0) { ?>
 		<section class="paste-to-embed" id="import-cloud">
 			<div class="cloudzone">
 				<h3>Import from the Cloud</h3>
@@ -380,6 +392,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<button data-action="upload-kloudless" class="pad-button"><i class="ninja-cloud_download"></i>Choose ...</button>
 			</div>
 		</section>
+<?php } ?>
 		<section class="list-server-files" id="import-files">
 			<p>These are your saved courses. Click Import next to a course to add it.</p>
 			<table class="table-file-list"><thead><tr><th>Filename</th><th>Date created</th><th>Size</th><th>Actions</th></tr></thead>

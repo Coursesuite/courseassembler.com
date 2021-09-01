@@ -172,7 +172,7 @@
 {{#compare popover "attachments"}}
 <header onclick="closePopover()">{{label}}</header>
 <section>
-	<input type="file" id="fileAttachUpload" style="display:none" onchange="popover_attachFiles(this.files[0])" />
+	<input type="file" id="fileAttachUpload" style="display:none" onchange="popover_attachFiles(this.files)" multiple="multiple" />
 	<div class="file-list" id="page-file-attachments"></div>
 	<div>
 		<button data-action="upload-page-attachments"><i class="ninja-upload3"></i>Attach file</button>

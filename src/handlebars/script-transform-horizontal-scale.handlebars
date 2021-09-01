@@ -16,7 +16,7 @@
         } else {
             over = "auto";
         }
-        [].forEach.call(pf, function(el) {
+        Array.prototype.forEach.call(pf, function(el) {
             el.style.transform = "translate(-50%, 0%) " + "scale(" + scale + ") ";
         });
         container.style.overflowX = over;

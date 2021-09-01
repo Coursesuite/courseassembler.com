@@ -63,10 +63,10 @@
 				Handlebars.templates["theme-preset-details"]({ name: preset, data: theme})
 			)
 		);
-		container.children.forEach(function(node){
+		for (node of container.children) {
 			if (node.nodeName === 'A')
 			node.classList[(node.dataset.preset === preset) ? "add" : "remove"]('selected');
-		});
+		};
 		processTheme(theme);
 	}
 

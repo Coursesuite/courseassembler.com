@@ -820,7 +820,7 @@ function initQB(userdata, quiz) {
 	function provide_feedback(question) {
 		var state = question.answer===0 ? "none" : question.answer===question.required ? "positive" : "negative";
 		// clean up old state (might not be necessary)
-		[].forEach.call(document.querySelectorAll("div.answers .positive, div.answers .none, div.answers .negative"), function (node) {
+		Array.prototype.forEach.call(document.querySelectorAll("div.answers .positive, div.answers .none, div.answers .negative"), function (node) {
 			node.classList.remove("positive","negative","none");
 		})
 		var existing = document.querySelector("div.answers div.feedback");
@@ -834,7 +834,7 @@ function initQB(userdata, quiz) {
 			div.innerHTML = "<p>" + question.feedback[state] + "</p>";
 			document.querySelector("div.answers").appendChild(div);
 		}
-		[].forEach.call(checked, function (input) { // Colour in selections
+		Array.prototype.forEach.call(checked, function (input) { // Colour in selections
 			input.parentNode.classList.add(state);
 		});
 		if (question.feedback[state].length && checked.length > 0) { // apply positive/negative feedback
@@ -864,7 +864,7 @@ function initQB(userdata, quiz) {
 
 	function lock_question(question) {
 		question.locked = true; // having answered it
-		[].forEach.call(document.querySelectorAll("div.answers input"), function (node) {
+		Array.prototype.forEach.call(document.querySelectorAll("div.answers input"), function (node) {
 			node.setAttribute("disabled","disabled");
 		});
 		userdata.find(function (record) { // will putting this in a var fuck it up?
@@ -892,7 +892,7 @@ function initQB(userdata, quiz) {
 
 	// Check each question and set nav feedback
 	function eval_quiz() {
-		[].forEach.call(document.querySelector("nav").children, function (node, page) {
+		Array.prototype.forEach.call(document.querySelector("nav").children, function (node, page) {
 			if (node.getAttribute("href") === "#results") return;
 			var question = questions[page],
 				answer = userdata.find(function (record) {
@@ -917,7 +917,7 @@ function initQB(userdata, quiz) {
 			}
 		}
 		eval_quiz();
-		[].forEach.call(document.querySelector("nav").children, function (node, index) {
+		Array.prototype.forEach.call(document.querySelector("nav").children, function (node, index) {
 			node.classList[node.getAttribute("href") === "#results" ? "add" : "remove"]("active");
 		});
 		var score = calculateScore();
@@ -974,7 +974,7 @@ function initQB(userdata, quiz) {
 	}
 
 	function render(page) {
-		[].forEach.call(document.querySelector("nav").children, function (node, index) {
+		Array.prototype.forEach.call(document.querySelector("nav").children, function (node, index) {
 			node.classList[index === page ? "add" : "remove"]("active");
 		});
 		// find this answer from the userdata

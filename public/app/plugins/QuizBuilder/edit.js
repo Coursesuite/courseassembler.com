@@ -119,7 +119,7 @@ var QuizBuilder = (function () {
 		$("#order_field").addEventListener("change",function() {
 			if (this.value === "false") {
 				_sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
-					[].forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
+					Array.prototype.forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
 						_data_.questions.find(function(obj) { return obj.uid === dom.dataset.uid}).order=index;
 					});
 					QuizBuilder.Save();
@@ -148,7 +148,7 @@ var QuizBuilder = (function () {
 			e.preventDefault();
 			QuizBuilder.Questions.Save();
 			_selected_question = _data_.questions.find(function(obj) { return obj.uid === e.target.parentNode.dataset.uid});
-			[].forEach.call(e.target.closest("div").children,function(el) {
+			Array.prototype.forEach.call(e.target.closest("div").children,function(el) {
 				el.classList[_selected_question.uid===el.dataset.uid?"add":"remove"]("selected");
 			});
 			QuizBuilder.Questions.Load();
@@ -188,7 +188,7 @@ var QuizBuilder = (function () {
 
     if (!_data_.randomise) {
       _sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
-        [].forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
+        Array.prototype.forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
           _data_.questions.find(function(obj) { return obj.uid === dom.dataset.uid}).order=index;
         });
         QuizBuilder.Save();
@@ -284,7 +284,7 @@ var QuizBuilder = (function () {
 		btn.classList.add("saved"); setTimeout(function() { btn.classList.remove("saved")},750);
 		var distractors = [],
 			required = 0;
-		[].forEach.call($("#distractors>tbody").children,function(tr,i) {
+		Array.prototype.forEach.call($("#distractors>tbody").children,function(tr,i) {
 			var t = _trim(tr.querySelector("textarea").value);
 			if (!t.length) return; // skip empties
 			distractors.push({text:t});

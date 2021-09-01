@@ -11,29 +11,7 @@
 			var destination = uiButtonInstance.el.dataset.destination;
 			switch (destination) {
 				case "kloudless":
-					// documentation: https://github.com/kloudless/file-explorer
-					// var inst = window.Kloudless.explorer({
-					// 	app_id: KLOUDLESS_APP_ID,
-					// 	types: ["folders"],
-					// 	//"flavor": "chooser",
-					// 	retrieve_token: true,
-					// });
-					// inst.on("success", function (meta) {
-					// 	if (!meta[0].bearer_token) {
-					// 		alert("Sorry, was unable to properly authenticate. Please reload and try again.");
-					// 		uiButtonInstance.stop(-1);
-					// 	} else {
-					// 		_createPackage(_kloudlessUpload, uiButtonInstance, meta);
-					// 	}
-					// });
-					DocNinja.KLOUDLESS_OUTPUT.on("cancel", function() {
-						uiButtonInstance.stop(-1);
-					});
-					DocNinja.KLOUDLESS_OUTPUT.on("success", function (meta) {
-						_createPackage(_kloudlessUpload, uiButtonInstance, meta);
-					})
-					DocNinja.KLOUDLESS_OUTPUT.choose();
-
+					kloudlessOutput(uiButtonInstance, _createPackage);
 				break;
 
 				case "download":
@@ -63,9 +41,9 @@
 
 			window.gatherSettings() // get form data
 			.then(function buildSettingsModel(settings) { // build a model (setup)
-				[].forEach.call(settings, function (setting) {
+				for (const setting of settings) {
 					setup[setting.name] = setting.value;
-				});
+				}
 				return Promise.resolve(setup);
 			}).then(function ensureThemeIsCompiled(setup) {
 				return new Promise(function(resolve,reject) {
@@ -105,9 +83,9 @@
 				});
 			}).then(function validateSettingsModel(setup) { // validate the data
 				var seemsok = true;
-				[].forEach.call(DocNinja.navItems.querySelectorAll("li"), function (el) {
+				for (const el of DocNinja.navItems.querySelectorAll("li")) {
 					seemsok = seemsok && ((el.hasAttribute('data-state') && el.getAttribute('data-state')==='ready'));
-				});
+				};
 				if (!seemsok) {
 					alert("Looks like there's still a conversion taking place - wait until that is finished, then try again.");
 					throw new Error('Conversion in progress');
@@ -515,9 +493,9 @@
 							return (obj.value.indexOf("application/pdf") !== -1);
 						});
 						// we dont really need this, but for clarity
-						[].forEach.call(keys, function(obj) {
+						for (const obj of keys) {
 							files.push(obj.key + ".html");
-						});
+						}
 						// the things we have to do are each a promise which won't resolve until various internal promises resolve
 						var promises = files.map(function package_pdf_optimisations(name) {
 							return new Promise(function(html_resolve, html_reject) {
@@ -525,12 +503,12 @@
 									var doc = document.implementation.createHTMLDocument(name);
 									doc.documentElement.innerHTML = str;
 									var pngs = []; // the pngs inside this file that we will need to convert
-									[].forEach.call(doc.querySelectorAll("img[src$='.png']"), function (img) {
+									for (const img of doc.querySelectorAll("img[src$='.png']")) {
 										var src = img.getAttribute("src"),
 											fn = md5(src) + ".jpg";
 										pngs.push({png:src,jpg:fn});
 										img.setAttribute("src", fn); // point to the new file name
-									});
+									}
 									fold.file(name, "<!doctype html>" + doc.documentElement.outerHTML); // update THIS html file
 
 									// load any found pngs and convert them to jpeg
@@ -675,7 +653,7 @@ localforage.iterate(function( ... ) {
 				}
 			}
 			var tSplit=0, tAudio=0, tSrc=0, aKind=[], aFormat=[], aType=[];
-			[].forEach.call(data.files,function(val) {
+			for (val of data.files) {
 				var obj = JSON.parse(val.value);
 				if (obj.hasOwnProperty("kind") && aKind.indexOf(obj.kind)===-1) aKind.push(obj.kind);
 				if (obj.hasOwnProperty("format") && aFormat.indexOf(obj.format)===-1) aFormat.push(obj.format);
@@ -683,7 +661,7 @@ localforage.iterate(function( ... ) {
 				tSplit += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("split") && obj.payload.split === true && obj.depth === 0) ? 1 : 0;
 				tAudio += (obj.hasOwnProperty("audio")) ? 1 : 0;
 				tSrc += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("src")) ? 1 : 0;
-			});
+			};
 			fd.append("pages",data.files.length); 	// total pages in package
 			fd.append("split", tSplit);				// how many pages at depth=0 are split?
 			fd.append("audio", tAudio);				// how many pages have audio?

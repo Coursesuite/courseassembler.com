@@ -218,13 +218,13 @@ document.addEventListener("keydown", function keyListener(event) {
 // toggle going into or coming out of full-screen
 function fullscreen() {
 	if (screenfull.isFullscreen) {
-		[].forEach.call(document.querySelectorAll(".ca-screen-reduce"), function(el) {
+		Array.prototype.forEach.call(document.querySelectorAll(".ca-screen-reduce"), function(el) {
 			el.classList.add("ca-screen-expand");
 			el.classList.remove("ca-screen-reduce");
 		});
 		screenfull.exit();
 	} else {
-		[].forEach.call(document.querySelectorAll(".ca-screen-expand"), function(el) {
+		Array.prototype.forEach.call(document.querySelectorAll(".ca-screen-expand"), function(el) {
 			el.classList.remove("ca-screen-expand");
 			el.classList.add("ca-screen-reduce");
 		});
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
     }
 
 	if (!screenfull.isEnabled) {
-		[].forEach.call(document.querySelectorAll("a[href='javascript:fullscreen()']"),function(el) {
+		Array.prototype.forEach.call(document.querySelectorAll("a[href='javascript:fullscreen()']"),function(el) {
 			el.parentNode.removeChild(el);
 		});
 	}
@@ -377,7 +377,7 @@ function goto(n,init) {
 
 // use an object url to download a resource
 function download(e) {
-	[].forEach.call(document.querySelectorAll('a[data-done]'), function (el) { el.parentNode.removeChild(el) });
+	Array.prototype.forEach.call(document.querySelectorAll('a[data-done]'), function (el) { el.parentNode.removeChild(el) });
 	fetch(e.target.dataset.fileName)
 		.then(function(response) {
 			return response.blob();

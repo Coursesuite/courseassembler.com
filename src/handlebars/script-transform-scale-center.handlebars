@@ -9,7 +9,7 @@
                     (win.innerWidth || doc.body.clientWidth) / w,
                     (win.innerHeight || doc.body.clientHeight) / h
                 );
-            [].forEach.call(doc.querySelectorAll(".pf"), function(el) {
+            Array.prototype.forEach.call(doc.querySelectorAll(".pf"), function(el) {
                 el.style.transform = "translate(-50%, -50%) " + "scale(" + scale + ") ";
             });
         },
