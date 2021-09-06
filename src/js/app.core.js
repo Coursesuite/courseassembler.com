@@ -40,6 +40,7 @@
 		snd: new Audio("swoosh_quiet.mp3"),
 		sndpop: new Audio("pop.mp3"),
 		sndtrash: new Audio("crumple.mp3"),
+		sndfail: new Audio("error.mp3"),
 		pageBackgroundColour: '#ace1fc',
 		actions: [],
 		maxDepth: 2 // indentation depth

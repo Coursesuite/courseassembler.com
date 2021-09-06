@@ -67,6 +67,7 @@
 
 		_failure = function (liElem, err) {
 			if (err) err = "\n" + err;
+			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndfail);
 			alert("Sorry, this document type was not able to be converted." + err + "\n\nFor more information on convertable document types please consult the documentation.");
 			liElem.remove();
 			checkDummyItem();
