@@ -73,172 +73,55 @@
 			checkDummyItem();
 		};
 
-		_performConversion = function (data) {
-			var initialOutputFormat = "html",
-				// simpleHtml = 0,
-				BACKEND_APIKEY = atob("OHB4VDBESFJFNWxwY1Z6aWxkclBvRWJ6dEw5cmM1RXM4OXhHMGluY1VmUE5COTNMTFp1ZUVyN3pUSzdQVHVabWNWMWhYa1JNSVRiaGpTLVUxTm5uelE=");
-
-			// if it's a format that doesn't convert well to html initially (based on trial and error)
-			// first convert it to PDF, then convert the result to HTML
-			var extn = (data.website) ? "website" : (data.extn) ? data.extn : data.name.trimUntilExtn().toLowerCase();
-			switch (extn) {
-				case "odd": case "epub": case "mobi": case "lit": case "pages":
-				case "numbers": case "ods": case "cdr": case "eps":
-					// simpleHtml = 1;
-					// no break
-				case "psd": case "tiff": case "webp": case "ps": case "svg": case "wps": case "azw":
-				case "bmp": case "nef": case "raw": case "xps":
-				// case "jpg": case "jpeg": case "png": case "gif": // do NOT convert images to pdf! If you are seeing images in this function, there is a bug earlier in the process
-				case "website":
-					initialOutputFormat = "jpg"; // for size / compression reasons
-					break;
-				case "ppt": case "pptx": case "key":
-					// simpleHtml = 1;
-			}
-
-			// tim: simplehtml means the document *may* download as a zip
-			// but produces a significantly smaller document
-			// and the document pages are seperated by <!-- Page 1 --> etc
-			// so it needs a different splitter
-			//  ... disabling for now
-			var formData = new FormData(),
-				qs = xhrFields({
-				    "apikey": BACKEND_APIKEY,
-				    "input": (extn === "website") ? "url" : (data.url) ? "download" : "upload",
-				    "file": (data.url) ? data.url : null,
-				    "delete": "true",
-				    "download": (initialOutputFormat=="pdf") ? false : "",
-				    "inputformat": extn, // e.g. "pdf"
-				    "outputformat": initialOutputFormat,
-				    //"converteroptions[bg_format]" : "jpg", // default png, possible values png, jpg, svg
-				    // https://api.cloudconvert.com/conversiontypes?inputformat=pdf&outputformat=html
-				    // "converteroptions[page_width]": 960, // hard coded maximum pdf width, todo: make options page
-				    // "preset": "VJPNDLbcru" // embed all @ 960; DocumentNinja preset
-				});
-			if (data.website) {
-				qs += "&wait=true&converteroptions[javascript_delay]=2000&converteroptions[use_chrome]=1&converteroptions[quality]=90";
-			}
-			if (data.filename) qs += "&filename=" + encodeURIComponent(data.filename);
-			// console.log(initialOutputFormat, extn);
-			if (initialOutputFormat=="pdf" || extn == "pdf") qs+= "&converteroptions[bg_format]=jpg";
-			// if (simpleHtml==1) qs += "&converteroptions[simple_html]=1";
-			if (data.blob) formData.append("file", data.blob, data.name);
-
-			//console.log("qs", qs, data);
-			// the file conversion proccess
-
-			// while I could make or use a generic object and hang off promises for results,
-			// we only ever need to make at most two calls, so it's hardly worth it
-			// however, occasionally we get a CORS header error as a result and the process needs
-			// to handle this somehow, so we may re-work this routine to have retries, thus making it generic -> todo
-			var xhr = new XMLHttpRequest(); // ie10+
-			xhr.open('POST', 'https://api.cloudconvert.com/convert?' + qs, true);
-
-			if (data.website) xhr.responseType = "blob"; // otherwise it's automatically "text"
-
-			xhr.onload = function() {
-				if (xhr.status == 200) {
-					if (initialOutputFormat == "pdf") {
-
-						// NOW we have to do it again, except to HTML this time
-						// but the PDF is now hosted on CloudConvert, so we set that location as the file pickup URL, saving time & bandwidth
-						var resp = JSON.parse(xhr.responseText);
-						qs = xhrFields({
-						    "apikey": BACKEND_APIKEY,
-						    "input": "download",
-						    "file": resp.output.url + "/" + resp.output.filename,
-						    "delete": "true",
-						    "inputformat": "pdf",
-						    "outputformat": "html",
-						});
-						xhr.open('POST', 'https://api.cloudconvert.com/convert?' + qs, true);
-						xhr.onload = function () {
-							if (xhr.status == 200) {
-								fileinfo = {
-									payload: { html: xhr.responseText },
-									format: initialOutputFormat,
-									name: (data.website) ? data.name : data.name.trimExtn(),
-									kind: "file",
-									type: data.type,
-									src: data.src || {},
-									original: data.original
-								};
-								_finishConversion({
-									status: "ready",
-									error: null,
-									fileInfo: fileinfo,
-									fileId: data.fileId
-								});
-							} else {
-								_finishConversion({
-									status: "error",
-									error: (JSON.parse(xhr.responseText)).error,
-									fileInfo: null,
-									fileId: data.fileId
-								});
-							}
-						}
-						xhr.send(); // no formdata this time as the input is already up there
-
-					} else if (data.website) {
-						var responseName = data.url.indexOf("://")!==-1 ? data.url.split('://')[1] : data.fileId;
-						if (!this.response) {
-							_finishConversion({
-								status: "error",
-								error: (JSON.parse(xhr.responseText)).error,
-								fileInfo: null,
-								fileId: data.fileId
-							});
-						}
-						var wreader = new FileReader();
-						wreader.onloadend = function() {
-							fileinfo = {
-								payload: { image: wreader.result, name: responseName, backgroundColor: "ffffff" },
-								format: "jpg",
-								name: responseName,
-								kind: "image"
-							};
-							_finishConversion({
-								status: "ready",
-								error: null,
-								fileInfo: fileinfo,
-								fileId: data.fileId
-							});
-						}
-						wreader.readAsDataURL(this.response);
-
-						//responseBlob = new Blob(this.response.slice(), { type: "image/jpeg" });
-
-
-
-					} else { // file has been converted to html, process it
-						fileinfo = {
-							payload: { html: xhr.responseText },
-							format: initialOutputFormat,
-							name: data.name.trimExtn(),
-							kind: "file",
-							type: data.type,
-							src: data.src || '',
-							original: data.original
-						};
-						_finishConversion({
-							status: "ready",
-							error: null,
-							fileInfo: fileinfo,
-							fileId: data.fileId
-						});
-					}
+		_performConversion = function (data, source) {
+			const fd = new FormData();
+			fd.append("hash", App.Hash || "debug");
+			for (const key in data) {
+				if (key === "original") continue; // don't carry to server
+				if (key === "blob") {
+					fd.append(key, data[key], data.name);
 				} else {
-					_finishConversion({
-						status: "error",
-						error: (JSON.parse(xhr.responseText)).error,
-						fileInfo: null,
-						fileId: data.fileId
-					});
+					fd.append(key.toLowerCase(), data[key])
 				}
 			}
-			xhr.send(formData);
-
+			// for (const pair of fd.entries()) { console.dir(pair); }
+			fetch("https://backend.courseassembler.com.test/", {
+				method: 'POST',
+				body: fd,
+				headers: {
+					"fileid": data.fileId,
+					"hash": App.Hash
+				},
+				cache: 'no-store',
+				referrerPolicy: 'no-referrer-when-downgrade'
+			})
+			// .then(response => response.arrayBuffer())
+			// .then(buffer => new TextDecoder("utf-16be").decode(buffer))
+ 			// .then(text => LZString.decompressFromBase64(text))
+			.then(response => {
+				if (!response.ok) throw(response.statusText);
+				return response;
+			})
+			.then(response => response.text())
+			.then(data => JSON.parse(data))
+			.then(function(fileinfo) {
+				if (data.hasOwnProperty("original")) fileinfo['original'] = data.original;
+				_finishConversion({
+					status: "ready",
+					error: null,
+					fileInfo: fileinfo,
+					fileId: data.fileId
+				})
+			})
+			.catch(function(message) {
+				console.error(message);
+				_finishConversion({
+					status: "error",
+					error: message,
+					fileInfo: null,
+					fileId: data.fileId
+				});
+			});
 		}
 
 		_finishConversion = function(obj) {
@@ -299,7 +182,7 @@
 						type: mime, // could be done inside _performConversion I guess
 						fileId: this_fileid, // string ref to dom node
 						original: drop
-					});
+					}, "dropbox");
 					break;
 
 
@@ -362,7 +245,7 @@
 						kind: "website",
 						fileId: this_fileid
 					};
-					_performConversion(fileinfo);
+					_performConversion(fileinfo, "website");
 					break;
 
 				case "url":
@@ -370,7 +253,7 @@
 					DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.url, "depth": 0}, "conversion");
 					DocNinja.Plugins.Oembed(raw, liElem).then(function(data) {
 						if (!data.result.payload) { // try running it through conversion instead
-							_performConversion(data.result);
+							_performConversion(data.result, "oembed-no-payload");
 						} else {
 							_success(liElem, data.result);
 						}
@@ -384,7 +267,7 @@
 							fileId: this_fileid,
 							original: drop ? drop.result : null
 						};
-						_performConversion(fileinfo);
+						_performConversion(fileinfo, "oembed-catch");
 					});
 					break;
 
@@ -505,7 +388,7 @@
 							blob: dataURItoBlob(drop.result),  // convert the base64 string to a Blob
 							fileId: this_fileid, // string ref to dom node
 							original: drop.result
-						});
+						}, "fallback");
 					};
 			}
 		};
@@ -585,24 +468,24 @@
 			}
 		};
 
-		_handleCloudUpload = function(name, data, mimetype) {
-			var reader = new FileReader(),
-				mimeAr = mimetype.split('/');
-			reader.onload = function (e) {
-				// var result = e.target.result,
-				var li = document.createElement("li");
-				li.innerHTML = name;
-				li.setAttribute("data-fileid", DocNinja.PurityControl.Nav.GetFileId());
-				DocNinja.navItems.appendChild(li);
-				_beginConversion(reader, {"files": [ {"name":name, "type":mimetype} ]}, li, mimeAr[0], mimeAr[1]);
-				reader = null;
-			}
-			if ("zip"===mimeAr[1]){
-				reader.readAsArrayBuffer(data);
-			} else {
-				reader.readAsDataURL(data);
-			}
-		};
+		// _handleCloudUpload = function(name, data, mimetype) {
+		// 	var reader = new FileReader(),
+		// 		mimeAr = mimetype.split('/');
+		// 	reader.onload = function (e) {
+		// 		// var result = e.target.result,
+		// 		var li = document.createElement("li");
+		// 		li.innerHTML = name;
+		// 		li.setAttribute("data-fileid", DocNinja.PurityControl.Nav.GetFileId());
+		// 		DocNinja.navItems.appendChild(li);
+		// 		_beginConversion(reader, {"files": [ {"name":name, "type":mimetype} ]}, li, mimeAr[0], mimeAr[1]);
+		// 		reader = null;
+		// 	}
+		// 	if ("zip"===mimeAr[1]){
+		// 		reader.readAsArrayBuffer(data);
+		// 	} else {
+		// 		reader.readAsDataURL(data);
+		// 	}
+		// };
 
 		_handleUrlUpload = function(name, url) {
 			var li = document.createElement("li");
@@ -657,7 +540,7 @@
 			HandleUrlUpload: _handleUrlUpload,
 			HandleUpload: _handleFileUpload,
 			HandleServerImport: _handleServerImport,
-			HandleCloudUpload: _handleCloudUpload,
+		//	HandleCloudUpload: _handleCloudUpload,
 			OptimiseImageMaybe: _optimiseImage
 		}
 
