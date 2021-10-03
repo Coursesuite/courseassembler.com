@@ -567,7 +567,7 @@
 		 */
 		var talitha_cumi = function (fileInfo) {
 			return new Promise(function(fullResolve, fullReject) {
-				if (fileinfo.payload && fileInfo.payload.html && fileInfo.payload.html.indexOf("pdf2htmlEX")!==-1) { // Created by
+				if (fileInfo.payload && fileInfo.payload.html && fileInfo.payload.html.indexOf("pdf2htmlEX")!==-1) { // Created by
 					// remove generator meta tag & other junk nodes
 					var doc = document.implementation.createHTMLDocument(fileInfo.payload.name);
 					doc.documentElement.innerHTML = fileInfo.payload.html;
