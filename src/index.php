@@ -24,7 +24,13 @@ $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
-// $jsApp->Themes = $themes;
+if ($verifier->code->minified) {
+	$jsApp->Backend = "https://backend.courseassembler.com/";
+	$jsApp->Warehouse = "https://warehouse.courseassembler.com/";
+} else {
+	$jsApp->Backend = "https://backend.courseassembler.com.test/";
+	$jsApp->Warehouse = "https://warehouse.courseassembler.com.test/";
+}
 
 // if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {

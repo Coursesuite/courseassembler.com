@@ -73,7 +73,7 @@
 			checkDummyItem();
 		};
 
-		_performConversion = function (data, source) {
+		_performConversion = function (data, fn) {
 			const fd = new FormData();
 			fd.append("hash", App.Hash || "debug");
 			for (const key in data) {
@@ -85,7 +85,7 @@
 				}
 			}
 			// for (const pair of fd.entries()) { console.dir(pair); }
-			fetch("https://backend.courseassembler.com.test/", {
+			fetch(App.Backend, {
 				method: 'POST',
 				body: fd,
 				headers: {
@@ -106,6 +106,7 @@
 			.then(data => JSON.parse(data))
 			.then(function(fileinfo) {
 				if (data.hasOwnProperty("original")) fileinfo['original'] = data.original;
+				if (fn) fileinfo['fn', fn];
 				_finishConversion({
 					status: "ready",
 					error: null,
