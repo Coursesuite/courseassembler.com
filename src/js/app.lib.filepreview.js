@@ -69,6 +69,7 @@
 					data.payload.backgroundColour = data.payload.backgroundColour.replace("#","");
 				}
 				data.score = ~~data.score || 1; // number of seconds you have to view the page before it is considered complete
+
 				switch (data.kind) {
 					case "image":
 						parsedHtml = Handlebars.templates["preview-image"](data.payload);
@@ -124,7 +125,7 @@
 							case "slideshare":
 								blobRender = false;
 								useFrameDoc = true;
-								break;
+//								break; // break here is erronous; we WANT to fall throught to default as well
 
 							default:
 								parsedHtml = Handlebars.templates["preview-html"](data.payload);
