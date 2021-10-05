@@ -1,0 +1,6 @@
+  <div class="control-group">
+    <label class="control-label" for="input{{@key}}">{{@key}}</label>
+    <div class="controls">
+      <input type="text" id="input{{@index}}" placeholder="{{@key}}" value="{{textValue}}">
+    </div>
+  </div>
