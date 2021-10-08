@@ -32,16 +32,21 @@ foreach (glob(realpath(dirname(__FILE__)) . '/themes/' . $base . '/*.theme') as 
 	$presets[] = $obj;
 }
 
-$userpath = realpath("../../warehouse/{$verifier->hash}/{$base}");
-if (file_exists($userpath)) {
-	foreach (glob("{$userpath}/*.theme") as $theme) {
-		$text = file_get_contents($theme);
-		$key = substr(basename($theme), 0, -6);
-		$obj = new stdClass();
-		$obj->key = $key;
-		$obj->image = 'img/user-preset.jpg';
-		$obj->theme = base64_encode($text);
-		$presets[] = $obj;
-	}
+// search for user stored presets on the warehouse
+$result = Utils::curl_get_contents(getenv("WAREHOUSE_URL") . "?hash=" . $verifier->hash, array('action' => 'listthemes', 'base' => $base));
+foreach ($result as $theme) {
+	$presets[] = $theme;
 }
+// $userpath = realpath("../../warehouse/{$verifier->hash}/{$base}");
+// if (file_exists($userpath)) {
+// 	foreach (glob("{$userpath}/*.theme") as $theme) {
+// 		$text = file_get_contents($theme);
+// 		$key = substr(basename($theme), 0, -6);
+// 		$obj = new stdClass();
+// 		$obj->key = $key;
+// 		$obj->image = 'img/user-preset.jpg';
+// 		$obj->theme = base64_encode($text);
+// 		$presets[] = $obj;
+// 	}
+// }
 Utils::Stop(200, json_encode($presets), false, "application/json");
