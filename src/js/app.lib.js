@@ -1511,7 +1511,7 @@ function performAction(tgt, e) {
 
 		// stoping a copy of a theme preset into the users licenced server-side folder location
 		case "store-preset":
-			fetch('warehouse/manage.php?hash=' + App.Hash, {
+			fetch(App.Warehouse + '?hash=' + App.Hash, {
 			    method: 'POST',
 			    body: new URLSearchParams({
 			        'action': 'storetheme',
@@ -1553,7 +1553,7 @@ function performAction(tgt, e) {
 						"action": "removecourse",
 						"name": fn
 					});
-			fetch("warehouse/manage.php?hash=" + App.Hash, {
+			fetch(App.Warehouse + "?hash=" + App.Hash, {
 				method: "POST",
 				body: fd
 			}).then(function(response) {
@@ -1580,7 +1580,7 @@ function performAction(tgt, e) {
 						"action": "loadcourse",
 						"name": fn
 					});
-			fetch("warehouse/manage.php?hash=" + App.Hash, {
+			fetch(App.Warehouse + "?hash=" + App.Hash, {
 				method: "POST",
 				body: fd
 			}).then(function(response) {

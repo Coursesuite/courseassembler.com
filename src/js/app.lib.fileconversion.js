@@ -188,7 +188,21 @@
 
 
 				case "image":
-					if (DocNinja.options.AUTOOPTIMISE && raw.files[0].name.trimUntilExtn().toLowerCase() !== "gif") {
+					const imgExt = raw.files[0].name.trimUntilExtn().toLowerCase();
+					if (["ai","avg","psd","tiff","webp","ps","wps","azw","bmp","nef","raw","xps"].includes(imgExt)) {
+
+						liElem.setAttribute("data-converted","false");
+						DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");
+
+						_performConversion({
+							name: raw.files[0].name,
+							type: raw.files[0].type,
+							blob: dataURItoBlob(drop.result),  // convert the base64 string to a Blob
+							fileId: this_fileid, // string ref to dom node
+							original: drop.result
+						}, "img");
+
+					} else if (DocNinja.options.AUTOOPTIMISE && imgExt !== "gif") {
 						new AutoScaler(drop.result, {
 							maxWidth: window.innerWidth,
 							maxHeight: window.inerHeight,
@@ -400,7 +414,7 @@
 					"name": name
 				}),
 				li = document.createElement('li');
-			fetch("warehouse/manage.php?hash=" + App.Hash, {
+			fetch(App.Warehouse + "?hash=" + App.Hash, {
 				method: "POST",
 				body: fd
 			}).then(function(response) {

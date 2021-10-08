@@ -24,13 +24,10 @@ $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
-if ($verifier->code->minified) {
-	$jsApp->Backend = "https://backend.courseassembler.com/";
-	$jsApp->Warehouse = "https://warehouse.courseassembler.com/";
-} else {
-	$jsApp->Backend = "https://backend.courseassembler.com.test/";
-	$jsApp->Warehouse = "https://warehouse.courseassembler.com.test/";
-}
+
+$jsApp->Backend = getenv("BACKEND_URL");
+$jsApp->Warehouse = getenv("WAREHOUSE_URL");
+
 
 // if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
@@ -46,15 +43,15 @@ if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 // api url = coursesuite url / api / dl / apikey / appkey / template.zip
 $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 
-// sort function used by directoryiterator
-function dSort($a, $b) {
-	$col = 2; // 0=name, 1=size, 2=timestamp
-	$x = $b[$col]; // x = b if decending order
-	$y = $a[$col]; // y = b if ascending order
-	if (strcmp($x,$y) < 0) return -1;
-	elseif (strcmp($x,$y) > 0) return 1;
-	else return 0;
-}
+// // sort function used by directoryiterator
+// function dSort($a, $b) {
+// 	$col = 2; // 0=name, 1=size, 2=timestamp
+// 	$x = $b[$col]; // x = b if decending order
+// 	$y = $a[$col]; // y = b if ascending order
+// 	if (strcmp($x,$y) < 0) return -1;
+// 	elseif (strcmp($x,$y) > 0) return 1;
+// 	else return 0;
+// }
 $headJS = [];
 $headCSS =[];
 
@@ -162,7 +159,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<nav id="tabs">
 			<a href="javascript:;" data-tab="add-documents"><i class="ninja-add-documents"></i> Add <span>documents</span></a>
 			<a href="javascript:;" data-tab="change-settings"><i class="ninja-show-sidebar"></i> Choose a <span>design</span></a>
-			<a href="javascript:;" data-tab="download-zip"><i class="ninja-floppy-disk3"></i> <span>Download</span> your package</a>
+			<a href="javascript:;" data-tab="download-zip"><i class="ninja-floppy-disk3"></i> <span>Publish</span> your package</a>
 		</nav>
 	</section>
 
@@ -403,24 +400,11 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 			<p>These are your saved courses. Click Import next to a course to add it.</p>
 			<table class="table-file-list"><thead><tr><th>Filename</th><th>Date created</th><th>Size</th><th>Actions</th></tr></thead>
 			<tbody><?php
-			if (file_exists("warehouse/{$verifier->hash}/published/")) {
-				$zips = new DirectoryIterator("./warehouse/{$verifier->hash}/published/");
-				$rows = [];
-				foreach ($zips as $zip) {
-					if (!$zip->isDot() && !$zip->isDir()) {
-						$rows[] = [
-							$zip->getFilename(),
-							$zip->getSize(),
-							$zip->getCTime()
-						];
-					}
-				}
-				usort($rows, 'dSort');
-				forEach($rows as $row) {
-					echo "<tr data-src='", $row[0], "'><td>", $row[0], "</td><td>", date("D d M Y H:i:s", $row[2]), "</td><td>", Utils::FormatBytes($row[1]), "</td><td><button data-action='import-saved-course'>Import</button><button data-action='download-saved-course'><i class='ninja-paperclip'></i></button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td></tr>", PHP_EOL;
-				}
-			} else {
+			$zips = Utils::curl_get_contents($jsApp->Warehouse . "?hash=" . $verifier->hash, array('action' => 'listzips'));
+			if (!$zips || $zips == (new stdClass())) {
 				echo "<tr><td colspan='4'>No files.</td></tr>";
+			} else foreach ($zips as $zip) {
+				echo "<tr data-src='", $zip->filename, "'><td>", $zip->filename, "</td><td>", $zip->date, "</td><td>", $zip->size, "</td><td><button data-action='import-saved-course'>Import</button><button data-action='download-saved-course'><i class='ninja-paperclip'></i></button><button data-action='remove-saved-course'><i class='ninja-discard'></i></button></td></tr>", PHP_EOL;
 			}
 			?></tbody></table>
 		</section>

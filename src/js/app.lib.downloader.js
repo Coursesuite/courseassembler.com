@@ -57,7 +57,7 @@
 						return Promise.resolve(setup);
 					} else {
 						if (setup.selected_theme.endsWith("-copy")) {
-							loadUrl = "warehouse/manage.php?hash=" + App.Hash;
+							loadUrl = App.Warehouse + "?hash=" + App.Hash;
 							loadParams = {
 							    method: 'POST',
 							    body: new URLSearchParams({
@@ -704,7 +704,7 @@ localforage.iterate(function( ... ) {
 			fd.append("action", "storecourse");
 			fd.append("file", content, name);
 			fd.append("setup", JSON.stringify(setup));
-			fetch('warehouse/manage.php?hash=' + App.Hash, {
+			fetch(App.Warehouse + '?hash=' + App.Hash, {
 			    method: 'POST',
 			    body: fd
 			}).then(function(response) {
@@ -793,13 +793,13 @@ localforage.iterate(function( ... ) {
 			var xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp'),
 				fd = new FormData();
 			fd.append("file", content, name);
-			xhr.open("POST", "warehouse/preview.php" + location.search, true);
+			xhr.open("POST", App.Warehouse + "preview.php" + location.search, true);
 			// xhr.open("POST", "https://preview.coursesuite.ninja/", true);
 			xhr.onload = function (e) {
 				$span.html(_html);
 				if (this.status == 200) {
 					// var obj = JSON.parse(this.responseText);
-					popIframe('warehouse/preview.php' + location.search);
+					popIframe(App.Warehouse +'preview.php' + location.search);
 					// var popup = window.open(obj.href,'previewninja');
 					// if (typeof popup == 'undefined' || popup == null) {
 					// 	alert("We tried to popup up the window, but your browser has blocked it (check your browser location bar). Please allow popups from this site, or copy and open this link:\n\n" + obj.href);
