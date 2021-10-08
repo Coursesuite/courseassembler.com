@@ -31,4 +31,23 @@ class Utils {
 		return $style;
 	}
 
+	public static function curl_get_contents($url, $data = [], $method = 'POST') {
+		$ch = curl_init();
+		$referer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		if ($method === 'POST') curl_setopt($ch, CURLOPT_POST, 1);
+		if (!empty($data)) curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_REFERER, $referer);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		// curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3000); // 3 sec.
+		// curl_setopt($ch, CURLOPT_TIMEOUT, 10000); // 10 sec.
+		$result = json_decode(curl_exec($ch)); // '' === null
+		curl_close($ch);
+		if ($result == (new stdClass())) $result = null;
+		return $result;
+	}
+
 }
