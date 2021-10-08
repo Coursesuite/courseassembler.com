@@ -9,8 +9,8 @@ class Config {
             'DB_TYPE' => 'mysql',
             'DB_HOST' => '127.0.0.1',
             'DB_NAME' => 'ca_licence',
-            'DB_USER' => 'root',
-            'DB_PASS' => 'root',
+            'DB_USER' => getenv("DB_USER"),
+            'DB_PASS' => getenv("DB_PASS"),
             'DB_PORT' => '3306',
             'DB_CHARSET' => 'utf8',
 
