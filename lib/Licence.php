@@ -60,11 +60,17 @@ class Licence extends Controller {
 			return $result;
 		}
 		$record = new LicenceModel('licencekey', $key);
+		$validate = new ValidateModel();
+		$validate->licencekey = $key;
+		$validate->date = time();
+		$validate->source = Utils::client_ip();
 		if ($record->loaded()) {
 			if ($record->ends < time()) {
+				$validate->valid = 0;
 				$result->valid = false;
 				$result->licence->error = "licence-key-expired";
 			} else {
+				$validate->valid = 1;
 				$result->licence->error = "ready";
 				$result->valid = true;
 				$result->tier = 99;
@@ -72,6 +78,7 @@ class Licence extends Controller {
 				$result->user->container = "" . $record->company;
 			}
 		}
+		$validate->save();
 		return $result;
 	}
 
@@ -130,6 +137,7 @@ class Licence extends Controller {
 			$record->starts = time();
 			$record->ends = strtotime("+{$days} days");
 			$record->licencekey = $licence;
+			$record->times = 0;
 			$record->save();
 		}
 
