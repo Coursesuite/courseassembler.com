@@ -8,8 +8,10 @@
 		$Parser = new Parsedown();
 		$files = get_files(APP . "/assets/faq");
 		foreach ($files as $file) {
-			echo "<h2 class='uk-heading-divider'>", $file["name"], "</h2>", PHP_EOL;
+			echo "<details>", "<summary>", $file["name"], "</summary>", PHP_EOL;
+			// echo "<h2 class='uk-heading-divider'>", $file["name"], "</h2>", PHP_EOL;
 			echo $Parser->text($file["contents"]), PHP_EOL;
+			echo "</details>";
 		}
 		?>
 	</div>

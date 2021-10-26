@@ -25,8 +25,22 @@ $providers = [
 	["name"=>"twitter","icon"=>"https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg"],
 	["name"=>"wordpress","icon"=>"https://www.vectorlogo.zone/logos/wordpress/wordpress-tile.svg"],
 ];
+
+$reviews = [
+    ["name" => "G2", "link" => "https://www.g2.com/products/courseassembler/reviews"],
+    ["name" => "TrustPilot", "link" => "https://au.trustpilot.com/review/courseassembler.com"],
+    ["name" => "AlternativeTo", "link" => "https://alternativeto.net/software/courseassembler/about/"]
+];
+
+echo "<p class='uk-text-center'>";
 foreach ($providers as $link) {
 	echo "<a href='https://simpleshare.io/go?site={$link['name']}&url={$thisurl}&text={$text}'>",
 		"<img src='{$link['icon']}' style='max-width:100%;vertical-align:middle;width:24pt;height:24pt;margin-left:12pt'>",
 		"</a>";
 }
+echo "</p>";
+$ar = [];
+foreach ($reviews as $link) {
+    $ar[] = "<a href='{$link['link']}'>{$link['name']}</a>";
+}
+echo "<p class='uk-text-center'>Review us! ", implode(' | ', $ar), "</p>";

@@ -28,15 +28,6 @@
 	</head>
 	<body class="<?php echo preg_replace('/[^a-z0-9]/i','',str_replace(['.inc','.php'],'',$fn)); ?>">
 		<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
-			<div class="uk-container uk-container-expand coursesuite-bar">
-				<div class="uk-padding-small uk-padding-remove-vertical uk-text-meta">
-					Other Scorm Apps:
-					<a href="https://pdf.to-scorm.com/">PDF 2 Scorm</a>
-					<a href="https://video.to-scorm.com/">Video 2 Scorm</a>
-					<a href="https://presentation.to-scorm.com/">Audio+Presentation 2 Scorm</a>
-					<a href="https://coursebuildr.coursesuite.ninja/app/login/">CourseBuilder</a>
-				</div>
-			</div>
 			<div class="uk-container uk-container-expand">
 				<nav uk-navbar>
 					<div class="uk-navbar-left">
@@ -45,8 +36,10 @@
 					<div class="uk-navbar-right uk-visible@m">
 						<ul class="uk-navbar-nav">
 							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
+							<li><a href="/#features">Features</a></li>
+							<li><a href="/faq">FAQs</a></li>
+							<li><a href="/pricing">Pricing</a></li>
 							<li><a href="/blog" class="<?php echo Utils::BlogDot(); ?>">Blog</a></li>
-							<li><a href="/docs" target="_blank">Documentation</a></li>
 							<li><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw&region=follow_link&screen_name=CourseAssembler&tw_p=followbutton" title="Follow @CourseAssembler on Twitter"><span uk-icon="icon: twitter;"></span></a></li>
 						</ul>
 						<div class="uk-navbar-item">
