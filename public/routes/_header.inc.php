@@ -15,7 +15,7 @@
 		<meta property="og:url" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/">
 		<meta property="og:site_name" content="Course Assembler ">
 		<meta property="og:image" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/assets/meta_card.png">
-		<link href="/assets/style.css" rel="stylesheet" type="text/css"/>
+		<link href="/assets/style.202110261545.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/css/uikit.min.css" />
         <script src="https://polyfill.io/v3/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>

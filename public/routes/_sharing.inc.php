@@ -32,7 +32,7 @@ $reviews = [
     ["name" => "AlternativeTo", "link" => "https://alternativeto.net/software/courseassembler/about/"]
 ];
 
-echo "<p class='uk-text-center'>";
+echo "<p class='uk-text-center'>Tell your friends about us<br>";
 foreach ($providers as $link) {
 	echo "<a href='https://simpleshare.io/go?site={$link['name']}&url={$thisurl}&text={$text}'>",
 		"<img src='{$link['icon']}' style='max-width:100%;vertical-align:middle;width:24pt;height:24pt;margin-left:12pt'>",
@@ -43,4 +43,4 @@ $ar = [];
 foreach ($reviews as $link) {
     $ar[] = "<a href='{$link['link']}'>{$link['name']}</a>";
 }
-echo "<p class='uk-text-center'>Review us! ", implode(' | ', $ar), "</p>";
+echo "<p class='uk-text-center'>Review us!<br>", implode(' | ', $ar), "</p>";

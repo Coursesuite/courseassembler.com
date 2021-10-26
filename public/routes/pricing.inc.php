@@ -1,12 +1,14 @@
 
 <div class="uk-section">
     <div class="uk-container uk-margin-large">
-    	<h2 class="uk-text-center">Pricing</h2>
+    	<h2 class="uk-text-center">Simple, honest pricing</h2>
 
-        <p class="uk-text-lead">No recurring fees. No conversion limits or premium content hidden behind paywalls.</p>
+        <p class="uk-text-lead">No recurring fees. No conversion limits or premium content hidden behind paywalls. Pay as you go.</p>
 
         <p>Servers and services cost money to run, and it's true: Course Assembler is a pay-to-use web-based app. But it costs about what most people would pay for a coffee and a donut. It's funny, because you can build a course in the time it takes you to eat the donut and drink that coffee.</p>
-        <p>$2 USD givevs you a 1 day licence. $10 USD buys you a 10 day licence. If you buy longer access, the discount gets much better. An app licence just lets you get in to the app. If you want to share it around with the folks in your office that's up to you (we'd rather you just told them about the app). A licence only works for a set number of days and then can't be used any more. Content that you produce with the app will still work whenever and wherever you put it (it's not licenced).</p>
+        <p>$2 USD gives you a 1 day licence. Enough to try us out. Maybe that's all you need?</p>
+		<p>$10 USD buys you a 10 day licence.</p>
+		<p>If you buy longer access, the discount gets much better. An app licence just lets you get in to the app. If you want to share it around with the folks in your office that's up to you (we'd rather you just told them about the app). A licence only works for a set number of days and then can't be used any more. Content that you produce with the app will still work whenever and wherever you put it (it's not licenced or limited).</p>
         <p>You can always buy more access later on and re-import your existing packages again<sup><a href="#server">*</a></sup>. So buy what you need, just for when you need it.</p>
 
         <table class="uk-table uk-table-small uk-table-divider uk-table-hover uk-table-striped">
