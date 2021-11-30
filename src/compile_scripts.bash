@@ -74,8 +74,8 @@ cp -R ../src/* ../public/app
 echo "Fixing src loader"
 cat load.dev.php > load.php
 
-echo "Cleaning previewer"
-rm -rf ./preview/data/
+# echo "Cleaning previewer"
+# rm -rf ./preview/data/
 
 cd plugins
 cd QuizBuilder
@@ -94,6 +94,8 @@ cd ..
 
 # ok now we need to go into app and start messing with it
 cd ../public/app
+
+pwd
 
 if [ "$(uname)" == "Darwin" ]; then
 	sed -E -i '' "s/..\/vendor/..\/..\/vendor/g" manifest.php
@@ -160,13 +162,13 @@ rm app.lib.navigation.js
 rm app.lib.edithandler.js
 cd ..
 
-echo "Cleaning warehouse"
-cd warehouse
-find . -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
-cd ..
+#echo "Cleaning warehouse"
+#cd warehouse
+#find . -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
+#cd ..
 
-echo "Setting permissions"
-chmod -R 02777 warehouse
+#echo "Setting permissions"
+#chmod -R 02777 warehouse
 
 
 # todo: do the plugins scan again but pipe into rm -f
