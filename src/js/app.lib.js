@@ -1108,8 +1108,9 @@ function popover_attachFiles(files) {
 function popover_saveTransform(applyAll) {
 	var id = DocNinja.filePreview.CurrentFile();
 	localforage.getItem(id).then(function (obj) {
-		var value = document.querySelector('input[name="transform-style"]:checked').value;
-		if (value.length) {
+		var el = document.querySelector('input[name="transform-style"]:checked'),
+			value = el && el.value;
+		if (value && value.length) {
 			DocNinja.Page.ModifyDocumentTransforms(id, obj, value, applyAll)
 			.then(function(result) {
 				closePopover();
