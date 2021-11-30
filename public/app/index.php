@@ -66,7 +66,8 @@ if ($verifier->code->minified) {
 	$headJS[] = '<script src="//d2wy8f7a9ursnm.cloudfront.net/v6/bugsnag.min.js"></script>';
 	$headJS[] = '<script>window.bugsnagClient = bugsnag("f76cf5ad15cc64817fbf675a994d5438")</script>';
 
-	$headJS[] = '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>';
+	// $headJS[] = '<script src="https://browser.sentry-cdn.com/5.21.1/bundle.min.js" crossorigin="anonymous"></script>';
+	$headJS[] = '<script src="https://browser.sentry-cdn.com/6.15.0/bundle.min.js" crossorigin="anonymous"></script>';
 	$headJS[] = '<script>window.addEventListener("DOMContentLoaded", function() { Sentry.init({ dsn: "https://1108ee823d3d47b1b9df334357028940@sentry.io/1466310" }); });</script>';
 }
 
@@ -103,6 +104,9 @@ $headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular
 echo implode(PHP_EOL, $headCSS), PHP_EOL;
 echo implode(PHP_EOL, $headJS), PHP_EOL;
 
+// a list of plugins that might be being worked on or depreciated (case sensitive)
+$disabled_plugins = ["Quizzzard"]; 
+
 // include styles defined in plugins
 $p = realpath('./plugins');
 $plugins = [];
@@ -110,6 +114,8 @@ $js = [];
 $css = [];
 $iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
+	$fold = explode('/', $file[0]); 
+	if (in_array($fold[count($fold)-2], $disabled_plugins)) continue;
 	if ($file[1] === "plugin") $plugins[] = basename(dirname($file[0]));
 	if ($file[2] === "css") {
 		$css[] = '<link href="plugins' . substr($file[0], strlen($p)) . '" rel="stylesheet" type="text/css">';
