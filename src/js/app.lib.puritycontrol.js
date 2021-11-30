@@ -609,141 +609,141 @@
 					// pptx file documentation is available at http://www.datypic.com/sc/ooxml/ss.html
 					// slides: http://www.datypic.com/sc/ooxml/s-pml-slide.xsd.html
 					// media: http://www.datypic.com/sc/ooxml/s-dml-audioVideo.xsd.html
-					var getVidInfo = function(xmlobj) {
+// 					var getVidInfo = function(xmlobj) {
 
-						return new Promise(function(resolve, reject) {
-							var pArray = [];
-							var videoObjs = [];
-							var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
-							Object.keys(xmlobj.files).forEach(function each_pptx_file(key, index) {
-								if (regex.test(key)) {
-									var slide = xmlobj.files[key].name.substring(xmlobj.files[key].name.lastIndexOf('/')+1).split('.')[0];
-									pArray.push(new Promise(function slide_read_promise(res, rej) {
-										xmlobj.files[key].async('text').then(function read_slide_xml(xmlText) {
-											var xmlObj = tXml(xmlText);
-// console.dir(xmlObj);
-											var vPicEls = tXml.filter(xmlObj, function get_slide_vid_details(el) {
-												if (el.tagName === 'p:pic') {
-													var vid = {name:slide};
-													var containsVid = false;
-													el.children.forEach(function get_slide_spPr_el(child, index) {
-														if (child.tagName === 'p:spPr') { // Geometry
-															child.children.some(function get_slide_xfrm_el(grandchild) {
-																if (grandchild.tagName === 'a:xfrm') {
-																	grandchild.children.forEach(function get_slide_vid_geometry(ggchild, index) {
-																		if (ggchild.tagName === 'a:off') {
-																			vid.x = emuToPix(ggchild.attributes.x);
-																			vid.y = emuToPix(ggchild.attributes.y);
-																		}
-																		if (ggchild.tagName === 'a:ext') {
-																			vid.width = emuToPix(ggchild.attributes.cx);
-																			vid.height = emuToPix(ggchild.attributes.cy);
-																		}
-																	});
-																	return true;
-																}
-															});
-														}
-														if (child.tagName === 'p:nvPicPr') { // video id
-// console.dir(child);
-															child.children.some(function get_slide_vid_el(grandchild) {
-// console.dir(grandchild);
-																if (grandchild.tagName === "p:nvPr") {
-																	if (grandchild.children) {
-																		grandchild.children.some(function get_slide_vid_id(ggchild) {
-																			if (ggchild.tagName === "a:videoFile") {
-																				vid.rId = ggchild.attributes["r:link"];
-																				containsVid = true;
-																				return true;
-																			}
-																		});
-																	}
-																	return true;
-																}
-															});
-														}
-													});
-// console.dir(vid);
-													if (containsVid) { videoObjs.push(vid); }
-												}
-											});
-											res();
-										});
-									}));
-								}
-							});
-							Promise.all(pArray).then(function resolve_pptx_videos_obj() {
-								resolve({xml:xmlobj, vidObj:videoObjs});
-							});
-						});
-					}
+// 						return new Promise(function(resolve, reject) {
+// 							var pArray = [];
+// 							var videoObjs = [];
+// 							var regex = RegExp("(ppt\/slides\/([a-zA-Z0-9])*\.xml)","g");
+// 							Object.keys(xmlobj.files).forEach(function each_pptx_file(key, index) {
+// 								if (regex.test(key)) {
+// 									var slide = xmlobj.files[key].name.substring(xmlobj.files[key].name.lastIndexOf('/')+1).split('.')[0];
+// 									pArray.push(new Promise(function slide_read_promise(res, rej) {
+// 										xmlobj.files[key].async('text').then(function read_slide_xml(xmlText) {
+// 											var xmlObj = tXml(xmlText);
+//  console.dir(xmlObj);
+// 											var vPicEls = tXml.filter(xmlObj, function get_slide_vid_details(el) {
+// 												if (el.tagName === 'p:pic') {
+// 													var vid = {name:slide};
+// 													var containsVid = false;
+// 													el.children.forEach(function get_slide_spPr_el(child, index) {
+// 														if (child.tagName === 'p:spPr' && child.children) { // Geometry
+// 															child.children.some(function get_slide_xfrm_el(grandchild) {
+// 																if (grandchild.tagName === 'a:xfrm') {
+// 																	grandchild.children.forEach(function get_slide_vid_geometry(ggchild, index) {
+// 																		if (ggchild.tagName === 'a:off') {
+// 																			vid.x = emuToPix(ggchild.attributes.x);
+// 																			vid.y = emuToPix(ggchild.attributes.y);
+// 																		}
+// 																		if (ggchild.tagName === 'a:ext') {
+// 																			vid.width = emuToPix(ggchild.attributes.cx);
+// 																			vid.height = emuToPix(ggchild.attributes.cy);
+// 																		}
+// 																	});
+// 																	return true;
+// 																}
+// 															});
+// 														}
+// 														if (child.tagName === 'p:nvPicPr' && child.children) { // video id
+//  console.dir(child);
+// 															child.children.some(function get_slide_vid_el(grandchild) {
+//  console.dir(grandchild);
+// 																if (grandchild.tagName === "p:nvPr") {
+// 																	if (grandchild.children) {
+// 																		grandchild.children.some(function get_slide_vid_id(ggchild) {
+// 																			if (ggchild.tagName === "a:videoFile") {
+// 																				vid.rId = ggchild.attributes["r:link"];
+// 																				containsVid = true;
+// 																				return true;
+// 																			}
+// 																		});
+// 																	}
+// 																	return true;
+// 																}
+// 															});
+// 														}
+// 													});
+//  console.dir(vid);
+// 													if (containsVid) { videoObjs.push(vid); }
+// 												}
+// 											});
+// 											res();
+// 										});
+// 									}));
+// 								}
+// 							});
+// 							Promise.all(pArray).then(function resolve_pptx_videos_obj() {
+// 								resolve({xml:xmlobj, vidObj:videoObjs});
+// 							});
+// 						});
+// 					}
 
-					// this finds the slides in each presentation page by loading the xml files from the PPTX (which is actually a zip file)
-					var getVidEmbed = function(xmlobj, videoObjs) {
-						return new Promise(function(resolve, reject) {
-							var pArray = [];
-							//var regex = new RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
-							Object.keys(xmlobj.files).forEach(function each_slide_rels(key) {
-// console.dir(key);
-								if (/(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)/.test(key)) {
-// console.dir("found key " + key);
-									pArray.push(new Promise(function slide_rels_promise(res,rej) {
-										xmlobj.files[key].async('text').then(function read_slide_rel(xmlText) {
-											var xmlObj = tXml(xmlText);
-// console.dir(xmlObj);
-											videoObjs.forEach(function each_video_object(vobj) {
-												xmlObj[0].children[0].children.forEach(function get_video_link(rel) {
-													if (rel.attributes['Id'] === vobj.rId) {
-														if (rel.attributes['Target'].startsWith('http')) {
-															vobj.embed = rel.attributes['Target'];
-														}
-													}
-												})
-											});
-											res();
-										});
-									}));
-								}
-							});
-							Promise.all(pArray).then(function resolve_video_links(){
-								resolve(videoObjs);
-							});
-						});
-					}
+// 					// this finds the slides in each presentation page by loading the xml files from the PPTX (which is actually a zip file)
+// 					var getVidEmbed = function(xmlobj, videoObjs) {
+// 						return new Promise(function(resolve, reject) {
+// 							var pArray = [];
+// 							//var regex = new RegExp("(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)","g");
+// 							Object.keys(xmlobj.files).forEach(function each_slide_rels(key) {
+//  console.dir(key);
+// 								if (/(ppt\/slides\/\_rels\/([a-zA-Z0-9])*\.xml.rels)/.test(key)) {
+//  console.dir("found key " + key);
+// 									pArray.push(new Promise(function slide_rels_promise(res,rej) {
+// 										xmlobj.files[key].async('text').then(function read_slide_rel(xmlText) {
+// 											var xmlObj = tXml(xmlText);
+//  console.dir(xmlObj);
+// 											videoObjs.forEach(function each_video_object(vobj) {
+// 												xmlObj[0].children[0].children.forEach(function get_video_link(rel) {
+// 													if (rel.attributes['Id'] === vobj.rId) {
+// 														if (rel.attributes['Target'].startsWith('http')) {
+// 															vobj.embed = rel.attributes['Target'];
+// 														}
+// 													}
+// 												})
+// 											});
+// 											res();
+// 										});
+// 									}));
+// 								}
+// 							});
+// 							Promise.all(pArray).then(function resolve_video_links(){
+// 								resolve(videoObjs);
+// 							});
+// 						});
+// 					}
 
 					// this the the PPTX video replacement entry point
-					if (fileInfo.type && fileInfo.type.indexOf('presentationml') !== -1) {
-						JSZip.loadAsync(fileInfo.original.split('base64,').pop(), {base64: true})
-						.then(function get_video_info_obj(obj) {
-							// Extract video info and embed code
-							getVidInfo(obj).then(function(obj) {
-								return getVidEmbed(obj.xml, obj.vidObj);
-							}).then(function embed_external_videos(vobjs) {
-								var imgEl = doc.querySelector("#page-container img.bi");
-								for (var i = 0; i<vobjs.length;i++) {
-									if (vobjs[i].embed) {
-										var vidEl = doc.createElement('iframe');
-										vidEl.height = vobjs[i].height;
-										vidEl.width = vobjs[i].width;
-										vidEl.src = vobjs[i].embed;
-										vidEl.style.position = 'absolute';
-										vidEl.style.top = vobjs[i].y +"px";
-										vidEl.style.left = vobjs[i].x + "px";
-										imgEl.parentNode.appendChild(vidEl);
-									}
-								}
-								fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
-								fileInfo.original = undefined; //dont need the original anymore
-								fullResolve(fileInfo);
-							});
-						});
-					} else {
+					// if (fileInfo.type && fileInfo.type.indexOf('presentationml') !== -1) {
+					// 	JSZip.loadAsync(fileInfo.original.split('base64,').pop(), {base64: true})
+					// 	.then(function get_video_info_obj(obj) {
+					// 		// Extract video info and embed code
+					// 		getVidInfo(obj).then(function(obj) {
+					// 			return getVidEmbed(obj.xml, obj.vidObj);
+					// 		}).then(function embed_external_videos(vobjs) {
+					// 			var imgEl = doc.querySelector("#page-container img.bi");
+					// 			for (var i = 0; i<vobjs.length;i++) {
+					// 				if (vobjs[i].embed) {
+					// 					var vidEl = doc.createElement('iframe');
+					// 					vidEl.height = vobjs[i].height;
+					// 					vidEl.width = vobjs[i].width;
+					// 					vidEl.src = vobjs[i].embed;
+					// 					vidEl.style.position = 'absolute';
+					// 					vidEl.style.top = vobjs[i].y +"px";
+					// 					vidEl.style.left = vobjs[i].x + "px";
+					// 					imgEl.parentNode.appendChild(vidEl);
+					// 				}
+					// 			}
+					// 			fileInfo.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
+					// 	//		fileInfo.original = undefined; //dont need the original anymore
+					// 			fullResolve(fileInfo);
+					// 		});
+					// 	});
+					// } else {
 						// if PDFEMBED is enabled, leave the original file in memory so we can download it later
-						if (!(fileInfo.type==="application/pdf"&&DocNinja.options.PDFEMBED)) {
+						if (!(fileInfo.type==="application/pdf" && DocNinja.options.PDFEMBED)) {
 							fileInfo.original = undefined; //dont need the original anymore
 						}
 						fullResolve(fileInfo);
-					}
+					// }
 
 				} else { // wasn't pdf
 					fileInfo.original = undefined; //dont need the original anymore
