@@ -45,6 +45,19 @@
 				});
 			} else {
 				if (!DocNinja.options.AUTOSPLIT && data.payload.html && data.payload.html.indexOf("pdf2htmlEX") !== -1) {
+					let aa = [];
+					// can't use more than one page audio so we use the first one and set the rest as attached files
+					if (data.payload.hasOwnProperty("audio")) {
+						for (const [i,[k,v]] of Object.entries(Object.entries(data.payload.audio))) {
+							if (i.toString() === "0") {
+								data.payload.mp3 = v;
+							} else {
+								aa.push({"name":k + "-audio.mp3", "file":v});
+							}
+						}
+						if (aa.length) data.attachments = aa;
+						delete data.payload.audio;
+					}
 					// Ticket #260224 : target hrefs externally on unsplit pdf's
 					var doc = document.implementation.createHTMLDocument(data.payload.name);
 					doc.documentElement.innerHTML = data.payload.html;
