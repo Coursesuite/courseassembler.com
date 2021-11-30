@@ -149,7 +149,7 @@
 
 		// 	  return palette;
 		// 	};
-
+	
 		return {
 
 			ModifyIframeScrubber: function(obj, state) { // if state = true remove .noscrub
@@ -274,10 +274,13 @@
 					obj.payload.flat = true;
 
 					var doc = document.implementation.createHTMLDocument("foo"),
+						audios = obj.payload.audio,
 						docName = obj.name, // before it gets modified
 						currentLI = node,
 						id = node.getAttribute("data-fileid"),
 						_pageBgColour = "ffffff"; // initial background colour
+
+					delete obj.payload.audio;
 
 					doc.documentElement.innerHTML = obj.payload.html.replace("<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->", "");
 
@@ -319,7 +322,7 @@
 						// modify obj and save it as a copy ( avoids excess data clones)
 						var newId = id + "-" + pageNo;
 						obj.name = docName + " - Page " + pageNo;
-						if (pageNo>1) obj.original = undefined; // ensure subsequent pages don't contain the original file
+						if (pageNo>1) delete obj.original; // obj.original = undefined; // ensure subsequent pages don't contain the original file
 
 						// if we are supporting infinite depth, this is how you do it
 						// obj.depth = (i===0) ? currentDepth : (currentDepth+1);
@@ -327,6 +330,11 @@
 						obj.payload.html = "<!DOCTYPE html>" + doc.documentElement.outerHTML;
 
 						var cloneOfObj = Clone(obj);
+						if (cloneOfObj.src === null) delete cloneOfObj.src;
+						if (audios && audios["s"+pageNo]) {
+							cloneOfObj.payload.mp3 = audios["s"+pageNo];
+							cloneOfObj.autoNav = true; // force auto-navigation after audio plays
+						}
 					 	promiseHolder.push(DocNinja.Page.SetDefaultBackground(newId, cloneOfObj));
 
 						pageNo += 1;
@@ -376,7 +384,9 @@
 						});
 					});
 				});
-			}
+			},
+
+
 		}
 
 	})();
