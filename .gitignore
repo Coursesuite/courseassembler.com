@@ -44,3 +44,6 @@ src/warehouse/*
 !src/warehouse/preview.php
 !src/warehouse/scorm.js
 !src/warehouse/style.css
+public/f.php
+public/unsubscribe.json
+public/subscribe.json

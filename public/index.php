@@ -27,6 +27,10 @@ $Router->map('POST','/email', 'handleContactForm');
 $Router->map('POST','/checkout', 'handleOrder');
 $Router->map('POST','/licence', 'keyGenerator');
 
+$Router->map('POST','/order', 'handleOrder');
+$Router->map('POST','/subscribe', 'handleSubscription');
+$Router->map('POST','/unsubscribe', 'handleUnsubscription');
+
 $match = $Router->match();
 
 $BlogRoot = '/entries';
@@ -76,9 +80,25 @@ if ($match) {
 	        break;
 
 	      case "handleOrder":
-	      	die();
+			$log = new dbRow("log");
+			$log->method_name = $fn;
+			$log->param2 = file_get_contents("php://input");
+			$log->param1 = serialize($_GET);
+			$log->param0 = serialize($_POST);
+			$log->save();
+			die();
 	      	break;
 
+			// sets the end date of an existing subscription to be yesterday
+			// handles deactivated, canceled, paused
+		  case "handleUnsubscription":
+	      	$licence = Licence::unsubscribe();
+			Response::text($licence);
+			break;
+
+			// subscribing is the same as generating a key; just we don't have an end date;
+			// handles uncanceled, activated, resumed
+		  case "handleSubscription":
 	      case "keyGenerator":
 	        $licence = (new Licence())->get();
 	        header("Content-Type: text/plain");

@@ -206,3 +206,16 @@ p:target {
 
 .usd { position: relative; }
 .usd::after { position: absolute; bottom: 0; right: 0.3rem; content: '* USD'; font-size: 0.6rem; }
+
+
+.pricing-table thead th:last-of-type { 
+	text-align: center;
+}
+.pricing-table tbody > tr:first-of-type {
+	font-weight: bold;
+}
+
+.pricing-table tbody > tr:first-of-type a[data-fsc-action] {
+	background-color: #1bc31a;
+}
+

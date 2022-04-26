@@ -6,6 +6,52 @@ class Licence extends Controller {
 
 	protected $licencekey;
 
+	public static function unsubscribe() {
+		return self::handle_subscribes("unsubscribe");
+	}
+
+	// public static function subscribe() {
+	// 	return self::handle_subscribes("subscribe");
+	// }
+
+	private static function remember($source, $name) {
+		$log = new dbRow("log");
+		$log->method_name = $name;
+		$log->param2 = $source;
+		$log->param1 = serialize($_GET);
+		$log->param0 = serialize($_POST);
+		$log->save();
+	}
+
+	private static function handle_subscribes($name = "unknown") {
+
+		// can't parent::requiresPost() because we are a static method, so ...
+		if (strtoupper($_SERVER['REQUEST_METHOD']) !== "POST") {
+			Response::stop("Method Not Allowed", "text/plain", 405);
+		}
+
+		$source = file_get_contents("php://input");
+
+		// log everything we just heard
+		self::remember($source,$name);
+
+		switch (Request::get('path')) {
+			case "unsubscribe":
+				$data = (object)json_decode($source,false);
+				$ref = $data->events[0]->data->initialOrderReference; // record generated when licence key was created
+				$end = $data->events[0]->data->nextInSeconds; // date of next rebill (up to 12 months away), rather than canceledDateInSeconds which is right now;
+				$record = new LicenceModel('reference', $ref);
+				if ($record->loaded()) {
+					$record->ends = $end;
+					$record->save();
+				}
+				break;
+
+		}
+
+	}
+
+
 	// does the key exist in the database?
 	public static function validate($key) {
 
@@ -65,7 +111,7 @@ class Licence extends Controller {
 		$validate->date = time();
 		$validate->source = Utils::client_ip();
 		if ($record->loaded()) {
-			if ($record->ends < time()) {
+			if ($record->ends > 0 && $record->ends < time()) {
 				$validate->valid = 0;
 				$result->valid = false;
 				$result->licence->error = "licence-key-expired";
@@ -89,6 +135,9 @@ class Licence extends Controller {
 		// digest auth isn't working so we have to rely on FS internal hash checking
 		// $username = parent::requiresAuth();
 
+		// a subscription will post value to generate the licence key, then post the webhook which won't have $_POST values. We can ignore this reqest.
+		if (!$_POST) return;
+
 		// this is a hash of all the values of the fields posted in plus a private key ...
 		$security_request_hash = Request::post("security_request_hash");
 		$security_private_key = Config::get("security_private_key");
@@ -104,25 +153,24 @@ class Licence extends Controller {
 			return;
 		}
 
-		$product = Request::post("internalProductName"); // course-assembler, course-engine-10, quizzard-30, builder
-
+		$product = Request::post("internalProductName"); // course-assembler, course-engine-10, quizzard-30, builder, etc
 		$spl = explode('-',$product);
-		$days = (is_numeric(end($spl))) ? array_pop($spl) : 10; // default to 10 days if product doesn't set it
+
+		 // default to 10 days if product doesn't set it
+		$days = (is_numeric(end($spl))) ? array_pop($spl) : 10;
+		$end = strtotime("+{$days} days");
+
+		// a subscription is valid until cancelled
+		if (Request::get('path') === "subscribe") {
+			$end = 0;
+		}
+
+		// not really required but prefix the licence with the initials of the product
+		// course-assembler-10 => ca; course-assembler-sub => cas
 		$id = implode('',array_map(function($v){return $v[0];}, $spl));
 
 		// request security has is already unique for the posted data values - this is the basis of the licence key
-		$licence = strtoupper(implode('',[
-			$id,
-			substr($security_request_hash, strlen($id),5-strlen($id)),
-			'-',
-			substr($security_request_hash, 6,5),
-			'-',
-			substr($security_request_hash, 12,5),
-			'-',
-			substr($security_request_hash, 18,5),
-			'-',
-			substr($security_request_hash, 24,5)
-		]));
+		$licence = self::generate_key($id, $security_request_hash);
 
 		// write this model to the database
 		$record = new LicenceModel("licencekey", $licence);
@@ -135,7 +183,7 @@ class Licence extends Controller {
 			$record->store = Request::post("referrer");
 			$record->testmode = (Request::post("test") === "true") ? 1 : 0;
 			$record->starts = time();
-			$record->ends = strtotime("+{$days} days");
+			$record->ends = $end;
 			$record->licencekey = $licence;
 			$record->times = 0;
 			$record->save();
@@ -144,6 +192,22 @@ class Licence extends Controller {
 		// set the raw licence string
 		$this->licencekey = $licence;
 
+	}
+
+	private static function generate_key($id, $hash){
+		$key = strtoupper(implode('',[
+			$id,
+			substr($hash, strlen($id),5-strlen($id)),
+			'-',
+			substr($hash, 6,5),
+			'-',
+			substr($hash, 12,5),
+			'-',
+			substr($hash, 18,5),
+			'-',
+			substr($hash, 24,5)
+		]));
+		return $key;
 	}
 
 	// public method for accessing the licence key

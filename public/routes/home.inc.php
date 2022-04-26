@@ -38,7 +38,7 @@
 					<div>
 						<h2 class="uk-heading-small">Need learning content fast?</h2>
 						<p>CourseAssembler is like an assembly line for your content. You might already have a workflow for authoring your content in PowerPoint or Google Docs, or designing your imagery in Illustrator. Perhaps you’ve been building developing some pretty sweet H5P interactions but your LMS doesn’t support support it yet.</p>
-						<p>Let our robots do the heavy lifting for you. They’ll make your content web-ready, converting all your formats to HTML5. You can quickly add a simple menu or navigation, and bam! You’re SCORM-ready. Already.</p>
+						<p>Let our robots do the heavy lifting for you. They’ll make your content web-ready, converting all your formats to HTML5. You can quickly add a simple menu or navigation, record audio over each page if need be, and bam! You’re SCORM-ready. Already.</p>
 						<p>Think in minutes, not hours or days.</p>
 						<p><a href="/how-it-works" class="uk-button uk-button-primary">How it works</a></p>
 					</div>
@@ -125,7 +125,7 @@
 			<div class="uk-container uk-margin-large">
 				<div uk-grid class="uk-child-width-1-2@m uk-padding uk-flex uk-flex-middle">
 					<div>
-						<h2 class="uk-heading-medium">No recurring fees. No conversion limits or premium content hidden behind paywalls.</h3>
+						<h2 class="uk-heading-medium">No recurring fees<sup title='Unless you intentionally subscribe'>*</sup>. No conversion limits or premium content hidden behind paywalls.</h3>
 					</div>
 					<div>
 						<nav uk-navbar class="my-launch-bottom"><div class="uk-navbar-center"><?php include "_launch.inc.php"; ?></div></nav>

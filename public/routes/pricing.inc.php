@@ -1,55 +1,50 @@
 
 <div class="uk-section">
     <div class="uk-container uk-margin-large">
-    	<h2 class="uk-text-center">Simple, honest pricing</h2>
 
-        <p class="uk-text-lead">No recurring fees. No conversion limits or premium content hidden behind paywalls. Pay as you go.</p>
+        <h1>Pricing, simplified.</h1>
+        <p>Pay for the software when you do need it. Don't pay for it when you don't need it. We do not offer lifetime deals, a downloadable app/desktop version, discounted or educational pricing.</p>
 
-        <p>Servers and services cost money to run, and it's true: Course Assembler is a pay-to-use web-based app. But it costs about what most people would pay for a coffee and a donut. It's funny, because you can build a course in the time it takes you to eat the donut and drink that coffee.</p>
-        <p>$2 USD gives you a 1 day licence. Enough to try us out. Maybe that's all you need?</p>
-		<p>$10 USD buys you a 10 day licence.</p>
-		<p>If you buy longer access, the discount gets much better. An app licence just lets you get in to the app. If you want to share it around with the folks in your office that's up to you (we'd rather you just told them about the app). A licence only works for a set number of days and then can't be used any more. Content that you produce with the app will still work whenever and wherever you put it (it's not licenced or limited).</p>
-        <p>You can always buy more access later on and re-import your existing packages again<sup><a href="#server">*</a></sup>. So buy what you need, just for when you need it.</p>
+        <div uk-alert class="uk-box-shadow-xlarge uk-margin-large uk-margin-remove-right uk-margin-remove-left uk-alert-primary uk-padding-large uk-text-center uk-border-rounded usd">
+            <p>We've come up with the simplest formula for our base pricing:</p>
+            <h3>$1<sup>*</sup> = 1 day</h3>
+            <p>No conversion limits or premium content hidden behind paywalls. Your licence key unlocks everything.</p>
+        </div>
 
-        <table class="uk-table uk-table-small uk-table-divider uk-table-hover uk-table-striped">
-            <thead>
-                <tr>
-                    <th>Licence</th>
-                    <th>Price</th>
-                    <th>Checkout</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1 Day</td>
-                    <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-1" data-format="%price" data-fsc-item-path-value="course-assembler-1">$2</td>
-                    <td><a href="#" data-fsc-item-path-value="course-assembler-1" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
-                </tr>
-                <tr>
-                    <td>10 Days</td>
-                    <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-10" data-format="%price" data-fsc-item-path-value="course-assembler-10">$10</td>
-                    <td><a href="#" data-fsc-item-path-value="course-assembler-10" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
-                </tr>
-                <tr>
-                    <td>30 Days</td>
-                    <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-30" data-format="%price" data-fsc-item-path-value="course-assembler-10">$25</td>
-                    <td><a href="#" data-fsc-item-path-value="course-assembler-30" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
-                </tr>
-                <tr>
-                    <td>60 Days</td>
-                    <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-60" data-format="%price" data-fsc-item-path-value="course-assembler-10">$50</td>
-                    <td><a href="#" data-fsc-item-path-value="course-assembler-60" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
-                </tr>
-                <tr>
-                    <td>1 year</td>
-                    <td data-fsc-item-pricetotal-callback data-fsc-item-path="course-assembler-365" data-format="%price" data-fsc-item-path-value="course-assembler-10">$199</td>
-                    <td><a href="#" data-fsc-item-path-value="course-assembler-365" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
-                </tr>
-            </tbody>
-        </table>
+        <hr class="uk-divider-icon">
 
-        <p>There isn't currently any lifetime, discounted or educational pricing, though we can consider subscriptions if there is enough desire from our users.</p>
-        <p id="server">Your licence also includes server storage. You can store and re-import your published packages and designs on our server for as long as your licence is valid. Once your licence expires, we'll automatically remove any files and themes you've stored (it benefits you to get a longer lasting licence).</p>
+        <div uk-grid class="uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-1@s">
+<?php foreach ($products as $prod) { ?>
+            <div>
+<div class="uk-card uk-card-<?php echo $prod[0] === "10 days" ? "primary" : "default"; ?> uk-card-hover">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img class="uk-border-circle" width="40" height="40" src="assets/cost40.png">
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom" data-fsc-item-pricetotal-callback data-fsc-item-path="<?php echo $prod[2]; ?>" data-format="%price" data-fsc-item-path-value="<?php echo $prod[2]; ?>"><?php echo $prod[1]; ?></h3>
+                <p class="uk-text-meta uk-margin-remove-top"><?php echo $prod[3] === "Subscribe" ? "Subscription" : "Single purchase"; ?></p>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body">
+        <p><?php echo $prod[0]; ?></p>
+    </div>
+    <div class="uk-card-footer">
+        <a href="#" class="uk-button uk-button-primary uk-button-small" data-fsc-item-path-value="<?php echo $prod[2]; ?>" data-fsc-action="Reset,Add,Checkout"><?php echo $prod[3]; ?></a>
+    </div>
+</div>                
+
+            </div>
+<?php } ?>        
+        </div>
+
+        <h2>Server storage</h2>
+        <p id="server">Your licence also includes <b>storage</b>. You can store and re-import your published packages and custom themes on our server for as long as your licence is valid. Once your licence expires, we'll automatically remove any files and themes you've stored.</p>
+        <p>It benefits you to get a longer lasting licence - such as a subscription.</p>
+
+    	<h3 class="uk-text-center">Simple, honest pricing. </h3>
 
     </div>
 </div>

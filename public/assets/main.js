@@ -69,7 +69,7 @@ function readify() {
 		el.classList.remove("uk-form-danger");
 		var button = el.closest("fieldset").querySelector("button");
 		button.classList.remove("uk-button-danger");
-		button.textContent = "Go";
+		button.textContent = "Launch";
 	});
 }
 
@@ -139,7 +139,13 @@ function fsCallbackFunction(data) {
 					var format = node.dataset.format ? node.dataset.format : " - %price %currency";
 					var price = dObj.unitPrice.replace(".00","");
 					var text = format.replace("%price", price).replace("%currency", data.currency);
-					node.innerHTML = text;
+					node.textContent = text;
+
+					var card = node.closest(".uk-card");
+					if (card) {
+						var desc = card.querySelector(".uk-card-body");
+						desc.innerHTML = dObj.description.summary;
+					}
 				});
 			}
 		},
