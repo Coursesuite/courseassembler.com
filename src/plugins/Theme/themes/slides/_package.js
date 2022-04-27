@@ -67,7 +67,7 @@ function getAPI(){if(null!=apiHandle)return apiHandle;var a=findAPI(window,"API_
 function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
 function findInJson(obj,prop,value){ for(var i=0,j=obj.length,k;i<j,k=obj[i];i++)if(value===k[prop])return k}
 function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});document.body.dispatchEvent(event);}
-function setObjective(oId,sId,sCompletion,sPercentComplete,sPassFail,sScore,sDescription){if(oId==null)oId=scormGetValue("cmi.objectives._count");var cmiO="cmi.objectives."+oId+".";scormCacheValue(cmiO+"id",sId);if(_sAPI=="API_1484_11"){scormCacheValue(cmiO+"completion_status",sCompletion);if(sPassFail!=null)scormCacheValue(cmiO+"success_status",sPassFail);if(sDescription!=null)scormCacheValue(cmiO+"description",sDescription)}else if(_sAPI=="API"){if(sCompletion=="unknown")sCompletion="incomplete";scormCacheValue(cmiO+"status",sCompletion);if(sPassFail=="passed"||sPassFail=="failed")scormCacheValue(cmiO+"status",sPassFail)}if((_sAPI=="API"||_sAPI=="API_1484_11")&&sScore!==null){scormCacheValue(cmiO+"score.min","0");scormCacheValue(cmiO+"score.max","100");scormCacheValue(cmiO+"score.raw",Math.round(sScore*1E5)/1E3+"")}};
+function setObjective(oId,sId,sCompletion,iScoreMax,sPassFail,sScore,sDescription){if(oId==null)oId=scormGetValue("cmi.objectives._count");var cmiO="cmi.objectives."+oId+".";scormCacheValue(cmiO+"id",sId);if(_sAPI=="API_1484_11"){scormCacheValue(cmiO+"completion_status",sCompletion);if(sPassFail!=null)scormCacheValue(cmiO+"success_status",sPassFail);if(sDescription!=null)scormCacheValue(cmiO+"description",sDescription)}else if(_sAPI=="API"){if(sCompletion=="unknown")sCompletion="incomplete";scormCacheValue(cmiO+"status",sCompletion);if(sPassFail=="passed"||sPassFail=="failed")scormCacheValue(cmiO+"status",sPassFail)}if((_sAPI=="API"||_sAPI=="API_1484_11")&&sScore!==null){scormCacheValue(cmiO+"score.min","0");scormCacheValue(cmiO+"score.max",iScoreMax+"");scormCacheValue(cmiO+"score.raw",sScore+"")}};
 function scormCacheValue(string,value){scormCache[string]=value}
 function commitCachedValues(){Object.keys(scormCache).forEach(function(k){scormSetValue(k,scormCache[k])})};
 
@@ -596,9 +596,9 @@ function checkCourseCompletion() {
 			objective_id = page.hasOwnProperty('objective') ? page.objective : ''+page.index;
 		if (done === needed) {
 			if (menu) menu.querySelectorAll("li")[_sections[s]].classList.add("completed");
-			setObjective(s,objective_id,"completed",1,"passed",done,page.title);
+			setObjective(s,objective_id,"completed",needed,"passed",done,page.title);
 		} else {
-			setObjective(s,objective_id,"incomplete",(done/needed),"unknown",done,page.title);
+			setObjective(s,objective_id,"incomplete",needed,"unknown",done,page.title);
 		}
 	}
 
