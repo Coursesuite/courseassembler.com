@@ -21,7 +21,16 @@ for(f=1;f!=q;)t=k&b,b>>=1,0==b&&(b=g,k=h(d++)),n|=(0<t?1:0)*f,f<<=1;c[l++]=v(n);
 !function(){"use strict";var c="undefined"!=typeof window&&void 0!==window.document?window.document:{},e="undefined"!=typeof module&&module.exports,s=function(){for(var e,n=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],l=0,r=n.length,t={};l<r;l++)if((e=n[l])&&e[1]in c){for(l=0;l<e.length;l++)t[n[0][l]]=e[l];return t}return!1}(),l={change:s.fullscreenchange,error:s.fullscreenerror},n={request:function(t,u){return new Promise(function(e,n){var l=function(){this.off("change",l),e()}.bind(this);this.on("change",l);var r=(t=t||c.documentElement)[s.requestFullscreen](u);r instanceof Promise&&r.then(l).catch(n)}.bind(this))},exit:function(){return new Promise(function(e,n){var l,r;this.isFullscreen?(l=function(){this.off("change",l),e()}.bind(this),this.on("change",l),(r=c[s.exitFullscreen]())instanceof Promise&&r.then(l).catch(n)):e()}.bind(this))},toggle:function(e,n){return this.isFullscreen?this.exit():this.request(e,n)},onchange:function(e){this.on("change",e)},onerror:function(e){this.on("error",e)},on:function(e,n){e=l[e];e&&c.addEventListener(e,n,!1)},off:function(e,n){e=l[e];e&&c.removeEventListener(e,n,!1)},raw:s};s?(Object.defineProperties(n,{isFullscreen:{get:function(){return Boolean(c[s.fullscreenElement])}},element:{enumerable:!0,get:function(){return c[s.fullscreenElement]}},isEnabled:{enumerable:!0,get:function(){return Boolean(c[s.fullscreenEnabled])}}}),e?module.exports=n:window.screenfull=n):e?module.exports={isEnabled:!1}:window.screenfull={isEnabled:!1}}();
 
 // global variables for scorm and the runtime
-var _sAPI=(parent&&parent!==self&&parent.ninjaApiProxy)?"API":"",_timeSessionStart=null,_timeout,_now,_unloaded=!1, icons = {{{json theme.ICONS}}};
+var _sAPI=(parent&&parent!==self&&parent.ninjaApiProxy)?"API":"",_timeSessionStart=null,_timeout,_now,_unloaded=!1, icons = {{{json theme.ICONS}}}, scormCache={},alerted=[];
+
+// show an alert, once per session with the same message
+function alert1(value){
+	if(alerted.indexOf(value)==-1){
+		alerted.push(value);
+		alert(value);
+	}
+	trylog(value);
+}
 
 function resume() {
 	var data = getSuspendData();
@@ -58,8 +67,11 @@ function getAPI(){if(null!=apiHandle)return apiHandle;var a=findAPI(window,"API_
 function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
 function findInJson(obj,prop,value){ for(var i=0,j=obj.length,k;i<j,k=obj[i];i++)if(value===k[prop])return k}
 function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});document.body.dispatchEvent(event);}
-function setObjective(oId,sId,sCompletion,sPercentComplete,sPassFail,sScore,sDescription){if(oId==null)oId=scormGetValue("cmi.objectives._count");var cmiO="cmi.objectives."+oId+".";scormSetValue(cmiO+"id",sId);if(_sAPI=="API_1484_11"){scormSetValue(cmiO+"completion_status",sCompletion);if(sPercentComplete!=null)scormSetValue(cmiO+"progress_measure",sPercentComplete);if(sPassFail!=null)scormSetValue(cmiO+"success_status",sPassFail);if(sScore!=null)scormSetValue(cmiO+"score.scaled",sScore);if(sDescription!=null)scormSetValue(cmiO+"description",sDescription)}else if(_sAPI=="API"){if(sCompletion=="unknown")sCompletion="incomplete";scormSetValue(cmiO+"status",sCompletion);if(sPassFail=="passed"||sPassFail=="failed")scormSetValue(cmiO+"status",sPassFail);if(sScore!=null){scormSetValue(cmiO+"score.min","0");scormSetValue(cmiO+"score.max","100");scormSetValue(cmiO+"score.raw",Math.round(sScore*1E5)/1E3+"")}}};
+function setObjective(oId,sId,sCompletion,sPercentComplete,sPassFail,sScore,sDescription){if(oId==null)oId=scormGetValue("cmi.objectives._count");var cmiO="cmi.objectives."+oId+".";scormCacheValue(cmiO+"id",sId);if(_sAPI=="API_1484_11"){scormCacheValue(cmiO+"completion_status",sCompletion);if(sPassFail!=null)scormCacheValue(cmiO+"success_status",sPassFail);if(sDescription!=null)scormCacheValue(cmiO+"description",sDescription)}else if(_sAPI=="API"){if(sCompletion=="unknown")sCompletion="incomplete";scormCacheValue(cmiO+"status",sCompletion);if(sPassFail=="passed"||sPassFail=="failed")scormCacheValue(cmiO+"status",sPassFail)}if((_sAPI=="API"||_sAPI=="API_1484_11")&&sScore!==null){scormCacheValue(cmiO+"score.min","0");scormCacheValue(cmiO+"score.max","100");scormCacheValue(cmiO+"score.raw",Math.round(sScore*1E5)/1E3+"")}};
+function scormCacheValue(string,value){scormCache[string]=value}
+function commitCachedValues(){Object.keys(scormCache).forEach(function(k){scormSetValue(k,scormCache[k])})};
 
+// api proxy for nesting scorm packages
 function apiProxy() {
 	this.cache = {};
 	this.LMSInitialize = function() { return "true"; };
@@ -144,6 +156,7 @@ Math.clip = function(n,i,x){return Math.max(i,Math.min(n,x));}
 // public method called by body unload event(s)
 function doUnload() {
     if (!_unloaded) {
+		commitCachedValues(); // objectives don't commit until unload (only write once)
         scormCommit();
         setSessionTime(_timeSessionStart);
         scormTerminate();
