@@ -51,6 +51,7 @@
 }
 
 #nav-item-list .drag-handle,
+#nav-item-list .video-icon,
 #nav-item-list .audio-icon,
 #nav-item-list .attach-icon {
 	color: #222;
@@ -140,12 +141,14 @@
 	margin-right: 5px;
 }
 
+#nav-item-list .video-icon,
 #nav-item-list .audio-icon,
 #nav-item-list .rename-hint,
 #nav-item-list .attach-icon {
 	display: none;
 }
 
+#nav-item-list li[data-fileid].video .video-icon,
 #nav-item-list li[data-fileid].audio .audio-icon,
 #nav-item-list li[data-fileid].selected .rename-hint,
 #nav-item-list li[data-fileid].attachments .attach-icon {

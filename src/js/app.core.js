@@ -21,6 +21,7 @@
 		counters: [].slice.call( document.querySelectorAll( '.count-total' )),
 		countSet: document.getElementById( 'count-set' ),
 		fields: document.getElementById( 'fields' ),
+		timeline: document.getElementById( 'timeline' ),
 		preview: document.getElementById( 'preview' ),
 		courseNameField: document.querySelector( 'input[name="option-course-name"]' ),
 		copyrightField: document.querySelector( 'input[name="option-course-copyright"]' ),

@@ -387,7 +387,22 @@ Handlebars.registerHelper('inject', function(path) {
 		}
 	})
 	return str;
-})
+});
+
+Handlebars.registerHelper('objecturl', function(data) {
+	if (!data) return;
+	return dataUrlToObjectUrl(data);
+});
+
+// convert a dataurl (e.g. image, audio, video) to an objecturl (blob:https://server/guid)
+function dataUrlToObjectUrl(data) {
+	const spl = data.split(',');
+	const binary = atob(spl[1]);
+	const mime = spl[0].split(':')[0].split(';')[0];
+	let ar = []; for (let i=0; i<binary.length; i++) { ar.push(binary.charCodeAt(i)); }
+	var blob = new Blob([new Uint8Array(ar)],{type: mime});
+	return URL.createObjectURL(blob);
+}
 
 // jquery cookie plugin - https://github.com/carhartl/jquery-cookie
 /*
@@ -780,7 +795,10 @@ function closePopover(e) {
 		b.removeEventListener("click", closePopover);
 		document.body.removeChild(b);
 	}
-	document.body.removeChild(document.querySelector("div.dn-popover"));
+	var p = document.querySelector("div.dn-popover");
+	if (p) {
+		document.body.removeChild(p);
+	}
 }
 
 function handlePopover(tgt) {
@@ -902,6 +920,28 @@ function handlePopover(tgt) {
 	}
 }
 
+/* draw a visualisation of the audio or video for the current file */
+function initialise_timeline(obj) {
+	import("./media.timeline.js").then(timeline => {
+		const container = document.querySelector('.timeline-display');
+		if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3')) {
+			const element = document.getElementById('popover_audioElement');
+			element.src = dataUrlToObjectUrl(obj.payload.mp3);
+			timeline.GenerateWaveform(element, container).then(() => {
+				timeline.RenderMediaControl(element);
+			});
+		} else if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp4')) {
+			const element = document.getElementById('popover_videoElement');
+			element.src = dataUrlToObjectUrl(obj.payload.mp4);
+			timeline.GenerateThumbnails(element, container).then(() => {
+				timeline.RenderMediaControl(element);
+			});
+		} else {
+			container.innerHTML = 'Page has no media';
+		}
+	});
+}
+
 /* playing a sound that didn't involve a user interaction now throws an exception, so cope with that silently */
 function playSound(obj) {
 	Promise.resolve(obj.play()).catch(function(ex) {
@@ -1001,22 +1041,54 @@ function popover_audioNavToggle(state) {
 	});
 }
 
-function popover_audioUpload(file) {
+function popover_saveMedia(data, extn) {
 	var id = DocNinja.filePreview.CurrentFile();
-	if ((file && file.type.indexOf("audio/mpeg")===-1) && file.type.indexOf("audio/mp3")===-1) return; // "audio/mp3 on chrome, audio/mpeg on firefox..."
-	var reader = new FileReader();
-	reader.onloadend = function (event) {
-		localforage.getItem(id).then(function (obj) {
-			obj.payload.mp3 = event.target.result;
-			document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
-			closePopover();
-			localforage.setItem(id, obj).then(function() {
-			//	// DocNinja.PurityControl.Nav.Check();
-				window.setItemOrder();
-			});
+	localforage.getItem(id).then(function (obj) {
+		obj.payload[extn] = data;
+		// console.dir(obj);
+		// document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
+		closePopover();
+		localforage.setItem(id, obj).then(function(obj) {
+			window.setItemOrder();
+			initialise_timeline(obj);
+		});
+	})
+}
+
+function popover_cancelMedia() {
+	var id = DocNinja.filePreview.CurrentFile();
+	localforage.getItem(id).then(function (obj) {
+		initialise_timeline(obj);
+	});
+}
+
+function popover_audioUpload(file) {
+	if (!file) return;
+	if (/audio\/(?:x-)*mp(?:3|eg)|video\/(?:x-)*mp4+/.test(file.type)) {
+		var reader = new FileReader();
+		reader.onloadend = function(e) {
+			popover_saveMedia(e.target.result, file.type.split('/').pop().toLowerCase().replace('mpeg','mp3'));
+		}
+		reader.readAsDataURL(file);
+	} else {
+		$("button[data-action='upload-page-audio'] i").toggleClass("ninja-upload3 ninja-spinner");
+		import("./media.conversion.js").then(module => {
+			module.Convert(file, DocNinja.filePreview.CurrentFile())
+				.then(function(result) {
+					var reader = new FileReader();
+					reader.onloadend = function(e) {
+						popover_saveMedia(e.target.result, result.type.split('/').pop().toLowerCase());
+					}
+					reader.readAsDataURL(result);
+				})
+				.catch(function(error) {
+					console.dir(error);
+				})
+				.finally(() => {
+					$("button[data-action='upload-page-audio'] i").toggleClass("ninja-upload3 ninja-spinner");
+				});
 		});
 	}
-	reader.readAsDataURL(file);
 }
 
 function popover_savePageBackground() {
@@ -1437,14 +1509,30 @@ function performAction(tgt, e) {
 			break;
 
 		case "record-page-audio":
-			if (!document.getElementById('audiorecorder-frame')) {
-				var rfrm = document.createElement("iframe");
-				rfrm.setAttribute("seamless", true);
-				rfrm.setAttribute("id", "audiorecorder-frame");
-				rfrm.setAttribute("src", "/app/plugins/MicRecorderToMp3/edit.html");
-				document.querySelector('div[data-source="set-audio"]>section').appendChild(rfrm);
-			}
+			import('./media.audiorecorder.js').then(module => {
+				module.RecordAudio(document.querySelector('.timeline-display'));
+			});
 			break;
+
+		case "record-page-video":
+			const recordingDialog = document.getElementById('recorder');
+			recordingDialog.dataset.action = attrib;
+			if (recordingDialog.open) recordingDialog.close();
+			recordingDialog.showModal();
+			recordingDialog.addEventListener('close', function() {
+				console.dir(recordingDialog.returnValue);
+			});
+			break;
+
+
+			// if (!document.getElementById('audiorecorder-frame')) {
+			// 	var rfrm = document.createElement("iframe");
+			// 	rfrm.setAttribute("seamless", true);
+			// 	rfrm.setAttribute("id", "audiorecorder-frame");
+			// 	rfrm.setAttribute("src", "plugins/MicRecorderToMp3/edit.html");
+			// 	document.querySelector('div[data-source="set-audio"]>section').appendChild(rfrm);
+			// }
+			// break;
 
 		case "upload-page-audio":
 			document.getElementById("pageAudioUpload").click();
@@ -1452,16 +1540,27 @@ function performAction(tgt, e) {
 
 		case "trash-page-audio":
 			var ae = document.getElementById("popover_audioElement");
+			var ve = document.getElementById("popover_videoElement");
 			localforage.getItem(id).then(function action_trash_audio_get(obj) {
 				obj.payload.mp3 = undefined;
 				delete obj.payload.mp3;
-				ae.pause();
-				ae.removeAttribute("src");
-				if (ae.hasOwnProperty("currentSrc")) ae.currentSrc = undefined;
-				document.querySelector("button[data-action='set-audio']").removeAttribute("data-init");
+				obj.payload.mp4 = undefined;
+				delete obj.payload.mp4;
+				if (ae) {
+					ae.pause();
+					ae.removeAttribute("src");
+					if (ae.hasOwnProperty("currentSrc")) ae.currentSrc = undefined;
+					// document.querySelector("button[data-action='set-audio']").removeAttribute("data-init");
+				}
+				if (ve) {
+					ve.pause();
+					ve.removeAttribute("src");
+					if (ve.hasOwnProperty("currentSrc")) ve.currentSrc = undefined;
+				}
 				closePopover();
 				localforage.setItem(id, obj).then(function() {
 					// DocNinja.PurityControl.Nav.Check();
+					document.querySelector('.timeline-display').innerHTML = "";
 					window.setItemOrder();
 				});
 			});
@@ -1728,6 +1827,9 @@ function audioVisualize(canvas, stream) {
   var bufferLength = analyser.frequencyBinCount;
   var dataArray = new Uint8Array(bufferLength);
 
+  var fgcolor = getComputedStyle(document.documentElement).getPropertyValue('--oscilliscope');
+  var bgcolor = getComputedStyle(document.documentElement).getPropertyValue('--toolbar');
+
   source.connect(analyser);
   //analyser.connect(audioCtx.destination);
 
@@ -1741,11 +1843,11 @@ function audioVisualize(canvas, stream) {
 
     analyser.getByteTimeDomainData(dataArray);
 
-    canvasCtx.fillStyle = 'rgb(34, 46, 70)'; // dark blue
+    canvasCtx.fillStyle = bgcolor;
     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
     canvasCtx.lineWidth = 2;
-    canvasCtx.strokeStyle = 'rgb(87, 183, 220)'; // light blue
+    canvasCtx.strokeStyle = fgcolor;
 
     canvasCtx.beginPath();
 

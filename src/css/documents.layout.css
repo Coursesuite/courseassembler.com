@@ -42,3 +42,80 @@
 	height: calc(100vh - 50px - var(--bannerHeight) - 18px);
 	display: flex;
 }
+
+#popover_videoElement,
+#popover_audioElement {
+	position: fixed;
+	bottom: calc(118px + .5rem);
+	right: .5rem;
+	max-height: 25vh;
+	transition: opacity .3s ease;
+	opacity: 0.5;
+	cursor:move;
+}
+#popover_videoElement:hover,
+#popover_audioElement:hover { 
+	opacity: 1;
+}
+
+	#timeline {
+		position: absolute;
+		height: 100px;
+		bottom: 0;
+		background-color: var(--toolbar);
+		width: calc(100% - 375px);
+		border-top: 1px solid var(--encasing);
+		left: 375px;
+		color: black;
+
+		display: grid;
+		grid-template-columns: min-content 1fr min-content;
+		grid-auto-flow: row;
+		grid-template-areas:
+			"record display action";
+		align-items: center;
+
+	}
+	#timeline label { display: block; }
+
+		.timeline-record { grid-area: record; }
+		.timeline-display { grid-area: display; }
+		.timeline-action { grid-area: action; }
+
+		.timeline-record {
+			display: grid; 
+			grid-template-columns: 1fr 1fr; 
+			grid-template-rows: 1fr 1fr; 
+			gap: 0px 0px; 
+			grid-template-areas: 
+				"audio video"
+				"upload upload"; 
+			grid-area: record; 
+		}
+		.timeline-record button[data-action="record-page-audio"] { grid-area: audio; }
+		.timeline-record button[data-action="record-page-video"] { grid-area: video; }
+		.timeline-record button[data-action="upload-page-audio"] { grid-area: upload; }
+
+		.timeline-display .recorder-flex {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-evenly;
+		}
+		.timeline-display .recorder-flex .result { flex: 1; text-align: center; }
+		.timeline-display .recorder-flex .ready {
+			border-color: var(--ready);
+			color: var(--ready);
+		}
+		.timeline-display .recorder-flex .recording {
+			border-color: var(--recording);
+			color: var(--recording);
+		}
+		.timeline-display .recorder-flex .processing {
+			border-color: var(--processing);
+			color: var(--processing);
+		}
+		.timeline-display .recorder-flex .control button[disabled] {
+			pointer-events: none;
+			opacity: .5;
+		}

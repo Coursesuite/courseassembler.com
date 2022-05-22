@@ -76,5 +76,12 @@
 
 	/* nav item text */
 	--navText:  #444;
+
+	/* button states */
+	--ready: forestgreen;
+	--recording: darkred;
+	--processing: goldenrod;
+	--oscilliscope: #20629b;
+
 }
 

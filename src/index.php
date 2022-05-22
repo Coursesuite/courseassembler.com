@@ -25,8 +25,8 @@ $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
 
-$jsApp->Backend = getenv("BACKEND_URL");
-$jsApp->Warehouse = getenv("WAREHOUSE_URL");
+$jsApp->Backend = getenv("BACKEND_URL") ?: "https://backend.courseassembler.com.test";
+$jsApp->Warehouse = getenv("WAREHOUSE_URL") ?: "https://warehouse.corseassembler.com.test";
 
 
 // if publish url is not https proxy it through publish.php
@@ -84,6 +84,7 @@ $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/aj
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src=" https://unpkg.com/mic-recorder-to-mp3" async="true"></script>';
 
 $headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">';
 // $headCSS[] = '<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">';
@@ -179,6 +180,11 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		</div>
 		<div id="scroll-area"><ol id="nav-item-list"></ol></div>
 		<div id="preview"></div>
+		<div id="timeline"></div>
+		<video id="popover_videoElement" hidden></video>
+		<audio id="popover_audioElement" hidden></audio>
+		<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;video/*;capture=microphone,camera" />
+
 	</section>
 
 	<section id="change-settings">
@@ -423,7 +429,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 			<section> </section>
 		</div>
 	</div>
-
 
 <?php echo implode(PHP_EOL, $js), PHP_EOL; ?>
 <?php if ($verifier->code->minified) { ?>

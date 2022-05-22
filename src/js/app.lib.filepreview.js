@@ -25,11 +25,17 @@
 		_documentPreviewHandler = function(a, pluginAction) {
 			// var id = a.parentNode.getAttribute("data-fileid");
 			$("#image-properties").empty();
+
+			// garbage collect any objectUrls that will no longer be valid
+			$("[src^='blob:']").each(function(index,value) {
+				URL.revokeObjectURL(value.src);
+			});
+
 			var id = a.getAttribute("data-fileid");
 			$("body").append($("<div id='blocking'>"));
 			$("#blocking").addClass("active");
 			localforage.getItem(id, function (err, value) {
-// console.dir(value);
+
 				if (!value) { // item contains no data; must be removed.
 					$("li[data-fileid='" + id + "']").remove();
 					$("#blocking").remove();
@@ -156,12 +162,30 @@
 				// some page types support transforms (e.g. scaling)
 				data['supportsTransform'] = data.hasOwnProperty('payload') && data.payload.hasOwnProperty('split') && data.payload.split;
 
+				DocNinja.options.fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
+				data['supportsAudio'] = _supports_timeline(data);
+				DocNinja.options.timeline.innerHTML = Handlebars.templates["preview-timeline"](data);
+				if (data.supportsAudio) initialise_timeline(data);
 
-				fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
 				data = null; // early GC
 				$("#blocking").removeClass("active").remove();
 				// triggerResize();
 			});
+		}
+
+		/* Handlebars Logic: 
+		if format in "youtube,vimeo,soundcloud,oembed,package,video"}}
+			no
+		else if kind in "plugin"
+			if audio in supports -> yes
+		else
+			yes
+		*/
+		_supports_timeline = function (data) {
+			if (!data) return false;
+			if (data.hasOwnProperty("supports") && data.supports.indexOf("audio") !== -1) return true;
+			if (data.hasOwnProperty("format") && "youtube,vimeo,soundcloud,oembed,package,video".indexOf(data.format) !== -1) return false;
+			return true;
 		}
 
 		_saveContents = function (command) {
@@ -225,7 +249,7 @@
 
 		_reset = function () {
 			_releaseIframe();
-			$("#fields,#preview").html("");
+			$("#fields,#preview,#timeline").html("");
 			checkDummyItem();
 		}
 		_setContentEditable = function () {

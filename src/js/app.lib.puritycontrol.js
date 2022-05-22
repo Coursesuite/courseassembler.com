@@ -221,10 +221,19 @@
 		// 					} else {
 		// 						DocNinja.Navigation.Icons.Remove.Video(elm.dataset.fileid);
 		// 					}
+
+							// page has audio
 		 					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
 		 						elm.classList.add('audio');
 		 					} else {
 		 						elm.classList.remove('audio');
+		 					}
+
+							// page has video
+		 					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp4') && obj.payload.mp4.length) {
+		 						elm.classList.add('video');
+		 					} else {
+		 						elm.classList.remove('video');
 		 					}
 		// 						DocNinja.Navigation.Icons.Add.Audio(elm.dataset.fileid);
 		// 					} else {

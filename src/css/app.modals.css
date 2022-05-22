@@ -431,17 +431,16 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 	min-height: 52px;
 }
 
-#popover_audioElement {
-	display: none;
+/* #popover_audioElement {
 	margin: 0 auto;
 }
 #popover_audioElement.visible {
 	display: block;
-}
+} */
 
-#audiorecorder-frame {
+/* #audiorecorder-frame {
 	height: 150px;
-}
+} */
 
 /* --------------------------
 	import content
@@ -497,5 +496,30 @@ body.drag-over .modal section.drag-to-upload .dropzone {
 }
 .dn-popover p.h {
 	text-align: left;
+	font-weight: bold;
+}
+
+dialog {
+	min-width: 640px;
+	min-height: 480px;
+}
+dialog form {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-width: calc(640px - 2rem);
+	min-height: calc(480px - 2rem);
+
+}
+
+dialog .content {
+	flex: 1;
+}
+
+dialog .controls {
+	text-align:center;
+}
+
+dialog #confirmBtn {
 	font-weight: bold;
 }
