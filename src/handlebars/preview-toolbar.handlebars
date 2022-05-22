@@ -22,6 +22,8 @@
 	<button data-fileid="{{id}}" data-action="set-score" data-popover="score" data-value="{{score}}" data-value-max="{{total_slides}}" data-label="Complete after slide number ..." data-init="scoreslider"><i class="ninja-condition"></i>Completion rule <output>{{value}}</output></button>
 	{{/compare}}
 
+{{! moved audio to the timeline bar --}}
+{{#if false}}
 	{{#compare format "in" "youtube,vimeo,soundcloud,oembed,package,video"}}{{else}}
 		{{#compare kind "in" "plugin"}}
 		{{#compare "audio" "in" supports}}<button data-fileid="{{id}}" data-action="set-audio" data-popover="audio" data-label="Upload or record audio for this page" {{#if payload.mp3}}data-init="initaudio"{{/if}}><i class="ninja-mic"></i>Audio</button>{{/compare}}
@@ -30,6 +32,7 @@
 	{{!-- status is now shown on the left index<span id="audioStatus">{{#if payload.mp3}}<i class="ninja-volume_up" title="Page has audio"></i>{{else}}<i class="ninja-volume_off" title="No page audio"></i>{{/if}}</span> --}}
 		{{/compare}}
 	{{/compare}}
+{{/if}}
 
 	{{#compare "contenteditable" "in" supports}}<button data-fileid="{{id}}" data-action="content-editable"><i class="ninja-marker"></i>Edit</button>{{/compare}}
 	{{#compare "edit" "in" supports}}<button data-fileid="{{id}}" data-action="plugin-edit"><i class="ninja-marker"></i>Edit</button>{{/compare}}

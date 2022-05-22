@@ -1,0 +1,19 @@
+{{#supportsAudio}}
+<div class="timeline-record">
+    <button data-action="record-page-audio"><i class="ninja-mic"></i>Audio</button>
+    <button data-action="record-page-video"><i class="ninja-video"></i>Video</button>
+    <button data-action="upload-page-audio"><i class="ninja-upload3"></i>Upload</button>
+</div>
+
+<div class="timeline-display"></div>
+
+<div class="timeline-actions">
+    <label for="pageAudioNav" title="Go to next page after page media ends" class="button-like"><input id="pageAudioNav" type="checkbox" onchange="popover_audioNavToggle(this.checked)"{{#if autoNav}} checked{{/if}}> AutoNav</label>
+    <button data-action="trash-page-audio"><i class="ninja-discard"></i>Remove</button>
+</div>
+
+<video id="popover_videoElement" hidden></video>
+<audio id="popover_audioElement" hidden></audio>
+<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;video/*;capture=microphone,camera" />
+
+{{/supportsAudio}}
