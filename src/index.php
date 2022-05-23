@@ -84,7 +84,8 @@ $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/aj
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
-$headJS[] = '<script type="text/javascript" src=" https://unpkg.com/mic-recorder-to-mp3" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3" async="true"></script>';
+$headJS[] = '<script type="text/javascript" src="https://unpkg.com/fix-webm-duration" async="true"></script>';
 
 $headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">';
 // $headCSS[] = '<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">';

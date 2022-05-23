@@ -275,3 +275,7 @@ footer a {
 	animation-iteration-count: infinite;
 	animation-timing-function: linear; 
 }
+
+.ninja-spinner.reverse {
+	animation-direction: reverse;
+}

@@ -83,5 +83,8 @@
 	--processing: goldenrod;
 	--oscilliscope: #20629b;
 
+	/* counters */
+	--media-control-pc: 0;
+
 }
 

@@ -40,6 +40,7 @@ export function RecordAudio(container) {
 
     function startRecording() {
       seconds = 0;
+      if (tsi) clearInterval(tsi);
       tsi = setInterval(showTimer,1000);
       recorder.start().then(function (stream) {
         startButton.textContent = 'Stop recording';

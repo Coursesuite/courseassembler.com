@@ -564,8 +564,8 @@ templates['preview-timeline'] = template({"1":function(container,depth0,helpers,
         return undefined
     };
 
-  return "<div class=\"timeline-record\">\n    <button data-action=\"record-page-audio\"><i class=\"ninja-mic\"></i>Audio</button>\n    <button data-action=\"record-page-video\"><i class=\"ninja-video\"></i>Video</button>\n    <button data-action=\"upload-page-audio\"><i class=\"ninja-upload3\"></i>Upload</button>\n</div>\n\n<div class=\"timeline-display\"></div>\n\n<div class=\"timeline-actions\">\n    <label for=\"pageAudioNav\" title=\"Go to next page after page media ends\" class=\"button-like\"><input id=\"pageAudioNav\" type=\"checkbox\" onchange=\"popover_audioNavToggle(this.checked)\""
-    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"autoNav") : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":11,"column":184},"end":{"line":11,"column":214}}})) != null ? stack1 : "")
+  return "<div class=\"timeline-record\">\n    <button data-action=\"record-page-audio\"><i class=\"ninja-mic\"></i>Audio</button>\n    <button data-action=\"record-page-video\"><i class=\"ninja-video\"></i>Video</button>\n    <button data-action=\"upload-page-audio\"><i class=\"ninja-upload3\"></i>Upload</button>\n</div>\n\n<div class=\"timeline-display\"></div>\n\n<div class=\"timeline-actions\">\n    <div id=\"pageMediaProperties\"></div>\n    <label for=\"pageAudioNav\" title=\"Go to next page after page media ends\" class=\"button-like\"><input id=\"pageAudioNav\" type=\"checkbox\" onchange=\"popover_audioNavToggle(this.checked)\""
+    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"autoNav") : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":12,"column":184},"end":{"line":12,"column":214}}})) != null ? stack1 : "")
     + "> AutoNav</label>\n    <button data-action=\"trash-page-audio\"><i class=\"ninja-discard\"></i>Remove</button>\n</div>\n\n<video id=\"popover_videoElement\" hidden></video>\n<audio id=\"popover_audioElement\" hidden></audio>\n<input type=\"file\" id=\"pageAudioUpload\" style=\"display:none\" onchange=\"popover_audioUpload(this.files[0])\" accept=\"audio/*;video/*;capture=microphone,camera\" />\n\n";
 },"2":function(container,depth0,helpers,partials,data) {
     return " checked";
@@ -577,7 +577,7 @@ templates['preview-timeline'] = template({"1":function(container,depth0,helpers,
         return undefined
     }, buffer = "";
 
-  stack1 = ((helper = (helper = lookupProperty(helpers,"supportsAudio") || (depth0 != null ? lookupProperty(depth0,"supportsAudio") : depth0)) != null ? helper : container.hooks.helperMissing),(options={"name":"supportsAudio","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":19,"column":18}}}),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),options) : helper));
+  stack1 = ((helper = (helper = lookupProperty(helpers,"supportsAudio") || (depth0 != null ? lookupProperty(depth0,"supportsAudio") : depth0)) != null ? helper : container.hooks.helperMissing),(options={"name":"supportsAudio","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":20,"column":18}}}),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),options) : helper));
   if (!lookupProperty(helpers,"supportsAudio")) { stack1 = container.hooks.blockHelperMissing.call(depth0,stack1,options)}
   if (stack1 != null) { buffer += stack1; }
   return buffer;

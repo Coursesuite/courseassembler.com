@@ -20,20 +20,23 @@ export function GenerateThumbnails(video, destination) {
 
     canvas.width = stageW;
     canvas.height = stageH;
+    destination.innerHTML = '';
     destination.appendChild(canvas);
 
     video.addEventListener('loadedmetadata', function(e) {
         duration = e.target.duration;
-        step = parseInt(stageW / duration, 10);
+        step = Math.max(10, parseInt(stageW / duration, 10));
         w = step,
         left = -w;
         h = parseInt(w * ratio, 10);
         ratio = video.videoHeight / video.videoWidth;
+        console.log('loadedmetadata', duration, step, w, h, ratio);
     });
 
     // start - SHOULD occur after loadedmetadata
     video.addEventListener('loadeddata', function (e) {
         Step();
+        console.log('loadeddata');
     }, false);
 
     // stepping to a frame draws the image currently on the video
@@ -45,6 +48,7 @@ export function GenerateThumbnails(video, destination) {
     // often doesn't fire
     video.addEventListener('ended', function (e) {
         End();
+        console.log('ended');
     }, false);
 
     // step to the next frame, if any
@@ -53,6 +57,7 @@ export function GenerateThumbnails(video, destination) {
             video.currentTime = time;
             time += 1;
             left += w;
+        console.log('step',video.currentTime,time,left,step);
             if (time > step) End();
         }
     };
@@ -74,6 +79,7 @@ export function GenerateWaveyform(audio, destination) {
     // licence: gpl-3.0
 
     const canvas = document.createElement('canvas');
+    destination.innerHTML = '';
     destination.appendChild(canvas);
 
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -156,7 +162,11 @@ export function GenerateWaveform(audio, destination) {
 
         trackWaveform.loadFromUrl().then(() => {
             const path = trackWaveform.getPath();
-            destination.innerHTML = `<svg viewBox='0 -1 ${peakCount} 2' preserveAspectRatio='none'><g><path d='${path}'/></g></svg>`;
+            if (path) {
+                destination.innerHTML = `<svg viewBox='0 -1 ${peakCount} 2' preserveAspectRatio='none'><g><path d='${path}'/></g></svg>`;
+            } else {
+                destination.innerHTML = 'No audio data available';
+            }
             // root.style.setProperty('--waveform-length', destination.querySelector('path').getTotalLength());
             resolve();
         }).catch(err => reject);
@@ -198,9 +208,18 @@ export function RenderMediaControl(control) {
         control.removeAttribute('hidden');
         control.setAttribute('controls', 'controls');
         makeDraggable();
+        const dx = document.createElement('div'); dx.className = 'dx'; document.querySelector('.timeline-display').appendChild(dx);
+        document.getElementById('pageMediaProperties').textContent = 'Length: ' + formatSeconds(control.duration,'??:??');
+        control.addEventListener('timeupdate', (evt) => {
+            const time = evt.target.currentTime;
+            const duration = evt.target.duration;
+            const percent = (time / duration) * 100;
+            document.documentElement.style.setProperty('--media-control-pc', percent + '%');
+        });
     } else {
         control.setAttribute('hidden','hidden');
         control.removeAttribte('controls');
+        $('.dx').remove();$('.media-metadata').remove();
         stopDraggable();
     }
 
