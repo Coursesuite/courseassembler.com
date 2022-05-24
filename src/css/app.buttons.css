@@ -11,10 +11,17 @@ button {
 	color: currentcolor;
     transition: border-color .25s ease-in, color .25s ease-in;
 }
+.button-like.thin {
+	margin: 0 0.25rem;
+	padding: 0.125rem .5rem;
+	font-size:0.8rem;
+	box-shadow:none;
+	border-color:var(--edge);
+}
 button:hover {
 	transition: border-color 0s, color 0s;
 }
-button > i{
+button > i, .button-like > i{
 	margin-right: .5em;
 	color: currentcolor;
 }
@@ -97,6 +104,7 @@ button[data-action='zoom-in']:hover, button[data-action='zoom-out']:hover {borde
 button.positive:hover, div[data-source="set-score"] button:last-of-type:hover, div[data-source="page-bgcolour"] button:last-of-type:hover {border-color: var(--positive);color: var(--positive);}
 button.negative:hover {border-color: var(--negative);color: var(--negative);}
 
+button[data-action="record-page-video"]:hover {border-color: #cf280e;color: #cf280e;}
 button[data-action="record-page-audio"]:hover {border-color: #cf280e;color: #cf280e;}
 button[data-action="upload-page-audio"]:hover {border-color: #8ebd0f;color: #8ebd0f;}
 button[data-action="trash-page-audio"]:hover {border-color: #999;color: #999;}

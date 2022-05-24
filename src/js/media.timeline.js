@@ -163,7 +163,7 @@ export function GenerateWaveform(audio, destination) {
         trackWaveform.loadFromUrl().then(() => {
             const path = trackWaveform.getPath();
             if (path) {
-                destination.innerHTML = `<svg viewBox='0 -1 ${peakCount} 2' preserveAspectRatio='none'><g><path d='${path}'/></g></svg>`;
+                destination.innerHTML = `<svg viewBox='0 -1 ${peakCount} 2' preserveAspectRatio='none'><g><line x1='0' y1='0' x2='${peakCount}' y2='0' stroke-width='0.01'/><path d='${path}'/></g></svg>`;
             } else {
                 destination.innerHTML = 'No audio data available';
             }
@@ -209,7 +209,7 @@ export function RenderMediaControl(control) {
         control.setAttribute('controls', 'controls');
         makeDraggable();
         const dx = document.createElement('div'); dx.className = 'dx'; document.querySelector('.timeline-display').appendChild(dx);
-        document.getElementById('pageMediaProperties').textContent = 'Length: ' + formatSeconds(control.duration,'??:??');
+        document.getElementById('pageMediaProperties').innerHTML = '<i class="ninja-timer" title="Duration"></i>' + formatSeconds(control.duration,'??:??');
         control.addEventListener('timeupdate', (evt) => {
             const time = evt.target.currentTime;
             const duration = evt.target.duration;

@@ -279,3 +279,5 @@ footer a {
 .ninja-spinner.reverse {
 	animation-direction: reverse;
 }
+
+.mb-0 { margin-bottom: 0 !Important; }

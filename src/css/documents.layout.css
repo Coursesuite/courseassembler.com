@@ -47,11 +47,15 @@
 #popover_audioElement {
 	position: fixed;
 	bottom: calc(118px + .5rem);
-	right: .5rem;
+	right: calc(18px + .5rem);
 	max-height: 25vh;
 	transition: opacity .3s ease;
 	opacity: 0.5;
 	cursor:move;
+}
+#popover_videoElement {
+	border-radius: 1rem;
+	box-shadow: 0 0 .5rem #00000050;
 }
 #popover_videoElement:hover,
 #popover_audioElement:hover { 

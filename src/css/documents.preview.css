@@ -285,7 +285,7 @@ a.cancel:hover {
     width: 100%;
     height: 100px;
 }
-.timeline-display svg path {
+.timeline-display svg path, .timeline-display svg line {
 	stroke: #000;
 	stroke-opacity: .25;
 }
