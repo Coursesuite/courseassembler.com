@@ -22,9 +22,9 @@ cd H5P
 cd ..
 
 # like this so its easier to count the nesting when you come back up
-cd MicRecorderToMp3
-./compile.sh
-cd ..
+#cd MicRecorderToMp3
+#./compile.sh
+#cd ..
 
 cd QuizBuilder
 ./compiler.bash
