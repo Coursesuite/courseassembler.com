@@ -1,0 +1,48 @@
+DOCK
+boxshadow: 5px 5px 0 rgba(0,0,0,.5)
+height: 2rem
+position: top
+start: closed
+
+NAVIGATION
+font: Open Sans
+size: 20px
+background: white
+text: #999999
+
+ICONS
+print, menu, fullscreen, floatingnav
+
+HEADER
+background: #f4f4f4
+text: #999999
+title: off
+shadow: none
+
+FOOTER
+background: #f8f8f8
+text: #666666
+copyright: off
+brand: off
+
+ITEM
+background: #f8f8f8
+text: #999999
+padding: 1.5rem
+shadow: none
+
+SELECTION
+background: white
+text: black
+shadow: none
+
+FLOATINGNAV
+background: radial-gradient(circle, rgba(255,255,255,.5) 0%, rgba(238,238,238,.8) 100%)
+text: black
+textshadow: 1px 1px #ffffff
+boxshadow: 0 0 2px black
+padding: .75rem
+shape: triangle
+radius: 10px
+border: no
+
