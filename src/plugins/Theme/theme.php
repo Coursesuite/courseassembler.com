@@ -93,7 +93,14 @@ class Lib {
                     if ($value) $v++;
                 }
                 return $v;
-            }
+            },
+            "bw" => function ($arg1) {
+            // calculate black or white based on hex colour
+                $hex = str_replace("#", "", $arg1);
+                $rgb = array(hexdec(substr($hex, 0, 2)), hexdec(substr($hex, 2, 2)), hexdec(substr($hex, 4, 2)));
+                $c = ($rgb[0] * 299 + $rgb[1] * 587 + $rgb[2] * 114) / 1000;
+                return ($c > 125) ? "black" : "white";
+            },
     	];
         $phpStr = LightnCandy::compile($template, array(
             "flags" => LightnCandy::FLAG_PARENT | LightnCandy::FLAG_ADVARNAME | LightnCandy::FLAG_HANDLEBARS,

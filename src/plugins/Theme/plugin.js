@@ -282,6 +282,17 @@
 				"progress": false,
 				"speed": "1s",
 				"padding": ".25rem"
+			},
+			"FLOATINGNAV": {
+				"background": "transparent",
+				"text": "#000000",
+				"shadow": false,
+				"rounded": false,
+				"boxshadow": false,
+				"textshadow": false,
+				"padding": "1rem",
+				"shape": "arrow",
+				"border": false,
 			}
 		}
 		const lines = theme.split(/\r?\n/);
@@ -324,7 +335,9 @@
 
 	// turn human into handlebars properties
 	function normalise(text) {
-		switch (String(text).toLowerCase()) {
+		let t = String(text).toLowerCase();
+
+		switch (t) {
 			case "false":
 			case "off":
 			case "no":
@@ -355,7 +368,37 @@
 			case "down":
 				text = "column";
 				break;
+			case "triangles":
+				text = "triangle";
+				break;
+			case "circles":
+			case "circular":
+			case "circle":
+				text = "arrow";
+				break;
+			case "thick":
+			case "thickarrows":
+			case "arrows":
+				text = "arrow-thick";
+				break;
+			case "cheverons":
+				text = "cheveron";
+				break;
+			case "caret":
+				text = "caret";
+				break;
+			case "small":
+				text = ".25rem";
+				break;
+			case "medium":
+				text = ".75rem";
+				break;
+			case "large":
+				text = "1.5rem";
+				break;
+
 		}
+		// console.log(t, "becomes", text);
 		return text;
 	}
 
