@@ -123,6 +123,8 @@ class Licence extends Controller {
 				$result->user->email = $record->email;
 				$result->user->container = "" . $record->company;
 			}
+			$record->times = $record->times + 1;
+			$record->save();
 		}
 		$validate->save();
 		return $result;
