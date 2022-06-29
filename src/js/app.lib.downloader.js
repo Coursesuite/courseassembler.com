@@ -124,7 +124,7 @@
 									}
 								if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
+									obj = DocNinja.PurityControl.InjectPageMedia(obj,fold,resource);
 									obj.payload.html =  Handlebars.templates["wrapper-redirect"](obj.payload);
 									fold.file(filename, obj.payload.html);
 									resource.files.push({
@@ -137,7 +137,7 @@
 									});
 									obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload);
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
+									obj = DocNinja.PurityControl.InjectPageMedia(obj,fold,resource);
 									fold.file(filename,obj.payload.html);
 									resource.files.push({
 										href: resource.base + filename
@@ -157,12 +157,12 @@
 
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold,resource);
+									obj = DocNinja.PurityControl.InjectPageMedia(obj,fold,resource);
 									DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj, resource, "imscp");
 									DocNinja.PurityControl.MayRequireJQuery(fold, obj, resource);
 								} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
 									obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-									obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+									obj = DocNinja.PurityControl.InjectPageMedia(obj,fold);
 									if (obj.plugin) switch (obj.plugin) {
 										case "Markdown": // Markdown doesn't store final page, so re-render it
 											obj.payload.html = Handlebars.templates['wrapper-markdown'](obj.payload);
@@ -189,6 +189,10 @@
 							if (obj.payload.mp3) {
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
 								delete obj.payload.mp3;
+							}
+							if (obj.payload.mp4) {
+								obj["video"] = md5(obj.payload.mp4)+".mp4"; // store reference to file in manifest
+								delete obj.payload.mp4;
 							}
 							// imscp doesn't support page attachments
 							if (obj.hasOwnProperty("attachments")) delete obj.attachments;
@@ -256,6 +260,7 @@
 								page["href"] = "data/" + filename;
 								page["depth"] = Math.max(0,+obj.depth||0); // must exist
 								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
+								page["video"] = obj.payload.hasOwnProperty("mp4") && obj.payload.mp4.length ? md5(obj.payload.mp4)+".mp4" : undefined; // name matches app.lib.puritycontrol.js line 341
 								page["autonav"] = obj.hasOwnProperty("autoNav") && obj.autoNav;
 
 								// find and attach all page attachments as files within the zip
@@ -276,7 +281,7 @@
 							}
 							if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+								obj = DocNinja.PurityControl.InjectPageMedia(obj,fold);
 								obj.payload.html =  Handlebars.templates["wrapper-redirect"](obj.payload);
 								fold.file(filename, obj.payload.html);
 
@@ -284,13 +289,13 @@
 								fold.file(obj.payload.name, obj.payload.image.split(',')[1], {base64: true});
 								obj.payload.html =  Handlebars.templates["wrapper-image"](obj.payload); //TODO match preview-image with wrapper-image template
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+								obj = DocNinja.PurityControl.InjectPageMedia(obj,fold);
 								fold.file(filename,obj.payload.html);
 
 							} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
 								// wow, surprising this even works since its adding the file to fold but not returning a promise ..
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+								obj = DocNinja.PurityControl.InjectPageMedia(obj,fold);
 								DocNinja.PurityControl.ConvertHtmlForZip(key, filename, fold, obj);
 								DocNinja.PurityControl.MayRequireJQuery(fold, obj);
 
@@ -311,7 +316,7 @@
 
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
-								obj = DocNinja.PurityControl.InjectPageAudio(obj,fold);
+								obj = DocNinja.PurityControl.InjectPageMedia(obj,fold);
 								if (obj.plugin) switch (obj.plugin) {
 									case "Markdown": // Markdown doesn't store final page, so re-render it
 										obj.payload.html = Handlebars.templates['wrapper-markdown'](obj.payload);
@@ -341,6 +346,11 @@
 								manifest["audio"] = true; // flag that plyr needs to be included later on
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
 								delete obj.payload.mp3;
+							}
+							if (obj.payload.mp4) {
+								manifest["video"] = true;
+								obj["video"] = md5(obj.payload.mp4)+".mp4"; // store reference to file in manifest
+								delete obj.payload.mp4;
 							}
 							// we have already attached the file attachments; remove the filedata
 							if (obj.hasOwnProperty("attachments")) {
@@ -377,6 +387,7 @@
 							function compile_template(name,file) {
 								return new Promise(function(resolve, reject) {
 									file.async("string").then(function(html) {
+										// helpers must match those used by the php template
 										Handlebars.templates[name] = Handlebars.compile(html);
 										resolve(name);
 									});
@@ -485,6 +496,7 @@
 					}).then(function() {
 
 						/* we are late-optimising files within the zip file before they get final compression - pulling out png's, replacing them with jpg's. */
+						/* NOTE this should already be done by the back-end converstion, but we might be supporting old content that has not been converted. */
 
 						var worker = new Worker('js/workers/png2jpg/png2jpg.promiseworker.js');
 						var pw =  new PromiseWorker(worker);
@@ -566,7 +578,7 @@
 							type:"blob",
 						    compression: "DEFLATE",
 						    compressionOptions: {
-						        level: 9
+						        level: 9		// as much as you can please
 						    },
 						    comment: setup["option-course-description"]
 						}, function updateCallback(metadata) {
@@ -652,7 +664,7 @@ localforage.iterate(function( ... ) {
 						break;
 				}
 			}
-			var tSplit=0, tAudio=0, tSrc=0, aKind=[], aFormat=[], aType=[];
+			var tSplit=0, tAudio=0, tVideo=0, tSrc=0, aKind=[], aFormat=[], aType=[];
 			for (val of data.files) {
 				var obj = JSON.parse(val.value);
 				if (obj.hasOwnProperty("kind") && aKind.indexOf(obj.kind)===-1) aKind.push(obj.kind);
@@ -660,11 +672,13 @@ localforage.iterate(function( ... ) {
 				if (obj.hasOwnProperty("type") && aType.indexOf(obj.type)===-1) aType.push(obj.type);
 				tSplit += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("split") && obj.payload.split === true && obj.depth === 0) ? 1 : 0;
 				tAudio += (obj.hasOwnProperty("audio")) ? 1 : 0;
+				tVideo += (obj.hasOwnProperty("video")) ? 1 : 0;
 				tSrc += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("src")) ? 1 : 0;
 			};
 			fd.append("pages",data.files.length); 	// total pages in package
 			fd.append("split", tSplit);				// how many pages at depth=0 are split?
 			fd.append("audio", tAudio);				// how many pages have audio?
+			fd.append("video", tVideo);				// how many pages have audio?
 			fd.append("src", tSrc);					// how many pages have a payload.src set?
 			fd.append("kind", aKind.join(","));		// what are the kinds of templates rendered?
 			fd.append("format", aFormat.join(","));	// what are the mime types of converions?
