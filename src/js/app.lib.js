@@ -1768,9 +1768,9 @@ function changeTab(e) {
 	hideOverlays();
 	e.preventDefault();
 	// DocNinja.EditHandlers.Unload (false); // unbind any editors but persist their data
-	DocNinja.options.loader.show(); // svgloader data-opening
+	// DocNinja.options.loader.show(); // svgloader data-opening
 	document.body.classList.remove("settings"); // close settings
-	if (!DocNinja.options.MUTED) playSound(DocNinja.options.snd); // ninja sword sound to match loader effect
+	// if (!DocNinja.options.MUTED) playSound(DocNinja.options.snd); // ninja sword sound to match loader effect
 	DocNinja.filePreview.Reset(); // and do some garbage collection
 	// destroy_preview(); // don't need this memory overhead
 	$("li",DocNinja.navItems).removeClass("selected");
@@ -1782,7 +1782,7 @@ function changeTab(e) {
 		document.body.classList.add(tab);
 //		DocNinja.routines.MoveNinja();
 		triggerResize();
-		DocNinja.options.loader.hide();
+		// DocNinja.options.loader.hide();
 		DocNinja.routines.PersistSettings("change tab");
 	}, DocNinja.options.tabSpeed );
 }
