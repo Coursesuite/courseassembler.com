@@ -567,6 +567,24 @@
 			return obj;
 		}
 
+		// insert page video into the zip file.
+		// the final PAGE array in the content player picks up the file later on
+		// normally video rendered by template, not embedded in page, but we need to zip the payload mp4
+		var xfilesvst = function (obj, fold, resource) {
+			if (obj.payload.mp4) {
+			// 	var doc = document.implementation.createHTMLDocument(obj.payload.name);
+			// 	doc.documentElement.innerHTML = obj.payload.html;
+			 	var src = obj.payload.mp4,
+			 		fn = md5(obj.payload.mp4)+".mp4";
+			 	fold.file(fn,src.substring(src.indexOf("base64,")+7), {base64:true});
+			// 	doc.body.insertAdjacentHTML('beforeend', Handlebars.templates["page-audio-floating"]({audioSrc:fn}));
+			// 	obj.payload.html = "<!doctype html>" + doc.documentElement.outerHTML;
+			// 	doc = null;
+			 	if (undefined !== resource) resource.files.push({href: resource.base + fn}); // imscp passes in resource object
+			}
+			return obj;
+		}
+
 		// Clean
 		/*
 		 * each page gets 'cleaned' when it is has finished conversion 
@@ -901,6 +919,7 @@
 			UpdateHyperlinks: _mutation,
 			InjectAnalyticsCode: spook,
 			InjectPageAudio: xfilesost
+			InjectPageVideo: xfilesvst
 		}
 	})(document);
 
