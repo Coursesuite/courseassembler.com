@@ -218,7 +218,7 @@ export function RenderMediaControl(control) {
         });
     } else {
         control.setAttribute('hidden','hidden');
-        control.removeAttribte('controls');
+        control.removeAttribute('controls');
         $('.dx').remove();$('.media-metadata').remove();
         stopDraggable();
     }
