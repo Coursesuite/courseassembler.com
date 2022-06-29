@@ -44,8 +44,11 @@ echo "Minifying Scripts"
 
 # cherry pick all files with paths that are named plugin.js or templates.js, joined on one space-separated line with reference up so uglify can see out of the js folder
 # to skip a file call it plugin.js.off or similar, so it doesn't end in .js
-PLUGINS=$(find . -print | egrep -i '(plugin|templates).js$' | awk '{print}' ORS=' ' | sed 's/\.\//\.\.\//g')
+#PLUGINS=$(find . -print | egrep -i '(plugin|templates).js$' | awk '{print}' ORS=' ' | sed 's/\.\//\.\.\//g')
 
+# plugins are rendered by index.php directly, so they don't need to be minified; templates do need to be minified
+PLUGINS=$(find . -print | egrep -i '(templates).js$' | awk '{print}' ORS=' ' | sed 's/\.\//\.\.\//g')
+echo "Compressible scripts: $PLUGINS"
 # NOW go into the js folder
 cd js
 
