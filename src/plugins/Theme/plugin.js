@@ -286,7 +286,6 @@
 			"FLOATINGNAV": {
 				"background": "transparent",
 				"text": "#000000",
-				"shadow": false,
 				"rounded": false,
 				"boxshadow": false,
 				"textshadow": false,

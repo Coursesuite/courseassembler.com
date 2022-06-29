@@ -116,6 +116,8 @@ You can use any of these names in a comma-separated list to turn on icons. If yo
 
 *completion* : Whether or not to show the completion icon in menu items (in supported navigation styles, such as Menu and Dock). Removing the icon does not disable completion.
 
+*floatinvnav* : (Applicable only to Dock theme) - Show left/right navigation icons floating about half-way down the page; appearance is configured in the FLOATINGNAV block
+
 ----
 
 Applies to: All navigation styles.
@@ -494,3 +496,42 @@ The space between any text and the edge of the box, in any CSS notation such as 
 
 ----
 Applies to: Continuous layout
+
+###FLOATINGNAV
+
+Left and Right navigation controls that float about halfway down the page in the Dock layout
+
+*background* : `transparent`
+
+The background colour of the buttons. It is written to the page using the css `background` shorthand property so you can specify anything that CSS tag supports including gradients, data-encoded images, multiple backgrounds, etc. Defaults to `transparent`.
+
+*text* : `#000000`
+
+The colour of icons on the button.
+
+*border* : `false`
+
+A CSS border applied to the individual button. You can specify the whole CSS value, for instance `1px solid red`.
+
+*rounded* : `false`
+
+Whether the shape of the button has has rounded corners. You can also specify `false` or `none` to turn off rounded edges.
+
+*boxshadow* : `false`
+
+The CSS shadow property for the buttons. Can be `false` for none or a full CSS property value e.g. `inset 0 5px 10px white, inset 0 -5px 10px black`.
+
+*padding* : `false`
+
+The space between the icon and the edge of the box, in any CSS notation such as `10px` or `1rem`. You can use `0` or `false` to turn off padding, or small, medium, large.
+
+*textshadow* : false,
+
+The CSS text shadow property for the icon. Can be `false` for none or a full CSS property value e.g. `2px 2px red`.
+
+*shape* : "arrow",
+
+The icon scheme used by on the buttons. Can be any of the following `triangle`, `circle`, `thick`, `cheveron`, `caret`
+
+----
+Applies to: Dock layout
