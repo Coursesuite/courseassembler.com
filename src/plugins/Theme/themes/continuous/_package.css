@@ -265,6 +265,22 @@ article > main > div.iframe > iframe.under { /* the iframe that comes in */
   z-index: 1;
 }
 
+#pageVideo {
+    position: fixed;
+    right: 1rem;
+    max-height: 25vh;
+    transition: opacity .3s ease;
+    opacity: .5;
+    cursor: move;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.5rem #00000050;
+    z-index: 10;
+    top: {{#is "top" theme.DOCK.position}}calc(var(--dockHeight) + 1rem){{else}}1rem{{/is}};
+}
+#pageVideo:hover, #pageVideo:active, #pageVideo:focus {
+    opacity: 1;
+}
+
 @keyframes over-up {
   0% {transform: translateY(0) }
   100% {transform: translateY(-100%)}

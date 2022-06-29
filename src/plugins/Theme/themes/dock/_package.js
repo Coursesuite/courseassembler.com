@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 
 	// ensure a shared instance audio player is created, even if it isn't used yet
 	audioObj = document.getElementById('pageAudio');
+	window._video = document.getElementById('pageVideo');
 	window._audio = new Plyr(audioObj, {
 		iconUrl: 'plyr.svg',
 		autoplay: false,
@@ -491,6 +492,23 @@ function load() {
 	ifr.setAttribute("onload","iframe(this)");
 	ifr.setAttribute("src", src);
 	audioObj.pause(); // start in a paused state
+	window._video.pause(); // as does video
+
+	if (current_page.hasOwnProperty("video")) {
+		window._video.src = 'data/'+current_page["video"];
+		if (current_page.autonav) {
+			window._video.setAttribute('autoplay',true);
+			window._video.play();
+			window._video.addEventListener('ended', right);
+		}
+		RenderMediaControl(window._video, 1);
+	} else {
+		window._video.removeAttribute('autoplay');
+		window._video.removeAttribute('src');
+		window._video.pause();
+		window._video.removeEventListener('ended', right);
+		RenderMediaControl(window._video, 0);
+	}
 	if (current_page.hasOwnProperty("audio")) {
 		document.body.classList.add("has-audio");
 		// pages.filter(function(v){return v.autonav}).length>0
@@ -703,3 +721,76 @@ window.addEventListener("statuschange", function (e) {
 		pages[e.detail.index].status = e.detail;
 	}
 }, false);
+
+// show the video control and make it draggable (in case it is in the way)
+function RenderMediaControl(control, force) {
+
+    if (!control) return;
+
+	var supportsPassive = false;
+	try {
+	var opts = Object.defineProperty({}, 'passive', {
+		get: function() {
+		supportsPassive = true;
+		}
+	});
+	window.addEventListener("testPassive", null, opts);
+	window.removeEventListener("testPassive", null, opts);
+	} catch (e) {}
+
+    var initX, initY, firstX, firstY;
+
+    if (control.src || force === 1) {
+        control.removeAttribute('hidden');
+        control.setAttribute('controls', 'controls');
+        makeDraggable();
+    } else {
+		control.pause();
+        control.setAttribute('hidden','hidden');
+        control.removeAttribute('controls');
+        stopDraggable();
+    }
+
+    function stopDraggable() {
+        control.removeEventListener('mousedown', down);
+        control.removeEventListener('touchstart', down);
+    }
+
+    function makeDraggable() {
+        if (control.id === 'popover_audioElement') return ; // not allowed to capture mouse events from the control surface; video works since you can drag the canvas
+        control.addEventListener('mousedown', down, false);
+        control.addEventListener('touchstart', down, supportsPassive ? { passive: true } : false);
+        control.style.removeProperty('bottom');
+        control.style.removeProperty('right');
+    }
+
+    function down(e) {
+        e.preventDefault();
+        initX = this.offsetLeft;
+        initY = this.offsetTop;
+        firstX = e.touches ? e.touches[0].pageX : e.pageX;
+        firstY = e.touches ? e.touches[0].pageY : e.pageY;
+
+        this.addEventListener('mousemove', dragIt, false);
+        window.addEventListener('mouseup', function() {
+            control.removeEventListener('mousemove', dragIt, false);
+        }, false);
+
+        this.addEventListener('touchmove', swipeIt, supportsPassive ? { passive: true } : false);
+        window.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            control.removeEventListener('touchmove', swipeIt, false);
+        }, false);
+
+    }
+    function dragIt(e) {
+        this.style.left = initX+e.pageX-firstX + 'px';
+        this.style.top = initY+e.pageY-firstY + 'px';
+    }
+
+    function swipeIt(e) {
+        var contact = e.touches;
+        this.style.left = initX+contact[0].pageX-firstX + 'px';
+        this.style.top = initY+contact[0].pageY-firstY + 'px';
+    }
+}
