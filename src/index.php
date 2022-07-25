@@ -52,6 +52,8 @@ $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 // 	elseif (strcmp($x,$y) > 0) return 1;
 // 	else return 0;
 // }
+$js = []; // body end js
+
 $headJS = [];
 $headCSS =[];
 
@@ -84,8 +86,11 @@ $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/aj
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
-$headJS[] = '<script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3" async="true"></script>';
-$headJS[] = '<script type="text/javascript" src="https://unpkg.com/fix-webm-duration" async="true"></script>';
+$headJS[] = '<script src="js/mic-recorder-to-mp3/index.min.js" defer></script>';
+$headJS[] = '<script src="js/fix-webm-duration/index.js" defer></script>';
+// $headJS[] = '<script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3" defer></script>';
+// $headJS[] = '<script type="text/javascript" src="https://unpkg.com/fix-webm-duration" defer></script>';
+// $headJS[] = '<script type="text/javascript" src="https://unpkg.com/split.js/dist/split.min.js" async="true"></script>';
 
 $headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">';
 // $headCSS[] = '<link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">';
@@ -112,7 +117,6 @@ $disabled_plugins = ["Quizzzard"];
 // include styles defined in plugins
 $p = realpath('./plugins');
 $plugins = [];
-$js = [];
 $css = [];
 $iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($p)), '/^.+(plugin|templates)\.(css|js)$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
@@ -133,6 +137,15 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = undefined, PLUGINS = <?php echo json_encode($plugins); ?>;</script>
 <?php if ($verifier->code->minified) { ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo $minified_css; ?>" />
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-0FLZ6RBMYH');
+		</script>
+<?php } else if (false) { ?>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -182,6 +195,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<div id="scroll-area"><ol id="nav-item-list"></ol></div>
 		<div id="preview"></div>
 		<div id="timeline"></div>
+		<div id="split-h" data-min="240"></div><div id="split-v" data-min="16"></div>
 		<video id="popover_videoElement" hidden></video>
 		<audio id="popover_audioElement" hidden></audio>
 		<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;video/*;capture=microphone,camera" />

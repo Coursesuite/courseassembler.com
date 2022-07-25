@@ -2,8 +2,8 @@ export function RecordAudio(container) {
 
     container.innerHTML = `<div class='recorder-flex'>
         <div class='control'>
-            <button class='start-button ready'>Start recording</button>
-            <label class='button-like'><input type='checkbox' checked/> Record cursor</label>
+            <button class='start-button ready'>Record</button>
+            <label class='button-like' hidden><input type='checkbox' checked/> Record cursor</label>
         </div>
         <div class='result'>Waiting for recording</div>
         <div class='control'>
@@ -43,7 +43,7 @@ export function RecordAudio(container) {
       if (tsi) clearInterval(tsi);
       tsi = setInterval(showTimer,1000);
       recorder.start().then(function (stream) {
-        startButton.textContent = 'Stop recording';
+        startButton.textContent = 'Stop';
         startButton.classList.toggle('recording');
         startButton.removeEventListener('click', startRecording);
         startButton.addEventListener('click', stopRecording);
@@ -75,7 +75,7 @@ export function RecordAudio(container) {
 
         useButton.removeAttribute('disabled');
 
-        startButton.textContent = 'Start recording';
+        startButton.textContent = 'Record';
         startButton.classList.toggle('recording');
         startButton.removeEventListener('click', stopRecording);
         startButton.addEventListener('click', startRecording);

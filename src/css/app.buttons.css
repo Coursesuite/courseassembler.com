@@ -9,6 +9,7 @@ button {
 	margin: .25em;
 	outline: none;
 	color: currentcolor;
+	white-space: nowrap;
     transition: border-color .25s ease-in, color .25s ease-in;
 }
 .button-like.thin {
@@ -24,6 +25,10 @@ button:hover {
 button > i, .button-like > i{
 	margin-right: .5em;
 	color: currentcolor;
+}
+button[hidden], .button-like[hidden] {
+	display: none !important;
+	pointer-events: none;
 }
 
 details .inline-help {
@@ -115,4 +120,17 @@ button[data-action="trash-page-audio"]:hover {border-color: #999;color: #999;}
 .progress-button.disabled button {
 	border-color: var(--edge);
 	color: var(--edge);
+}
+
+button.start-button::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+	margin-right: .5ch;
+    background: currentColor;
+    display: inline-block;
+    border-radius: 5px;
+}
+button.start-button.recording::before {
+	border-radius: 0;
 }
