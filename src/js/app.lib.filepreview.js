@@ -148,6 +148,10 @@
 					frameDoc.write(parsedHtml);
 					frameDoc.close();
 				}
+
+				// remove previous timeline objects
+				reset_timeline();
+
 				// the converter might have pre-converted to pdf
 				wasPdf = (-1!==parsedHtml.indexOf("<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->"));
 				if (data.type && (data.type.indexOf("application/pdf")!=-1||data.type.indexOf("application/x-pdf")!=-1||data.type.indexOf("x-iwork")!=-1)||wasPdf) data.format="pdf";
@@ -165,7 +169,12 @@
 				DocNinja.options.fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
 				data['supportsAudio'] = _supports_timeline(data);
 				DocNinja.options.timeline.innerHTML = Handlebars.templates["preview-timeline"](data);
-				if (data.supportsAudio) initialise_timeline(data);
+				if (data.supportsAudio) {
+					initialise_timeline(data);
+					setCSSVariable("--timelineHeight", DocNinja.options.timelineHeight +'px');
+				} else {
+					setCSSVariable("--timelineHeight", DocNinja.options.timelineMinHeight +'px');
+				}
 
 				data = null; // early GC
 				$("#blocking").removeClass("active").remove();
@@ -325,6 +334,81 @@
 			return null;
 		}
 
+		// we want two splitters which work by modifying CSS variables:
+		// 1. the splitter between the fields and the preview
+		// 2. the splitter between the preview and the timeline
+		_initPaneSplitters = function() {
+			let axis = 'clientX'; // current direction after drag begins
+			const global = typeof window !== 'undefined' ? window : null;
+			const listen = 'addEventListener';
+			const ignore = 'removeEventListener';
+			const styleHax = ['userSelect', 'MozUserSelect', 'WebkitUserSelect', 'msUserSelect','pointerEvents'];
+
+			// begin drag: define an bind move-related events to end/drag handlers
+			function beginDrag() {
+				const self = this; // so event binder function signatures can match
+				self.stop = endDrag.bind(self);
+				self.move = drag.bind(self);
+				global[listen]('mouseup', self.stop);
+				global[listen]('touchend', self.stop);
+				global[listen]('mousemove', self.move);
+				global[listen]('touchmove', self.move);
+				styleHax.map((v) => {
+					DocNinja.options.preview.style[v] = 'none';
+					DocNinja.options.scrollArea.style[v] = 'none';
+				});
+				axis = self.id === 'split-h' ? 'clientX' : 'clientY';
+				self.dragging = true;
+				self.minSize = parseInt(document.getElementById(self.id).dataset.min);
+				// this.value = parseInt(getCSSVariable(this.id === 'split-h' ? '--navPaneWidth' : '--timelineHeight'),10);
+			}
+			// end drag: remove move-related global events
+			function endDrag() {
+				const self = this;
+				global[ignore]('mouseup', self.stop);
+				global[ignore]('touchend', self.stop);
+				global[ignore]('mousemove', self.move);
+				global[ignore]('touchmove', self.move);
+				styleHax.map((v) => {
+					DocNinja.options.preview.style[v] = '';
+					DocNinja.options.scrollArea.style[v] = '';
+				});
+				self.dragging = false;
+				document.dispatchEvent(new CustomEvent("SplitEnd", {bubbles: true, cancelable: true, detail: self.id}));
+			}
+			function getMousePosition(e) {
+				if ('touches' in e) return e.touches[0][axis];
+				return e[axis];
+			}
+			function drag(e) {
+				if (!this.dragging) return;
+				window.requestAnimationFrame(() => {
+					let position = getMousePosition(e); // - this.value;
+					if (axis === 'clientY') {
+						// timeline height is going to be modified from the position
+						if (position <= 165 + this.minSize) position = 165 + this.minSize; // page-fixed-top + toolbar
+						if (position >= document.body.clientHeight - 18 - this.minSize) position = document.body.clientHeight - 18 - this.minSize;
+						position = document.body.clientHeight - 18 - position;
+						setCSSVariable('--timelineHeight', position + 'px');
+					} else {
+						if (position <= this.minSize) position = this.minSize;
+						if (position >= document.body.clientWidth - this.minSize) position = document.body.clientWidth - this.minSize;
+						setCSSVariable('--navPaneWidth', position + 'px');
+					}
+				});
+			}
+			['split-h', 'split-v'].forEach(id => {
+				let inst = {
+					dragging: false,
+					id: id
+				}
+				// bind START events to the splitter objects
+				const node = document.getElementById(id);
+				node[listen]('mousedown', beginDrag.bind(inst));
+				node[listen]('touchstart', beginDrag.bind(inst));
+			});
+		}
+
 		return {
 			Editing: {
 				Enable: _setContentEditable,
@@ -337,7 +421,8 @@
 			Refresh: _reloadCurrentPage,
 			Observe: _observer,
 			Select: _select,
-			CurrentFile: _getFileId
+			CurrentFile: _getFileId,
+			CreateSplitPane: _initPaneSplitters
 		}
 
 	})();

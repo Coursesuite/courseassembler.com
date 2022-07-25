@@ -894,6 +894,18 @@ function handlePopover(tgt) {
 	}
 }
 
+function reset_timeline() {
+
+	['popover_audioElement','popover_videoElement', 'timeline'].forEach(id => {
+		const div = document.getElementById(id);
+		div.toggleAttribute('hidden', id.indexOf('popover') > -1);
+		div.replaceChildren();
+		// div.removeAttribute('src');
+		// div.removeAttribute('controls');
+	});
+
+}
+
 /* draw a visualisation of the audio or video for the current file */
 function initialise_timeline(obj) {
 	import("./media.timeline.js").then(timeline => {
@@ -1023,6 +1035,7 @@ function popover_audioNavToggle(state) {
 
 function popover_saveMedia(data, extn) {
 	var id = DocNinja.filePreview.CurrentFile();
+	engagement('page_save_media', extn);
 	localforage.getItem(id).then(function (obj) {
 		obj.payload[extn] = data;
 		// console.dir(obj);
@@ -1702,6 +1715,7 @@ function performAction(tgt, e) {
 						if (v.hasOwnProperty("handler") && v.handler === attrib) { // e.g. view, edit, compile, etc (quizbuilder, markdown, etc)
 							closePopover();
 							if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+							engagement('plugin_add', v.plugin);
 							DocNinja.Plugins[v.plugin].Add(); // TODO implement method definition inside plugins
 
 						} else if (v.hasOwnProperty("match") && v.match === attrib) { // e.g. plugins that implement fn, parrameters (e.g. themes)
@@ -1761,6 +1775,15 @@ function globalClickConsumer(e) {
 	} else if ("tab" in tgt.dataset) {
 		changeTab(e);
 	}
+}
+
+function engagement(key,value) {
+	if (typeof gtag === typeof undefined) return;
+	let v = (typeof value === 'string') ? value : JSON.stringify(value);
+	gtag('event', key,
+		{'event_category': 'engagement',
+		'event_label': v
+	});
 }
 
 function changeTab(e) {
@@ -2038,4 +2061,17 @@ const fetchWithTimeout = (uri, options = {}, time = 5000) => {
 
             throw new Error(error.message)
         })
+}
+
+function NOOP() {
+	return false;
+}
+
+function getCSSVariable(name) {
+	if (!name.startsWith('--')) name = '--' + name;
+	return getComputedStyle(document.querySelector(':root')).getPropertyValue(name);
+}
+
+function setCSSVariable(name, value) {
+	DocNinja.options.root.style.setProperty(name, value);
 }
