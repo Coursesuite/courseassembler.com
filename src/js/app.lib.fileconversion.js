@@ -88,8 +88,10 @@
 
 		_performConversion = function (data, fn) {
 			const fd = new FormData();
+			let t = [];
 			fd.append("hash", App.Hash || "debug");
 			for (const key in data) {
+				switch (key.toLowerCase()) { case 'name': case 'type': case 'fileid': case 'kind': t.push([key, data[key]]); break; }
 				if (key === "original") continue; // don't carry to server
 				if (key === "blob") {
 					fd.append(key, data[key], data.name);
@@ -97,6 +99,12 @@
 					fd.append(key.toLowerCase(), data[key])
 				}
 			}
+
+			if (t.length) {
+				t.unshift(["hash", App.Hash]);
+				engagement('performConversion', t);
+			}
+
 			// for (const pair of fd.entries()) { console.dir(pair); }
 			fetch(App.Backend, {
 				method: 'POST',
@@ -159,8 +167,9 @@
 		liElem - DOM node
 		kind - first part of mime, same as raw.files[0].type.split("/")[0]
 		subtype - second part of mime same as raw.files[0].type.split("/")[1]
+		e - reader event
 		*/
-		_beginConversion = function (drop, raw, liElem, kind, subtype) {
+		_beginConversion = function (drop, raw, liElem, kind, subtype,e) {
 			var this_fileid = liElem.getAttribute("data-fileid"),
 				fileinfo = {},
 				extn = '',
@@ -175,6 +184,9 @@
 			if (kind === "url" && raw.url && raw.url.indexOf("<iframe ")!==-1) kind = "iframe";
 
 // console.log(drop,raw,liElem,kind,subtype, extn, mime);
+// console.log(e, typeof drop.result);
+
+			engagement('beginConversion', kind);
 
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
 			switch (kind) {
@@ -345,8 +357,10 @@
 					break;
 
 				case "h5p":
+					let zip_options = typeof drop.result === 'string' ? { base64: true } : null;
+					let zip_data = typeof drop.result === 'string' ? drop.result.split('base64,')[1] : drop.result;
 					// var name = name;
-					JSZip.loadAsync(drop.result.split("base64,")[1], {base64: true})
+					JSZip.loadAsync(zip_data, zip_options)
 					.then(function(zip) {
 						var h5pfile = zip.file("h5p.json");
 						if (h5pfile) {
@@ -463,10 +477,11 @@
 		};
 
 		_handleFileUpload = function(files) {
-			for (var i = 0; i < files.length; i++) {
+			for (let i = 0; i < files.length; i++) {
 				(function (file, index) { // iife closure to protect reader object
-					var mime = file.type,
-						extn = file.name.trimUntilExtn().toLowerCase();
+					let mime = file.type,
+						extn = file.name.trimUntilExtn().toLowerCase(),
+						size = file.size;
 					mime = Mime.get(extn); // trust the extension more than the mime (becasue windows is bad at mime types) .. also means we get predictable results for application/zip variants
 					var mimetype = mime.split("/"),
 						reader = new FileReader(),
@@ -483,11 +498,12 @@
 						                 {"files":[{name: file.name, type: mime, extension: extn} ]}, // raw
 						                 li,	// liElem
 						                 mimetype[0], // kind
-						                 mimetype[1] // subtype
-						                );
+						                 mimetype[1], // subtype
+						                e);
 						reader = null;
 					}
-					if ("zip"===mimetype[1] || (mime === 'video/mp4')) {
+					// console.log('about to read the file', mime, extn, size);
+					if ("zip"===mimetype[1] || "h5p"===mimetype[1] || (mime === 'video/mp4') || size > 314572800) { // if size is over 300MB, readAsDataURL will silently fail without a warning
 						reader.readAsArrayBuffer(file); // JSZip can accept ArrayBuffer
 					} else {
 						reader.readAsDataURL(file); // base64
