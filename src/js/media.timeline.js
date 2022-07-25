@@ -1,5 +1,7 @@
 import AudioSVGWaveform from './audio-waveform-svg-path/index.js';
 
+// console.dir(import.meta);
+
 export function GenerateThumbnails(video, destination) {
 
     return new Promise(function(resolve, reject) {
@@ -57,7 +59,6 @@ export function GenerateThumbnails(video, destination) {
             video.currentTime = time;
             time += 1;
             left += w;
-        console.log('step',video.currentTime,time,left,step);
             if (time > step) End();
         }
     };
@@ -71,6 +72,203 @@ export function GenerateThumbnails(video, destination) {
 
     });
 
+}
+
+export function setVideoPoster(source) {
+    async function poster() {
+        return new Promise(async (resolve) => {
+            let videoBlob = await fetch(source.src).then(r => r.blob());
+            let videoObjectUrl = URL.createObjectURL(videoBlob);
+            let video = document.createElement("video");
+            video.src = videoObjectUrl;
+            video.addEventListener('seeked', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                URL.revokeObjectURL(videoObjectUrl);
+                resolve(canvas.toDataURL());
+            });
+            video.currentTime = 1; // assume videos are at least 1 second long;
+        });
+    };
+    (async () => {
+        source.poster = await poster(source);
+    })();
+}
+
+
+// duration isn't known until the video is loaded
+async function getVideoDuration(source) {
+    return new Promise(async (resolve) => {
+        let videoBlob = await fetch(source.src).then(r => r.blob());
+        let videoObjectUrl = URL.createObjectURL(videoBlob);
+        let video = document.createElement("video");
+        video.src = videoObjectUrl;
+        let iter = 0;
+        while((video.duration === Infinity || isNaN(video.duration)) && video.readyState < 2 && iter++ < 999) {
+            await new Promise(r => setTimeout(r, 100));
+            video.currentTime = 10000000*Math.random();
+        }
+        let duration = video.duration;
+        URL.revokeObjectURL(videoObjectUrl);
+        videoBlob = null;
+        video.src = null;
+        resolve(duration);
+    });
+}
+
+
+// janky div for video position
+// export function CueIndicator(video, destination) {
+//   let cue = document.createElement('div');
+//   cue.classList.add('cue-indicator');
+//   destination.appendChild(cue);
+//   video.addEventListener('timeupdate', function(e) {
+//     cue.style.left = (e.target.currentTime / e.target.duration * 100) + '%';
+//   });
+// }
+
+// use a range control to show and listen to video position;
+// toggle clicking video to pause/play
+export function CueControl(video, destination, button) {
+    let control = document.createElement('input');
+    control.type = 'range';
+    control.className = 'cue';
+    control.min = 0;
+    control.value = 0;
+    control.step = "any";
+    control.addEventListener('change', (e) => { video.currentTime = e.target.value });
+    video.addEventListener('timeupdate', (e) => { control.value = e.target.currentTime });
+    video.addEventListener('pause', () => { button.dataset.state = 'pause'; });
+    video.addEventListener('play', () => { button.dataset.state = 'play'; });
+    video.addEventListener('ended', () => { button.dataset.state = 'stop'; });
+    button.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+        } else if (video.ended) {
+            video.currentTime = 0;
+            video.play();
+        } else if (!video.paused) {
+            video.pause();
+        }
+    });
+    // video.addEventListener('click', (e) => { e.target[e.target.paused ? 'play' : 'pause'](); e.target.parentNode.classList[e.target.paused ? 'add' : 'remove']('paused'); });
+    destination.appendChild(control);
+    video.parentNode.classList.add('paused');
+    (async () => {
+        let duration = await getVideoDuration(video);
+        control.max = duration;
+    })();
+}
+
+async function extractFramesFromVideo(videoUrl, cw, ch, context) { // fps=25) {
+  return new Promise(async (resolve) => {
+
+    // fully download it first (no buffering):
+    let videoBlob = await fetch(videoUrl).then(r => r.blob());
+    let videoObjectUrl = URL.createObjectURL(videoBlob);
+    let video = document.createElement("video");
+
+    let thumbs = Math.ceil(cw / ch); // number of thumbnails to generate
+
+    let seekResolve;
+    video.addEventListener('seeked', async function() {
+      if(seekResolve) seekResolve();
+    });
+
+    video.src = videoObjectUrl;
+
+    // workaround chromium metadata bug (https://stackoverflow.com/q/38062864/993683)
+    while((video.duration === Infinity || isNaN(video.duration)) && video.readyState < 2) {
+      await new Promise(r => setTimeout(r, 1000));
+      video.currentTime = 10000000*Math.random();
+    }
+    let duration = video.duration;
+    let interval = duration / thumbs;
+
+    let [w, h] = [video.videoWidth, video.videoHeight];
+    let left = 0;
+    let currentTime = 0;
+
+    while(currentTime < duration) {
+      video.currentTime = currentTime;
+      await new Promise(r => seekResolve=r);
+      context.drawImage(video, 0,0,w,h, left,0,ch,ch); // extract square thumb from video
+      left += ch;
+      currentTime += interval;
+    }
+    videoBlob = null;
+    video.src = null;
+    URL.revokeObjectURL(videoObjectUrl);
+    resolve();
+  });
+};
+
+export function VideoThumbnails(div) {
+    async function videoFrames2Canvas(videoUrl, container) {
+        return new Promise(async (resolve) => {
+
+            if (!videoUrl) resolve(document.createElement('span'));
+
+            // fully download it first (no buffering):
+            let videoBlob = await fetch(videoUrl).then(r => r.blob());
+            let videoObjectUrl = URL.createObjectURL(videoBlob);
+            let video = document.createElement("video");
+            let seekResolve;
+
+            let thumbs = Math.ceil(container.offsetWidth / container.offsetHeight); // number of thumbnails to generate
+
+            video.addEventListener('seeked', async function() {
+                if (seekResolve) seekResolve();
+            });
+
+            video.src = videoObjectUrl;
+
+            // workaround chromium metadata bug (https://stackoverflow.com/q/38062864/993683)
+            while((video.duration === Infinity || isNaN(video.duration)) && video.readyState < 2) {
+                await new Promise(r => setTimeout(r, 1000));
+                video.currentTime = 10000000*Math.random();
+            }
+
+            let duration = video.duration;
+            let interval = duration / thumbs;
+
+            let [w, h] = [video.videoWidth, video.videoHeight];
+            let left = 0;
+            let currentTime = 0;
+
+            // calculating the size here has allowed the DOM flexbox painter to have finished sizing the container
+            let canvas = document.createElement('canvas'),
+                context = canvas.getContext('2d');
+            canvas.width = container.offsetWidth,
+            canvas.height = container.offsetHeight;
+
+            while(currentTime < duration) {
+                video.currentTime = currentTime;
+                await new Promise(r => seekResolve=r);
+                context.drawImage(video, 0,0,w,h, left,0,canvas.height,canvas.height); // extract square thumb from video
+                left += canvas.height;
+                currentTime += interval;
+            }
+            videoBlob = null;
+            video.src = null;
+            URL.revokeObjectURL(videoObjectUrl);
+
+            // finished painting the canvas, so now we can put it in the DOM
+            resolve(canvas);
+        });
+    };
+
+    return new Promise(function(resolve, reject) {
+        div.textContent = 'Loading...';
+        (async () => {
+            videoFrames2Canvas(div.dataset.src, div)
+            .then((result) => div.replaceChildren(result))
+            .finally(resolve);
+        })();
+    });
 }
 
 export function GenerateWaveyform(audio, destination) {
@@ -152,20 +350,39 @@ export function GenerateWaveyform(audio, destination) {
 
 }
 
-export function GenerateWaveform(audio, destination) {
+export function DrawWaveform(div) {
 
     return new Promise(function(resolve, reject) {
 
+        (async () => {  
+            let blob = await fetch(div.dataset.src).then(r => r.blob());
+            let url = URL.createObjectURL(blob);
+            let audio = document.createElement("audio");
+            audio.src = url;
+
+            GenerateWaveform(audio, div);
+            blob = null;
+            URL.revokeObjectURL(url);
+            audio.src = undefined;
+            resolve();
+        })();
+
+    });
+
+}
+
+
+export function GenerateWaveform(audio, destination) {
+
+    return new Promise(function(resolve, reject) {
+        destination.textContent = "Loading...";
         const peakCount = destination.offsetWidth / 2; // 384;
         const trackWaveform = new AudioSVGWaveform({url: audio.src, peaks: peakCount});
-        const root = document.documentElement;
-
         trackWaveform.loadFromUrl().then(() => {
             const path = trackWaveform.getPath();
+            destination.replaceChildren();
             if (path) {
                 destination.innerHTML = `<svg viewBox='0 -1 ${peakCount} 2' preserveAspectRatio='none'><g><line x1='0' y1='0' x2='${peakCount}' y2='0' stroke-width='0.01'/><path d='${path}'/></g></svg>`;
-            } else {
-                destination.innerHTML = 'No audio data available';
             }
             // root.style.setProperty('--waveform-length', destination.querySelector('path').getTotalLength());
             resolve();
@@ -180,20 +397,13 @@ export function BindMouseover(element) {
     const root = document.documentElement;
     const dx = document.createElement('div'); dx.className = 'dx';
     let rect = element.getBoundingClientRect();
-   // const dy = document.createElement('div'); dy.className = 'dy';
     element.addEventListener('resize', () => {
         rect = element.getBoundingClientRect();
     });
     element.appendChild(dx);
-    //element.appendChild(dy);
-    //console.log(element.innerHTML);
     element.addEventListener('mousemove', evt => {
         let x = evt.clientX - rect.left;
-      //  let y = evt.clientY - rect.top;
-
         root.style.setProperty('--mouse-x', x + 'px');
-      //  root.style.setProperty('--mouse-y', y + 'px');
-    
     });
 }
 
