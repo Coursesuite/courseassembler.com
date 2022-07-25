@@ -33,7 +33,10 @@
 				return Promise.resolve();
 			}).then(function h5p_export_load_content() {
 				// TODO: this is a little ineffecient in that workspaces and indexes could be instanced but everything else shared
-				return zipFolder.folder(workspaceName).loadAsync(fileObj.payload.src.split("base64,")[1], {base64: true});
+				let zip_options = typeof fileObj.payload.src === 'string' ? { base64: true } : null; // 20220725: changed from base64 to blob storage to allow for larger files
+				let zip_data = typeof fileObj.payload.src === 'string' ? fileObj.payload.src.split('base64,')[1] : fileObj.payload.src;
+				delete fileObj.payload.src;
+				return zipFolder.folder(workspaceName).loadAsync(zip_data, zip_options);
 			}).then(function h5p_export_resolve(result) {
 				finalResolve();
 			}).catch(function h5p_export_catch(message) {

@@ -101,6 +101,7 @@
 				increment = (1 / (numberOfKeys + 2)); // 10 files = increments of 0.08333; the 2 represent two operations that occur after these files are loaded
 
 				if (setup.api === "imscp") { // this package has a different format, no scorm, and a different kind of manifest, and each page goes in its own folder (to be compatible with Moodle Book import format)
+					engagement('download_type', 'imscp');
 					setup["timestamp"] = (new Date().getTime()).toString(36);
 					var resources = [];
 					localforage.iterate(function imscp_iterate_localforage(value, key, iterationNumber) {
@@ -235,6 +236,8 @@
 
 				} else { // was not imscp, so do this
 
+					engagement('download_type', 'scorm');
+
 					// we package all our user-generated resources into a 'data' folder inside the zip
 					fold = zip.folder("data");
 
@@ -339,9 +342,10 @@
 							}
 
 							// append to manifest, but without the payload (no longer needed in memory)
-							if (obj.payload.src) delete obj.payload.src;
-							if (obj.payload.image) delete obj.payload.image;
-							if (obj.payload.html) delete obj.payload.html;
+						// 20220725: if you delete src before a promised function can load it, it will fail - none of the plugins are async await'ed
+						//	if (obj.payload.src) delete obj.payload.src;
+						//	if (obj.payload.image) delete obj.payload.image;
+						//	if (obj.payload.html) delete obj.payload.html;
 							if (obj.payload.mp3) {
 								manifest["audio"] = true; // flag that plyr needs to be included later on
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
@@ -375,6 +379,7 @@
 							});
 						 	setup["audio"] = true;
 						}
+						engagement('download_audio', setup['audio']);
 						setup["timestamp"] = manifest["timestamp"].toString(36);
 						// setup["tier"] = App.Tier;
 
@@ -478,6 +483,7 @@
 						]);
 
 					}).then(function package_fetch_api() {
+						engagement('download_scorm_version', setup.api);
 						return fetch("scorm/" + setup.api + ".zip");
 
 					}).then(function package_fetch_api_buffer(response) {
