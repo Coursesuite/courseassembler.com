@@ -100,7 +100,7 @@ Applies to: Menu, Dock
 
 You can use any of these names in a comma-separated list to turn on icons. If you don't specify a name the icon or set will be turned off. Possible values are:
 
-`print`, `navigation`, `fullscreen`, `menu`, `attachments`, `audio`, `completion`
+`print`, `navigation`, `fullscreen`, `menu`, `attachments`, `audio`, `completion`, `floatingnav`
 
 *print* : Whether or not the PRINT icon will be displayed. Printing allows the currently displayed page to be sent to the printer. Printing multiple pages is not supported. You should supply the user a document (perhaps using a File Attachment) if you require multi-page printing.
 
@@ -499,7 +499,7 @@ Applies to: Continuous layout
 
 ###FLOATINGNAV
 
-Left and Right navigation controls that float about halfway down the page in the Dock layout
+Left and Right navigation controls that float about halfway down the page in the Dock layout. To enable floating nav ensure you add 'floatingnav' to the ICONS section.
 
 *background* : `transparent`
 
