@@ -226,6 +226,7 @@
 			}).then(function(obj) {
 				if (!obj.providerName) reject("Provider not found");
 				var fn = obj.providerName.toLowerCase().replace(/\s/g,"");
+				engagement('oembed', fn);
 				_handlers[fn](obj,fileInfo,liElem).then(function(res) {
 					resolve(res);
 				}).catch(function(error) {
