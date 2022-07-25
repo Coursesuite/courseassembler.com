@@ -196,6 +196,7 @@
 			},
 
 			ModifyAllPageBackgroundColours: function (colour) {
+				engagement('modify_all_backgrounds', true);
 				var promises = new Array();
 				localforage.iterate(function(val, key, i) {
 					if (key.startsWith('file')) {
@@ -252,6 +253,8 @@
 					node.parentNode.removeChild(node);
 				};
 
+				engagement('modify_document_centering', position);
+
 				delete obj.payload.layout;
 				if (position === "center") {
 					obj.payload.layout = position;
@@ -272,6 +275,8 @@
 					// these are going to be true in all copies, so set them once here
 					obj.payload.split = true;
 					obj.payload.flat = true;
+
+					engagement('modify_split', true);
 
 					var doc = document.implementation.createHTMLDocument("foo"),
 						audios = obj.payload.audio,
