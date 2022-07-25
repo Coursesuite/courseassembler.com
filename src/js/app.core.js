@@ -5,6 +5,7 @@
 
 	// cache frequently used selectors
 	DocNinja.options = {
+		root: document.querySelector(':root'),
 		pageWrap: document.getElementById( 'pagewrap' ),
 		body: document.getElementsByTagName("body")[0],
 		header: document.getElementById("banner"),
@@ -753,6 +754,13 @@
 		// 	DocNinja.options._pageIndex += 1;
 		// 	update_preview()
 		// });
+
+		DocNinja.options.timelineHeight = parseInt(getCSSVariable("--timelineHeight"),10);
+		DocNinja.options.timelineMinHeight = ~~document.getElementById('split-v').dataset.min;
+		DocNinja.filePreview.CreateSplitPane();
+		document.addEventListener("SplitEnd", function(e) {
+			// console.log("Split End", e.detail);
+		});
 
 	})();
 

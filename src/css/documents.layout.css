@@ -9,15 +9,15 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 375px;
+		width: var(--navPaneWidth);
 		height: 50px;
 		border-right: 1px solid var(--documents);
 	}
 	#fields {
 		position: absolute;
 		top: 0;
-		left: 375px;
-		width: calc(100vw - 375px);
+		left: var(--navPaneWidth);
+		width: calc(100vw - var(--navPaneWidth));
 		height: 50px;
 	}
 		#fields .dn-flex-1 {
@@ -29,7 +29,7 @@
 	position: absolute;
 	top: 50px;
 	left: 0;
-	width: 375px;
+	width: var(--navPaneWidth);
 	height: calc(100vh - 50px - var(--bannerHeight) - 18px);
 	border-right: 1px solid rgba(255,255,255,.5);
 }
@@ -37,16 +37,16 @@
 #preview {
 	position: absolute;
 	top: 50px;
-	left: 375px;
-	width: calc(100vw - 375px);
-	height: calc(100vh - 50px - var(--bannerHeight) - 18px);
+	left: var(--navPaneWidth);
+	width: calc(100vw - var(--navPaneWidth));
+	height: calc(100vh - 50px - var(--bannerHeight) - 18px - var(--timelineHeight));
 	display: flex;
 }
 
 #popover_videoElement,
 #popover_audioElement {
 	position: fixed;
-	bottom: calc(118px + .5rem);
+	bottom: calc((18px + var(--timelineHeight)) + .5rem);
 	right: calc(18px + .5rem);
 	max-height: 25vh;
 	transition: opacity .3s ease;
@@ -64,12 +64,12 @@
 
 	#timeline {
 		position: absolute;
-		height: 100px;
+		height: var(--timelineHeight);
 		bottom: 0;
 		background-color: var(--toolbar);
-		width: calc(100% - 375px);
-		border-top: 1px solid var(--encasing);
-		left: 375px;
+		width: calc(100% - var(--navPaneWidth));
+		border-top: 1px solid var(--edge);
+		left: var(--navPaneWidth);
 		color: black;
 
 		display: grid;
@@ -123,3 +123,22 @@
 			pointer-events: none;
 			opacity: .5;
 		}
+
+#split-h, #split-v {
+	position: absolute;
+	z-index: var(--zHandles);
+	width: var(--splitterSize);
+	height: var(--splitterSize);
+	border-radius: calc( var(--splitterSize) / 2);
+	background: var(--edge);
+}
+#split-h {
+	left: calc(var(--navPaneWidth) - (var(--splitterSize) / 2));
+	top: calc((100vh / 2) - 50px - (var(--splitterSize) / 2));
+	cursor: col-resize;
+}
+#split-v {
+	top: calc(100vh - var(--bannerHeight) - 18px - var(--timelineHeight) - (var(--splitterSize) / 2));
+	left: calc(((100vw + var(--navPaneWidth)) / 2) - (var(--splitterSize) / 2));
+	cursor: row-resize;
+}

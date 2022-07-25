@@ -67,12 +67,16 @@
 	--bannerHeight:  110px;
 	--standardGutter: 10px;
 	--footerHeight:  18px;
+	--timelineHeight: 100px;
+	--navPaneWidth: 375px;
+	--splitterSize: 10px;
 
 	/* z-indexes */
 	--zheader: 1;
 	--zblocking: 10;
 	--zcog: 20;
 	--zmodal: 30;
+	--zHandles: 5;
 
 	/* nav item text */
 	--navText:  #444;
