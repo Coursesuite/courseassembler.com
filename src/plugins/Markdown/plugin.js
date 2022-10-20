@@ -11,7 +11,7 @@
 			icon: '<div class="ga-markdown"><a data-action="add-markdown"><i class="ninja-document-add"></i>Add markdown page</a></div>',
 			type: 'page',
 			order: 5,
-			supports: ['edit','view','compile','import','export'],
+			supports: ['edit','view','compile','import','export','audio'],
 			handler: 'add-markdown'
 		});
 	};
