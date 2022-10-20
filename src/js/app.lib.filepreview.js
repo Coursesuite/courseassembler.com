@@ -192,8 +192,17 @@
 		*/
 		_supports_timeline = function (data) {
 			if (!data) return false;
+
+			// does the plugin say we support audio?
 			if (data.hasOwnProperty("supports") && data.supports.indexOf("audio") !== -1) return true;
+
+			// some formats intrinsically exclude audio
 			if (data.hasOwnProperty("format") && "youtube,vimeo,soundcloud,oembed,package,video".indexOf(data.format) !== -1) return false;
+
+			// does the plugin say we DON'T support audio (by excluding it explicitly)
+			if (data.hasOwnProperty("supports") && data.supports.indexOf("audio") === -1) return false;
+
+			// assume YES
 			return true;
 		}
 
