@@ -17,6 +17,8 @@ $Router->map('GET','/how-it-works','how.inc.php', 'How it works');
 // $Router->map('GET','/contact','contact.inc.php','Contact');
 $Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('GET','/validate/[*:key]?', 'keyValidator');
+
+// $Router->map('GET', '/app/[*]/[*]', 'serve');
 $Router->map('GET','/app/[*:key]?', 'launch');
 
 $Router->map('GET','/blog/[*:entry]+', 'entry');
@@ -32,12 +34,22 @@ $Router->map('POST','/subscribe', 'handleSubscription');
 $Router->map('POST','/unsubscribe', 'handleUnsubscription');
 
 $match = $Router->match();
-
 $BlogRoot = '/entries';
 
 if ($match) {
 	$fn = $match["target"];
 	switch ($fn) {
+
+		// case "serve":
+		// header('content-type: text/plain');
+		// 	echo __DIR__ . $_SERVER['REQUEST_URI'], PHP_EOL;
+		// 	$p = realpath(__DIR__ . '/' . $_SERVER['REQUEST_URI']);
+		// 	if (file_exists($p))
+		// 	die($p);
+		// die(__DIR__);
+		// 	readfile('.'.$_SERVER['REQUEST_URI']);
+		// 	die();
+		// 	break;
 
 		case "entry";
 			renderEntry($match['params']['entry']);
@@ -129,9 +141,13 @@ if ($match) {
 
 function render($fn, $page_title = '') {
 	$path = realpath("./routes");
-	require $path. '/_header.inc.php';
-	include $path . "/{$fn}";
-	require $path . '/_footer.inc.php';
+	if (file_exists($path . "{$fn}")) {
+		require $path. '/_header.inc.php';
+		include $path . "/{$fn}";
+		require $path . '/_footer.inc.php';
+	} else {
+	  header("HTTP/1.0 404 Not Found");
+	}
 //	die();
 }
 
