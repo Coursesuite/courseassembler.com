@@ -727,7 +727,8 @@
 				setGlobalVars();
 			});
 
-
+			// ensure DocNinja.filePreview is created/loaded first before attempting to call CreateSplitPane()
+			DocNinja.filePreview.CreateSplitPane();
 
 		});
 
@@ -757,10 +758,11 @@
 
 		DocNinja.options.timelineHeight = parseInt(getCSSVariable("--timelineHeight"),10);
 		DocNinja.options.timelineMinHeight = ~~document.getElementById('split-v').dataset.min;
-		DocNinja.filePreview.CreateSplitPane();
-		document.addEventListener("SplitEnd", function(e) {
-			// console.log("Split End", e.detail);
-		});
+
+		// TODO: remember pane positions?
+		// document.addEventListener("SplitEnd", function(e) {
+		// 	// console.log("Split End", e.detail);
+		// });
 
 	})();
 
