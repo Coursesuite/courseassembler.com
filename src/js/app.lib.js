@@ -1019,9 +1019,12 @@ function popover_saveRange() {
 	localforage.getItem(id).then(function (obj) {
 		obj.score = score;
 		obj.scrub = scrubber;
-		obj = DocNinja.Page.ModifyIframeScrubber(obj, scrubber);
+		// kinda pointless here since the html isn't cached
+		// obj = DocNinja.Page.ModifyIframeScrubber(obj, scrubber);
 		closePopover();
-		return localforage.setItem(id, obj);
+		return localforage.setItem(id, obj).then(() => {
+			DocNinja.filePreview.Refresh();
+		});
 	});
 }
 

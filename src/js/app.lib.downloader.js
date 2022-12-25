@@ -153,7 +153,8 @@
 										title: obj.name,
 										format: 'video',
 										src: video_name,
-										mime: obj.payload.mime
+										mime: obj.payload.mime,
+										scrub: obj.scrub
 									}));
 
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
@@ -314,7 +315,8 @@
 									title: obj.name,
 									format: 'video',
 									src: video_name,
-									mime: obj.payload.mime
+									mime: obj.payload.mime,
+									scrub: obj.scrub
 								}));
 
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct

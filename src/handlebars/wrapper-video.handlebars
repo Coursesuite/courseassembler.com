@@ -30,7 +30,7 @@ body.noscrub .plyr__progress { display:none }
 <script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
 <script type="text/javascript">function doOnLoad(fn) { if (window.addEventListener) { window.addEventListener('load', fn, false); } else { window.attachEvent('onload', fn); }}</script>
 </head>
-<body>
+<body{{^scrub}} class="noscrub"{{/scrub}}>
 {{{body}}}
 {{#compare format "youtube"}}<div id="player" data-plyr-provider="youtube" data-plyr-embed-id="{{videoId}}"></div>{{/compare}}
 {{#compare format "vimeo"}}<div id="player" data-plyr-provider="vimeo" data-plyr-embed-id="{{videoId}}"></div>{{/compare}}

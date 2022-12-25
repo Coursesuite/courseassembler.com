@@ -503,7 +503,7 @@
 						reader = null;
 					}
 					// console.log('about to read the file', mime, extn, size);
-					if ("zip"===mimetype[1] || "h5p"===mimetype[1] || (mime === 'video/mp4') || size > 314572800) { // if size is over 300MB, readAsDataURL will silently fail without a warning
+					if ("zip"===mimetype[1] || "h5p"===mimetype[0] || (mime === 'video/mp4') || size > 314572800) { // if size is over 300MB, readAsDataURL will silently fail without a warning
 						reader.readAsArrayBuffer(file); // JSZip can accept ArrayBuffer
 					} else {
 						reader.readAsDataURL(file); // base64

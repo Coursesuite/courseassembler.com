@@ -124,7 +124,8 @@
 									title: data.name,
 									format: 'video',
 									src: vUrl,
-									mime: data.payload.mime
+									mime: data.payload.mime,
+									scrub: data.scrub
 								});
 								break;
 
