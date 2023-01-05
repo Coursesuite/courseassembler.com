@@ -112,6 +112,12 @@
 	text-align: right;
 }
 */
+
+#fields .page-title {
+color: var(--edge);
+opacity: 0.5;
+}
+
 #content-editable,
 #delete-page,
 #fields .page-toolbar a[data-fileid]:not(.min) {

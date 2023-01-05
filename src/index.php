@@ -194,7 +194,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		</div>
 		<div id="scroll-area"><ol id="nav-item-list"></ol></div>
 		<div id="preview"></div>
-		<div id="timeline"></div>
+		<div id="propertyBar"></div>
 		<div id="split-h" data-min="240"></div><div id="split-v" data-min="16"></div>
 		<video id="popover_videoElement" hidden></video>
 		<audio id="popover_audioElement" hidden></audio>
@@ -453,6 +453,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 	<script src="js/AutoScaler.js"></script>
 	<script src="js/workers/hermite/hermite.js"></script>
 	<script src="js/svgLoader.js"></script>
+	<script src="js/mus.js"></script>
 	<script src="js/app.lib.js"></script>
 	<script src="js/templates.js"></script>
 	<script src="js/uiProgressButton.js"></script>

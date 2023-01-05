@@ -61,13 +61,13 @@
 	--zoom: #888;
 	--score: #505bfd;
 
-	--blocking: transparent;
+	--blocking: #00000080;
 
 	/* sizes */
 	--bannerHeight:  110px;
 	--standardGutter: 10px;
 	--footerHeight:  18px;
-	--timelineHeight: 100px;
+	--propertyBarHeight: 100px;
 	--navPaneWidth: 375px;
 	--splitterSize: 10px;
 

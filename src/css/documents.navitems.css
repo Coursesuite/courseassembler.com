@@ -51,11 +51,27 @@
 }
 
 #nav-item-list .drag-handle,
+#nav-item-list .cursor-icon,
 #nav-item-list .video-icon,
 #nav-item-list .audio-icon,
 #nav-item-list .attach-icon {
 	color: #222;
 	opacity: .4;
+}
+
+#nav-item-list .cursor-icon,
+#nav-item-list .video-icon,
+#nav-item-list .audio-icon,
+#nav-item-list .attach-icon {
+	margin-right: 2px;
+	color: var(--base)
+}
+
+#nav-item-list .cursor-icon i,
+#nav-item-list .video-icon i,
+#nav-item-list .audio-icon i,
+#nav-item-list .attach-icon i {
+	color: inherit;
 }
 
 
@@ -141,6 +157,7 @@
 	margin-right: 5px;
 }
 
+#nav-item-list .cursor-icon,
 #nav-item-list .video-icon,
 #nav-item-list .audio-icon,
 #nav-item-list .rename-hint,
@@ -148,6 +165,7 @@
 	display: none;
 }
 
+#nav-item-list li[data-fileid].cursor .cursor-icon,
 #nav-item-list li[data-fileid].video .video-icon,
 #nav-item-list li[data-fileid].audio .audio-icon,
 #nav-item-list li[data-fileid].selected .rename-hint,

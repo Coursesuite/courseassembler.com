@@ -39,14 +39,14 @@
 	top: 50px;
 	left: var(--navPaneWidth);
 	width: calc(100vw - var(--navPaneWidth));
-	height: calc(100vh - 50px - var(--bannerHeight) - 18px - var(--timelineHeight));
+	height: calc(100vh - 50px - var(--bannerHeight) - 18px - var(--propertyBarHeight));
 	display: flex;
 }
 
 #popover_videoElement,
 #popover_audioElement {
 	position: fixed;
-	bottom: calc((18px + var(--timelineHeight)) + .5rem);
+	bottom: calc((18px + var(--propertyBarHeight)) + .5rem);
 	right: calc(18px + .5rem);
 	max-height: 25vh;
 	transition: opacity .3s ease;
@@ -62,9 +62,9 @@
 	opacity: 1;
 }
 
-	#timeline {
+	#propertyBar {
 		position: absolute;
-		height: var(--timelineHeight);
+		height: var(--propertyBarHeight);
 		bottom: 0;
 		background-color: var(--toolbar);
 		width: calc(100% - var(--navPaneWidth));
@@ -72,57 +72,156 @@
 		left: var(--navPaneWidth);
 		color: black;
 
-		display: grid;
-		grid-template-columns: min-content 1fr min-content;
-		grid-auto-flow: row;
-		grid-template-areas:
-			"record display action";
-		align-items: center;
+		display: flex;
+		justify-content: flex-start;
+		align-items: stretch;
+
+		gap: var(--standardGutter);
 
 	}
-	#timeline label { display: block; }
+	#propertyBar nav.menu {
+		border-right: 1px solid var(--edge);
+		width: max-content;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: space-around;
+	}
+	#propertyBar nav.menu a {
+		padding: .25rem .5rem;
+		color: inherit;
+		text-decoration: none;
+		position: relative;
+	}
+	#propertyBar nav.menu a.active,
+	#propertyBar nav.menu a:active {
+		font-weight: bold;
+		background-color: var(--edge);
+		outline: none;
+	}
+	#propertyBar nav.menu a.active::after {
+		content: '';
+		border: 10px solid var(--edge);
+		font-size: 0;
+		position: absolute;
+		top: 50%;
+		right: -20px;
+		border-color: transparent transparent transparent var(--edge);
+		transform: translateY(-50%);
+	}
+	#propertyBar nav.menu a > i {
+		margin-right: .5rem;
+	}
 
-		.timeline-record { grid-area: record; }
-		.timeline-display { grid-area: display; }
-		.timeline-action { grid-area: action; }
+	#propertyContainer {
+		flex: 1;
+		padding: var(--standardGutter);
+	}
 
-		.timeline-record {
-			display: grid; 
-			grid-template-columns: 1fr 1fr; 
-			grid-template-rows: 1fr 1fr; 
-			gap: 0px 0px; 
-			grid-template-areas: 
-				"audio video"
-				"upload upload"; 
-			grid-area: record; 
-		}
-		.timeline-record button[data-action="record-page-audio"] { grid-area: audio; }
-		.timeline-record button[data-action="record-page-video"] { grid-area: video; }
-		.timeline-record button[data-action="upload-page-audio"] { grid-area: upload; }
+	/* #propertyContainer label { display: block; } */
+	#propertyContainer canvas { height: calc(var(--propertyBarHeight) / 2); width: 300px; border: 1px solid #00000010; }
+	#propertyContainer .control { display: flex; gap: var(--standardGutter); }
+	#propertyContainer .ready {
+		border-color: var(--ready);
+		color: var(--ready);
+	}
+	#propertyContainer .recording {
+		border-color: var(--recording);
+		color: var(--recording);
+	}
+	#propertyContainer .processing {
+		border-color: var(--processing);
+		color: var(--processing);
+	}
+	#propertyContainer button[disabled] {
+		pointer-events: none;
+		opacity: .5;
+	}
 
-		.timeline-display .recorder-flex {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-evenly;
-		}
-		.timeline-display .recorder-flex .result { flex: 1; text-align: center; }
-		.timeline-display .recorder-flex .ready {
-			border-color: var(--ready);
-			color: var(--ready);
-		}
-		.timeline-display .recorder-flex .recording {
-			border-color: var(--recording);
-			color: var(--recording);
-		}
-		.timeline-display .recorder-flex .processing {
-			border-color: var(--processing);
-			color: var(--processing);
-		}
-		.timeline-display .recorder-flex .control button[disabled] {
-			pointer-events: none;
-			opacity: .5;
-		}
+	#propertyContainer button,
+	#propertyContainer label {
+		height: 32px;
+	}
+	#propertyContainer .recorder-flex {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		gap: var(--standardGutter);
+	}
+	#propertyContainer .recorder-flex .result {
+		flex: 1;
+		text-align: center;
+		position: relative;
+	}
+	#propertyContainer .recorder-flex .result.big {
+		font-size: 1.5rem;
+		padding-top: 1rem;
+	}
+	#propertyContainer .recorder-flex .result .time-display {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		font-weight: bold;
+		font-size: 2rem;
+	}
+	#propertyContainer .recorder-flex label {
+		transform: translateY(-.1rem);
+	}
+	#video-preview {
+		max-height: calc(var(--propertyBarHeight) - (var(--standardGutter) * 2));
+	}
+	#video-overlay {
+		position: fixed;
+		z-index: calc(var(--zHandles) - 1);
+		bottom: calc(var(--footerHeight) + var(--propertyBarHeight));
+		pointer-events: none;
+		opacity: .95;
+	}
+
+	#propertyContainer .score_slider_sizing {
+		display: flex;
+		align-items: center;
+		gap: var(--standardGutter);
+	}
+	#propertyContainer .score_slider_sizing .range-wrap {
+		flex: 1;
+	}
+
+.file-list-container {
+	display: flex;
+	height: calc(var(--propertyBarHeight) - (var(--standardGutter) * 2))
+}
+.file-list-container .file-list {
+	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
+	overflow: auto;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+.file-list-container .file-list .page-attachment-row {
+	background: var(--encasing);
+	margin: 0 1px 1px 0;
+	padding: .25rem;
+}
+.file-list-container div.actions {
+	width: min-content;
+}
+.div-center {
+	margin-left: auto;
+	margin-right: auto;
+	width: max-content;
+}
+.div-center input,
+.div-center button {
+	height: 32px;
+}
+.div-center #pb_picker {
+	transform: translateY(.3rem);
+}
+
 
 #split-h, #split-v {
 	position: absolute;
@@ -138,7 +237,7 @@
 	cursor: col-resize;
 }
 #split-v {
-	top: calc(100vh - var(--bannerHeight) - 18px - var(--timelineHeight) - (var(--splitterSize) / 2));
+	top: calc(100vh - var(--bannerHeight) - 18px - var(--propertyBarHeight) - (var(--splitterSize) / 2));
 	left: calc(((100vw + var(--navPaneWidth)) / 2) - (var(--splitterSize) / 2));
 	cursor: row-resize;
 }
