@@ -85,7 +85,7 @@
 		// }
 
 		// li.innerHTML = _nav_url(act, fileinfo.name, fileid, "import");
-		var _nav_url = function (action, title, id, state, format, kind, hasAudio) {
+		var _nav_url = function (action, title, id, state, format, kind, hasAudio, hasCursor) {
 			return Handlebars.templates["nav-item"]({
 				"action": action,
 				"title": title,
@@ -93,7 +93,8 @@
 				"state": state,
 				"format": format,
 				"kind": kind,
-				"audio": hasAudio
+				"audio": hasAudio,
+				"cursor": hasCursor
 			});
 			// return '<span class="drag-handle"><i class="ninja-sort"></i></span><a href="javascript:;" data-action="item-' + action + '"><i class="ninja-' + action + '"></i></a><a href="javascript:;" data-action="preview">' + title + '</a>';
 		}
@@ -190,7 +191,7 @@
 
 					// ensure the list item have the correct icons
 					// this is async but that is ok at this point since the nodes are already rendered
-					// todo: r
+					// todo: rewrite as an iterator and repaint only the changed nodes
 
 					liPromises.push(new Promise(function(feResolve, feReject) {
 						localforage.getItem(elm.dataset.fileid)
@@ -214,40 +215,33 @@
 								oHtml = elm.innerHTML;
 							if (tmpl !== oHtml) elm.innerHTML = tmpl; // only reflow items whose content has changed
 
-		 					// if (obj&&obj.hasOwnProperty('format') && ['youtube','vimeo','video'].indexOf(obj.format)!==-1) {
-		 					// 	elm.classList.add('audio')
-		// console.dir(elm.dataset.fileid);
-		// 						DocNinja.Navigation.Icons.Add.Video(elm.dataset.fileid);
-		// 					} else {
-		// 						DocNinja.Navigation.Icons.Remove.Video(elm.dataset.fileid);
-		// 					}
-
 							// page has audio
-		 					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
+							if (property_exists(obj, "payload.mp3")) {
 		 						elm.classList.add('audio');
 		 					} else {
 		 						elm.classList.remove('audio');
 		 					}
 
 							// page has video
-		 					if (obj&&obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp4') && obj.payload.mp4.length) {
+							if (property_exists(obj, "payload.mp4")) {
 		 						elm.classList.add('video');
 		 					} else {
 		 						elm.classList.remove('video');
 		 					}
-		// 						DocNinja.Navigation.Icons.Add.Audio(elm.dataset.fileid);
-		// 					} else {
-		// 						DocNinja.Navigation.Icons.Remove.Audio(elm.dataset.fileid);
-		// 					}
+
+							// page has cursor recording
+							if (property_exists(obj, "payload.cursor")) {
+		 						elm.classList.add('cursor');
+		 					} else {
+		 						elm.classList.remove('cursor');
+		 					}
+
 		 					if (obj&&obj.hasOwnProperty('attachments') && obj.attachments.length) {
 		 						elm.classList.add('attachments');
 		 					} else {
 		 						elm.classList.remove('attachments');
 		 					}
-		// 						DocNinja.Navigation.Icons.Add.File(elm.dataset.fileid);
-		// 					} else {
-		// 						DocNinja.Navigation.Icons.Remove.File(elm.dataset.fileid);
-		// 					}
+
 							return elm.dataset.fileid;
 						})
 						.then(feResolve)
@@ -273,7 +267,7 @@
 			var act = (fileinfo.depth > 0 ? 'decrease' : 'increase');
 			// console.log(container, fileid, fileinfo, node);
 			if (!state) state = "import";
-			li.innerHTML = _nav_url(act, fileinfo.name, fileid, state, fileinfo.format, fileinfo.kind, fileinfo.payload && fileinfo.payload.hasOwnProperty("mp3"));
+			li.innerHTML = _nav_url(act, fileinfo.name, fileid, state, fileinfo.format, fileinfo.kind, property_exists(fileinfo, "payload.mp3") || property_exists(fileinfo, "payload.mp4"), property_exists(fileinfo, "payload.cursor") );
 			if (!node) node = null; // undefined becomes null
 			container.insertBefore(li,node); // null = insert at end, so same as appendChild
 			return li;
@@ -282,7 +276,7 @@
 		var _update = function (node, fileinfo, state) {
 			if (!node) return false;
 			var act = (fileinfo.depth && fileinfo.depth > 0 ? 'decrease' : 'increase');
-			node.innerHTML = _nav_url(act, fileinfo.name, node.getAttribute("data-fileid"), state, fileinfo.format, fileinfo.kind, fileinfo.payload && fileinfo.payload.hasOwnProperty("mp3"));
+			node.innerHTML = _nav_url(act, fileinfo.name, node.getAttribute("data-fileid"), state, fileinfo.format, fileinfo.kind, property_exists(fileinfo, "payload.mp3") || property_exists(fileinfo, "payload.mp4"), property_exists(fileinfo, "payload.cursor"));
 			node.setAttribute("data-state", state);
 			return node;
 		}
@@ -558,7 +552,11 @@
 			// 	doc.documentElement.innerHTML = obj.payload.html;
 			 	var src = obj.payload.mp3,
 			 		fn = md5(obj.payload.mp3)+".mp3";
-			 	fold.file(fn,src.substring(src.indexOf("base64,")+7), {base64:true});
+				if ('string' === typeof src) {
+				 	fold.file(fn,src.substring(src.indexOf("base64,")+7), {base64:true});
+				} else {
+					fold.file(fn, src);
+				}
 			// 	doc.body.insertAdjacentHTML('beforeend', Handlebars.templates["page-audio-floating"]({audioSrc:fn}));
 			// 	obj.payload.html = "<!doctype html>" + doc.documentElement.outerHTML;
 			// 	doc = null;
@@ -570,7 +568,11 @@
 			// 	doc.documentElement.innerHTML = obj.payload.html;
 			 	var src = obj.payload.mp4,
 			 		fn = md5(obj.payload.mp4)+".mp4";
-			 	fold.file(fn,src.substring(src.indexOf("base64,")+7), {base64:true});
+				if ('string' === typeof src) {
+				 	fold.file(fn,src.substring(src.indexOf("base64,")+7), {base64:true});
+				} else {
+					fold.file(fn, src);
+				}
 			// 	doc.body.insertAdjacentHTML('beforeend', Handlebars.templates["page-audio-floating"]({audioSrc:fn}));
 			// 	obj.payload.html = "<!doctype html>" + doc.documentElement.outerHTML;
 			// 	doc = null;
