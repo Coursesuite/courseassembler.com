@@ -20,7 +20,7 @@ var QuizBuilder = (function () {
 	var _$=[], $ = function (sel) { if(!_$[sel])_$[sel]=document.querySelector(sel);return _$[sel]; };
 	var _$$=[], $$ = function (sel) { if(!_$$[sel])_$$[sel]=document.querySelectorAll(sel);return _$$[sel]; };
 	var _templates = {}, _data_ = {}, _selected_question = {}, _sortable;
-	_templates.question={uid:"q1",media:"", order:1, text:"",show:5,required:2,distractors:[{text:""},{text:""},{text:""},{text:""},{text:""}],feedback:{none:"",positive:"",negative:""}};
+	_templates.question={uid:"q1",media:"", order:1, text:"What geometric shape is generally used for stop signs?",show:4,required:2,distractors:[{text:"Pentagon"},{text:"Octagon"},{text:"Hexagon"},{text:"Yellow"},{text:""}],feedback:{none:"",positive:"",negative:""}};
 	_templates.quiz={title:"My New Quiz",questions:[_templates.question],show:1,required:1,randomise:!0,finished:!1,resit:!1,feedback:"answer",strings:{resit:"Resit quiz",answer:"Check answer",next:"Next",results:"Results",completion:"<p>Thanks for completing the quiz.</p>\n<p>Your score is <%=score%> out of <%=total%>, which means you <% if (score >= required) { %>passed<% } else { %>failed<% } %>.</p>"}};
 
 	function _trim(a,e){var c=" \n\r\t\f\x0B\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000",b;a+="";e&&(c=(e+"").replace(/([[\]().?/*{}+$^:])/g,"$1"));var d=a.length;for(b=0;b<d;b++)if(-1===c.indexOf(a.charAt(b))){a=a.substring(b);break}d=a.length;for(b=d-1;0<=b;b--)if(-1===c.indexOf(a.charAt(b))){a=a.substring(0,b+1);break}return-1===c.indexOf(a.charAt(0))?a:""};
@@ -67,6 +67,7 @@ var QuizBuilder = (function () {
 			$("#results_text").value = _templates.quiz.strings.completion;
 			_data_.strings.completion = _templates.quiz.strings.completion;
 		}, false);
+
 		var zone = new FileDrop(document.querySelector("#question_media"));
 		zone.event('send', function(files) {
 			files.each(function(file) {
@@ -184,25 +185,25 @@ var QuizBuilder = (function () {
 			QuizBuilder.Questions.Save();
 		}});
 
-    _data_.randomise = ($("#order_field").value==="true") ? true : false;
+		_data_.randomise = ($("#order_field").value==="true") ? true : false;
 
-    if (!_data_.randomise) {
-      _sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
-        Array.prototype.forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
-          _data_.questions.find(function(obj) { return obj.uid === dom.dataset.uid}).order=index;
-        });
-        QuizBuilder.Save();
-      }});
-    } else {
-      if (_sortable) _sortable.destroy();
-    }
+		if (!_data_.randomise) {
+			_sortable = new Sortable($(".question-index"),{draggable:"span", onEnd: function(evt) {
+				Array.prototype.forEach.call($(".question-index").querySelectorAll("span[data-uid]"), function (dom, index) {
+					_data_.questions.find(function(obj) { return obj.uid === dom.dataset.uid}).order=index;
+				});
+				QuizBuilder.Save();
+			}});
+		} else {
+			if (_sortable) _sortable.destroy();
+		}
 
-		$("#distractorsFoot").addEventListener("click",function(e){ if(e.target.id==="addDistractor"){
+		$("#distractorsFoot").addEventListener("click",function(e){ if(e.target.id==="addDistractor") {
 			var len = document.querySelectorAll("#distractors>tbody>tr").length;
 			$("#distractors>tbody").appendChild(QuizBuilder.Questions.Distractors.Add({required:0}, len));
-      var dshow = $("#distractor_show");
-      dshow.max = len+1;
-      if (dshow.value > dshow.max) dshow.value = dshow.max;
+			var dshow = $("#distractor_show");
+			dshow.max = len+1;
+			if (dshow.value > dshow.max) dshow.value = dshow.max;
 		}},false);
 
 		$(".question-actions").addEventListener("click", function (e) {
