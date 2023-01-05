@@ -16,10 +16,11 @@
         <meta name="timestamp" content="{{timestamp}}" />
         <meta name="author" content="https://www.courseassembler.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        {{#if audio}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
+        {{#if media}}<link rel="stylesheet" type="text/css" href="plyr.css">{{/if}}
         <link rel="stylesheet" type="text/css" href="_package.css">
         <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
-        {{#if audio}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
+		{{#if mus}}<script type="text/javascript" src="play.js"></script>{{/if}}
+        {{#if media}}<script type="text/javascript" src="plyr.js"></script>{{/if}}
         <script type="text/javascript">
         var course = {"page": -1, "completed": false, "score": 0, "required": {{enough-count}}, "rule": "{{rule}}", "navlock": {{navlock}} },
             pages = {{{stringify pages}}};

@@ -150,7 +150,7 @@ function doOnce(element, eventType, callback) {
 
 // find scorm API; getAPI() also sets _sAPI; apiHandle is the object reference
 var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI();
-var audioObj;
+var audioObj, musplay;
 scormInitialize();
 
 // clamping (constraining a number to a boundary)
@@ -180,6 +180,23 @@ function right() {
 	while (pages[i] && pages[i].content === 'plugin:section') i = i + 1;
     goto(i);
 }
+
+function playCursor(e) {
+	let time = (e.detail) ? e.detail.plyr.currentTime : e.target.currentTime;
+	if (musplay) musplay.cue(time * 1000);
+}
+function pauseCursor(e) {
+	if (musplay) musplay.pause();
+}
+function playVideo(e) {
+	window._video.play();
+}
+function pauseVideo(e) {
+	window._video.pause();
+};
+function seekedVideo(e) {
+	window._video.currentTime = e.detail.plyr.currentTime;
+};
 
 // adds or removes an "active" class on the body, usually to trigger css changes
 function toggle(event) {
@@ -427,22 +444,53 @@ function load() {
 	audioObj.pause(); // start in a paused state
 	window._video.pause(); // as does video
 
+	// update mouse-recording player, if set
+	if ("function" === typeof MusPlayer) {
+		window._video.removeEventListener('play', playCursor);
+		window._video.removeEventListener('pause', pauseCursor);
+		window._audio.off('play', playCursor);
+		window._audio.off('pause', pauseCursor);
+		window._audio.off('play', playVideo);
+		window._audio.off('pause', pauseVideo);
+		window._audio.off('seeked', seekedVideo);
+		if (musplay) musplay.release();
+		if (current_page.hasOwnProperty("cursor")) {
+			musplay = new MusPlayer({
+				target: ifr.contentWindow
+			});
+			musplay.setData(current_page.cursor);
+		}
+	}
+
 	if (current_page.hasOwnProperty("video")) {
+		document.body.classList.add("has-audio");
+		window._audio.source = {
+			type:'audio',
+			sources:[{type:'video/mp4',src:'data/'+current_page["video"]}]
+		};
 		window._video.src = 'data/'+current_page["video"];
+		window._audio.off('ended', right);
+		window._audio.on('play', playCursor);
+		window._audio.on('pause', pauseCursor);
+		window._audio.on('play', playVideo);
+		window._audio.on('pause', pauseVideo);
+		window._audio.on('seeked', seekedVideo);
 		if (current_page.autonav) {
-			window._video.setAttribute('autoplay',true);
-			window._video.play();
-			window._video.addEventListener('ended', right);
+			audioObj.setAttribute('autoplay',true);
+			window._audio.on('ended', right);
+			window._audio.play();
 		}
 		RenderMediaControl(window._video, 1);
 	} else {
-		window._video.removeAttribute('autoplay');
+		document.body.classList.remove("has-audio");
+		audioObj.removeAttribute('autoplay');
+		document.body.classList.remove("has-audio");
+		window._audio.pause();
 		window._video.removeAttribute('src');
 		window._video.pause();
-		window._video.removeEventListener('ended', right);
 		RenderMediaControl(window._video, 0);
 	}
-
+	
 	if (current_page.hasOwnProperty("audio")) {
 		document.body.classList.add("has-audio");
 		// pages.filter(function(v){return v.autonav}).length>0
@@ -451,16 +499,21 @@ function load() {
 			sources:[{type:'audio/mp3',src:'data/'+current_page["audio"]}]
 		};
 		window._audio.off('ended', right);
+		window._audio.on('play', playCursor);
+		window._audio.on('pause', pauseCursor);
 		if (current_page.autonav) {
 			audioObj.setAttribute('autoplay',true);
-			window._audio.play();
 			window._audio.on('ended', right);
+			window._audio.play();
 		}
+	} else if (current_page.hasOwnProperty("video")) {
+		// already handled
 	} else {
 		audioObj.removeAttribute('autoplay');
 		document.body.classList.remove("has-audio");
 		window._audio.pause();
 	}
+	
 	if (current_page.hasOwnProperty('attachments') && current_page.attachments.length) {
 		document.body.classList.add('has-attachments');
 		var attache = document.querySelector("main>.attache");

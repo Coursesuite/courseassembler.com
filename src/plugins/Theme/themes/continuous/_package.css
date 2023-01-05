@@ -270,7 +270,7 @@ article > main > div.iframe > iframe.under { /* the iframe that comes in */
     right: 1rem;
     max-height: 25vh;
     transition: opacity .3s ease;
-    opacity: .5;
+    opacity: .9;
     cursor: move;
     border-radius: 1rem;
     box-shadow: 0 0 0.5rem #00000050;
