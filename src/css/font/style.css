@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'courseassembler';
   src:
-    url('fonts/courseassembler.ttf?sjew4e') format('truetype'),
-    url('fonts/courseassembler.woff?sjew4e') format('woff'),
-    url('fonts/courseassembler.svg?sjew4e#courseassembler') format('svg');
+    url('fonts/courseassembler.ttf?eo0egr') format('truetype'),
+    url('fonts/courseassembler.woff?eo0egr') format('woff'),
+    url('fonts/courseassembler.svg?eo0egr#courseassembler') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ninja-select2:before {
+  content: "\ed2b";
+}
+.ninja-stack-empty:before {
+  content: "\ed3b";
+}
+.ninja-stack-play:before {
+  content: "\ed4d";
+}
 .ninja-timer:before {
   content: "\e92c";
 }
@@ -41,6 +50,15 @@
 }
 .ninja-video:before {
   content: "\f03d";
+}
+.ninja-autonav:before {
+  content: "\f045";
+}
+.ninja-square:before {
+  content: "\f096";
+}
+.ninja-mouse-pointer:before {
+  content: "\f245";
 }
 .ninja-eye:before {
   content: "\f06e";
