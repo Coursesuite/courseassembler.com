@@ -154,7 +154,8 @@
 										format: 'video',
 										src: video_name,
 										mime: obj.payload.mime,
-										scrub: obj.scrub
+										scrub: obj.scrub,
+										bg: get_property(obj, "payload.backgroundColour", null)
 									}));
 
 								} else if ("file"==obj.kind) { // convert images to files and update HTML to point to files
@@ -263,8 +264,12 @@
 								}
 								page["href"] = "data/" + filename;
 								page["depth"] = Math.max(0,+obj.depth||0); // must exist
-								page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; // name matches app.lib.puritycontrol.js line 341
-								page["video"] = obj.payload.hasOwnProperty("mp4") && obj.payload.mp4.length ? md5(obj.payload.mp4)+".mp4" : undefined; // name matches app.lib.puritycontrol.js line 341
+								// media name matches app.lib.puritycontrol.js line 549 et al
+								page["audio"] = property_exists(obj, "payload.mp3") ? md5(obj.payload.mp3)+".mp3" : undefined;
+								page["video"] = property_exists(obj, "payload.mp4") ? md5(obj.payload.mp4)+".mp4" : undefined;
+								page["cursor"] = property_exists(obj, "payload.cursor") ? obj.payload.cursor : undefined;
+								// page["audio"] = obj.payload.hasOwnProperty("mp3") && obj.payload.mp3.length ? md5(obj.payload.mp3)+".mp3" : undefined; 
+								// page["video"] = obj.payload.hasOwnProperty("mp4") && obj.payload.mp4.length ? md5(obj.payload.mp4)+".mp4" : undefined; // name matches app.lib.puritycontrol.js line 341
 								page["autonav"] = obj.hasOwnProperty("autoNav") && obj.autoNav;
 
 								// find and attach all page attachments as files within the zip
@@ -281,8 +286,16 @@
 										return attachment.name;
 									});
 								})() : undefined;
+
+								// if (property_exists(obj, "payload.cursor")) {
+								// 	page["cursor"] = obj.payload.cursor;
+								// }
+
 								setup.pages[li.index()] = page; // push to index (nth LI) so it comes out in order in the template
 							}
+
+							// obj = DocNinja.Page.ModifyMouseRecorder(obj, property_exists(obj, "payload.cursor"));
+
 							if ("iframe"==obj.kind) { // use a page that meta-redirects to the content
 								obj = DocNinja.PurityControl.InjectAnalyticsCode(obj,setup,'script-ga');
 								obj = DocNinja.PurityControl.InjectPageMedia(obj,fold);
@@ -316,7 +329,8 @@
 									format: 'video',
 									src: video_name,
 									mime: obj.payload.mime,
-									scrub: obj.scrub
+									scrub: obj.scrub,
+									bg: get_property(obj, "payload.backgroundColour", null)
 								}));
 
 							} else if (isset(obj,'payload','html')) {  // includes plugins; just store the html, which will already be correct
@@ -348,6 +362,10 @@
 						//	if (obj.payload.src) delete obj.payload.src;
 						//	if (obj.payload.image) delete obj.payload.image;
 						//	if (obj.payload.html) delete obj.payload.html;
+							if (obj.payload.cursor) {
+								manifest["cursor"] = true;
+								delete obj.payload.cursor;
+							}
 							if (obj.payload.mp3) {
 								manifest["audio"] = true; // flag that plyr needs to be included later on
 								obj["audio"] = md5(obj.payload.mp3)+".mp3"; // store reference to file in manifest
@@ -359,7 +377,7 @@
 								delete obj.payload.mp4;
 							}
 							// we have already attached the file attachments; remove the filedata
-							if (obj.hasOwnProperty("attachments")) {
+							if (property_exists(obj, "attachments")) {
 								obj.attachments.map(function(attachment) {
 									attachment.file = undefined;
 									delete attachment.file;
@@ -374,14 +392,22 @@
 					}).then(function package_add_template(result) {
 						manifest["timestamp"] = (new Date().getTime());
 						zip.file("doc.ninja", JSON.stringify(manifest,null,4));
-						if (manifest.audio) { // include plyr to do web audio
+						if (manifest.audio || manifest.video) { // include plyr to do web audio
 							['plyr.js','plyr.css','plyr.svg'].map(function(name) {
 								var p = $.ajax({url:'js/runtimes/'+name, dataType:"text"}); // $.ajax returns a promise of the file data
 								zip.file(name, p);
 							});
-						 	setup["audio"] = true;
+						 	setup["media"] = true;
+							engagement('download_media', true);
 						}
-						engagement('download_audio', setup['audio']);
+						if (manifest.cursor) { // include mus to do cursor playback
+							['play.js'].map(function(name) {
+								var p = $.ajax({url:'js/runtimes/'+name, dataType:"text"}); // $.ajax returns a promise of the file data
+								zip.file(name, p);
+							});
+							setup["mus"] = true;
+							engagement('download_cursor', true);
+						}
 						setup["timestamp"] = manifest["timestamp"].toString(36);
 						// setup["tier"] = App.Tier;
 
@@ -389,6 +415,7 @@
 							template = setup.template || $("#nav-selection figure.selected").attr("data-name"), // e.g. Menu, Continuous, Slides, etc
 							promises = [];
 
+						// TODO do we need to be able to load external zip templates any more?
 						return new Promise(function package_template_compiler(outerResolve, outerReject) {
 
 							function compile_template(name,file) {
