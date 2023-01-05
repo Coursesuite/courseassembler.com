@@ -1,0 +1,10 @@
+<section class="score_slider_sizing">
+	<p>Activity is considered completed after:</p>
+	<div class='range-wrap'>
+		<input type='range' min='1' max='100' id='range_slider' list='range_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value+"% played";'>
+		<output class='bubble'>{{value}}% played</output>
+		<datalist id='range_list'>{{{pips 50}}}</datalist>
+	</div>
+	<label class="button-like mb-0"><input type='checkbox' value='1' id='score_scrubber' title='Also called Scrubber / Seek bar / Progress bar'> Show video seek bar</label>
+	<button onclick="popover_saveRange();"><i class="ninja-save-disk"></i>Save</button>
+</section>

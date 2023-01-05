@@ -1,0 +1,42 @@
+<div class="recorder-flex">
+
+{{#if showActions}}
+<button data-action="record-page-audio"><i class="ninja-mic"></i>Record Audio</button>
+<button data-action="record-page-video"><i class="ninja-video"></i>Record Video</button>
+<button data-action="upload-page-audio"><i class="ninja-upload3"></i>Upload media</button>
+{{/if}}
+
+{{#if recordAudio}}
+<div class='control'>
+    <button class='start-button ready'>Record audio</button>
+</div>
+<div class='result'>Waiting for recording</div>
+<div class='control'>
+    <button class='use-button' disabled>Use recording</button>
+    <button class='cancel'>Discard</button>
+</div>
+{{/if}}
+
+{{#if recordVideo}}
+<div class='control'>
+    <button class='start-button ready'>Record video</button>
+</div>
+<div class='result'><video id='video-preview' playsinline autoplay controls /></div>
+<div class='control'>
+    <button class='use-button' disabled>Use recording</button>
+    <button class='cancel'>Discard</button>
+</div>
+{{/if}}
+
+{{#if processVideo}}
+<div class='result big'><i class="ninja-spinner"></i> Converting video, please wait ...</div>
+{{/if}}
+
+{{#if showMedia}}
+<audio id="pageMediaPlayer" controls src="{{mediaUrl}}"></audio>
+<label for="pageAudioNav" class="button-like mb-0"><input id="pageAudioNav" type="checkbox" onchange="popover_audioNavToggle(this.checked)"{{#if autoNav}} checked{{/if}}> Automatically load next page after media plays</label>
+<button data-action="trash-page-audio"><i class="ninja-discard"></i>Remove media</button>
+{{/if}}
+
+</div>
+<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;video/*;capture=microphone,camera" />

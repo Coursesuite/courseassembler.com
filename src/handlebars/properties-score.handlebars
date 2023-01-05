@@ -1,0 +1,12 @@
+<section class="score_slider_sizing">
+	<p>Complete activity after slide:</p>
+	<div class='range-wrap'>
+		<input type='range' min='1' max='{{valueMax}}' id='score_slider' list='score_list' value='{{value}}' oninput='this.nextElementSibling.textContent=this.value;'>
+		<output class='bubble'>{{value}}</output>
+		<datalist id='score_list'>{{{pips valueMax}}}</datalist>
+	</div>
+	<button onclick="popover_saveScore();"><i class="ninja-save-disk"></i>Save</button>
+</section>
+
+{{!-- var p=(((Number(this.value)-Number(this.min))*100) / (Number(this.max) - Number(this.min)));this.nextElementSibling.style.left=p+"%" --}}
+

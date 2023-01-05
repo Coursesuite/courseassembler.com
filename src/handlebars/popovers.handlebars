@@ -28,7 +28,7 @@
 </section>
 {{/compare}}
 
-{{#compare popover "audio"}}
+{{!-- #compare popover "audio"}}
 <header onclick="closePopover()">{{label}}</header>
 <section>
 	<audio id="popover_audioElement" src="{{audio}}" controls></audio>
@@ -43,7 +43,7 @@
 		<button data-action="trash-page-audio"><i class="ninja-discard"></i>Remove</button>
 	</div>
 </section>
-{{/compare}}
+{{/compare --}}
 
 {{#compare popover "yesno"}}
 <header onclick="closePopover()">{{label}}</header>
@@ -61,7 +61,7 @@
 </section>
 {{/compare}}
 
-{{#compare popover "videorange"}}
+{{!-- #compare popover "videorange"}}
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
 	<div class='range-wrap'>
@@ -74,9 +74,9 @@
 	</div>
 	<button onclick="popover_saveRange();"><i class="ninja-save-disk"></i>Save</button>
 </section>
-{{/compare}}
+{{/compare --}}
 
-{{#compare popover "score"}}
+{{!-- #compare popover "score"}}
 <header onclick="closePopover()">{{label}}</header>
 <section class="score_slider_sizing">
 	<div class='range-wrap'>
@@ -86,9 +86,9 @@
 	<datalist id='score_list'>{{{pips valueMax}}}</datalist>
 	<button onclick="popover_saveScore();"><i class="ninja-save-disk"></i>Save</button>
 </section>
-{{/compare}}
+{{/compare --}}
 
-{{#compare popover "colour"}}
+{{!-- #compare popover "colour"}}
 <header onclick="closePopover()">{{label}}</header>
 <section>
 	<input type='hidden' name='color_value' value='58c3f3'>
@@ -103,7 +103,7 @@
     <input id="colourAll" type="checkbox"></input>
     </div>
 </section>
-{{/compare}}
+{{/compare --}}
 
 {{#compare popover "settings"}}
 <header onclick="closePopover()">{{label}}</header>
@@ -139,6 +139,11 @@
 			<label for="pdfembed"><span></span></label>
 			<label>Allow PDF downloading</label>
 		</div>
+		<div>
+			<input type="checkbox" id="recordcursor" data-action='toggle-record-cursor'>
+			<label for="recordcursor"><span></span></label>
+			<label>Track cursor when recording media</label>
+		</div>
 	</div>
 </section>
 {{/compare}}
@@ -169,7 +174,7 @@
 </section>
 {{/compare}}
 
-{{#compare popover "attachments"}}
+{{!-- #compare popover "attachments"}}
 <header onclick="closePopover()">{{label}}</header>
 <section>
 	<input type="file" id="fileAttachUpload" style="display:none" onchange="popover_attachFiles(this.files)" multiple="multiple" />
@@ -180,7 +185,7 @@
 	</div>
 
 </section>
-{{/compare}}
+{{/compare --}}
 
 {{#compare popover "fontstyle"}}
 {{!--

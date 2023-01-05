@@ -1,0 +1,10 @@
+<nav class="menu">
+{{#compare "range" "in" supports}}<a href="javascript:;" data-fileid="{{id}}" data-action="set-score" data-propertybar="videorange" data-value="{{score}}" data-init="videorange" data-checked="{{scrub}}" data-value-max="100" title="Complete after percentage viewed ..."><i class="ninja-condition"></i>Completion rule <output>{{value}}</output></a>{{/compare}}
+{{#compare "score" "in" supports}}<a href="javascript:;" data-fileid="{{id}}" data-action="set-score" data-propertybar="score" data-value="{{score}}" data-value-max="{{total_slides}}" title="Complete after slide number ..." data-init="scoreslider"><i class="ninja-condition"></i>Completion rule <output>{{value}}</output></a>{{/compare}}
+{{#compare "colour" "in" supports}}<a href="javascript:;" data-fileid="{{id}}" data-action="page-bgcolour" data-propertybar="colour" title="Page background colour" data-value="{{payload.backgroundColour}}" data-init="jscolor"><i class="ninja-adjust"></i>Page colour</a>{{/compare}}
+{{#compare "media" "in" supports}}<a href="javascript:;" data-fileid="{{id}}" data-action="page-media" data-propertybar="media" title="Upload, record or change page audio/video"><i class="ninja-film"></i>Media</a>{{/compare}}
+{{#compare "files" "in" supports}}<a href="javascript:;" data-fileid="{{id}}" data-action="page-files" data-propertybar="files" title="Manage page attachments" {{#if attachments}}data-init="initAttachments"{{/if}}><i class="ninja-folder-outline-add"></i>Attachments</a>{{/compare}}
+</nav>
+<section id="propertyContainer">
+
+</section>
