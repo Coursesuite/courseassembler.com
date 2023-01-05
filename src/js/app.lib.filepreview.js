@@ -23,6 +23,8 @@
 		}
 
 		_documentPreviewHandler = function(a, pluginAction) {
+			closePopover();
+
 			// var id = a.parentNode.getAttribute("data-fileid");
 			$("#image-properties").empty();
 
@@ -64,6 +66,7 @@
 
 				// iterate plugins to find its supportable actions
 				delete data.supports;
+				data["supports"] = [];
 				for (var group in DocNinja.options.actions)
 					if (typeof DocNinja.options.actions[group] === 'object')
 						DocNinja.options.actions[group].forEach(function (v) {
@@ -125,7 +128,8 @@
 									format: 'video',
 									src: vUrl,
 									mime: data.payload.mime,
-									scrub: data.scrub
+									scrub: data.scrub,
+									bg: get_property(data, "payload.backgroundColour", null)
 								});
 								break;
 
@@ -150,8 +154,8 @@
 					frameDoc.close();
 				}
 
-				// remove previous timeline objects
-				reset_timeline();
+				// // remove previous timeline objects
+				// reset_timeline();
 
 				// the converter might have pre-converted to pdf
 				wasPdf = (-1!==parsedHtml.indexOf("<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->"));
@@ -161,21 +165,32 @@
 				// data["supportsEdit"] = (data.kind === "file" && data.format && data.format !=="pdf"); // only FILE types are editable, but not if it was a PDF to begin with, since this format is normally uneditable
 				// data["supportsZoom"] = false; // (data.format=="pdf")&&(window.navigator.userAgent.toLowerCase().indexOf("firefox")==-1); // todo: work out why, check others
 
-				// sections are menu-only and don't support attachments
-				data["supportsAttachments"] = (!(data.hasOwnProperty("plugin") && data.plugin === "Section"));
+				if (Supports(data, "files")) {
+					data.supports.push('files');
+				}
 
-				// some page types support transforms (e.g. scaling)
-				data['supportsTransform'] = data.hasOwnProperty('payload') && data.payload.hasOwnProperty('split') && data.payload.split;
+				if (Supports(data, "transform")) {
+					data.supports.push('transform');
+				}
+
+				if (Supports(data, "media")) {
+					data.supports.push('media');
+				}
+
+				if (Supports(data, "colour")) {
+					data.supports.push('colour');
+				}
+
+				if (Supports(data, "range")) {
+					data.supports.push('range');
+				}
+
+				if (Supports(data, "score")) {
+					data.supports.push('score');
+				}
 
 				DocNinja.options.fields.innerHTML = Handlebars.templates["preview-toolbar"](data);
-				data['supportsAudio'] = _supports_timeline(data);
-				DocNinja.options.timeline.innerHTML = Handlebars.templates["preview-timeline"](data);
-				if (data.supportsAudio) {
-					initialise_timeline(data);
-					setCSSVariable("--timelineHeight", DocNinja.options.timelineHeight +'px');
-				} else {
-					setCSSVariable("--timelineHeight", DocNinja.options.timelineMinHeight +'px');
-				}
+				DocNinja.options.propertyBar.innerHTML = Handlebars.templates["properties-menu"](data);
 
 				data = null; // early GC
 				$("#blocking").removeClass("active").remove();
@@ -183,29 +198,8 @@
 			});
 		}
 
-		/* Handlebars Logic: 
-		if format in "youtube,vimeo,soundcloud,oembed,package,video"}}
-			no
-		else if kind in "plugin"
-			if audio in supports -> yes
-		else
-			yes
-		*/
-		_supports_timeline = function (data) {
-			if (!data) return false;
 
-			// does the plugin say we support audio?
-			if (data.hasOwnProperty("supports") && data.supports.indexOf("audio") !== -1) return true;
 
-			// some formats intrinsically exclude audio
-			if (data.hasOwnProperty("format") && "youtube,vimeo,soundcloud,oembed,package,video".indexOf(data.format) !== -1) return false;
-
-			// does the plugin say we DON'T support audio (by excluding it explicitly)
-			if (data.hasOwnProperty("supports") && data.supports.indexOf("audio") === -1) return false;
-
-			// assume YES
-			return true;
-		}
 
 		_saveContents = function (command) {
 			// DocNinja.filePreview.resetZoom(); // important
@@ -268,7 +262,7 @@
 
 		_reset = function () {
 			_releaseIframe();
-			$("#fields,#preview,#timeline").html("");
+			$("#fields,#preview,#propertyBar").html("");
 			checkDummyItem();
 		}
 		_setContentEditable = function () {
@@ -370,7 +364,7 @@
 				axis = self.id === 'split-h' ? 'clientX' : 'clientY';
 				self.dragging = true;
 				self.minSize = parseInt(document.getElementById(self.id).dataset.min);
-				// this.value = parseInt(getCSSVariable(this.id === 'split-h' ? '--navPaneWidth' : '--timelineHeight'),10);
+				// this.value = parseInt(getCSSVariable(this.id === 'split-h' ? '--navPaneWidth' : '--propertyBarHeight'),10);
 			}
 			// end drag: remove move-related global events
 			function endDrag() {
@@ -399,7 +393,7 @@
 						if (position <= 165 + this.minSize) position = 165 + this.minSize; // page-fixed-top + toolbar
 						if (position >= document.body.clientHeight - 18 - this.minSize) position = document.body.clientHeight - 18 - this.minSize;
 						position = document.body.clientHeight - 18 - position;
-						setCSSVariable('--timelineHeight', position + 'px');
+						setCSSVariable('--propertyBarHeight', position + 'px');
 					} else {
 						if (position <= this.minSize) position = this.minSize;
 						if (position >= document.body.clientWidth - this.minSize) position = document.body.clientWidth - this.minSize;
