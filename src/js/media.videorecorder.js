@@ -1,16 +1,24 @@
-export async function RecordVideo(container) {
+export async function RecordVideo(DocNinja) {
 
-    let cameraOptions = {},
-        mediaType = "video/webm",
-        mediaExtn = "webm",
-        media_recorder = null,
-        camera_stream = null,
-        blobs_recorded = [],
-        start_time = null,
-        duration = 0,
-        blob = null,
-        stopped = false,
-        preview = document.getElementById('popover_videoElement');
+	const container = document.getElementById('propertyContainer');
+	container.innerHTML = Handlebars.templates["properties-media"]({
+		recordVideo: true,
+		showActions: false
+	});
+
+	let cameraOptions = {},
+		mediaType = "video/webm",
+		mediaExtn = "webm",
+		media_recorder = null,
+		camera_stream = null,
+		blobs_recorded = [],
+		start_time = null,
+		duration = 0,
+		blob = null,
+		stopped = false,
+		mus;
+
+	//	preview = document.getElementById('popover_videoElement'),
 
     if (typeof MediaRecorder.isTypeSupported == 'function') {
         // h264 unreliable in firefox, whereas webm works in both firefox and chrome
@@ -31,21 +39,8 @@ export async function RecordVideo(container) {
         }
     }
 
-    container.innerHTML = `<div class='recorder-flex'>
-            <div class='control'>
-                <button class='start-button ready'>Start recording</button>
-                <label class='button-like'><input type='checkbox' checked/> Record cursor</label>
-            </div>
-            <div class='result'><video id='video-preview' playsinline autoplay controls /></div>
-            <div class='control'>
-                <button class='use-button' disabled>Use recording</button>
-                <button class='cancel'>Cancel</button>
-            </div>
-        </div>`;
-
     const startButton = container.querySelector('.start-button');
     const useButton = container.querySelector('.use-button');
-    // const result = container.querySelector('.result');
     const cancel = container.querySelector('.cancel');
     const video = document.getElementById('video-preview');
 
@@ -66,23 +61,37 @@ export async function RecordVideo(container) {
             alert(error.message);
         }
         video.srcObject = camera_stream;
+		video.setAttribute('autoplay', true);
+		video.removeEventListener('play', cursorPlay);
+		video.removeEventListener('pause', cursorPause);
     }
 
-    function hideResult() {
-        preview.setAttribute('hidden', true);
-        preview.removeAttribute('src');
-    }
+    // function hideResult() {
+    //     preview.setAttribute('hidden', true);
+    //     preview.removeAttribute('src');
+    //     preview.removeEventListener('play', cursorPlay);
+    //     preview.removeEventListener('pause', cursorPause);
+    // }
 
-    function showResult() {
-        preview.removeAttribute('hidden');
-        preview.setAttribute('controls', 'controls');
-        preview.setAttribute('playsinline', 'true');
-        preview.src = URL.createObjectURL(blob);
-    }
+    // function showResult() {
+    //     preview.removeAttribute('hidden');
+    //     preview.setAttribute('controls', 'controls');
+    //     preview.setAttribute('playsinline', 'true');
+    //     preview.src = URL.createObjectURL(blob);
+    //     preview.addEventListener('play', cursorPlay);
+    //     preview.addEventListener('pause', cursorPause);
+    // }
 
     function startRecording() {
-        hideResult();
+        //hideResult();
+		connectVideo();
         start_time = Date.now();
+		if (mus) mus.release();
+		if (DocNinja.options.RECORDCURSOR) {
+			mus = new Mus({
+				target: document.getElementById('preview-frame').contentWindow
+			});
+		}
 
         startButton.textContent = 'Stop recording';
         startButton.classList.toggle('recording');
@@ -100,22 +109,51 @@ export async function RecordVideo(container) {
             }
         });
 
+		if (DocNinja.options.RECORDCURSOR) {
+			mus.startedAt = 0;
+			mus.frames = [];
+			mus.record();
+		}
+
         media_recorder.start(1000);
     }
+
+	function cursorPlay(e) {
+		if (!DocNinja.options.RECORDCURSOR) return;
+		var ct = e.target.currentTime;
+		mus.cue(ct);
+	}
+
+	function cursorPause(e) {
+		if (!DocNinja.options.RECORDCURSOR) return;
+		mus.pause();
+	}
 
     function stopRecording() {
 
         stopped = true;
         duration = Date.now() - start_time;
+		media_recorder.stop();
+		video.pause();
+
+        if (DocNinja.options.RECORDCURSOR) {
+            mus.stop();
+        }
 
         startButton.textContent = 'Start recording';
         startButton.classList.toggle('recording');
         startButton.removeEventListener('click', stopRecording);
         startButton.addEventListener('click', startRecording);
 
+		video.addEventListener('play', cursorPlay);
+		video.addEventListener('pause', cursorPause);
+		video.removeAttribute('autoplay');
+
         blob = new Blob(blobs_recorded, { type: mediaType });
 
-        showResult();
+        // showResult();
+		video.srcObject = null;
+		video.src = URL.createObjectURL(blob);
 
         useButton.removeAttribute('disabled');
     }
@@ -124,8 +162,20 @@ export async function RecordVideo(container) {
         if (mediaExtn === 'webm' && blob) {
             blob = await ysFixWebmDuration(blob, duration, {logger: false});
         }
-        // detect the type and perform conversion if required, then save
-        popover_audioUpload(new File([blob], "recording." + mediaExtn));
+
+		container.innerHTML = Handlebars.templates["properties-media"]({
+			processVideo: true,
+			showActions: false
+		});
+
+		popover_processMedia({
+			file: new File([blob], "recording." + mediaExtn),
+			cursor: DocNinja.options.RECORDCURSOR ? mus.getData() : undefined
+		});
+
+        // // detect the type and perform conversion if required, then save
+        // popover_audioUpload(new File([blob], "recording." + mediaExtn));
+        // if (cursor.checked && mus) popover_saveMouseRecording(mus.getData());
     }
 
     function cancelRecording() {
