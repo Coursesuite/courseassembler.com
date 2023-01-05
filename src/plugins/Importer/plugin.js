@@ -447,6 +447,5 @@
 		}); // return
 	};
 
-	// console.trace();
 
 })(window.DocNinja = window.DocNinja || {});

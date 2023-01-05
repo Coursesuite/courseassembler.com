@@ -200,19 +200,22 @@
 				localforage.iterate(function(val, key, i) {
 					if (key.startsWith('file')) {
 						var obj = val;
-						switch(obj.kind) {
+						switch(obj.kind || obj.format) {
 							case "url":
 								obj = DocNinja.Page.ModifyIframeBackgroundColour(obj, colour);
 								break;
 							case "file":
 								obj = DocNinja.Page.ModifyPageBackgroundColour(obj, colour);
 								break;
-							case "plugin": case "image":
+							case "plugin": case "image": case "video":
 								obj.payload.backgroundColour = colour;
+								if (get_property(obj,"plugin") === "Intro") {
+									obj = DocNinja.Page.ModifyIframeBackgroundColour(obj, colour);
+								}
 								break;
 							default:
-								alert("?!?!!?!?!");
-								console.warn(obj);
+								alert("OOps! Unhandled page type (nothing was saved)");
+								console.error("Unhandled page type in background colour routine", obj);
 						}
 						promises.push(localforage.setItem(key, obj));
 					}
@@ -389,7 +392,6 @@
 					});
 				});
 			},
-
 
 		}
 
