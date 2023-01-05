@@ -22,7 +22,7 @@
 		counters: [].slice.call( document.querySelectorAll( '.count-total' )),
 		countSet: document.getElementById( 'count-set' ),
 		fields: document.getElementById( 'fields' ),
-		timeline: document.getElementById( 'timeline' ),
+		propertyBar: document.getElementById( 'propertyBar' ),
 		preview: document.getElementById( 'preview' ),
 		courseNameField: document.querySelector( 'input[name="option-course-name"]' ),
 		copyrightField: document.querySelector( 'input[name="option-course-copyright"]' ),
@@ -38,6 +38,7 @@
 		AUTOCENTER: true,
 		PDFTOOLS: true,
 		PDFEMBED: true,
+		RECORDCURSOR: false,
 		loader: new SVGLoader( document.getElementById( 'loader' ), { speedIn : 199, easingIn : mina.easeinout } ),
 		snd: new Audio("swoosh_quiet.mp3"),
 		sndpop: new Audio("pop.mp3"),
@@ -45,7 +46,9 @@
 		sndfail: new Audio("error.mp3"),
 		pageBackgroundColour: '#ace1fc',
 		actions: [],
-		maxDepth: 2 // indentation depth
+		maxDepth: 2, // indentation depth
+		activeSaves: [],
+		mus: undefined
 	};
 
 	DocNinja.navItems = document.getElementById( 'nav-item-list' );
@@ -79,7 +82,7 @@
 	// style containers to fit browser; additionally size internal elements if required
 	DocNinja.routines = {
 		PersistSettings: function(source) {
-			console.info('PersistSettings:', source);
+			// console.info('PersistSettings:', source);
 			window.gatherSettings().then(function(cache) {
 			 	localforage.setItem("settingsCache", cache);
 			 	localforage.setItem("bodyclases", document.body.className);
@@ -124,7 +127,8 @@
 					}
 				}
 			}
-		}
+		},
+
 	}
 
 	// do stuff on resize
@@ -152,7 +156,7 @@
 
 	// store the item order by just caching the whole html... significantly faster
 	// TODO: stop caching everything, rebuild nodes independantly
-	function setItemOrder() {
+	window.setItemOrder = setItemOrder = function() {
 		DocNinja.PurityControl.Nav.Check().then(function(changes) {
 			localforage.setItem("order", DocNinja.navItems.innerHTML);
 			DocNinja.routines.PersistSettings("setItemOrder");
@@ -756,8 +760,8 @@
 		// 	update_preview()
 		// });
 
-		DocNinja.options.timelineHeight = parseInt(getCSSVariable("--timelineHeight"),10);
-		DocNinja.options.timelineMinHeight = ~~document.getElementById('split-v').dataset.min;
+		DocNinja.options.propertyBarHeight = parseInt(getCSSVariable("--propertyBarHeight"),10);
+		DocNinja.options.propertyBarMinHeight = ~~document.getElementById('split-v').dataset.min;
 
 		// TODO: remember pane positions?
 		// document.addEventListener("SplitEnd", function(e) {

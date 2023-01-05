@@ -7,6 +7,9 @@ function randomElement(ar) {
 	return ar[Math.floor(Math.random() * ar.length)]
 }
 
+/**
+ * @deprecated replaced with property_exists(obj, 'string.path')
+ */
 function isset(obj) {
   var i, max_i;
   if(obj === undefined) return false;
@@ -178,7 +181,7 @@ var dataURItoBlob = function(dataurl) {
 
         return new Blob([u8arr], {type:mime})
     } else {
-		console.log('data uri to blob was not base64', dataurl);
+		console.trace('data uri to blob was not base64', dataurl);
         var raw = decodeURIComponent(parts[1])
         return new Blob([raw], {type: mime})
     }
@@ -240,6 +243,19 @@ function safeGetProp(obj, props, defaultValue) {
   } catch(e) {
 	return defaultValue
   }
+}
+function get_property(haystack, needle, empty) {
+	let result = safeGetProp(haystack, needle, undefined);
+	if ("undefined" === typeof result) return empty;
+	return result;
+}
+
+function property_exists(haystack, needle) {
+	try {
+		return needle.split('.').reduce((a,b) => (a||{})[b], haystack) !== undefined;
+	} catch (e) {
+		return false;
+	}
 }
 
 // popup window centered (location,title,width,height)
@@ -387,7 +403,7 @@ Handlebars.registerHelper('count', function () {
 		if (arguments[i]) c++; // if argument loosely evaluates to true
 	}
 	return c;
-})
+});
 
 // TODO this will probably break at some point
 Handlebars.registerHelper('inject', function(path) {
@@ -416,11 +432,15 @@ Handlebars.registerHelper('bw', function(str) {
 
 // convert a dataurl (e.g. image, audio, video) to an objecturl (blob:https://server/guid)
 function dataUrlToObjectUrl(data) {
-	const spl = data.split(',');
-	const binary = atob(spl[1]);
-	const mime = spl[0].split(':')[0].split(';')[0];
-	let ar = []; for (let i=0; i<binary.length; i++) { ar.push(binary.charCodeAt(i)); }
-	var blob = new Blob([new Uint8Array(ar)],{type: mime});
+	if (data instanceof Blob) {
+		blob = data;
+	} else {
+		const spl = data.split(',');
+		const binary = atob(spl[1]);
+		const mime = spl[0].split(':')[0].split(';')[0];
+		let ar = []; for (let i=0; i<binary.length; i++) { ar.push(binary.charCodeAt(i)); }
+		var blob = new Blob([new Uint8Array(ar)],{type: mime});
+	}
 	return URL.createObjectURL(blob);
 }
 
@@ -711,6 +731,7 @@ function setGlobalVars() {
 	DocNinja.options.AUTOCENTER 	= !document.body.classList.contains("no-autocenter");
 	DocNinja.options.PDFEMBED 		= !document.body.classList.contains("no-pdfembed");
 	DocNinja.options.PDFTOOLS 		= !document.body.classList.contains("no-pdftoolbar");
+	DocNinja.options.RECORDCURSOR	=  document.body.classList.contains("record-cursor");
 }
 
 window.addEventListener('statuschange', function (e) {
@@ -764,6 +785,9 @@ function triggerOnChange(el) {
 /* functions relating to buttons with [data-action] or [data-popover] properties */
 var _g_popover_target;
 function closePopover(e) {
+	const video = document.getElementById('video-overlay');
+	if (video) video.parentNode.removeChild(video);
+
 	var b = document.querySelector("div.dn-backdrop");
 	if (b) {
 		b.removeEventListener("click", closePopover);
@@ -773,6 +797,53 @@ function closePopover(e) {
 	if (p) {
 		document.body.removeChild(p);
 	}
+}
+
+function handleProperty(tgt) {
+
+	var id = tgt.dataset.fileid;
+	localforage.getItem(id).then((obj) => {
+		let d = {};
+		switch (tgt.dataset.action) {
+			case "page-media":
+				let mp3 = get_property(obj, "payload.mp3", false);
+				if (mp3) mp3 = dataUrlToObjectUrl(mp3);
+				let mp4 = get_property(obj, 'payload.mp4', false);
+				if (mp4) mp4 = dataUrlToObjectUrl(mp4);
+				if (mp3 || mp4) {
+					d.mediaUrl = mp3 || mp4;
+					d.showActions = false;
+					d.showMedia = true;
+					tgt.dataset.init = "page-media";
+					d.autoNav = get_property(obj,'autoNav',false);
+				} else {
+					d.showActions = true;
+				}
+			break;
+
+			default: 
+				d = Object.assign({actions: DocNinja.options.actions}, tgt.dataset);
+
+		}
+
+		const video = document.getElementById('video-overlay');
+		if (video) video.parentNode.removeChild(video);
+
+		const menuitems = DocNinja.options.propertyBar.querySelectorAll('nav.menu > a');
+		for (a of menuitems)
+			a.classList[a.dataset.propertybar===tgt.dataset.propertybar ? 'add' : 'remove']('active');
+
+		const container = document.getElementById('propertyContainer');
+		container.innerHTML = Handlebars.templates['properties-' + tgt.dataset.propertybar](d);
+
+		if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+
+		if ("init" in tgt.dataset) {
+			callDynamicInit(tgt);
+		}
+
+	});
+
 }
 
 function handlePopover(tgt) {
@@ -799,6 +870,7 @@ function handlePopover(tgt) {
 			$("input[data-action='toggle-no-autocenter']").prop("checked", DocNinja.options.AUTOCENTER);
 			$("input[data-action='toggle-no-pdftoolbar']").prop("checked", DocNinja.options.PDFTOOLS);
 			$("input[data-action='toggle-no-pdfembed']").prop("checked", DocNinja.options.PDFEMBED);
+			$("input[data-action='toggle-record-cursor']").prop("checked", DocNinja.options.RECORDCURSOR);
 			break;
 
 		case "page-layout":
@@ -818,81 +890,93 @@ function handlePopover(tgt) {
 	}
 	if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 	if ("init" in tgt.dataset) {
-		switch (tgt.dataset.init) {
-			case "jscolor":
-				document.getElementById('pb_picker').value = DocNinja.options.pageBackgroundColour || '#ffffff';
-				// BindColourPicker(
-				// 	document.getElementById('pb_picker'),
-				// 	function(colour) {
-				// 		if (colour.indexOf('rgb')!==-1) {
-				// 			var a = colour.substr(colour.indexOf('(')).split(',').map(function(a) {
-				// 				return parseInt(a,10);
-				// 			});
-				// 			colour = "#" + ((1 << 24) + (a[0] << 16) + (a[1] << 8) + a[2]).toString(16).slice(1);
-				// 		}
-				// 		previewPageBackground(colour);
-				// 	});
-				// var picker = new jscolor(b.querySelector("button.jscolor"), {
-				// 	valueElement:'color_value',
-				// 	value: tgt.dataset.value ? tgt.dataset.value : DocNinja.options.pageBackgroundColour,
-				// 	onFineChange: debounce(function() {
-				// 		previewPageBackground(this.toHEXString());
-				// 	}, 500),
-				// 	hash: true
-				// });
-				break;
-
-			case "scoreslider":
-				var n = document.getElementById('score_slider');
-				var p=((Number(n.value)*100)/Number(n.max));
-				n.nextElementSibling.style.left="calc("+p+"% - 1rem)";
-				break;
-
-			case "rangeslider":
-				console.trace(); // shouldn't be anything htiting this anymore
-				break;
-
-			case "videorange":
-				document.getElementById('score_scrubber').checked = (tgt.dataset.checked === 'true');
-				var n = document.getElementById('range_slider');
-				var p=((Number(n.value)*100)/Number(n.max));
-				n.nextElementSibling.style.left="calc("+p+"% - 1rem)";
-				break;
-
-			case "initaudio":
-				var id = DocNinja.filePreview.CurrentFile();
-				var audio = document.getElementById('popover_audioElement');
-				if (audio.src) {audio.classList.add('visible');}
-				else {audio.classList.remove('visible');}
-				localforage.getItem(id).then(function (obj) {
-					document.getElementById("popover_audioElement").src = obj.payload.mp3;
-					document.getElementById("pageAudioNav").checked = obj.autoNav;
-				});
-				break;
-
-			case "initAttachments":
-				var dest = document.getElementById('page-file-attachments');
-				var id = DocNinja.filePreview.CurrentFile();
-				dest.innerHTML = '';
-				localforage.getItem(id).then(function(obj) {
-					if (obj.hasOwnProperty('attachments')) for (file of obj.attachments) {
-						dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"](file));
-					}
-				})
-				break;
-
-			case "select-transform":
-				var id = DocNinja.filePreview.CurrentFile();
-				localforage.getItem(id).then(function(obj) {
-					if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('transform')) {
-						for (el of document.querySelectorAll('input[name="transform-style"]')) {
-							if (el.value === obj.payload.transform) el.setAttribute('checked', true); 
-						}
-					}
-				});
-		}
+		callDynamicInit(tgt);
 	}
 }
+
+function callDynamicInit(tgt) {
+	switch (tgt.dataset.init) {
+		case "jscolor":
+			document.getElementById('pb_picker').value = DocNinja.options.pageBackgroundColour || '#ffffff';
+			// BindColourPicker(
+			// 	document.getElementById('pb_picker'),
+			// 	function(colour) {
+			// 		if (colour.indexOf('rgb')!==-1) {
+			// 			var a = colour.substr(colour.indexOf('(')).split(',').map(function(a) {
+			// 				return parseInt(a,10);
+			// 			});
+			// 			colour = "#" + ((1 << 24) + (a[0] << 16) + (a[1] << 8) + a[2]).toString(16).slice(1);
+			// 		}
+			// 		previewPageBackground(colour);
+			// 	});
+			// var picker = new jscolor(b.querySelector("button.jscolor"), {
+			// 	valueElement:'color_value',
+			// 	value: tgt.dataset.value ? tgt.dataset.value : DocNinja.options.pageBackgroundColour,
+			// 	onFineChange: debounce(function() {
+			// 		previewPageBackground(this.toHEXString());
+			// 	}, 500),
+			// 	hash: true
+			// });
+			break;
+
+		case "scoreslider":
+			var n = document.getElementById('score_slider');
+			var p=((Number(n.value)*100)/Number(n.max));
+			n.nextElementSibling.style.left="calc("+p+"% - 1rem)";
+			break;
+
+		case "rangeslider":
+			console.trace(); // shouldn't be anything htiting this anymore
+			break;
+
+		case "videorange":
+			document.getElementById('score_scrubber').checked = (tgt.dataset.checked === 'true');
+			var n = document.getElementById('range_slider');
+			var p=((Number(n.value)*100)/Number(n.max));
+			n.nextElementSibling.style.left="calc("+p+"% - 1rem)";
+			break;
+
+		case "page-media":
+			import("./media.preview.js").then(root => {
+				root.Preview(DocNinja);
+			});
+			break;
+
+
+		// case "initaudio":
+		// 	var id = DocNinja.filePreview.CurrentFile();
+		// 	var audio = document.getElementById('popover_audioElement');
+		// 	if (audio.src) {audio.classList.add('visible');}
+		// 	else {audio.classList.remove('visible');}
+		// 	localforage.getItem(id).then(function (obj) {
+		// 		document.getElementById("popover_audioElement").src = obj.payload.mp3;
+		// 		document.getElementById("pageAudioNav").checked = obj.autoNav;
+		// 	});
+		// 	break;
+
+		case "initAttachments":
+			var dest = document.getElementById('page-file-attachments');
+			var id = DocNinja.filePreview.CurrentFile();
+			dest.innerHTML = '';
+			localforage.getItem(id).then(function(obj) {
+				if (obj.hasOwnProperty('attachments')) for (file of obj.attachments) {
+					dest.insertAdjacentHTML('beforeend', Handlebars.templates["page-attachment"](file));
+				}
+			})
+			break;
+
+		case "select-transform":
+			var id = DocNinja.filePreview.CurrentFile();
+			localforage.getItem(id).then(function(obj) {
+				if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('transform')) {
+					for (el of document.querySelectorAll('input[name="transform-style"]')) {
+						if (el.value === obj.payload.transform) el.setAttribute('checked', true); 
+					}
+				}
+			});
+	}
+}
+
 
 function reset_timeline() {
 
@@ -907,32 +991,61 @@ function reset_timeline() {
 }
 
 /* draw a visualisation of the audio or video for the current file */
-function initialise_timeline(obj) {
-	import("./media.timeline.js").then(timeline => {
-		const container = document.querySelector('.timeline-display');
-		if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3')) {
-			const element = document.getElementById('popover_audioElement');
-			element.src = dataUrlToObjectUrl(obj.payload.mp3);
-			timeline.GenerateWaveform(element, container).then(() => {
-				// cool
-			}).finally(() => {
-				timeline.RenderMediaControl(element);
-			});
-		} else if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp4')) {
-			const element = document.getElementById('popover_videoElement');
-			element.src = dataUrlToObjectUrl(obj.payload.mp4);
-			timeline.GenerateWaveform(element, container).then(() => {
-			// timeline.GenerateThumbnails(element, container).then(() => {
-			}).catch(err => {
-				console.warn(err);
-			}).finally(() => {
-				timeline.RenderMediaControl(element);
-			});
-		} else {
-			container.innerHTML = 'Page has no media';
-		}
-	});
-}
+// function initialise_timeline() {
+// 	document.querySelector(`#propertyBar a[data-action='page-media']`).click();
+// }
+
+// 	if (obj.supports.indexOf('media') !== -1) {
+// 		obj.supportsAudio = true;
+// 		setCSSVariable("--propertyBarHeight", DocNinja.options.timelineHeight +'px');
+// 	} else {
+// 		setCSSVariable("--propertyBarHeight", DocNinja.options.timelineMinHeight +'px');
+// 	}
+// 	if (!obj.hasOwnProperty('payload')) return; // nothing to do yet
+
+// 	import("./media.timeline.js").then(timeline => {
+// 		if (obj.payload.hasOwnProperty('mp3') && obj.payload.mp3.length) {
+// 			obj.showMedia = true;
+// 			obj.mediaUrl = dataUrlToObjectUrl(obj.payload.mp3);
+// 		} else if (obj.payload.hasOwnProperty('mp4') && obj.payload.mp4.length) {
+// 			obj.showMedia = true;
+// 			obj.mediaUrl = dataUrlToObjectUrl(obj.payload.mp4);
+// 		} else {
+// 			obj.showActions = true;
+// 		}
+// 		DocNinja.options.propertiesBar.innerHTML = Handlebars.templates["properties-media"](obj);
+
+// 		if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('cursor')) {
+// 			DocNinja.options.mus = new Mus({
+//             	target: document.getElementById('preview-frame').contentWindow
+//         	});
+// 			DocNinja.options.mus.setData(obj.payload.cursor);
+// 		}
+
+// 		// const container = document.querySelector('.timeline-display');
+// 		// if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp3')) {
+// 		// 	const element = document.getElementById('popover_audioElement');
+// 		// 	element.src = dataUrlToObjectUrl(obj.payload.mp3);
+// 		// 	timeline.GenerateWaveform(element, container).then(() => {
+// 		// 		// cool
+// 		// 	}).finally(() => {
+// 		// 		timeline.RenderMediaControl(element, mus);
+// 		// 	});
+// 		// } else if (obj.hasOwnProperty('payload') && obj.payload.hasOwnProperty('mp4')) {
+// 		// 	const element = document.getElementById('popover_videoElement');
+// 		// 	element.src = dataUrlToObjectUrl(obj.payload.mp4);
+// 		// 	timeline.GenerateWaveform(element, container).then(() => {
+// 		// 	// timeline.GenerateThumbnails(element, container).then(() => {
+// 		// 	}).catch(err => {
+// 		// 		console.warn(err);
+// 		// 	}).finally(() => {
+// 		// 		timeline.RenderMediaControl(element, mus);
+// 		// 	});
+// 		// } else {
+// 		// 	container.innerHTML = 'Page has no media';
+// 		// }
+// 	});
+// }
 
 /* playing a sound that didn't involve a user interaction now throws an exception, so cope with that silently */
 function playSound(obj) {
@@ -1002,105 +1115,123 @@ function previewPageBackground(colour) {
 function popover_saveScore() {
 	var id = DocNinja.filePreview.CurrentFile(),
 		score = Number(document.getElementById("score_slider").value); //noUiSlider.get();
-	localforage.getItem(id).then(function (obj) {
-		obj.score = score;
-		closePopover();
-		return localforage.setItem(id, obj);
-	});
+	persistProperty(id, {
+		"score": score
+	}).then(DocNinja.filePreview.Refresh);
 }
 
 function popover_saveRange() {
 	var id = DocNinja.filePreview.CurrentFile(),
-		button = document.querySelector("button[data-popover='videorange']"),
+		//button = document.querySelector("button[data-popover='videorange']"),
 		scrub = document.getElementById("score_scrubber"),
 		score = Number(document.getElementById("range_slider").value),  //noUiSlider.get();
 		scrubber = scrub.checked;
-	button.dataset.value = score;
-	localforage.getItem(id).then(function (obj) {
-		obj.score = score;
-		obj.scrub = scrubber;
-		// kinda pointless here since the html isn't cached
-		// obj = DocNinja.Page.ModifyIframeScrubber(obj, scrubber);
-		closePopover();
-		return localforage.setItem(id, obj).then(() => {
-			DocNinja.filePreview.Refresh();
-		});
-	});
+	//button.dataset.value = score;
+	persistProperty(id, {
+		"score": score,
+		"scrub": scrubber
+	}).then(DocNinja.filePreview.Refresh);
 }
 
 function popover_audioNavToggle(state) {
 	var id = DocNinja.filePreview.CurrentFile();
-	localforage.getItem(id).then(function(obj) {
-		obj.autoNav = state;
-		localforage.setItem(id,obj);
+	persistProperty(id, "autoNav", state);
+}
+
+function popover_saveMedia(data) {
+	var id = DocNinja.filePreview.CurrentFile();
+	persistProperty(id, data).then(() => {
+		closePopover();
+		window.setItemOrder();
+		document.querySelector(`#propertyBar a[data-action='page-media']`).click();
 	});
 }
 
-function popover_saveMedia(data, extn) {
-	var id = DocNinja.filePreview.CurrentFile();
-	engagement('page_save_media', extn);
-	localforage.getItem(id).then(function (obj) {
-		obj.payload[extn] = data;
-		// console.dir(obj);
-		// document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
-		closePopover();
-		localforage.setItem(id, obj).then(function(obj) {
-			window.setItemOrder();
-			initialise_timeline(obj);
-		});
-	})
-}
+// function popover_saveMedia_old(data, extn) {
+// 	var id = DocNinja.filePreview.CurrentFile();
+// 	engagement('page_save_media', extn);
+// 	persistProperty(id, "payload."+extn, data).then(() => {
+// 		closePopover();
+// 		window.setItemOrder();
+// 		document.querySelector(`#propertyBar a[data-action='page-media']`).click();
+// 	});
+// 	// localforage.getItem(id).then(function (obj) {
+// 	// 	obj.payload[extn] = data;
+// 	// 	// console.dir(obj);
+// 	// 	// document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
+// 	// 	closePopover();
+// 	// 	localforage.setItem(id, obj).then(function(obj) {
+// 	// 		window.setItemOrder();
+// 	// 		initialise_timeline(obj);
+// 	// 	});
+// 	// })
+// }
 
 function popover_cancelMedia() {
-	var id = DocNinja.filePreview.CurrentFile();
-	localforage.getItem(id).then(function (obj) {
-		initialise_timeline(obj);
-	});
+	document.querySelector(`#propertyBar a[data-action='page-media']`).click();
 }
 
-function popover_audioUpload(file) {
+function popover_processMedia(data) {
+	popover_audioUpload(data.file, data.cursor);
+}
+
+function popover_audioUpload(file, cursor) {
 	if (!file) return;
+	const id = DocNinja.filePreview.CurrentFile();
 	if (/audio\/(?:x-)*mp(?:3|eg)|video\/(?:x-)*mp4+/.test(file.type)) {
-		var reader = new FileReader();
-		reader.onloadend = function(e) {
-			popover_saveMedia(e.target.result, file.type.split('/').pop().toLowerCase().replace('mpeg','mp3'));
-		}
-		reader.readAsDataURL(file);
+		const prop = "payload." + file.type.split('/').pop().toLowerCase().replace('mpeg','mp3');
+		let obj = {};
+		obj[prop] = file;
+		if (cursor) obj["payload.cursor"] = cursor;
+		popover_saveMedia(obj);
+		// var reader = new FileReader();
+		// reader.onloadend = function(e) {
+		// 	popover_saveMedia(e.target.result, file.type.split('/').pop().toLowerCase().replace('mpeg','mp3'));
+		// }
+		// reader.readAsDataURL(file);
 	} else {
-		$("button[data-action='upload-page-audio'] i").toggleClass("ninja-upload3 ninja-spinner");
+		// $("button[data-action='upload-page-audio'] i").toggleClass("ninja-upload3 ninja-spinner");
 		import("./media.conversion.js").then(module => {
-			module.Convert(file, DocNinja.filePreview.CurrentFile())
+			module.Convert(file, id)
 				.then(function(result) {
-					var reader = new FileReader();
-					reader.onloadend = function(e) {
-						popover_saveMedia(e.target.result, result.type.split('/').pop().toLowerCase());
-					}
-					reader.readAsDataURL(result);
+					const prop = "payload." + result.type.split('/').pop().toLowerCase();
+					let obj = {};
+					obj[prop] = file;
+					if (cursor) obj["payload.cursor"] = cursor;
+					popover_saveMedia(obj); // , result.type.split('/').pop().toLowerCase());
+					// var reader = new FileReader();
+					// reader.onloadend = function(e) {
+					// 	popover_saveMedia(e.target.result, result.type.split('/').pop().toLowerCase());
+					// }
+					// reader.readAsDataURL(result);
 				})
 				.catch(function(error) {
 					console.dir(error);
-				})
-				.finally(() => {
-					$("button[data-action='upload-page-audio'] i").toggleClass("ninja-upload3 ninja-spinner");
 				});
+				// .finally(() => {
+				// 	$("button[data-action='upload-page-audio'] i").toggleClass("ninja-upload3 ninja-spinner");
+				// });
 		});
 	}
 }
 
-function popover_savePageBackground() {
+function popover_savePageBackground(all) {
 	var id = DocNinja.filePreview.CurrentFile(),
 		colour = document.querySelector("input[name='color_value']").value.replace("#",""); // sans-octothorp
-	if (document.getElementById('colourAll').checked) {
+	if (all || document.getElementById('colourAll').checked) {
 		closePopover();
 		return DocNinja.Page.ModifyAllPageBackgroundColours(colour);
 	} else {
 		if (null === id) { closePopover(); return; }
 		localforage.getItem(id).then(function (obj) {
-			switch (obj.kind) {
+			switch (obj.kind || obj.format) {
 				case "iframe":
 					break;
 				case "plugin": case "image": case "video":
 					obj.payload.backgroundColour = colour;
+					if (get_property(obj,"plugin") === "Intro") {
+						obj = DocNinja.Page.ModifyIframeBackgroundColour(obj, colour);
+					}
 					break;
 				case "url":
 					obj = DocNinja.Page.ModifyIframeBackgroundColour(obj, colour);
@@ -1110,8 +1241,8 @@ function popover_savePageBackground() {
 					obj = DocNinja.Page.ModifyPageBackgroundColour(obj, colour);
 					break;
 				default:
-					alert("OOps! Unhandled page type");
-					console.warn({"warning": "Unhandled page type in background colour routine", "object": obj});
+					alert("OOps! Unhandled page type (nothing was saved)");
+					console.error("Unhandled page type in background colour routine", obj);
 			}
 			// DocNinja.filePreview.Editing.ShowBgColour(colour);
 			closePopover();
@@ -1122,15 +1253,20 @@ function popover_savePageBackground() {
 
 function popover_useRecording(mp3) {
 	var id = DocNinja.filePreview.CurrentFile();
-	localforage.getItem(id).then(function (obj) {
-		obj.payload.mp3 = mp3;
+	persistProperty(id, "payload.mp3", mp3).then(() => {
 		document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
 		closePopover();
-		localforage.setItem(id, obj).then(function() {
-			// DocNinja.PurityControl.Nav.Check();
-			window.setItemOrder();
-		});
+		window.setItemOrder();
 	});
+	// localforage.getItem(id).then(function (obj) {
+	// 	obj.payload.mp3 = mp3;
+	// 	document.querySelector("button[data-action='set-audio']").dataset.init = "initaudio";
+	// 	closePopover();
+	// 	localforage.setItem(id, obj).then(function() {
+	// 		// DocNinja.PurityControl.Nav.Check();
+	// 		window.setItemOrder();
+	// 	});
+	// });
 }
 
 function popover_setLayout(position) {
@@ -1188,6 +1324,17 @@ function popover_saveTransform(applyAll) {
 			closePopover();
 		}
 	});
+}
+
+function popover_saveMouseRecording(data) {
+	var id = DocNinja.filePreview.CurrentFile();
+	persistProperty(id, "cursor", data);
+	// localforage.getItem(id).then(function (obj) {
+	// 	obj.payload.cursor = data;
+	// 	localforage.setItem(id, obj); // .then(function () {
+	// 		// DocNinja.filePreview.Refresh();
+	// 	// });
+	// });
 }
 
 function renameNode(id, a) {
@@ -1506,13 +1653,13 @@ function performAction(tgt, e) {
 
 		case "record-page-audio":
 			import('./media.audiorecorder.js').then(module => {
-				module.RecordAudio(document.querySelector('.timeline-display'));
+				module.RecordAudio(DocNinja); // document.querySelector('.timeline-display'));
 			});
 			break;
 
 		case "record-page-video":
 			import('./media.videorecorder.js').then(module => {
-				module.RecordVideo(document.querySelector('.timeline-display'));
+				module.RecordVideo(DocNinja); // document.querySelector('.timeline-display'));
 			});
 			break;
 			// const recordingDialog = document.getElementById('recorder');
@@ -1542,6 +1689,8 @@ function performAction(tgt, e) {
 			var ae = document.getElementById("popover_audioElement");
 			var ve = document.getElementById("popover_videoElement");
 			localforage.getItem(id).then(function action_trash_audio_get(obj) {
+				obj.payload.cursor = undefined;
+				delete obj.payload.cursor;
 				obj.payload.mp3 = undefined;
 				delete obj.payload.mp3;
 				obj.payload.mp4 = undefined;
@@ -1578,6 +1727,7 @@ function performAction(tgt, e) {
 				localforage.setItem(id, obj).then(function() {
 					// DocNinja.PurityControl.Nav.Check();
 					window.setItemOrder();
+					document.querySelector(`#propertyBar a[data-action='page-files']`).click();
 				});
 			});
 			break;
@@ -1773,6 +1923,8 @@ function globalClickConsumer(e) {
 	if (!tgt) return;
 	if ("popover" in tgt.dataset) {
 		handlePopover(tgt);
+	} else if ("propertybar" in tgt.dataset) {
+		handleProperty(tgt);
 	} else if ("action" in tgt.dataset) {
 		handleAction(tgt, e);
 	} else if ("tab" in tgt.dataset) {
@@ -1814,18 +1966,49 @@ function changeTab(e) {
 }
 
 
-// given a fileid, store key Name with value Value
-// returns a promise which resolves when the value is saved
+/**
+ * Store a property on an object in localforage, thennable
+ * @param fileId reference to look up
+ * @param propertyName string name of property, can be "parent.child", can be {key1:'value','key2.child':'value2'}
+ * @param propertyValue mixed value to store (if propertyName was string)
+ * @returns thennable updated object
+ */
 function persistProperty(fileId, propertyName, propertyValue) {
+	// DocNinja.options.activeSaves.push(fileId);
+	// if activeSaves already includes fileId and setItem hasn't resolved
+	// arr = arr.filter(item => item !== fileId)
+	// reject the promise and start over including the new properties
 	return new Promise(function(resolve,reject) {
 		localforage.getItem(fileId, function persist_property_get(err, value) {
-			var data = value || {};
-			data[propertyName] = propertyValue;
+			let data = value || {};
+			if ('object' === typeof propertyName) {
+				for (const [k,v] of Object.entries(propertyName)) {
+					updateObjProp(data,v,k);
+				}
+			} else {
+				updateObjProp(data,propertyValue,propertyName);
+			}
+			// data[propertyName] = propertyValue;
 			localforage.setItem(fileId, data).then(resolve);
 		})
 		.catch(reject);
 	});
 }
+
+/**
+ * Updates the value of an object property matching a [possibly nested] key 
+ * @param obj object to update
+ * @param value value to be set
+ * @param propPath 'foo' or 'foo.bar' or 'foo.bar.baz'
+ */
+updateObjProp = (obj, value, propPath) => {
+    const [head, ...rest] = propPath.toString().split('.');
+
+    !rest.length
+        ? obj[head] = value
+        : this.updateObjProp(obj[head], value, rest.join('.'));
+}
+
 
 /* audio stream oscilliscope */
 function audioVisualize(canvas, stream) {
@@ -2096,5 +2279,99 @@ function emit (type, detail, elem = document) {
 
 	// Dispatch the event
 	return elem.dispatchEvent(event);
+
+}
+
+/* for rendering toolbars etc
+ * know if the data object supports a property
+ * some properties require curly logic
+ */
+function Supports(haystack, needle) {
+
+	_supports_media = function (data) {
+		if (!data) return false;
+
+		let supports = get_property(data, 'supports', []);
+		let format = get_property(data, 'format', '');
+		let kind = get_property(data, 'kind', '');
+
+		if ('plugin' === kind && supports.indexOf("audio") === -1) return false;
+		if (supports.indexOf("audio") !== -1) return true;
+		if (['youtube','vimeo','soundcloud','oembed','package','video'].indexOf(format) !== -1) return false;
+
+		return true;
+	}
+
+	_supports_colour = function (data) {
+		if (!data) return false;
+
+		const kind = get_property(data, 'kind', '');
+		const plugin = get_property(data, 'plugin', '');
+		const format = get_property(data, 'format', '');
+
+		if (kind === "plugin" && plugin === "Markdown") {
+			return true;
+		}
+		if (['video','iframe'].indexOf(format) !== -1) {
+			return true;
+		}
+		if ('file' === kind) {
+			return true;
+		}
+		return false;
+	}
+
+	_supports_files = function (data) {
+		if (!data) return false;
+
+		const plugin = get_property(data, 'plugin', '');
+
+		if (plugin === "Section") {
+			return false;
+		}
+
+		return true;
+	}
+
+	_supports_range = function (data) {
+		if (!data) return false;
+
+		const format = get_property(data, 'format', '');
+
+		if (['youtube','vimeo','soundcloud','oembed','video'].indexOf(format) !== -1) return true;
+
+		return false;
+	}
+
+	_supports_score = function (data) {
+		if (!data) return false;
+
+		const format = get_property(data, 'format', '');
+
+		if ( "slideshare" === format ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	_supports_transform = function (data) {
+		if (!data) return false;
+
+		const split = get_property(data, 'payload.split', false);
+
+		return split;
+	}
+
+	switch (needle.toLowerCase()) {
+		case "media": return _supports_media(haystack); break;
+		case "colour": return _supports_colour(haystack); break;
+		case "files": return _supports_files(haystack); break;
+		case "range": return _supports_range(haystack); break;
+		case "score": return _supports_score(haystack); break;
+		case "transform": return _supports_transform(haystack); break;
+	}
+
+	return false;
 
 }
