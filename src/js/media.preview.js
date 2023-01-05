@@ -9,7 +9,7 @@ export function Preview(DocNinja) {
     const control = document.getElementById('pageMediaPlayer');
     let mus, cursor, mp4;
 
-    function createVideo() {
+    function createVideo(source) {
         let video = document.getElementById('video-overlay');
         if (!video) {
             video = document.createElement('video');
@@ -52,8 +52,9 @@ export function Preview(DocNinja) {
         cursor = property_exists(obj, "payload.cursor");
 
         if (property_exists(obj, "payload.mp4")) {
-            mp4 = URL.createObjectURL(get_property(obj, "payload.mp4"));
-            createVideo(mp4);
+            let data = get_property(obj, "payload.mp4");
+            mp4 = ('object' == typeof data) ? URL.createObjectURL(data) : data;
+            createVideo();
         }
 
         if (cursor) {
