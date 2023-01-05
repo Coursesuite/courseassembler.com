@@ -25,7 +25,8 @@ $data = [
 	"enough-count" => 10,
 	"rule" => "last",
 	"navlock" => 0,
-    "audio" => true,
+    "media" => true,
+    "mus" => true,
 	"pages" => Request::post("nav"),
     "theme" => json_decode(Request::post("theme"), JSON_NUMERIC_CHECK),
 ];
@@ -50,11 +51,13 @@ $index = str_replace([
 	'<link rel="stylesheet" type="text/css" href="_package.css">',
 	'="plyr.',
 	"'plyr.svg'",
+    '"play.js"'
 ], [
 	'<script type="text/javascript">'.$js.'</script>',
 	'<style>'.$css.'</style>',
 	'="../../js/runtimes/plyr.', // match versions that get put into the zip
 	"'../../js/runtimes/plyr.svg'",
+	"'../../js/runtimes/play.js'",
 ], $index);
 
 // Output the final template
@@ -100,7 +103,7 @@ class Lib {
                 $rgb = array(hexdec(substr($hex, 0, 2)), hexdec(substr($hex, 2, 2)), hexdec(substr($hex, 4, 2)));
                 $c = ($rgb[0] * 299 + $rgb[1] * 587 + $rgb[2] * 114) / 1000;
                 return ($c > 125) ? "black" : "white";
-            },
+            }
     	];
         $phpStr = LightnCandy::compile($template, array(
             "flags" => LightnCandy::FLAG_PARENT | LightnCandy::FLAG_ADVARNAME | LightnCandy::FLAG_HANDLEBARS,
