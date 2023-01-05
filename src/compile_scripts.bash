@@ -54,7 +54,7 @@ cd js
 
 rm -f app.min*.js
 rm -f app.min*.js.map
-uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js app.lib.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js $PLUGINS --output app.min.$TS.js --source-map
+uglifyjs --keep-fnames workers/hermite/hermite.js exif.js AutoScaler.js svgLoader.js mus.js app.lib.js uiProgressButton.js mimedb.js workers/promise-worker-index.js app.core.js app.lib.fileconversion.js app.lib.puritycontrol.js app.lib.filepreview.js app.lib.downloader.js app.lib.navigation.js $PLUGINS --output app.min.$TS.js --source-map
 
 cd ..
 
@@ -149,6 +149,7 @@ echo "Cleaning javascript"
 cd js
 rm workers/hermite/hermite.js
 rm exif.js
+rm mus.js
 rm AutoScaler.js
 rm svgLoader.js
 rm app.lib.js
