@@ -17,6 +17,8 @@ include("load.php");
 // KLOUDLESS
 // 2021.09.01 - Kloudless developer has notified that the service has been terminated - so all cloud-related functionality has been pulled.
 
+header('Permissions-Policy: display-capture=(self)');
+
 $jsApp = new stdClass();
 $jsApp->Hash = $verifier->hash;
 $jsApp->Home = $verifier->home;
@@ -26,8 +28,8 @@ $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
 
 $jsApp->Backend = getenv("BACKEND_URL") ?: "https://backend.courseassembler.com.test";
-$jsApp->Warehouse = getenv("WAREHOUSE_URL") ?: "https://warehouse.corseassembler.com.test";
-
+$jsApp->Warehouse = getenv("WAREHOUSE_URL") ?: "https://warehouse.courseassembler.com.test";
+$jsApp->Feedback = getenv("FEEDBACK_URL") ?: "https://feedback.courseassembler.com.test";
 
 // if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
@@ -174,6 +176,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<button data-action="pop-help" data-url="/docs"><i class="ninja-help"></i>Documentation</button>
 				<button data-action="toggle-settings" data-popover="settings" data-label="App settings"><i class="ninja-settings"></i>Settings</button>
 				<button data-action="clear-storage" data-popover="yesno" data-label="Reset all settings and content? (no undo)"><i class="ninja-stand-by"></i>Reset</button>
+				<button data-action="raw-download" title="Download internal database (raw json)"><i class="ninja-download3"></i></button>
 			</div>
 		</header>
 
@@ -396,7 +399,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 	<div class="modal import-content">
 		<div class="modal-box tabbed-content">
 		<header>
-			<span><i class="ninja-folder-outline-add"></i>Import content (zip)</span>
+			<span><i class="ninja-folder-outline-add"></i>Import content</span>
 			<a href="javascript:;" data-action="close-import-content"><span class="ninja-close"></span></a>
 		</header>
 		<nav>
@@ -407,9 +410,9 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 			<a href="#import-files" data-action="tab-switch">Saved courses</a>
 		</nav>
 		<section class="drag-to-upload active" id="import-upload">
-			<p>We currently support CourseAssembler and Video2Scorm zip packages.</p>
+			<p>We currently support CourseAssembler (zip), Video2Scorm (zip) packages, and CourseAssembler (json).</p>
 			<div class="dropzone" onclick="document.getElementById('muplControl').click()">
-				<h3>Drag and drop a supported zip package here</h3>
+				<h3>Drag and drop a supported package/file here</h3>
 				<p>Or click here to browse</p>
 				<input type="file" id="muplControl" style="display:none" onchange="manualImport(this.files)" />
 			</div>
@@ -449,6 +452,10 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 <?php if ($verifier->code->minified) { ?>
 	<script src="<?php echo $minified_app; ?>"></script>
 <?php } else { ?>
+
+	<script type="text/javascript" src="https://unpkg.com/dexie@3.2.2"></script>
+	<script type="text/javascript" src="https://unpkg.com/dexie-export-import@1.0.3"></script>
+
 	<script src="js/exif.js"></script>
 	<script src="js/AutoScaler.js"></script>
 	<script src="js/workers/hermite/hermite.js"></script>
