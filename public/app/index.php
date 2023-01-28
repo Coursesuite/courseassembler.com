@@ -28,8 +28,8 @@ $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
 
 $jsApp->Backend = getenv("BACKEND_URL") ?: "https://backend.courseassembler.com.test";
-$jsApp->Warehouse = getenv("WAREHOUSE_URL") ?: "https://warehouse.corseassembler.com.test";
-
+$jsApp->Warehouse = getenv("WAREHOUSE_URL") ?: "https://warehouse.courseassembler.com.test";
+$jsApp->Feedback = getenv("FEEDBACK_URL") ?: "https://feedback.courseassembler.com.test";
 
 // if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
@@ -176,7 +176,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<button data-action="pop-help" data-url="/docs"><i class="ninja-help"></i>Documentation</button>
 				<button data-action="toggle-settings" data-popover="settings" data-label="App settings"><i class="ninja-settings"></i>Settings</button>
 				<button data-action="clear-storage" data-popover="yesno" data-label="Reset all settings and content? (no undo)"><i class="ninja-stand-by"></i>Reset</button>
-				<button data-action="raw-download" title="Download internal database (raw json)"><i class="ninja-download3"></i></button>
 			</div>
 		</header>
 
