@@ -128,6 +128,11 @@
 				}
 			}
 		},
+		AttachUI: function (target, node) {
+			if (typeof target==='string') target = document.querySelector(target);
+			if (typeof node === 'string') node = StringToFragment(node);
+			if (target) target.appendChild(node);
+		},
 
 	}
 

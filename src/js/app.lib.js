@@ -1218,7 +1218,7 @@ function popover_audioUpload(file, cursor) {
 function popover_savePageBackground(all) {
 	var id = DocNinja.filePreview.CurrentFile(),
 		colour = document.querySelector("input[name='color_value']").value.replace("#",""); // sans-octothorp
-	if (all || document.getElementById('colourAll').checked) {
+	if (all) { //} || document.getElementById('colourAll').checked) {
 		closePopover();
 		return DocNinja.Page.ModifyAllPageBackgroundColours(colour);
 	} else {
@@ -1622,6 +1622,12 @@ function performAction(tgt, e) {
 			});
 			break;
 
+		case "raw-download": // export the indexeddb database without processing anything
+			var fn = 'CourseAssembler-' + (new Date()).toString();
+			DocNinja.Plugins.Exporter.Download(fn);
+			break;
+
+
 		case "clear-storage":
 			localforage.clear(function (err) {
 				// document.getElementById("fiddle").innerHTML = "";
@@ -1874,6 +1880,7 @@ function performAction(tgt, e) {
 						} else if (v.hasOwnProperty("match") && v.match === attrib) { // e.g. plugins that implement fn, parrameters (e.g. themes)
 							var args = [];
 							v.parameters.forEach(function(p) { args.push(tgt.dataset[p]); });
+							args.push(e); // push event as last parameter
 							DocNinja.Plugins[v.plugin][v.fn].apply(DocNinja.Plugins[v.plugin], args);
 						}
 					};
