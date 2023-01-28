@@ -447,5 +447,48 @@
 		}); // return
 	};
 
+	DocNinja.Plugins.ImportDexie = function(name, file) {
+		function onProgress ({totalRows, completedRows}) {
+		console.log(`Progress: ${completedRows} of ${totalRows} rows completed`);
+		}
+
+console.log(name,file);
+
+		return new Promise(function(finalResolve, finalReject) {
+			localforage.clear().then(function() {
+	console.info('cleared db');
+				(async () => {
+// 					const Dexie = await import('https://unpkg.com/dexie@3.2.2?module');
+// 					await import('https://unpkg.com/dexie-export-import@1.0.3?module');
+console.dir(Dexie);
+					try {
+						let theDB = new Dexie(name);
+						const importMeta = await peakImportFile(file);
+						console.log("Database name:", importMeta.data.databaseName);
+						console.log("Database version:", importMeta.data.databaseVersion);
+						console.log("Database version:", importMeta.data.databaseVersion);
+						console.log("Tables:", importMeta.data.tables.map(t =>
+							`${t.name} (${t.rowCount} rows)`
+						).join('\n\t'));
+						// await theDB.delete();
+						// await theDB.import(file, {
+						// 	acceptVersionDiff: true,
+						// 	overwriteValues: true,
+						// 	progressCallback: onProgress
+						// });
+	console.info('finished importing object');
+						finalReject();
+						finalResolve();
+					} catch (error) {
+	console.warn(error);
+						finalReject(error);
+					}
+
+				})();
+			});
+		});
+	
+	};
+
 
 })(window.DocNinja = window.DocNinja || {});
