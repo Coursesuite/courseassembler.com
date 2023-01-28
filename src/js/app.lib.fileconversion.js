@@ -169,7 +169,7 @@
 		subtype - second part of mime same as raw.files[0].type.split("/")[1]
 		e - reader event
 		*/
-		_beginConversion = function (drop, raw, liElem, kind, subtype,e) {
+		_beginConversion = function (drop, raw, liElem, kind, subtype, e) {
 			var this_fileid = liElem.getAttribute("data-fileid"),
 				fileinfo = {},
 				extn = '',
@@ -261,7 +261,7 @@
 					break;
 
 				case "text":
-					var rawHtml = Base64.decode(drop.result.split("base64,")[1]);
+					var rawHtml = (drop.result.indexOf('base64') === -1) ? drop.result : Base64.decode(drop.result.split("base64,")[1]);
 					if ("plain"===subtype) rawHtml = DocNinja.PurityControl.Conversion.TextToHtml({
 						title: name,
 						html: rawHtml
@@ -390,18 +390,29 @@
 
 				default:
 					if ("json" === subtype) {
-						var rawJson = Base64.decode(drop.result.split("base64,")[1]);
+						// console.log();
+						var rawJson = (drop.result.charAt(0)==='{') ? drop.result : Base64.decode(drop.result.split("base64,")[1]);
 						if (isJSON(rawJson)) {
 							var obj = JSON.parse(rawJson);
-							DocNinja.Plugins.ImportQuiz(obj).then(function fileconversion_importquiz_done(obj) {
-								if (obj.ready) {
-									_success(liElem, obj.result);
-								} else {
-									_failure(liElem,"Unable to load quiz (maybe bad data?)");
-								}
-							}).catch(function(error) {
-								_failure(liElem,error);
-							});
+							if (property_exists(obj, "source") && obj.source === "docninja.quiz") {
+								DocNinja.Plugins.ImportQuiz(obj).then(function fileconversion_importquiz_done(obj) {
+									if (obj.ready) {
+										_success(liElem, obj.result);
+									} else {
+										_failure(liElem,"Unable to load quiz (maybe bad data?)");
+									}
+								}).catch(function(error) {
+									_failure(liElem,error);
+								});
+							} else if (property_exists(obj, "formatName") && obj.formatName === "dexie" && property_exists(obj, "data.databaseName") && obj.data.databaseName === "DocumentNinja") {
+								DocNinja.Plugins.ImportDexie(obj.data.databaseName, raw.files[0].file).then(function fileconversion_importdexie_done(obj) {
+									// start over with new database
+									location.reload();
+									// _success(liElem, obj.result);
+								}).catch(function(error) {
+									_failure(liElem,error);
+								});
+							}
 						} else {
 							_failure(liElem,"Unable to understand this file type");
 						}
@@ -495,7 +506,7 @@
 					DocNinja.navItems.appendChild(li);
 					reader.onload = function (e) {
 						_beginConversion(reader, // drop
-						                 {"files":[{name: file.name, type: mime, extension: extn} ]}, // raw
+						                 {"files":[{name: file.name, type: mime, extension: extn, file:file} ]}, // raw
 						                 li,	// liElem
 						                 mimetype[0], // kind
 						                 mimetype[1], // subtype
@@ -503,7 +514,9 @@
 						reader = null;
 					}
 					// console.log('about to read the file', mime, extn, size);
-					if ("zip"===mimetype[1] || "h5p"===mimetype[0] || (mime === 'video/mp4') || size > 314572800) { // if size is over 300MB, readAsDataURL will silently fail without a warning
+					if (extn === "json" || mime === "application/json") {
+						reader.readAsText(file); // read JSON as text
+					} else if ("zip"===mimetype[1] || "h5p"===mimetype[0] || (mime === 'video/mp4') || size > 314572800) { // if size is over 300MB, readAsDataURL will silently fail without a warning
 						reader.readAsArrayBuffer(file); // JSZip can accept ArrayBuffer
 					} else {
 						reader.readAsDataURL(file); // base64
