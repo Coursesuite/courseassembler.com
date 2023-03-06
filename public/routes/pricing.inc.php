@@ -7,7 +7,7 @@
 
         <div uk-alert class="uk-box-shadow-xlarge uk-margin-large uk-margin-remove-right uk-margin-remove-left uk-alert-primary uk-padding-large uk-text-center uk-border-rounded usd">
             <p>We've come up with the simplest formula for our base pricing:</p>
-            <h3>$1<sup>*</sup> = 1 day</h3>
+            <h3>USD $1<sup>*</sup> = 1 day</h3>
             <p>No conversion limits or premium content hidden behind paywalls. Your licence key unlocks everything.</p>
         </div>
 
