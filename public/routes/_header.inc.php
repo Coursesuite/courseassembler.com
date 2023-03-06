@@ -31,6 +31,7 @@ $products[] = ["Annual", "$199", "course-assembler-sub","Subscribe"];
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit-icons.min.js" defer></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.7.3/localforage.min.js"></script>
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <?php include "_bug.inc.php"; ?>
 		<?php include "_cookie.inc.php"; ?>
 		<?php include "_analytics.inc.php"; ?>
 	</head>
