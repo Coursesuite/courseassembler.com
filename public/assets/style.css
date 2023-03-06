@@ -203,3 +203,7 @@ body.entriesindex h2.tilt {
 p:target {
 	background-color: yellow;
 }
+
+.uk-table .uk-table td, .uk-table .uk-table th {
+    padding: 5px;
+}

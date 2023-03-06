@@ -219,3 +219,6 @@ p:target {
 	background-color: #1bc31a;
 }
 
+.uk-table .uk-table td, .uk-table .uk-table th {
+    padding: 5px;
+}
