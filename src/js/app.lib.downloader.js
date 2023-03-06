@@ -677,11 +677,12 @@ localforage.iterate(function( ... ) {
 
 
 		// post back some stats about this download (only anonymous/abstract data)
-		_notify = function (data) {
+		_notify = function (data, setup) {
 			var fd = new FormData();
 			fd.append("timestamp", data.timestamp);
 			fd.append("creator", data.creator);
 			fd.append("hash",location.search);
+			fd.append("settings", document.body.getAttribute("class"));
 			for (var i=0,k=Object.keys(data.settingsCache);i<k.length;i++){
 				var name = data.settingsCache[k[i]].name,
 					value = data.settingsCache[k[i]].value;
@@ -690,6 +691,7 @@ localforage.iterate(function( ... ) {
 					case "navlock":
 					case "rule":
 					case "api":
+					case "selected_theme":
 						fd.append(name, value); // what is the value?
 						break;
 					case "option-ga-id":
@@ -699,21 +701,25 @@ localforage.iterate(function( ... ) {
 						break;
 				}
 			}
-			var tSplit=0, tAudio=0, tVideo=0, tSrc=0, aKind=[], aFormat=[], aType=[];
+			var tSplit=0, tAudio=0, tVideo=0, tSrc=0, tCursor=0, tAttachments=0, aKind=[], aFormat=[], aType=[];
 			for (val of data.files) {
-				var obj = JSON.parse(val.value);
+				var obj = JSON.parse(val.value); // console.dir(obj);
 				if (obj.hasOwnProperty("kind") && aKind.indexOf(obj.kind)===-1) aKind.push(obj.kind);
 				if (obj.hasOwnProperty("format") && aFormat.indexOf(obj.format)===-1) aFormat.push(obj.format);
 				if (obj.hasOwnProperty("type") && aType.indexOf(obj.type)===-1) aType.push(obj.type);
 				tSplit += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("split") && obj.payload.split === true && obj.depth === 0) ? 1 : 0;
+				tAttachments += (obj.hasOwnProperty("attachments")) ? 1 : 0;
 				tAudio += (obj.hasOwnProperty("audio")) ? 1 : 0;
 				tVideo += (obj.hasOwnProperty("video")) ? 1 : 0;
+				tCursor += (obj.hasOwnProperty("cursor")) ? 1 : 0;
 				tSrc += (obj.hasOwnProperty("payload") && obj.payload.hasOwnProperty("src")) ? 1 : 0;
 			};
 			fd.append("pages",data.files.length); 	// total pages in package
 			fd.append("split", tSplit);				// how many pages at depth=0 are split?
 			fd.append("audio", tAudio);				// how many pages have audio?
 			fd.append("video", tVideo);				// how many pages have audio?
+			fd.append("cursor", tCursor); 			// how many pages recorded cursor?
+			fd.append("attachment", tAttachments); 	// how many pages had attachments?
 			fd.append("src", tSrc);					// how many pages have a payload.src set?
 			fd.append("kind", aKind.join(","));		// what are the kinds of templates rendered?
 			fd.append("format", aFormat.join(","));	// what are the mime types of converions?

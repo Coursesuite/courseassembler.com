@@ -89,7 +89,13 @@
 			});
 		},
 		Statistics: function(destination) {
-			console.info('Statistics', destination);
+			if (destination.trim() === "") return;
+			let xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp');
+			let fd = new FormData();
+			fd.append("hash", App.Hash);
+			fd.append("name", destination);
+			xhr.open("POST", "stats.php");
+			xhr.send(fd);
 		},
 		RegisterActions: function (details) {
 			details.forEach(function(detail, index) {

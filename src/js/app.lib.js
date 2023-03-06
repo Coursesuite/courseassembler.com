@@ -804,6 +804,7 @@ function handleProperty(tgt) {
 	var id = tgt.dataset.fileid;
 	localforage.getItem(id).then((obj) => {
 		let d = {};
+		DocNinja.routines.Statistics(tgt.dataset.action);
 		switch (tgt.dataset.action) {
 			case "page-media":
 				let mp3 = get_property(obj, "payload.mp3", false);
@@ -1055,6 +1056,9 @@ function playSound(obj) {
 }
 function handleAction(node, e) {
 	var tgt = (typeof node === 'undefined') ? _g_popover_target : node;
+
+	DocNinja.routines.Statistics(tgt.dataset.action);
+
 	switch (tgt.dataset.action) {
 		case "pop-help":
 			var w = window.open(tgt.dataset.url,"_blank");
@@ -1423,6 +1427,8 @@ function performAction(tgt, e) {
 		default:
 			hideOverlays();
 	}
+
+	DocNinja.routines.Statistics(attrib);
 
 	// ok now do the action.
 	switch (attrib) {
