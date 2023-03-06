@@ -34,7 +34,7 @@ foreach (glob(realpath(dirname(__FILE__)) . '/themes/' . $base . '/*.theme') as 
 
 // search for user stored presets on the warehouse
 $result = Utils::curl_get_contents(getenv("WAREHOUSE_URL") . "?hash=" . $verifier->hash, array('action' => 'listthemes', 'base' => $base));
-foreach ($result as $theme) {
+if ($result) foreach ($result as $theme) {
 	$presets[] = $theme;
 }
 // $userpath = realpath("../../warehouse/{$verifier->hash}/{$base}");
