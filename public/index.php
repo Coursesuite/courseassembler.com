@@ -21,6 +21,9 @@ $Router->map('GET','/validate/[*:key]?', 'keyValidator');
 // $Router->map('GET', '/app/[*]/[*]', 'serve');
 $Router->map('GET','/app/[*:key]?', 'launch');
 
+$Router->map('GET','/account', 'account.inc.php', 'Account');
+$Router->map('POST','/account', 'account.inc.php', 'Account Information');
+
 $Router->map('GET','/blog/[*:entry]+', 'entry');
 $Router->map('GET','/blog', 'blog.inc.php');
 $Router->map('GET','/blog/', 'blog.inc.php');
@@ -141,7 +144,7 @@ if ($match) {
 
 function render($fn, $page_title = '') {
 	$path = realpath("./routes");
-	if (file_exists($path . "{$fn}")) {
+	if (file_exists($path . "/{$fn}")) {
 		require $path. '/_header.inc.php';
 		include $path . "/{$fn}";
 		require $path . '/_footer.inc.php';

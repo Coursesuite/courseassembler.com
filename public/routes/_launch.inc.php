@@ -13,7 +13,6 @@
 	        </div>
 	        <div class="uk-margin-small ">
 	        	<label><input class="uk-checkbox" type="checkbox" checked> Remember on this computer</label>
-
 	        </div>
     	</fieldset>
 	</div>
@@ -37,5 +36,9 @@
 <?php } ?>
 	    </tbody>
 	</table>
+	<hr class="uk-divider-icon">
+	<div class="uk-margin uk-text-center">
+		<a href="/account" class="uk-button uk-button-link">My Account / Licence Info</a>
+	</div>
 
 </div>

@@ -16,6 +16,14 @@ class Utils {
 		die($message);
 	}
 
+	public static function TimestampToDate($value, $showtime = false) {
+		$date = new \DateTime();
+		$date->setTimeStamp($value);
+		$date->setTimeZone(new \DateTimeZone('UTC'));
+		$fmt = 'jS M Y' . ($showtime ? ' H:i:s' : '');
+		return $date->format($fmt);
+	}
+
 	public static function FormatBytes($size, $precision = 2) {
 		$base = log(floatval($size)) / log(1024);
 		$suffixes = array('', 'k', 'M', 'G', 'T');
@@ -33,7 +41,7 @@ class Utils {
 
 	public static function curl_get_contents($url, $data = [], $method = 'POST') {
 		$ch = curl_init();
-		$referer = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+		$referer = $_SERVER['REQUEST_SCHEME'] ?? 'http' . '://' . $_SERVER['SERVER_NAME'];
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
