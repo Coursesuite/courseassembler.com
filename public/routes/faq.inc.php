@@ -1,22 +1,3 @@
-	<div class="uk-section faq-container">
-		<div class="uk-container">
-			<h1>Frequently Asked Questions</h1>
-		</div>
-
-	<div class="uk-container uk-margin-large">
-		<?php
-		$Parser = new Parsedown();
-		$files = get_files(APP . "/assets/faq");
-		foreach ($files as $file) {
-			echo "<details>", "<summary>", $file["name"], "</summary>", PHP_EOL;
-			// echo "<h2 class='uk-heading-divider'>", $file["name"], "</h2>", PHP_EOL;
-			echo $Parser->text($file["contents"]), PHP_EOL;
-			echo "</details>";
-		}
-		?>
-	</div>
-	</div>
-
 <?php
 function get_files($real_path) {
     $fold = new DirectoryIterator($real_path);
@@ -39,3 +20,20 @@ function get_files($real_path) {
     return $files;
 }
 ?>
+	<div class="uk-section faq-container">
+		<div class="uk-container">
+			<h1>Frequently Asked Questions</h1>
+		</div>
+		<div class="uk-container uk-margin-large">
+			<?php
+			$Parser = new Parsedown();
+			$files = get_files(APP . "/assets/faq");
+			foreach ($files as $file) {
+				echo "<details>", "<summary>", $file["name"], "</summary>", PHP_EOL;
+				// echo "<h2 class='uk-heading-divider'>", $file["name"], "</h2>", PHP_EOL;
+				echo $Parser->text($file["contents"]), PHP_EOL;
+				echo "</details>";
+			}
+			?>
+		</div>
+	</div>
