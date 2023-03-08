@@ -86,7 +86,7 @@ class Licence extends Controller {
 			"hash": ""
 		}');
 
-		$debug = ($_SERVER['SERVER_NAME'] === '127.0.0.1');
+		$debug = ($_SERVER['SERVER_NAME'] === '127.0.0.1' || substr($_SERVER['SERVER_NAME'],-5) === '.test');
 		if (isset($key)) {
 			$hash = $key;
 		} else if ($debug) {

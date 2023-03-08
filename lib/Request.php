@@ -119,4 +119,11 @@ class Request
             return $value;
         }
     }
+
+    public static function file($key) {
+        if (isset($_FILES[$key])) {
+            return $_FILES[$key];
+        }
+        return false;
+    }
 }
