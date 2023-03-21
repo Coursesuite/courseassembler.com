@@ -256,6 +256,10 @@
 	align-items: flex-start;
 	transition: transform .5s ease;
 	z-index: var(--zFeedback);
+	pointer-events: none;
+}
+#feedback>div {
+	pointer-events: all;
 }
 #feedback .action-icon {
 	opacity: 1;
