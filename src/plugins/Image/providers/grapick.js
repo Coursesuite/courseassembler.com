@@ -32,7 +32,9 @@ export function Init(context,id) {
     dialog.addEventListener('close', (event) => {
         if (dialog.returnValue=="Use gradient" && instance.callback && typeof instance.callback == 'function') {
             instance.hotlink = true; // skip 'downloading' and use raw value
-            instance.callback(data, instance, true);
+            instance.callback({
+                src: gp.getValue()
+            }, instance, true);
         }
     });
 }
@@ -51,8 +53,7 @@ export function Show() {
     gp.addHandler(99, '#85D8CE', 1, { keepSelect: 1 });
     gp.on('change', function(complete) {
         const value = gp.getValue();
-        document.body.style.backgroundImage = value;
-        copyTxt.value = value;
+        dialog.querySelector('.Preview').style.backgroundImage = value;
     })
     gp.emit('change');
 
