@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'courseassembler';
   src:
-    url('fonts/courseassembler.ttf?wxpdf9') format('truetype'),
-    url('fonts/courseassembler.woff?wxpdf9') format('woff'),
-    url('fonts/courseassembler.svg?wxpdf9#courseassembler') format('svg');
+    url('fonts/courseassembler.ttf?61utlf') format('truetype'),
+    url('fonts/courseassembler.woff?61utlf') format('woff'),
+    url('fonts/courseassembler.svg?61utlf#courseassembler') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,6 +24,90 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ninja-bias-fill:before {
+  content: "\e933";
+}
+.ninja-bias-left-25:before {
+  content: "\e93a";
+}
+.ninja-bias-left-50:before {
+  content: "\e93b";
+}
+.ninja-bias-right-25:before {
+  content: "\e93c";
+}
+.ninja-bias-right-50:before {
+  content: "\e93d";
+}
+.ninja-settings-natural:before {
+  content: "\e92e";
+}
+.ninja-settings-topleft:before {
+  content: "\e92f";
+}
+.ninja-settings-center:before {
+  content: "\e930";
+}
+.ninja-tag:before {
+  content: "\e935";
+}
+.ninja-cabinet:before {
+  content: "\e936";
+}
+.ninja-layout-50:before {
+  content: "\e937";
+}
+.ninja-layout-:before {
+  content: "\e938";
+}
+.ninja-layout2:before {
+  content: "\e939";
+}
+.ninja-settings-fill:before {
+  content: "\e931";
+}
+.ninja-settings-gradient:before {
+  content: "\e932";
+}
+.ninja-settings-colour:before {
+  content: "\e934";
+}
+.ninja-settings-cover:before {
+  content: "\eb46";
+}
+.ninja-settings-contain:before {
+  content: "\eb47";
+}
+.ninja-import:before {
+  content: "\ec8f";
+}
+.ninja-export:before {
+  content: "\ec90";
+}
+.ninja-stack-picture:before {
+  content: "\ed3f";
+}
+.ninja-stack-fill:before {
+  content: "\ed4a";
+}
+.ninja-toggle-on:before {
+  content: "\ee74";
+}
+.ninja-toggle-off:before {
+  content: "\ee75";
+}
+.ninja-popup:before {
+  content: "\eeca";
+}
+.ninja-select2:before {
+  content: "\ed2b";
+}
+.ninja-stack-empty:before {
+  content: "\ed3b";
+}
+.ninja-stack-play:before {
+  content: "\ed4d";
+}
 .ninja-envelope:before {
   content: "\e92d";
 }
@@ -41,15 +125,6 @@
 }
 .ninja-bug:before {
   content: "\e92a";
-}
-.ninja-select2:before {
-  content: "\ed2b";
-}
-.ninja-stack-empty:before {
-  content: "\ed3b";
-}
-.ninja-stack-play:before {
-  content: "\ed4d";
 }
 .ninja-video:before {
   content: "\f03d";
