@@ -1,0 +1,97 @@
+.ImagePlugin {
+    font-size: 20px;
+}
+.ImagePlugin a {
+    color: gray;
+    text-decoration: none;
+    transition: color .1s;
+}
+.ImagePlugin a:hover {
+    color:black;
+}
+.ImagePlugin .Actions, .ImagePlugin .Bias {
+    display: flex;
+    gap: 5px;
+}
+.ImagePlugin .Actions > a, .ImagePlugin .Bias > a {
+    width: 40px;
+    height: 40px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    padding: 10px;
+    line-height: 1;
+}
+.ImagePlugin .Actions > a.active, .ImagePlugin .Bias > a.active {
+    background: #b8d5a7;
+    color: #333;
+}
+.ImagePlugin>div>div:not(:first-of-type) {
+    border-top: 1px dotted #0000007f;
+    padding: 5px 0;
+}
+.ImagePlugin>div>div:not(:last-of-type) {
+    margin: 5px 0;
+}
+
+.ImagePlugin .Providers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.ImagePlugin .Providers [class^="ninja-"] {
+    margin-right: 5px;
+}
+
+dialog.ImageProvider::backdrop {
+    background: linear-gradient(130deg, #f0f0f070, #31919770 41%, #00000070 76%);
+}
+
+dialog.ImageProvider .SearchResults {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 820px;
+    max-height: 50vh;
+    overflow: auto;
+    gap: 10px;
+}
+dialog.ImageProvider .SearchResults .PagingBar {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+dialog.ImageProvider .SearchResults figure {
+    position: relative;
+    flex: 0 1 150px;
+    margin: 0; padding: 0;
+    display: flex;
+}
+dialog.ImageProvider .SearchResults figure img {
+    width: 150px;
+    object-fit: cover;
+}
+dialog.ImageProvider .SearchResults figcaption {
+    position: absolute;
+    top: 0; left: 0;
+    width: 150px;
+    padding: 5px;
+    color: white;
+    font-size: 75%;
+}
+dialog.ImageProvider .SearchResults figure a {
+    position: absolute;
+    bottom: 1rem; left: 50%;
+    transform: translate(-50%, 0);
+    background: #ffffffdb;
+    color: #333;
+    display:inline-block;
+    width:40px;
+    line-height:40px;
+    text-align:center;
+    border-radius: 20px;
+    box-shadow:0 3px 5px black;
+}
