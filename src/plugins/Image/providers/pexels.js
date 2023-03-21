@@ -21,7 +21,7 @@ export function Init(context,id) {
     dialog = document.body.querySelector(`#${currentId}`);
     dialog.querySelector('#execute_search').addEventListener('click', search);
     dialog.addEventListener('close', (event) => {
-        if (dialog.returnValue=="search") { event.stopPropagation(); event.preventDefault(); console.info('cancelling close'); return;}
+        if (dialog.returnValue=="search") { event.stopPropagation(); event.preventDefault(); return;}
     });
 
 }
