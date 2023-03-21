@@ -15,9 +15,18 @@
 
     	<main class="wrapper">
     		<div class="container">
-    			<h2>Section Header</h2>
-    			<p>A seciton header breaks up the menu structure by grouping together sets of pages. Different themes may render sections in their own way. Pages between sections map to <b>Outcomes</b> in SCORM and have no logical function when packaged for other destinations.</p>
-    			<p>You can use as many section headers as you like. Section headers cannot be indented as they represent logical groupings of pages. In the 'Menu' and 'Dock' themes, sections start closed but are able to be expanded by the user. Themes with linear navigation such as 'Continuous' ignore sections during navigation but still complete and report objectives.</p>
+    			<h2>Section</h2>
+    			<p>A section denotes a logic grouping of pages. When publishing  using <b>SCORM</b>, sections map to <em>objectives.n</em>, and pages with interactions within a section map to <em>objectives.n.interactions.m</em>.</p>
+				<form>
+					<fieldset>
+					<label for="objective_id">Objective ID</label>
+					<input type="text" placeholder="letters only (including understore), no spaces" id="objective_id">
+					<label for="score":>Passing Score</label>
+					<input type="number" min="0" step="1" value="0" id="score">
+					</fieldset>
+				</form>
+				<h3>Scoring & Completion</h3>
+				<p>A section is complete when all pages in the section are completed. If a score above zero is set, a pass/fail state will be set based on the total score of pages within the section.</p>
 			</div>
 		</main>
 	</body>
