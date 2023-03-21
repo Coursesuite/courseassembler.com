@@ -96,6 +96,10 @@
 							};
 							if (pluginAction === 'edit') has_payload = false; // even if it actually has one, as edit will load it
 
+							if (data.supports.indexOf('view')===-1 && data.supports.indexOf('edit')!==-1) {
+								has_payload = false; // force-to trigger edit mode
+							}
+
 							if (data.supports.indexOf("view") !== -1 && has_payload) {
 								frame.setAttribute("src","plugins/" + data.plugin + "/view.html?" + id);
 							} else if (data.supports.indexOf("edit") !== -1 && !has_payload) {
