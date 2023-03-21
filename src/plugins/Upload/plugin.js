@@ -11,14 +11,14 @@
 			{
 				plugin: context,
 				icon: '<div class="ga-page"><a data-action="add-upload"><i class="ninja-upload"></i>Upload files</a></div>',
-				type: 'page',
+				type: 'content',
 				order: 1,
 				supports: []
 			},
 			{
 				plugin: context,
 				icon: '<div class="ga-url"><a data-action="add-paste"><i class="ninja-paste"></i>URL / Embed</a></div>',
-				type: 'page',
+				type: 'content',
 				order: 2,
 				supports: []
 			},
