@@ -1,7 +1,35 @@
 (function (DocNinja, undefined) {
 
-	DocNinja.Page = (function() {
+	/* ---------------- DocNinja.Plugins.Page Template Handlers ------------------- */
 
+	// Could be initialised before core loads
+	DocNinja.Plugins = DocNinja.Plugins || {};
+	DocNinja.Plugins.Page = DocNinja.Plugins.Page || {};
+	DocNinja.Plugins.Page.Templates = [];
+
+	// template handlers are stored in templates/*.js which are imported using lib.js
+	DocNinja.Plugins.Page.RegisterPlugin = function(context) {
+		import('./lib.js').then((module) => {
+			module.plugins.forEach((plugin,index) => {
+				DocNinja.Plugins.Page.Templates.push({"Name": plugin.name, "Plugin": plugin});
+				if (typeof plugin.Init === 'function') {
+					plugin.Init(context, index);
+				}
+			});
+		});
+	};
+
+	// Return the module definition for the page template
+	DocNinja.Plugins.Page.GetInstance = function(obj) {
+		if (!obj || !obj.hasOwnProperty('template')) return undefined;
+		return DocNinja.Plugins.Page.Templates.filter((o)=>o.Name===obj.template).pop().Plugin;
+	}
+
+
+	/* ---------------- DocNinja.Page functions (not a plugin) ------------------- */
+
+	DocNinja.Page = (function() {
+		// after conversion pdf->html will have known matchable coordinates
 		function _getDocumentDimensions(doc) {
 			var width = 0, height = 0;
 			for (const el of doc.querySelectorAll("style")) {

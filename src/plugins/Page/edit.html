@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Course Assembler</title>
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+	<script>window.addEventListener("DOMContentLoaded",function() {
+		var fileid = window.location.search.split("?")[1] || "";
+		localforage.config({name: 'DocumentNinja'});
+		localforage.getItem(fileid).then(function (obj) {
+			if (obj === null) return;
+			parent.DocNinja.Plugins.Page.GetInstance(obj).Compile(obj.payload,"edit").then((html) => {
+				var blob = new Blob([html],{type:"text/html"});
+				var url = URL.createObjectURL(blob);
+				window.location.href = url;
+			});
+		});
+	},false);</script>
+</head>
+</html>

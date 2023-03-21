@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>article</title>
+
+      <style>
+      :root {
+        --text-fg: #222;
+        --text-size: 20px;
+        --button-bg: #31b7f9;
+        --button-bg-light: #a6dffc;
+      }
+
+      /* normalise */
+      html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:0.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace, monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace, monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-0.25em}sup{top:-0.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type="button"],[type="reset"],[type="submit"],button{-webkit-appearance:button}[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:0.35em 0.75em 0.625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type="checkbox"],[type="radio"]{box-sizing:border-box;padding:0}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}
+
+      /* common */
+      html {box-sizing: border-box;font-size: var(--text-size);font-family:-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;}
+      *, *:before, *:after { box-sizing: inherit; }
+      * {text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;-webkit-tap-highlight-color: transparent;}
+      body,html { margin:0; padding:0; border:none; height:100%; }
+      body{letter-spacing:.01rem;line-height:1.8;font-size:1rem;font-weight:400;letter-spacing:.01rem;color:var(--text-fg);overflow: hidden;}
+      h1,h2,h3,h4,h5,h6{font-weight:300;line-height:1.2;margin:0}
+      body, main {width: 100vw;height: 100vh;}
+      main { position: relative; }
+      h1{font-size:3rem;letter-spacing:.025rem}
+      h2{font-size:2.5rem}
+      h3{font-size:2rem}
+      h4{font-size:1.75rem}
+      h5{font-size:1.5rem}
+      h6{font-size:1.25rem}
+      p{font-size:1rem}
+
+
+      /* layout */
+      .template { height: 100%; }
+      [class*='flex-'] { display: flex; }
+      .flex-50-50 > * { flex: 50; }
+      .flex-10-90 > *:first-of-type { flex: 10; }
+      .flex-10-90 > *:last-of-type { flex: 20; }
+      .flex-30-70 > *:first-of-type { flex: 30; }
+      .flex-30-70 > *:last-of-type { flex: 70; }
+      .flex-fill.right > *:last-of-type { display: none; }
+      .flex-fill.left > *:first-of-type { display: none; }
+      .template.right > *:first-of-type { order: -1; }
+      .template.left > *:last-of-type { order: -1; }
+
+      .template .pane.content { padding: 2rem 4rem; overflow: auto; }
+      .template .pane.image { position: relative; color: #ffffff7f; }
+      #attribution { position: absolute; bottom: 5px; left: 5px; right: 5px; font-size: 75%; transition: color 300ms; }
+      #attribution a { color: inherit;  }
+      #attribution:hover { color: white; }
+
+      /* specific to this page */
+      </style>
+
+      {{!--
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+      --}}
+      {{#compare mode "edit"}}
+      <script src="{{root}}/js/medium-editor/medium-editor.min.js"></script>
+      <script src="{{root}}/js/medium-editor/custom-html.js"></script>
+      <script src="{{root}}/js/medium-editor/autolist.js"></script>
+      <script src="{{root}}/js/medium-editor/toolbar-states.js"></script>
+      <link rel="stylesheet" href="{{root}}/js/medium-editor/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+      {{/compare}}
+
+    </head>
+
+    <body>
+
+    	<main>
+    		<section class="template {{payload.bias}}">
+    			<div class="pane image" style="{{bgImage payload}}">
+            <div id="attribution">{{{payload.attribution}}}</div>
+          </div>
+    			<div class="pane content">
+    				<div class="padding">
+              {{#compare mode "edit"}}
+
+              <div id="editor"></div>
+              <script>
+              window.addEventListener("DOMContentLoaded", ()=> {
+                const app = (()=>{for(var a=self,b=0;null==a.DocNinja&&null!==a.parent&&a.parent!==a;){if(7<++b)return null;a=a.parent}return a})();
+                app.DocNinja.Plugins.ImageSelector(document.querySelector('main'), {
+                  attribution: '#attribution',
+                  settable: ['position','size','source','gradient','bias'],
+                  setup: {bias:'{{payload.bias}}',size:'{{payload.size}}',position:'{{payload.position}}'}
+                });
+                var editor = new MediumEditor('#editor', {
+                  placeholder: { text: 'Enter your content here' },
+                  autoLink: true,
+                  targetBlank: true,
+                  toolbar: {
+                    buttons: [ "bold", "italic", "underline", "anchor", "h1", "h2", "h3", "quote", "unorderedlist", "orderedlist", "hr" ]
+                  },
+                  extensions: {
+                    "hr": new CustomHtml({
+                      buttonText: "-",
+                      htmlToInsert: "<hr>"
+                    }),
+                    "autolist": new AutoList(),
+                    // 'toolbar_states': new MediumEditorToolbarStates({
+                    //     states: {
+                    //         default: {
+                    //             buttons: ['bold', 'italic', 'anchor', 'h1', 'h2', 'h3', 'quote', 'unorderedlist', 'orderedlist', "customHtml"]
+                    //         },
+                    //         alternate: {
+                    //             buttons: ['h1', 'h2', 'h3', 'quote'],
+                    //             nodeNames: ['H1', 'H2', 'H3', 'P', 'BLOCKQUOTE']
+                    //         }
+                    //     },
+                    //     hideClass: 'hide-me'
+                    // })
+                  }
+                });
+                editor.setContent(`{{{payload.html}}}`);
+                let st = undefined;
+                function beginSave() {
+                  if (st) clearTimeout(st);
+                  st = setTimeout(doSave, 2048);
+                }
+                function doSave() {
+                  app.saveToCurrentFile("payload.html", editor.getContent());
+                }
+                editor.subscribe('editableInput', beginSave)
+              });
+              </script>
+
+              {{else}}
+
+              {{{payload.html}}}
+
+              {{/compare}}
+
+            </div>
+    			</div>
+    		</section>
+    	</main>
+    </body>
+</html>
