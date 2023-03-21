@@ -2563,3 +2563,13 @@ var addRule = (function (style) {
         sheet.insertRule(selector + "{" + propText + "}", sheet.cssRules.length);
     };
 })(document.createElement("style"));
+
+function Include(...srcs) {
+	for(src of srcs) { // cast both array and string to array to make it iterable
+		if (src.indexOf('.css')!==-1) {
+			$("link").attr({"rel":"stylesheet","type":"text/css","href":src}).appendTo(document.head);
+		} elseif (src.indexOf('.js')!==-1) {
+			$("script").attr({"type":"text/javascript","src":src}).appendTo(document.head);
+		}
+	}
+}
