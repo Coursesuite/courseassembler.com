@@ -46,6 +46,14 @@ dialog.ImageProvider::backdrop {
     background: linear-gradient(130deg, #f0f0f070, #31919770 41%, #00000070 76%);
 }
 
+dialog.ImageProvider .Preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 640px;
+    height: 480px;
+}
+
 dialog.ImageProvider .SearchResults {
     display: flex;
     justify-content: flex-start;
