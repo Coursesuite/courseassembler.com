@@ -430,6 +430,30 @@ Handlebars.registerHelper('bw', function(str) {
 	return contrastingColour(str);
 });
 
+/* given a payload, find and use various named properties */
+Handlebars.registerHelper('bgImage', function(data) {
+	if (!data) return;
+	return _bgImage(data);
+});
+function _bgImage(data) {
+	let result = [];
+	if (data.hasOwnProperty("image")) result.push(`background-image:url(${data.image})`);
+	if (data.hasOwnProperty("size")) result.push(`background-size:${data.size}`);
+	if (data.hasOwnProperty("position")) result.push(`background-position:${data.position}`);
+	if (result.length) result.push(`background-repeat:no-repeat;`);
+	return result.join(';');
+}
+// Handlebars.registerHelper('bias', function(data) {
+// 	switch (data+'') {
+// 		case 'undefined':
+// 		case 'right-50':
+// 		case 'left-50': return 'split-50'; break;
+// 		case 'right-25':
+// 		case 'left-25': return 'split-30-70'; break;
+// 	}
+// 	return '';
+// })
+
 // convert a dataurl (e.g. image, audio, video) to an objecturl (blob:https://server/guid)
 function dataUrlToObjectUrl(data) {
 	if (data instanceof Blob) {
@@ -1149,6 +1173,16 @@ function popover_saveMedia(data) {
 		window.setItemOrder();
 		document.querySelector(`#propertyBar a[data-action='page-media']`).click();
 	});
+}
+
+function saveToCurrentFile(prop, value){
+	let id = DocNinja.filePreview.CurrentFile();
+	return persistProperty(id, prop, value);
+}
+
+function loadCurrentFile() {
+	let id = DocNinja.filePreview.CurrentFile();
+	return localforage.getItem(id);
 }
 
 // function popover_saveMedia_old(data, extn) {
@@ -1888,6 +1922,11 @@ function performAction(tgt, e) {
 							v.parameters.forEach(function(p) { args.push(tgt.dataset[p]); });
 							args.push(e); // push event as last parameter
 							DocNinja.Plugins[v.plugin][v.fn].apply(DocNinja.Plugins[v.plugin], args);
+						} else if (v.hasOwnProperty('onclick') && v.icon.indexOf(`data-action="${attrib}"`)!==-1) {
+							closePopover();
+							if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
+							engagement('plugin_onclick', [v.plugin,v.name]);
+							v.onclick();
 						}
 					};
 				}
@@ -2021,6 +2060,27 @@ updateObjProp = (obj, value, propPath) => {
         ? obj[head] = value
         : this.updateObjProp(obj[head], value, rest.join('.'));
 }
+
+// use like .hasOwnProperty(), except with 'some.var.value'
+Object.prototype.hasOwnNestedProperty = function(propertyPath) {
+  if (!propertyPath)
+    return false;
+
+  var properties = propertyPath.split('.');
+  var obj = this;
+
+  for (var i = 0; i < properties.length; i++) {
+    var prop = properties[i];
+
+    if (!obj || !obj.hasOwnProperty(prop)) {
+      return false;
+    } else {
+      obj = obj[prop];
+    }
+  }
+
+  return true;
+};
 
 
 /* audio stream oscilliscope */
@@ -2388,3 +2448,118 @@ function Supports(haystack, needle) {
 	return false;
 
 }
+
+function placeholderText(paras) {
+	const src = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tellus at urna condimentum mattis pellentesque. Augue ut lectus arcu bibendum at varius vel pharetra vel. Massa vitae tortor condimentum lacinia quis vel eros donec. Non tellus orci ac auctor. Nec ullamcorper sit amet risus nullam eget.</p><p>Tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada. Turpis massa sed elementum tempus egestas sed sed risus pretium. At ultrices mi tempus imperdiet. Imperdiet proin fermentum leo vel orci porta non pulvinar neque. Ut etiam sit amet nisl purus in mollis. Nisl nisi scelerisque eu ultrices. Non nisi est sit amet facilisis magna. Posuere morbi leo urna molestie at. Sed ullamcorper morbi tincidunt ornare massa eget. Velit dignissim sodales ut eu. Mattis enim ut tellus elementum sagittis vitae et leo duis. Scelerisque varius morbi enim nunc faucibus. Vestibulum sed arcu non odio euismod lacinia at. Urna condimentum mattis pellentesque id nibh. Auctor augue mauris augue neque gravida in fermentum. Gravida dictum fusce ut placerat orci nulla. Nunc pulvinar sapien et ligula ullamcorper. Integer enim neque volutpat ac tincidunt vitae semper. Nunc sed augue lacus viverra vitae congue eu consequat ac. Potenti nullam ac tortor vitae purus. Facilisi cras fermentum odio eu feugiat. Cras ornare arcu dui vivamus arcu. Aenean sed adipiscing diam donec adipiscing tristique risus nec";
+	let re = new RegExp(`([\\S\\s]{1,${src.length / paras | 0}})`,'g');
+	let ar = src.match(re);
+	return ar.map((v) => v.trim()).map((v) => {
+		return '<p>' + v.charAt(0).toUpperCase() + v.slice(1) + '.</p>';
+	}).join``;
+}
+
+// getRelativeCoords(document.querySelector('selector'), 'top center')
+const getRelativeCoords = (element, position) => {
+  const { top, left, width, height } = element.getBoundingClientRect();
+  let point;
+  switch (position) {
+    case "top left":
+      point = {
+        x: left + window.pageXOffset,
+        y: top + window.pageYOffset
+      };
+      break;
+    case "top center":
+      point = {
+        x: left + width / 2 + window.pageXOffset,
+        y: top + window.pageYOffset
+      };
+      break;
+    case "top right":
+      point = {
+        x: left + width + window.pageXOffset,
+        y: top + window.pageYOffset
+      };
+      break;
+    case "center left":
+      point = {
+        x: left + window.pageXOffset,
+        y: top + height / 2 + window.pageYOffset
+      };
+      break;
+    case "center":
+      point = {
+        x: left + width / 2 + window.pageXOffset,
+        y: top + height / 2 + window.pageYOffset
+      };
+      break;
+    case "center right":
+      point = {
+        x: left + width + window.pageXOffset,
+        y: top + height / 2 + window.pageYOffset
+      };
+      break;
+    case "bottom left":
+      point = {
+        x: left + window.pageXOffset,
+        y: top + height + window.pageYOffset
+      };
+      break;
+    case "bottom center":
+      point = {
+        x: left + width / 2 + window.pageXOffset,
+        y: top + height + window.pageYOffset
+      };
+      break;
+    case "bottom right":
+      point = {
+        x: left + width + window.pageXOffset,
+        y: top + height + window.pageYOffset
+      };
+      break;
+  }
+  return point;
+};
+
+function getCoords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
+}
+
+function getPosition(element) {
+    var clientRect = element.getBoundingClientRect();
+    return {left: clientRect.left + document.body.scrollLeft,
+            top: clientRect.top + document.body.scrollTop,
+			box: clientRect};
+}
+
+function getRelativePosition(element) {
+    var clientRect = element.getBoundingClientRect();
+    return {left: element.offsetLeft + document.body.scrollLeft,
+            top: element.offsetTop + document.body.scrollTop,
+			width: clientRect.width,
+			height: clientRect.height};
+}
+
+var addRule = (function (style) {
+    var sheet = document.head.appendChild(style).sheet;
+    return function (selector, css) {
+        var propText = typeof css === "string" ? css : Object.keys(css).map(function (p) {
+            return p + ":" + (p === "content" ? "'" + css[p] + "'" : css[p]);
+        }).join(";");
+        sheet.insertRule(selector + "{" + propText + "}", sheet.cssRules.length);
+    };
+})(document.createElement("style"));
