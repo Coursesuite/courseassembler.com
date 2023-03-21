@@ -176,7 +176,6 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				<button data-action="pop-help" data-url="/docs"><i class="ninja-help"></i>Documentation</button>
 				<button data-action="toggle-settings" data-popover="settings" data-label="App settings"><i class="ninja-settings"></i>Settings</button>
 				<button data-action="clear-storage" data-popover="yesno" data-label="Reset all settings and content? (no undo)"><i class="ninja-stand-by"></i>Reset</button>
-				<button data-action="raw-download" title="Download internal database (raw json)"><i class="ninja-download3"></i></button>
 			</div>
 		</header>
 
@@ -333,7 +332,8 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 
 	<footer>
 		<a href="/">&copy Course Assembler <?php echo date("Y"); ?></a> |
-		<a href="mailto:support@courseassembler.com">Report a problem</a>
+		<a href="mailto:support@courseassembler.com">Report a problem</a> | 
+		<a href='#' data-action="raw-download" title="Downloads the internal database (raw json)">Download raw data</a>
 	</footer>
 
 	<div id="loader" class="pageload-overlay" data-opening="M 40,-65 145,80 -65,80 40,-65" data-closing="m 40,-65 0,0 L -65,80 40,-65">
