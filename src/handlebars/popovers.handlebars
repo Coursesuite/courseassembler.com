@@ -12,6 +12,12 @@
 {{#compare popover "addcontent"}}
 <header onclick="closePopover()">{{label}}</header>
 <section class="content-types">
+	{{#if actions.content}}
+	<fieldset class="ga-content">
+	<legend>Content</legend>
+	{{#each actions.content}}{{{icon}}}{{/each}}
+	</fieldset>
+	{{/if}}
 	{{#if actions.page}}
 	<fieldset class="ga-common">
 	<legend>Pages</legend>
