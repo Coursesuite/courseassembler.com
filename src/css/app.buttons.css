@@ -30,6 +30,11 @@ button[hidden], .button-like[hidden] {
 	display: none !important;
 	pointer-events: none;
 }
+button.noborder {
+	border: none;
+	background: none;
+	box-shadow: none;
+}
 
 details .inline-help {
 	float: right;
