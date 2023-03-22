@@ -1,4 +1,5 @@
 export let name = 'Pexels';
+export let icon = 'ninja-pexels';
 let currentId = '';
 let instance = {};
 let dialog = undefined;

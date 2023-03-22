@@ -9,7 +9,7 @@
 		if (DocNinja.Plugins.Image.Providers.length) return;
 		import('./providers.js').then((module) => {
 			module.providers.forEach((provider,index) => {
-				DocNinja.Plugins.Image.Providers.push({"Name": provider.name, "Plugin": provider});
+				DocNinja.Plugins.Image.Providers.push({"Name": provider.name, "Plugin": provider, "Icon": provider.icon || 'ninja-image1'});
 				if (typeof provider.Init === 'function') {
 					provider.Init(DocNinja.Plugins.Image.Instances[instance], index);
 				}
@@ -90,7 +90,7 @@
 		const tint = '#f4f4f4'; // var(--toolbar)
 
 		DocNinja.Plugins.Image.Providers.forEach((n) => {
-			providers.push(`<a href="#" data-provider="${n.Name}"><i class="ninja-image1"></i>${n.Name}</a>`);
+			providers.push(`<a href="#" data-provider="${n.Name}"><i class="${n.Icon}"></i>${n.Name}</a>`);
 		});
 
 		if (options.settable.indexOf('position')!==-1) {

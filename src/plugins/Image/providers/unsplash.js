@@ -1,4 +1,5 @@
 export let name = 'Unsplash';
+export let icon = 'ninja-unsplash';
 let currentId = '';
 let instance = {};
 let dialog = undefined;

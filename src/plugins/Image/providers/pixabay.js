@@ -1,4 +1,5 @@
 export let name = 'Pixabay';
+export let icon = 'ninja-pixabay';
 let currentId = '';
 let instance = {};
 let dialog = undefined;
