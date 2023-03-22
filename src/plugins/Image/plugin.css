@@ -47,8 +47,7 @@ dialog.ImageProvider::backdrop {
 }
 
 dialog.ImageProvider .Preview {
-    width: 580px;
-    height: 360px;
+    flex:1;
 }
 
 dialog.ImageProvider .SearchResults {
@@ -61,6 +60,9 @@ dialog.ImageProvider .SearchResults {
     max-height: 50vh;
     overflow: auto;
     gap: 10px;
+}
+dialog.ImageProvider p {
+    text-align: center;
 }
 dialog.ImageProvider .SearchResults .PagingBar {
     width: 100%;
@@ -99,4 +101,27 @@ dialog.ImageProvider .SearchResults figure a {
     text-align:center;
     border-radius: 20px;
     box-shadow:0 3px 5px black;
+}
+
+dialog.ImageProvider .space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+dialog.ImageProvider .flex-split {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+dialog.ImageProvider .flex-split > a {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px #00000040;
+    font-size: 0;
 }
