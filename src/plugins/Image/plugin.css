@@ -47,11 +47,8 @@ dialog.ImageProvider::backdrop {
 }
 
 dialog.ImageProvider .Preview {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 640px;
-    height: 480px;
+    width: 580px;
+    height: 360px;
 }
 
 dialog.ImageProvider .SearchResults {

@@ -93,7 +93,6 @@
 			providers.push(`<a href="#" data-provider="${n.Name}"><i class="ninja-image1"></i>${n.Name}</a>`);
 		});
 
-		if (options.settable.indexOf('gradient')!==-1) providers.push(`<a href="#" data-provider="gradient"><i class="ninja-settings-gradient"></i>Gradient</a>`);
 		if (options.settable.indexOf('position')!==-1) {
 			actions.push(`<a href="#" data-settable="position" data-setting="top left" title="Align to top left"><i class="ninja-settings-topleft"></i></a>`);
 			actions.push(`<a href="#" data-settable="position" data-setting="center" title="Align to middle"><i class="ninja-settings-center"></i></a>`);
@@ -203,7 +202,7 @@
 			target: domTarget, // target to append to
 			ignore: [], // name of provider
 			hotlink: false, // allow hotlinking or force downloading
-			settable: ['position','size','source','gradient'], // supported actions
+			settable: ['position','size','source'], // supported actions
 			callback: function(data, instance, reload = false) {
 				// console.info('inside callback', instance, data);
 				if (typeof data === 'string') { // upload, gradient
