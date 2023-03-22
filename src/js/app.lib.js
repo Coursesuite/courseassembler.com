@@ -280,6 +280,10 @@ const asyncCallWithTimeout = async (asyncPromise, timeLimit) => {
 	})
 }
 
+function randomIntFromInterval(min = 1, max = 10) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 /*!
  handlebars v4.0.5 runtime
 
@@ -437,7 +441,13 @@ Handlebars.registerHelper('bgImage', function(data) {
 });
 function _bgImage(data) {
 	let result = [];
-	if (data.hasOwnProperty("image")) result.push(`background-image:url(${data.image})`);
+	if (data.hasOwnProperty("image")) {
+		if (data.image.indexOf('gradient')!==-1) {
+			result.push(`background-image:${data.image}`);
+		} else {
+			result.push(`background-image:url(${data.image})`);
+		}
+	}
 	if (data.hasOwnProperty("size")) result.push(`background-size:${data.size}`);
 	if (data.hasOwnProperty("position")) result.push(`background-position:${data.position}`);
 	if (result.length) result.push(`background-repeat:no-repeat;`);
