@@ -46,7 +46,7 @@ export function Init(context,id) {
     <dialog id="${currentId}" class="ImageProvider">
         <form method="dialog">
             <div class='flex-split'>
-                <button value="cancel" class="noborder">Cancel</button>
+                <button value="cancel" class="noborder"><i class="ninja-x"></i>Cancel</button>
                 <button id="choose" value="choose">Use gradient</button>
             </div>
             <div class="Preview">

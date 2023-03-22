@@ -12,8 +12,9 @@ export function Init(context,id) {
     <dialog id="${currentId}" class="ImageProvider">
         <form method="dialog">
             <p>
+                <button value="cancel" class="noborder"><i class="ninja-x"></i>Cancel</button>
                 <input type="text" size="40" placeholder="Search Unsplash for ...">
-                <button id="execute_search" value="search">Search</button> <button value="cancel">Cancel</button>
+                <button id="execute_search" value="search">Search</button>
             </p>
             <div class="SearchResults"></div>
         </form>

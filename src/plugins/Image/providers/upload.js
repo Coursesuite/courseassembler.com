@@ -9,15 +9,15 @@ export function Init(context,id) {
     const content = StringToFragment(`
     <dialog id="${currentId}" class="ImageProvider">
         <form method="dialog">
-            <p>
-                <input type="file" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp">
-            </p>
+            <div class="space-between">
+                <button value="cancel" class="noborder"><i class="ninja-x"></i>Cancel</button>
+                <button id="selectFromDialog" value="default">Choose</button>
+            </div>
             <p>
                 <img style="max-width:600px">
             </p>
             <p>
-                <button value="cancel">Cancel</button>
-                <button id="selectFromDialog" value="default">Choose</button>
+                <input type="file" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp">
             </p>
         </form>
     </dialog>

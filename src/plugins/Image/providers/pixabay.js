@@ -12,9 +12,10 @@ export function Init(context,id) {
     <dialog id="${currentId}" class="ImageProvider">
         <form method="dialog">
             <p>
+                <button value="cancel" class="noborder"><i class="ninja-x"></i>Cancel</button>
                 <input type="text" size="40" placeholder="Search Pixabay for ...">
                 <select id="result_type"><option value="photo" selected>Photo</option><option value="illustration">Illustration</option><option value="vector">Vector</option></select>
-                <button id="execute_search" value="search">Search</button> <button value="cancel">Cancel</button>
+                <button id="execute_search" value="search">Search</button>
             </p>
             <div class="SearchResults"></div>
         </form>
