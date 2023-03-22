@@ -191,7 +191,9 @@
 
 	// dummy text is added using css; check the li elements are valid
 	function checkDummyItem() {
-		$("li[data-fileid]:empty", DocNinja.navItems).remove(); // something went wrong
+		Array.from(DocNinja.navItems.querySelectorAll('li[data-fileid]:empty')).forEach((el) => {
+			el.parentNode.removeChild(el);
+		});
 		if (0===DocNinja.navItems.querySelectorAll("li").length) {
 			localforage.removeItem("order"); // ensure that if we are adding the empty item, that cache is empty too
 		}
@@ -262,30 +264,18 @@
 				var name = cache[k[i]].name,
 					value = cache[k[i]].value;
 
-				var $inp = $("input[name='" + name + "']");
-				//console.log(name,$inp.length,">",value,"<");
-
-				if ($inp.is(":radio")) {
-					$inp.filter("[value='" + value + "']").prop("checked", true);
-				} else {
-					$inp.val(value);
+				var $inp = document.querySelector(`input[name='${name}']`);
+				if ($inp) {				
+					if ($inp.getAttribute('type')=='radio') {
+						document.querySelector(`input[name='${name}'][value='${value}']`).checked = true;
+					} else {
+						$inp.value = value;
+					}
 				}
-				// if (name === "option-course-description") {
-				// 	$("#ocd").val(value);
-				// }
-				// 20210506 - no more design tab
-				// if (name === "navbg" && $inp.length) {
-				// 	$inp.get(0).jscolor.fromString(value);
-				// 	window.colourpreview($inp.get(0).jscolor);
-				// }
-				// if (name === "template" && value !== "") {
-				// 	//DocNinja.routines.selectTemplate(value);
-				// }
 			}
 		}
-		// if (DocNinja.options.courseNameField.value.length == 0) DocNinja.options.courseNameField.value = ""; // leave it blank
-		if (DocNinja.options.copyrightField.value.length == 0) DocNinja.options.copyrightField.value = $("<div>&copy; Anonymous " + new Date().getFullYear() + ". All rights reserved.</div>").text();
-		if (DocNinja.options.descriptionField.value.length == 0) DocNinja.options.descriptionField.value = "This course was assembled at www.courseassembler.com";
+		if (DocNinja.options.copyrightField.value.length == 0) DocNinja.options.copyrightField.value = `&copy; Anonymous ${new Date().getFullYear()}. All rights reserved.`;
+		if (DocNinja.options.descriptionField.value.length == 0) DocNinja.options.descriptionField.value = "Built using www.courseassembler.com";
 	}
 
  	// fyi jquery normalises e.keyCode to e.which
