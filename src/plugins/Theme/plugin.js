@@ -134,9 +134,9 @@
 		.then(function () {
 	    	var form = document.getElementById('colours');
 	    	form.querySelector('[name="nav"]').value = JSON.stringify(nav_cache);
-	    	form.querySelector('[name="course-name"]').value = document.querySelector('[name="option-course-name"]').value || 'course-name';
-	    	form.querySelector('[name="course-description"]').value = document.querySelector('[name="option-course-description"]').value || 'course-description';
-	    	form.querySelector('[name="course-copyright"]').value = document.querySelector('[name="option-course-copyright"]').value || 'course-copyright';
+	    	form.querySelector('[name="theme-course-name"]').value = document.querySelector('[name="option-course-name"]').value || 'course-name';
+	    	form.querySelector('[name="theme-course-description"]').value = document.querySelector('[name="option-course-description"]').value || 'course-description';
+	    	form.querySelector('[name="theme-course-copyright"]').value = document.querySelector('[name="option-course-copyright"]').value || 'course-copyright';
 	    	form.submit();
 	    });
 	}

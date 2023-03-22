@@ -2062,25 +2062,34 @@ updateObjProp = (obj, value, propPath) => {
 }
 
 // use like .hasOwnProperty(), except with 'some.var.value'
-Object.prototype.hasOwnNestedProperty = function(propertyPath) {
-  if (!propertyPath)
-    return false;
+// Object.prototype.hasOwnNestedProperty = function(propertyPath) {
+//   if (!propertyPath)
+//     return false;
 
-  var properties = propertyPath.split('.');
-  var obj = this;
+//   var properties = propertyPath.split('.');
+//   var obj = this;
 
-  for (var i = 0; i < properties.length; i++) {
-    var prop = properties[i];
+//   for (var i = 0; i < properties.length; i++) {
+//     var prop = properties[i];
 
-    if (!obj || !obj.hasOwnProperty(prop)) {
-      return false;
-    } else {
-      obj = obj[prop];
-    }
-  }
+//     if (!obj || !obj.hasOwnProperty(prop)) {
+//       return false;
+//     } else {
+//       obj = obj[prop];
+//     }
+//   }
 
-  return true;
-};
+//   return true;
+// };
+// given obj search for "property.property.propertyN"
+function hasOwnDeepProperty(obj, path) {
+    for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
+        obj = obj[path[i]];
+        if (!obj) return false;
+    };
+    return true;
+}
+
 
 
 /* audio stream oscilliscope */
@@ -2564,12 +2573,20 @@ var addRule = (function (style) {
     };
 })(document.createElement("style"));
 
+// like PHP's RequireOnce - include a style or script in the head
 function Include(...srcs) {
 	for(src of srcs) { // cast both array and string to array to make it iterable
-		if (src.indexOf('.css')!==-1) {
-			$("link").attr({"rel":"stylesheet","type":"text/css","href":src}).appendTo(document.head);
-		} else if (src.indexOf('.js')!==-1) {
-			$("script").attr({"type":"text/javascript","src":src}).appendTo(document.head);
+		if (src.indexOf('.css') !== -1 && !document.head.querySelector(`link[href='${src}']`)) {
+			let tag = document.createElement('link');
+			tag.href = src;
+			tag.type = 'text/css';
+			tag.rel = 'stylesheet';
+			document.head.appendChild(tag);
+		}
+		if (src.indexOf('.js') !== -1 && !document.head.querySelector(`script[src='${src}']`)) {
+			let tag = document.createElement('script');
+			tag.src = src;
+			document.head.appendChild(tag);
 		}
 	}
 }

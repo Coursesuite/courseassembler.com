@@ -19,9 +19,9 @@ if (!file_exists($base_folder)) die("bad theme");
 
 // set up an object for handlebars to compile against
 $data = [
-	"option-course-name" => Request::post("course-name"),
-	"option-course-description" => Request::post("course-description"),
-	"option-course-copyright" => Request::post("course-copyright"),
+	"option-course-name" => Request::post("theme-course-name"),
+	"option-course-description" => Request::post("theme-course-description"),
+	"option-course-copyright" => Request::post("theme-course-copyright"),
 	"enough-count" => 10,
 	"rule" => "last",
 	"navlock" => 0,

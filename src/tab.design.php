@@ -5,9 +5,9 @@
 	<input type="hidden" name="selected_theme">
 	<input type="hidden" name="theme">
 	<input type="hidden" name="nav">
-	<input type="hidden" name="course-name">
-	<input type="hidden" name="course-description">
-	<input type="hidden" name="course-copyright">
+	<input type="hidden" name="theme-course-name">
+	<input type="hidden" name="theme-course-description">
+	<input type="hidden" name="theme-course-copyright">
 
 <fieldset class='grid'><legend>Navigation style</legend>
 <?php
