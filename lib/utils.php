@@ -25,9 +25,33 @@ class Utils {
 		return $date->format($fmt);
 	}
 
+    // print a date in a human readable format, where year is not shown if it is the current year, hours are not shown if it is midnight, etc
+    public static function HumanDate($date, $showtime = false) {
+        $date = new \DateTime($date);
+        $now = new \DateTime();
+        $diff = $now->diff($date);
+        $fmt = 'jS M' . ($date->format('Y') != $now->format('Y') ? ' Y' : '') . ($showtime ? ' H:i:s' : '');
+        if ($diff->days > 0) {
+            return $date->format($fmt);
+        } else {
+            $hours = $diff->h + ($diff->days * 24);
+            if ($hours > 0) {
+                return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+            } else {
+                $mins = $diff->i + ($hours * 60);
+                if ($mins > 0) {
+                    return $mins . ' minute' . ($mins > 1 ? 's' : '') . ' ago';
+                } else {
+                    return 'just now';
+                }
+            }
+        }
+    }
+
+
 	public static function FormatBytes($size, $precision = 2) {
 		$base = log(floatval($size)) / log(1024);
-		$suffixes = array('', 'k', 'M', 'G', 'T');
+		$suffixes = array('b', 'k', 'M', 'G', 'T');
 		return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
 	}
 
@@ -225,6 +249,12 @@ class Utils {
         $hex .= str_pad(dechex($g), 2, "0", STR_PAD_LEFT);
         $hex .= str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
         return $hex;
+    }
+
+    public static function formatName($name) {
+        $name = str_replace('_', ' ', $name);
+        $name = ucwords($name);
+        return $name;
     }
 
 }
