@@ -122,12 +122,22 @@ em {
 	background-color: #f8f8f8;
 }
 
-body.faq, body.changelog, body.entriesindex, body.pricing, body.features {
+body.faq, body.changelog, body.entriesindex, body.pricing, body.features, body.blog, body.blogentry {
 	background: white url(waves_bg.png) no-repeat top center;
 	background-position: 0 10px;
 	background-size: contain;
 	background-attachment: fixed;
 }
+body.faq>.uk-section>.uk-container>h1,
+body.changelog>.uk-section>.uk-container>h1,
+body.entriesindex>.uk-section>.uk-container>h1,
+body.pricing>.uk-section>.uk-container>h1,
+body.features>.uk-section>.uk-container>h1,
+body.blog>.uk-section>.uk-container>h1,
+body.blogentry>.uk-section>.uk-container>h1 {
+	text-shadow: 0 0 1rem #ffffffd0;
+}
+
 body.entriesindex h2.tilt {
 	margin-top: 4rem;
 }
