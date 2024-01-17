@@ -130,7 +130,7 @@
     methods.toggleFeedback = function(option, e) {
         e = (arguments.length===1) ? option : e;
         e.preventDefault();
-        console.log(option, e);
+        // console.log(option, e);
 		if (option === 0 || (!option && e)) {
             reset();
         } else {
