@@ -27,12 +27,16 @@ class ExampleSortedIterator extends SplHeap
 
 
 // list all files recursively, skipping dotfiles, and sort each directory by name
+// TODO: cache this in a session variable, redis, or a file
 $rii = new ExampleSortedIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($documentation_root, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS)));
 
 // set up output array
 $haystack = array();
 $files = array();
 $home = '';
+
+$ALL_IN_ORDER = [];
+$THIS_PAGE = '';
 
 // go through each sorted file
 foreach ($rii as $file) {
@@ -60,7 +64,7 @@ foreach ($rii as $file) {
 }
 
 function render($ol, $path_to_here = '.', $current_url) {
-	global $list_tag;
+	global $list_tag, $THIS_PAGE, $ALL_IN_ORDER;
 	$result = [];
 	foreach ($ol as $key => $value) {
 
@@ -80,7 +84,13 @@ function render($ol, $path_to_here = '.', $current_url) {
 			}
 		}
 
-		$css = ($current_url === "{$path_to_here}/{$key}/{$link}") ? 'active' : '';
+		$ALL_IN_ORDER[] = "{$path_to_here}/{$key}/{$link}";
+
+		$css = '';
+		if ($current_url === "{$path_to_here}/{$key}/{$link}") {
+			$THIS_PAGE = $current_url;
+			$css = 'active';
+		}
 		$result[] = "<li class='{$css}'>";
 		if (empty($link)) {
 			$result[] = $label;
@@ -101,6 +111,7 @@ function render($ol, $path_to_here = '.', $current_url) {
 
 $url = isset($_GET['url']) ? $_GET['url'] : $home;
 $output = render($files, '.', $url);
+
 $menu = "<{$list_tag}>" . PHP_EOL . implode('' , $output) . "</{$list_tag}>" . PHP_EOL;
 
 $content = <<<EOT
@@ -156,41 +167,63 @@ if (preg_match_all('/\ href=\"(.*)\"/U', $content, $matches)) {
 	}
 }
 
-?>
+// find the next and previous pages
+// look in the sorted navigation array for the current page
+// and filter out the non-docs.md pages
+// then find the previous and next page values and turn them into links
+$found = 0;
+$ALL_IN_ORDER = array_filter($ALL_IN_ORDER, function($v) {
+	return strpos($v,"/docs.md") !== false;
+});
+
+$pagekeys = array_values($ALL_IN_ORDER);
+foreach ($pagekeys as $index => $key) {
+	if ($key === $THIS_PAGE) {
+		$found = $index;
+		break;
+	}
+}
+$PREVIOUS_PAGE = @$pagekeys[$found-1];
+$NEXT_PAGE = @$pagekeys[$found+1];
 
 
-<!DOCTYPE html>
+// variables to help the formatting for the page
+$page_title = trim($page_title,"'");
+$navigation = ''; $navtop = '';
+if (!empty($PREVIOUS_PAGE))  $navigation .= "<a href='?url={$PREVIOUS_PAGE}' title='Go to the previous page'>&#x276E; Previous</a>";
+if (!empty($PREVIOUS_PAGE) && !empty($NEXT_PAGE)) $navigation .= " | ";
+if (!empty($NEXT_PAGE)) $navigation .= "<a href='?url={$NEXT_PAGE}' title='Go to the next page'>Next &#x276F;</a>";
+if (!empty($navigation)) $navigation = "<nav>{$navigation}</nav>";
+
+// finally, render the whole page.
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Using the App | Course Assembler</title>
-    <meta name="generator" content="GravCMS" />
-    <meta name="description" content="Documentation for the Course Assembler" />
+    <title><?php echo $page_title; ?> | Course Assembler Product Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link href="c0bd2f0a90682729dd93c69823c3ec47.css" type="text/css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link href="style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <nav id="sidebar">
-        <div id="header-wrapper">
-            <div id="header">
-                <a id="logo" href="?url=<?php echo $home; ?>"><img src="/assets/header.svg"></a>
-            </div>
-        </div>
+	<header>
+		<b>Product documentation</b>
+		<a id="logo" href="?url=<?php echo $home; ?>"><img src="/assets/header.svg"></a>
+	</header>
 
-        <div class="scrollbar-inner">
-            <div class="highlightable">
-<?php echo $menu; ?>
-            </div>
-        </div>
-    </nav>
+	<main>
+		<input type="checkbox" id="sidebar-toggle" checked>
+		<label for="sidebar-toggle" title="Toggle menu">☰</label>
 
-    <section id="body">
-    	<div class="padding">
-    	<h1><?php echo trim($page_title,"'"); ?></h1>
+		<aside>
+			<div class="sticky"><?php echo $menu; ?></div>
+		</aside>
+
+		<article id="body">
+			<h1><?php echo $page_title; ?></h1>
 <?php echo $content; ?>
-		</div>
-    </section>
-
-     </body>
+<?php echo $navigation; ?>
+		</section>
+	</main>
+</body>
 </html>

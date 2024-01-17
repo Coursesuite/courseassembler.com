@@ -1,0 +1,144 @@
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+
+html {
+    font-size: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%
+}
+
+html, body {
+	min-height: 100vh;
+}
+
+body {
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 1.25;
+	margin: 2rem 0 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	-webkit-font-smoothing: antialiased;
+	position: relative;
+	background-color: #ffffff;
+    color: #222;
+}
+main {
+    display: flex;
+}
+
+header {
+    background-color: #20629b;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .25rem;
+    font-size: .8rem;
+    position: fixed;
+    top: 0;
+    width:100%;
+}
+
+header img {
+    height: 1.5rem;
+}
+
+aside {
+    flex: 0 0 250px;
+    background: #38424D url(https://www.courseassembler.com/assets/transparent-diamonds.png);
+    line-height: 1.5rem;
+    color: silver;
+}
+
+aside .sticky {
+    position: sticky;
+    top: 2.5rem;
+}
+
+#sidebar-toggle {
+    display: none;
+}
+
+label[for="sidebar-toggle"] {
+    position: fixed;
+    z-index: 99;
+    color: #999;
+    padding: 0 .25rem;
+    top: 2rem;
+    font-size: 2rem;
+}
+
+input#sidebar-toggle:checked ~ aside {
+    display: none;
+}
+input#sidebar-toggle:not(:checked) ~ label {
+    left: 250px;
+}
+
+article {
+    flex: 1;
+}
+
+article img {
+    max-width: 100%;
+}
+
+aside a, aside a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+aside a:hover {
+    color: yellow;
+    text-decoration: underline;
+}
+aside, #body {
+    padding: 1rem;
+}
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+aside ul ul {
+    margin-left: 1rem;
+}
+aside li.active > a {
+    color: yellow;
+}
+
+nav {
+    text-align: center;
+    padding: 1rem;
+    background-color: #20629bd0;
+    color: white;
+}
+nav > a {
+    color: inherit;
+    text-decoration: none;
+}
+
+pre code {
+    color: purple;
+}
+
+p > em ~ code {
+    color: purple;
+}
+
+hr {
+    height: 1px;
+    background: none;
+    border: none;
+    border-top: 1px dashed #ccc;
+    margin: 2rem 0;
+}
+
+article img {
+    box-shadow: 3px 3px 5px #00000020;
+}
+
+blockquote {
+    background-color: #00000010;
+    padding: .5rem 0 .5rem 1rem;
+    border-left: 2px solid #00000030;
+}

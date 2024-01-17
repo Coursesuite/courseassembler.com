@@ -19,6 +19,9 @@
 @viewport {
     width: device-width
 }
+:root {
+    --menu: 230px;
+}
 html {
     font-size: 100%;
     -ms-text-size-adjust: 100%;
@@ -749,7 +752,7 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 }
 #sidebar {
     background: #38424D url(https://www.courseassembler.com/assets/transparent-diamonds.png);
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 300px;
     bottom: 0;
@@ -1597,6 +1600,7 @@ td {
 #body #breadcrumbs span {
     padding: 0 .1rem
 }
+/*
 @media only all and (max-width:59.938em) {
     #sidebar {
         width: 230px
@@ -1635,6 +1639,7 @@ td {
         cursor: pointer
     }
 }
+*/
 .copy-to-clipboard {
     background-image: url(/docs/user/themes/learn2/images/clippy.svg);
     background-position: 50% 50%;
@@ -1701,4 +1706,17 @@ pre .copy-to-clipboard:hover {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: rgba(255,255,255,.25); 
+}
+
+.sidebar-toggle {
+    background: #369;
+    color: white;
+    z-index: 1000;
+    border-radius: 50%;
+}
+
+input#sidebar-toggle:checked ~ #sidebar {
+  left: -250px;
+}
+input#sidebar-toggle:not(:checked) ~ #body {
 }

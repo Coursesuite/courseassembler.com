@@ -55,19 +55,6 @@ Example using Google Forms
 Example using Microsoft Stream
 ![Example embed code](example-iframe-code.jpg)
 
-### Upload from the Cloud
-
-If you have files on a cloud storage account (such as Dropbox, Google Drive, OneDrive, etc) you can use them too! Under 'Upload from the Cloud', click the *Choose* button and a popup will open, allowing you to connect a cloud storage service if supported by the Assembler (or just navigate to your files if you've already linked an account).
-
-![Upload from the Cloud](AddDocuments_uploadCloud.png?resize=400,99)
-![Cloud uploads](MediaNinja_cloud.png?resize=408,300)
-
-Once you've found your file, click on it to select it, then click the blue *Select* button in the bottom right corner to upload it to the Assembler.
-
-![Cloud storage directory](DocNinja_cloudImport.png?resize=408,300)
-
-! For more detailed information on how to manage the cloud storage popup, see [Cloud storage management](other-options/cloud-management).
-
 ---
 
 Each document will appear in the list and each item represents a 'page' in the final content package. Files are converted to HTML5 when uploaded to the Assembler - during file conversion, the left menu will change to show the conversion taking place (you can cancel it at any time by clicking the 'x' icon to the right of the file name). You can also continue working on other documents or dragging more documents onto the browser while files are still uploading.
