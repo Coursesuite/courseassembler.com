@@ -23,6 +23,7 @@ $Router->map('GET','/app/[*:key]?', 'launch');
 
 $Router->map('GET','/account', 'account.inc.php', 'Account');
 $Router->map('POST','/account', 'account.inc.php', 'Account Information');
+$Router->map('GET','/account/unsubscribe/[*:key]?', 'account.inc.php', 'Account Subscription Management');
 
 $Router->map('GET','/blog/[*:entry]+', 'entry');
 $Router->map('GET','/blog', 'blog.inc.php');
@@ -53,6 +54,16 @@ if ($match) {
 		// 	readfile('.'.$_SERVER['REQUEST_URI']);
 		// 	die();
 		// 	break;
+
+		// case "blog":
+		// 	$starting_path = '.';
+		// 	$entries = [];
+		// 	$rii = new AlphaNumSortedIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($starting_path, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS)));
+		// 	foreach ($rii as $file) {
+		// 		$name = substr($file->getPathname(), 2);
+		// 		if (substr($name, -5) !== '.html') continue;
+		// 		$entries[$name] = file_get_contents($file->getPathname());
+		// 	}
 
 		case "entry";
 			renderEntry($match['params']['entry']);
@@ -124,27 +135,51 @@ if ($match) {
 	      	die (json_encode(Licence::validate($match['params']['key'])));
 	      	break;
 
+		  case "account.inc.php":
+		  	$variables = [];
+			if (isset($match['params']['key'])) {
+			  	$subscription_id = rtrim($match['params']['key'],'\/');;
+				$decoded_subscription_id = urldecode($subscription_id); // what we think the subscription id is
+				//$subscription = json_decode(Fastspring::GetSubscription($decoded_subscription_id));
+				//if (!empty($subscription->error)) { // if we get an error, FastSpring doesn't think it's valid any more
+				// 	$variables["error"] = $subscription->error->subscription;
+				// } else { // well, seems to be valid, so lets cancel it.
+				$result = json_decode(Fastspring::CancelSubscription($subscription_id));
+				if (!empty($result->result) && $result->result == "error") {
+					$variables["feedback"] = $result->error->subscription;
+				} else if (!empty($result->subscriptions) && isset($result->subscriptions[0]->error)) {
+					$variables["feedback"] = $result->subscriptions[0]->error->subscription;
+				} else {
+					$variables["feedback"] = "Your subscription has been cancelled.";
+				}
+			}
+			$page_title = $match["name"];
+			render($fn, $page_title, $variables);
+		  break;
+
+
 	    default:
 
 			$page_title = $match["name"];
-			$page_disk = "cache." . strtolower($page_title) . ".html";
-
+		//	$cache_name = strtolower($page_title) . $fn;
+		//	$page_disk = "cache." . $cache_name . ".html";
 	    //if (!file_exists($page_disk) || !CACHE) {
-			//	ob_start();
+		//		ob_start();
 				render($fn, $page_title);
-		 //file_put_contents($page_disk, ob_get_contents());
-			//	ob_end_flush();
-				//ob_end_clean();
-			//}
-			//include $page_disk;
+		// file_put_contents($page_disk, ob_get_contents());
+		//		ob_end_flush();
+		//		ob_end_clean();
+		//	}
+		//	include $page_disk;
 	}
 } else {
   header("HTTP/1.0 404 Not Found");
 }
 
-function render($fn, $page_title = '') {
+function render($fn, $page_title = '', $variables = array()) {
 	$path = realpath("./routes");
 	if (file_exists($path . "/{$fn}")) {
+		extract($variables);
 		require $path. '/_header.inc.php';
 		include $path . "/{$fn}";
 		require $path . '/_footer.inc.php';
@@ -163,7 +198,7 @@ global $BlogRoot;
 	require $path. '/_header.inc.php';
 	echo '<div class="uk-section">
     <div class="uk-container uk-margin-large">
-    	<h2 class="uk-text-center uk-margin-xlarge-bottom tilt"><span>Blog</span></h2>
+    	<h1>Changelog</h1>
 		';
 
 	// $Iter = new DirectoryIterator($entrypathreal);
@@ -231,3 +266,13 @@ function badge($fold, $ago = "-1 week") {
 	}
 }
 
+// class AlphaNumSortedIterator extends SplHeap {
+//     public function __construct(Iterator $iterator) {
+//         foreach ($iterator as $item) {
+//             $this->insert($item);
+//         }
+//     }
+//     public function compare($b,$a) {
+//         return strcmp($a->getRealpath(), $b->getRealpath());
+//     }
+// }

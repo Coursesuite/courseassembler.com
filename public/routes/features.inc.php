@@ -6,7 +6,7 @@ global $match;
 
 $page = $match['params']['page'];
 
-echo "<h2 class='uk-text-center uk-margin-large'>Features - {$page}</h2>";
+echo "<h1>Features - {$page}</h1>";
 echo "<p>&#x25A0; <a href='/'>CourseAssembler</a> &#x25BA; <a href='/#features'>Features</a> &#x25BA; <a href='/features/{$page}'>", ucfirst($page), "</a></p>", PHP_EOL;
 
 if (function_exists($page)) {

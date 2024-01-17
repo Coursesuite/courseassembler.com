@@ -1,4 +1,5 @@
 <?php
+return;
 // https://simpleshare.io/
 // https://github.com/VectorLogoZone
 // https://stackoverflow.com/a/8891890/1238884

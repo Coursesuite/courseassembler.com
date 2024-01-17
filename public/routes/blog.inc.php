@@ -1,6 +1,6 @@
 <div class="uk-section">
     <div class="uk-container uk-margin-large">
-    	<h2 class="uk-text-center uk-margin-xlarge-bottom tilt"><span>Blog</span></h2>
+    	<h1>Changelog</h1>
 
 <?php
 function mysort($a, $b) {

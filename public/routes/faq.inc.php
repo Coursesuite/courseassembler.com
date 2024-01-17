@@ -28,11 +28,15 @@ function get_files($real_path) {
 			<?php
 			$Parser = new Parsedown();
 			$files = get_files(APP . "/assets/faq");
+			$i = 0;
 			foreach ($files as $file) {
-				echo "<details>", "<summary>", $file["name"], "</summary>", PHP_EOL;
+				$open = "";
+				if ($i == 0) $open = " open";
+				echo "<details", $open, ">", "<summary class='uk-alert'>", $file["name"], "</summary>", PHP_EOL;
 				// echo "<h2 class='uk-heading-divider'>", $file["name"], "</h2>", PHP_EOL;
 				echo $Parser->text($file["contents"]), PHP_EOL;
 				echo "</details>";
+				$i++;
 			}
 			?>
 		</div>

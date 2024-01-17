@@ -1,6 +1,8 @@
 <?php
+// $feedback is defined in index.php which includes this file
 $database = DatabaseFactory::getFactory()->getConnection();
 $key = Request::post("lookupkey", true, null, null, '');
+$unsub = Request::get("key", true, null, null, '');
 $rows = [];
 if ($key > "") {
 	$model = new LicenceModel("lookup",$key);
@@ -10,14 +12,22 @@ if ($key > "") {
 		$rows = $query->fetchAll(); // (PDO::FETCH_ASSOC);
 	}
 }
+
 ?>
 <div class="uk-section faq-container">
 	<div class="uk-container">
 		<h1>Account Information</h1>
 	</div>
+	<?php if (!empty($feedback)) { ?>
+	<div class="uk-container">
+		<div class="uk-alert-success" uk-alert>
+			<p><?php echo $feedback; ?></p>
+		</div>
+	</div>
+	<?php } ?>
 	<div class="uk-container">
 		<fieldset class="uk-fieldset">
-			<form method="POST">
+			<form method="POST" action="/account">
 			<legend class="uk-legend">Enter a licence key or order reference number</legend>
 			<div class="uk-margin-small uk-grid-small uk-grid">
 				<div class="uk-width-expand">
@@ -49,7 +59,12 @@ foreach ($rows as $row) {
 	echo "<td>", $row->licencekey, "</td><td><table class='uk-table-small uk-table-responsive'>";
 	if (!empty($prod)) echo "<tr><th>Type:</th><td>", $prod, "</td></tr>";
 	echo "<tr><th>Started:</th><td>", Utils::TimestampToDate($row->starts), "</td></tr>";
-	if ($row->ends > 0) echo "<tr><th>Expiry:</th><td>", Utils::TimestampToDate($row->ends), "</td></tr>";
+	if ($row->ends == 0) {
+		$cancel_link = GetSubscriptionCancelLink($row->licencekey);
+		echo "<tr><th>Subscription:</th><td>Active{$cancel_link}</td></tr>";
+	} else {
+		echo "<tr><th>Expiry:</th><td>", Utils::TimestampToDate($row->ends), "</td></tr>";
+	}
 	echo LastUse($row->licencekey);
 	echo "</table></td></tr>";
 }
@@ -105,4 +120,20 @@ function LastUse($key) {
 		$result = "<tr><th>Last Used:</th><td>" . Utils::TimestampToDate($found) . "</td></tr>";
 	}
 	return $result;
+}
+
+function GetSubscriptionCancelLink($reference) {
+	$database = DatabaseFactory::getFactory()->getConnection();
+	$query = $database->prepare("SELECT param2 FROM log WHERE method_name = 'handleOrder' and param2 LIKE :ref ORDER BY added DESC LIMIT 1");
+	$query->execute([':ref' => "%{$reference}%"]);
+	$found = $query->fetchColumn();
+	if ($found) {
+		$data = (object)json_decode($found,false);
+		$subscription_id = @$data->events[0]->data->items[0]->subscription->id;
+		if (!empty($subscription_id)) {
+			$encoded = urlencode($subscription_id);
+			return " - <a href='/account/unsubscribe/{$encoded}/'>Cancel subscription</a>";
+		}
+	}
+	return "";
 }

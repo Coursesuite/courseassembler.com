@@ -23,7 +23,7 @@ $products[] = ["Annual", "$199", "course-assembler-sub","Subscribe"];
 		<meta property="og:url" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/">
 		<meta property="og:site_name" content="Course Assembler ">
 		<meta property="og:image" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/assets/meta_card.png">
-		<link href="/assets/style.202204071004.css" rel="stylesheet" type="text/css"/>
+		<link href="/assets/style.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/css/uikit.min.css" />
         <script src="https://polyfill.io/v3/polyfill.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
@@ -42,22 +42,30 @@ $products[] = ["Annual", "$199", "course-assembler-sub","Subscribe"];
 					<div class="uk-navbar-left">
 						<a href="/" class="uk-navbar-item uk-logo"><img src="/assets/header.svg" class="uk-margin-small-right" width="280"></a>
 					</div>
-					<div class="uk-navbar-right uk-visible@m">
+					<div class="uk-navbar-right uk-visible@s">
 						<ul class="uk-navbar-nav">
 							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
 							<li><a href="/#features">Features</a></li>
 							<li><a href="/faq">FAQs</a></li>
 							<li><a href="/pricing">Pricing</a></li>
-							<li><a href="/blog" class="<?php echo Utils::BlogDot(); ?>">Blog</a></li>
-							<li><a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw&region=follow_link&screen_name=CourseAssembler&tw_p=followbutton" title="Follow @CourseAssembler on Twitter"><span uk-icon="icon: twitter;"></span></a></li>
+							<li><a href="/blog" class="<?php echo Utils::BlogDot(); ?>">Changelog</a></li>
+							<li><a href="/docs" target="documentation">Docs</a></li>
 						</ul>
-						<div class="uk-navbar-item">
+						<div class="uk-navbar-item uk-visible@m">
 							<?php include "_launch.inc.php"; ?>
 						</div>
 					</div>
 				</nav>
+				<div class="uk-hidden@s">
+					<ul class="uk-list uk-light uk-margin-remove-bottom">
+						<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
+						<li><a href="/#features">Features</a></li>
+						<li><a href="/faq">FAQs</a></li>
+						<li><a href="/pricing">Pricing</a></li>
+						<li><a href="/blog" class="<?php echo Utils::BlogDot(); ?>">Changelog</a></li>
+						<li><a href="/docs" target="documentation">Docs</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
-        <link rel="stylesheet" href="/assets/outdated-browser-rework/outdated-browser.css">
-        <div id="outdated"></div>
-        <script src="/assets/outdated-browser-rework/outdated-browser.js"></script>
+		<?php include "_outdated.inc.php"; ?>

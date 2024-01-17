@@ -5,7 +5,7 @@
 				<div class="uk-width-2-3@m">
 					<h4>CourseAssembler<br><small>is an assembly line for your e-learning content</small></h4>
 					<p class="uk-text-small">Made with ♥️ in Australia</p>
-					<p>&copy; Copyright <?php echo date("Y"); ?>, all rights reserved. <a href="/privacy">Policies</a> | <a href="mailto:info@courseassembler.com">Email</a> | <a href="https://twitter.com/courseassembler">@courseassembler</a></p>
+					<p>&copy; Copyright <?php echo date("Y"); ?>, all rights reserved. <a href="/privacy">Policies</a> | <a href="mailto:info@courseassembler.com">Contact us</a></p>
 				</div>
 				<div class="uk-width-1-3@m">
 					<?php include "_sharing.inc.php"; ?>
