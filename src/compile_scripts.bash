@@ -60,7 +60,16 @@ cd ..
 
 echo "Creating app loader"
 echo "<?php" > load.php
-echo "require_once('../../vendor/autoload.php');" >> load.php
+echo "$AUTOLOADER_fold = __DIR__; $AUTOLOADER_path = ""; $AUTOLOADER_exit = false;" >> load.php
+echo "do {" >> load.php
+echo "	$AUTOLOADER_fold = dirname($AUTOLOADER_fold);" >> load.php
+echo "	if (file_exists($AUTOLOADER_path."vendor") || $AUTOLOADER_fold === "/") {" >> load.php
+echo "		$AUTOLOADER_exit = true;" >> load.php
+echo "	} else {" >> load.php
+echo "		$AUTOLOADER_path .= "../";" >> load.php
+echo "	}" >> load.php
+echo "} while ($AUTOLOADER_exit === false);" >> load.php
+echo "require_once($AUTOLOADER_path . 'vendor/autoload.php');" >> load.php
 echo "session_start();" >> load.php
 echo "if (!isset(\$_SESSION['sesskey'])) \$_SESSION['sesskey'] = md5(time());" >> load.php
 echo "\$verifier = Licence::validate(Request::get('hash'));" >> load.php
