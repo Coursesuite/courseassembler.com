@@ -491,4 +491,141 @@ console.dir(Dexie);
 	};
 
 
+	const template = `<section id="library"><iframe src='library/?hash=${App.Hash}'></iframe></section>`;
+
+	/* here we set up the regular plugin stuff to handle data-actions triggered from the UI */
+    let methods = DocNinja.Plugins.Importer = DocNinja.Plugins.Importer || {};
+
+	methods.deleteFromLibrary = function(e) {
+		var fn = e.target.closest("[data-src]").dataset.src,
+				fd = new URLSearchParams({
+					"action": "removecourse",
+					"name": fn
+				});
+		fetch(App.Warehouse + "?hash=" + App.Hash, {
+			method: "POST",
+			body: fd
+		}).then(function(response) {
+			if (response.ok) {
+				return response.json()
+			}
+			throw resposne;
+		}).then(function(json) {
+			e.target.closest("[data-src]").parentNode.removeChild(e.target.closest("[data-src]"));
+		}).catch(function(msg) {
+			console.dir(msg);
+			alert("There was a problem removing the file " + fn);
+		});
+	}
+
+	methods.downloadFromLibrary = function(e) {
+		var fn = e.target.closest("[data-src]").dataset.src,
+				fd = new URLSearchParams({
+					"action": "loadcourse",
+					"name": fn
+				});
+		fetch(App.Warehouse + "?hash=" + App.Hash, {
+			method: "POST",
+			body: fd
+		}).then(function(response) {
+			if (response.ok) {
+				return response.blob();
+			}
+			throw response;
+		}).then(function(blob) {
+			for (const el of document.querySelectorAll('a[data-done]')) el.parentNode.removeChild(el);
+			var url = URL.createObjectURL(blob),
+					a = document.createElement('a');
+			a.dataset.done = true;
+			a.href = url;
+			a.style = 'display:none';
+			a.download = fn;
+			document.body.appendChild(a);
+			a.click();
+
+		}).catch(function(bloop) {
+			console.dir(bloop);
+			alert("Sorry an error occurred accessing this course.");
+		});
+		
+	}
+
+	methods.importFromLibrary = function(e) {
+		var fn = e.target.closest("[data-src]").dataset.src;
+		DocNinja.fileConversion.HandleServerImport(fn);
+	}
+
+	methods.toggleLibrary = function(e) {
+		// console.log('toggle library', e.target);
+		e.preventDefault();
+		document.body.classList.toggle('library-open');
+		DocNinja.routines.PersistSettings();
+	}
+
+	methods.beginUpload = function(e) {
+		document.querySelector('#upload-course').click();
+	}
+
+	methods.uploadToLibrary = function(el) { // triggered by onchange event of the file input
+		if (typeof el === 'string') el = document.getElementById(el);
+		var fd = new FormData(),
+				file = el.files[0]; //,
+				// filename = file.name.replace(/\.[^/.]+$/, "");
+		fd.append("action", "storecourse");
+		fd.append("file", file);  //, filename);
+		fetch(App.Warehouse + "?hash=" + App.Hash, {
+			method: "POST",
+			body: fd
+		}).then(function(response) {
+			if (response.ok) {
+				return response.json()
+			}
+			throw response;
+		}).then(function(json) {
+			// could do something dynamic here, but we will just reload for now
+			location.reload();
+		}).catch(function(msg) {
+			console.dir(msg);
+			alert("There was a problem uploading the file " + file.name);
+		});
+	}
+
+	// method called from the main app to register this plugin
+	// in turn registers handlers for data-actions (managed by globlclickconsumer)
+	// context is passed in during registration and is a reference to this plugin instance
+    methods.RegisterPlugin = function(context) {
+		DocNinja.routines.AttachUI(document.body, template);
+		DocNinja.routines.RegisterActions([{
+			plugin: context,
+			type: 'ui',
+            match: 'remove-saved-course',
+            fn: 'deleteFromLibrary',
+            parameters: []
+		},{
+			plugin: context,
+			type: 'ui',
+            match: 'import-saved-course',
+            fn: 'importFromLibrary',
+            parameters: []
+		},{
+			plugin: context,
+			type: 'ui',
+            match: 'download-saved-course',
+            fn: 'downloadFromLibrary',
+            parameters: []
+		},{
+			plugin: context,
+			type: 'ui',
+			match: 'toggle-library',
+			fn: 'toggleLibrary',
+            parameters: []
+		},{
+			plugin: context,
+			type: 'ui',
+			match: 'upload-saved-course',
+			fn: 'beginUpload',
+            parameters: ['upload-course']
+		}]);
+	};
+
 })(window.DocNinja = window.DocNinja || {});
