@@ -12,6 +12,7 @@
 @import url('download.layout.css');
 @import url('buildbot.css');
 @import url('font/style.css');
+@import url('feedback.css');
 
 :root {
 	/* containers */

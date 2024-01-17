@@ -1,0 +1,94 @@
+
+#feedback {
+	--buttonWidth: 42px;
+	--formWidth: 320px;
+	color: var(--base);
+	position: fixed;
+	top: 60px;
+	left: calc(100vw - var(--buttonWidth));
+	transform: translate(0, 0);
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	transition: transform .5s ease;
+	z-index: var(--zFeedback);
+	pointer-events: none;
+}
+#feedback>div {
+	pointer-events: all;
+}
+#feedback .action-icon {
+	opacity: 1;
+	transition: opacity .3s;
+}
+#feedback.open {
+	transform: translate(calc(var(--formWidth) * -1), 0);
+}
+#feedback.open .action-icon {
+	opacity: 0;
+}
+#feedback .action-icon span {
+	display: block;
+}
+
+#feedback.capturing { 
+	visibility: hidden;
+}
+#feedback > .feedback-form {
+	padding: var(--standardGutter);
+	width: var(--formWidth);
+	background: var(--base) linear-gradient(1deg, rgba(28,3,69,0) 0%, rgba(68,94,186,1) 75%, rgba(0,212,255,1) 100%);
+	color: white;
+	border-radius: 10px 0 0 10px;
+}
+#feedback > .feedback-form button {
+	color: black;
+}
+#feedback .form-row {
+	margin-top: var(--standardGutter);
+}
+#feedback .form-row output {
+	display: block;
+}
+#feedback img {
+	max-width: 75%;
+	margin: 0 auto;
+}
+#feedback label {
+	text-transform: uppercase;
+	display:block;
+}
+#feedback label>span {
+	text-transform: lowercase;
+}
+#feedback select, #feedback textarea {
+	display: block;
+	width: 100%;
+	resize: vertical;
+}
+#feedback .form-close {
+	display:flex;
+	justify-content: space-between;
+	border-bottom:1px dotted #ffffff80;
+	line-height:2rem;
+}
+#feedback .form-submit {
+	text-align: center;
+}
+#feedback a[data-action="capture-screenshot"] {
+	margin: var(--standardGutter) 0;
+	padding: var(--standardGutter);
+	border: 1px dashed #ffffff80;
+	text-align:center;
+	display: block;
+	position: relative;
+	cursor: pointer;
+}
+#feedback a[data-action="capture-screenshot"].trash::after {
+	position: absolute;
+	top:0;
+	right:0;
+	content:'\ebfa';
+	font-family:'courseassembler';
+	line-height:1;
+}

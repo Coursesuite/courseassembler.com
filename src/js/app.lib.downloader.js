@@ -730,24 +730,24 @@ localforage.iterate(function( ... ) {
 		}
 
 		// call the Kloudless save process
-		_kloudlessUpload = function (content, name, setup, metadata) {
-			$.ajax({
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader("X-Kloudless-Metadata", JSON.stringify({"parent_id": metadata[0].id, "name": name}))
-				},
-				url: "https://api.kloudless.com/v1/accounts/" + metadata[0].account + "/storage/files/?overwrite=false",
-				method: "POST",
-				contentType: "application/octet-stream",
-				headers: {
-					"Authorization": atob("QVBJS2V5IGo2OXZCMW5ZcEFkZV9PM2pySDJPVzJfWTVJYk9ZU3VwaHR2NV9qM0pkc2hkS0hCWg==")
-				},
-				data: content,
-				processData: false,
-				success: function(status, xhr) {
-					alert("Your package has been uploaded.");
-				}
-			});
-		};
+		// _kloudlessUpload = function (content, name, setup, metadata) {
+		// 	$.ajax({
+		// 		beforeSend: function(xhr) {
+		// 			xhr.setRequestHeader("X-Kloudless-Metadata", JSON.stringify({"parent_id": metadata[0].id, "name": name}))
+		// 		},
+		// 		url: "https://api.kloudless.com/v1/accounts/" + metadata[0].account + "/storage/files/?overwrite=false",
+		// 		method: "POST",
+		// 		contentType: "application/octet-stream",
+		// 		headers: {
+		// 			"Authorization": atob("QVBJS2V5IGo2OXZCMW5ZcEFkZV9PM2pySDJPVzJfWTVJYk9ZU3VwaHR2NV9qM0pkc2hkS0hCWg==")
+		// 		},
+		// 		data: content,
+		// 		processData: false,
+		// 		success: function(status, xhr) {
+		// 			alert("Your package has been uploaded.");
+		// 		}
+		// 	});
+		// };
 
 		// store the file on the server underneath the users licenced file area
 		_publishTo = function (content, name, setup) {
@@ -776,21 +776,23 @@ localforage.iterate(function( ... ) {
 					$span.html(_html);
 				},3456);
 
-				// create a new row on the import screen
-				var tbody = document.querySelector("#import-files .table-file-list tbody");
-				try {
-					if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]').parentElement);
-				} catch (ex) {
-					// we want to ignore this error from the main promise
-				}
-				tbody.appendChild(
-					StringToFragment(
-						Handlebars.templates["import-tr"](json)
-					)
-				);
-				alert("Your package has been stored to the server. You can access stored courses under the Import feature.");
+				document.querySelector('#library iframe').contentWindow.location.reload(true);
+				// 2024.01.16 - replaced by the above
+				// // create a new row on the import screen
+				// var tbody = document.querySelector("#import-files .table-file-list tbody");
+				// try {
+				// 	if (tbody.querySelector('td[colspan]')) tbody.removeChild(tbody.querySelector('td[colspan]').parentElement);
+				// } catch (ex) {
+				// 	// we want to ignore this error from the main promise
+				// }
+				// tbody.appendChild(
+				// 	StringToFragment(
+				// 		Handlebars.templates["import-tr"](json)
+				// 	)
+				// );
+				alert("Your package has been stored to the server. You can access stored courses under the Library.");
 			}).catch(function(message) {
-				console.dir(message);
+				console.error(message);
 				alert("There was a problem storing the file to the server.");
 				$span.html("<i class='ninja-eye'></i> Upload error");
 				var ui = new UIProgressButton(div); ui.stop(-1);

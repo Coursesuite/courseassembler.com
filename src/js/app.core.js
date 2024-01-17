@@ -73,21 +73,18 @@
 	}
 
 
-/* -----------------------------------------
-
-	browser resize event handler
-
------------------------------------------ */
-
-	// style containers to fit browser; additionally size internal elements if required
+	// common routines used throughout the app
 	DocNinja.routines = {
+
+		// store the settings for the page
 		PersistSettings: function(source) {
-			// console.info('PersistSettings:', source);
 			window.gatherSettings().then(function(cache) {
 			 	localforage.setItem("settingsCache", cache);
 			 	localforage.setItem("bodyclases", document.body.className);
 			});
 		},
+
+		// phone home about various events throughout the app (basically a named incrementor to do rough feature usage tracking)
 		Statistics: function(destination) {
 			if (destination.trim() === "") return;
 			let xhr = XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHttp');
@@ -97,26 +94,35 @@
 			xhr.open("POST", "stats.php");
 			xhr.send(fd);
 		},
+
+		// register one or more actions
 		RegisterActions: function (details) {
 			details.forEach(function(detail, index) {
 				// detail.order = index+1;
 				DocNinja.routines.RegisterAction(detail);
 			})
 		},
+
+		// register one action
 		RegisterAction: function (details) {
 			var t = details.type;
 				// o = DocNinja.options.actions[t] && DocNinja.options.actions[t].length || 0; // Math.max(0, +details.order-1); // order needs to start at 1
 			if (!DocNinja.options.actions.hasOwnProperty(t)) DocNinja.options.actions[t] = [];
 			if (!details.hasOwnProperty('order')) details.order = DocNinja.options.actions[t].length;
 			DocNinja.options.actions[t][details.order] = details;
+			// console.dir(details);
 		},
-		InitActions: function () { // tell plugins they need to register their actions
-			PLUGINS.forEach(function(v) {
+
+		// load and initialise each plugin that implements a RegisterPlugin public method
+		InitActions: function () {
+			PLUGINS.forEach(function(v) { //PLUGINS is a global object calculated by PHP during page initialise
 				if (DocNinja.Plugins.hasOwnProperty(v) && DocNinja.Plugins[v].hasOwnProperty("RegisterPlugin")) {
 					DocNinja.Plugins[v].RegisterPlugin(v);
 				}
 			});
 		},
+
+		// handler for page resize events (throttled)
 		Resize: function() {
 			if (document.body.classList.contains('change-settings')) {
 				if (DocNinja.Plugins.Theme) {
@@ -134,6 +140,8 @@
 				}
 			}
 		},
+
+		// attach a node or string to a target, typically used for attaching UI elements during plugin initialisation
 		AttachUI: function (target, node) {
 			if (typeof target==='string') target = document.querySelector(target);
 			if (typeof node === 'string') node = StringToFragment(node);
@@ -189,7 +197,9 @@
 		$(DocNinja.options.counters).text(fl);
 	}
 
-	// dummy text is added using css; check the li elements are valid
+	// if you remove all the nav items it needs to tell you to add some
+	// dummy text is added using css so that it doesn't cache the html during setitemOrder
+	// check the li elements are valid
 	function checkDummyItem() {
 		Array.from(DocNinja.navItems.querySelectorAll('li[data-fileid]:empty')).forEach((el) => {
 			el.parentNode.removeChild(el);
@@ -240,6 +250,7 @@
 
 	/* ---------------------------------------------------------------------------------------------------------------------------------------------------------
 							KLOUDLESS LOAD FILES
+							legacy - not used - kloudless used link multiple cloud storage providers under a common interface, haven't found a replacement yet
 	--------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 	// DocNinja.KLOUDLESS_INPUT.on("success", function (files) {
@@ -315,7 +326,7 @@
 	// }
 
 	// hmm. if you don't execute "something" before the next IIFE you get a spread operator error
-	// the routine doesn't have to do anything, just execute
+	// the routine doesn't have to do anything, just execute .. so yeah, an empty function that does something
 	$("#nav-selection").on("click", "figure", function (e) {
 		// DocNinja.routines.selectTemplate(this.dataset.name);
 		// DocNinja.routines.PersistSettings("click figure");
@@ -341,20 +352,26 @@
 	----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	(function () {
 
+		// check for an adblocker and report it, in case it messes with us
+		if (!document.getElementById('j47GT0f33d33E')) {
+		    DocNinja.routines.Statistics("adblock");
+		}
+
+		// register the plugin actions
 		DocNinja.routines.InitActions();
 
 		// window.scrollTo(0,0);
 		triggerResize();
 
-		// for speed and simplicity, we cache the document list
+		// for speed and simplicity, we cache the document list html in localstorage
 		localforage.getItem("order", function core_order_get(error, value) {
-			// console.log("order",value);
-			value = DocNinja.Navigation.Upgrade(value);
+			value = DocNinja.Navigation.Upgrade(value); // ensure html is valid
 			if (null !== value) DocNinja.navItems.insertAdjacentHTML('afterbegin', value);
-			$("li",DocNinja.navItems).removeClass("selected");
-			DocNinja.PurityControl.Nav.Check();
+			$("li", DocNinja.navItems).removeClass("selected"); // sometimes class is left over if previously cached with a selection
+			DocNinja.PurityControl.Nav.Check(); // check for empty or invalid items
 		});
 
+		// if there were no items in the cache, then prompt the user to start by adding some content
 		localforage.getItem("settingsCache", function core_cache_get(error, value) {
 			if (null === value) {
 				$("button[data-action='add-content']").click();
@@ -380,7 +397,7 @@
 		$("input", "form").on("change blur", function (e) {
 			// Disable preview ninja for IMS packages
 			var previewButton = $("[data-destination='preview']");
-			if (e.target.dataset.hasOwnProperty("compat")) {
+			if (e.target.dataset.hasOwnProperty("compat")) { // 2024.01.16 - No Idea what this originally did, possibly never executed
 				previewButton.addClass("disabled");
 				$("#nav-selection").addClass("hidden");
 			} else {
@@ -554,11 +571,12 @@
 			},
 		});
 
+		// clickig on ANYTHING passes to this function - checks actions, plugins, various internals - runs most of the app
 		document.addEventListener("click", globalClickConsumer, false);
 
 		// capture keyboard shortcuts on the add-documents tab
 		// enter = begin rename (externally handled)
-		// double-delete = trash page
+		// double-delete = trash page (code reference: the pTime/kTime/kDelta)
 		// up = select previous
 		// shift+up = move node up
 		// ctrl+shift+up = move to top
@@ -638,6 +656,8 @@
 		$(function () {
 
 			// set the css variable that us used to determine height placement
+			// this is probably a leftover from the days where the banner was able to be set using a white-label via an API.
+			// TODO: rework app to use CSS GRID and remove white-labelling
 			var h = ($("#banner").height() + $("#tabs").height()) + "px";
 			document.documentElement.style.setProperty('--bannerHeight', h);
 
@@ -708,6 +728,7 @@
 
 			/* -----------------------------------------
 				bind download button animation
+				TODO: re-engineer this so that it doesn't rely on the highly outdated progressbutton.js and modernizr.js
 			----------------------------------------- */
 			for (const elm of document.querySelectorAll("div[data-destination]")) {
 				new UIProgressButton(elm, {
@@ -733,7 +754,8 @@
 			});
 
 			// ensure DocNinja.filePreview is created/loaded first before attempting to call CreateSplitPane()
-			DocNinja.filePreview.CreateSplitPane();
+			// 2024.01.16 - SplitPane is a depreciated feature, but it's still in the codebase
+			// DocNinja.filePreview.CreateSplitPane();
 
 		});
 
@@ -761,8 +783,9 @@
 		// 	update_preview()
 		// });
 
-		DocNinja.options.propertyBarHeight = parseInt(getCSSVariable("--propertyBarHeight"),10);
-		DocNinja.options.propertyBarMinHeight = ~~document.getElementById('split-v').dataset.min;
+										// the split pane stuff that is now disabled
+										// DocNinja.options.propertyBarHeight = parseInt(getCSSVariable("--propertyBarHeight"),10);
+										// DocNinja.options.propertyBarMinHeight = ~~document.getElementById('split-v').dataset.min;
 
 		// TODO: remember pane positions?
 		// document.addEventListener("SplitEnd", function(e) {

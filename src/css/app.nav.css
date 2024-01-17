@@ -53,10 +53,18 @@ body.download-zip #tabs a[data-tab='download-zip'] {
     border-color: var(--base);
 }
 
+body.add-documents.library-open section#library,
 body.add-documents section#add-documents,
 body.change-settings section#change-settings,
 body.download-zip section#download-zip {
     display: block;
+}
+
+section#library > iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background:white;
 }
 
 /* --------------------------

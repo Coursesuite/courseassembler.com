@@ -42,6 +42,7 @@ if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
 	}
 }
 
+// $verifier->code->minified = true; 
 // api url = coursesuite url / api / dl / apikey / appkey / template.zip
 $api_template = isset($verifier->api->template) ? $verifier->api->template : "";
 
@@ -88,8 +89,9 @@ $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/aj
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>';
 $headJS[] = '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js" async="true"></script>';
-$headJS[] = '<script src="js/mic-recorder-to-mp3/index.min.js" defer></script>';
-$headJS[] = '<script src="js/fix-webm-duration/index.js" defer></script>';
+$js[] = '<script src="js/mic-recorder-to-mp3/index.min.js" defer></script>';
+$js[] = '<script src="js/fix-webm-duration/index.js" defer></script>';
+$js[] = '<script type="text/javascript" src="/adgpt.js"></script>';
 // $headJS[] = '<script type="text/javascript" src="https://unpkg.com/mic-recorder-to-mp3" defer></script>';
 // $headJS[] = '<script type="text/javascript" src="https://unpkg.com/fix-webm-duration" defer></script>';
 // $headJS[] = '<script type="text/javascript" src="https://unpkg.com/split.js/dist/split.min.js" async="true"></script>';
@@ -104,9 +106,6 @@ $headCSS[] = '<link href="https://fonts.googleapis.com/css?family=Roboto:regular
 		<meta charset="UTF-8" />
 		<title>Course Assembler</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="Rapidly convert your content to HTML5, add quizzes and video and package with a SCORM wrapper" />
-		<meta name="keywords" content="Course Assembler, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
-		<meta name="author" content="https://github.com/Coursesuite" />
 		<link rel="shortcut icon" href="/favicon.ico">
 <?php
 
@@ -139,23 +138,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = undefined, PLUGINS = <?php echo json_encode($plugins); ?>;</script>
 <?php if ($verifier->code->minified) { ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo $minified_css; ?>" />
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FLZ6RBMYH"></script>
-		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'G-0FLZ6RBMYH');
-		</script>
-<?php } else if (false) { ?>
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-		  ga('create', 'UA-68767047-3', 'auto');
-		  ga('send', 'pageview');
-		</script>
+<?php require("_gtag.php"); ?>
 <?php } else { ?>
 		<link rel="stylesheet" type="text/css" href="css/app.css" />
 <?php } ?>
@@ -189,15 +172,16 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 	<section id="add-documents">
 		<div class="toolbar">
 			<div id="nav-actions" class="flex-v pad-left">
+				<button data-action="toggle-library" title="Toggle library" class="m0"><i class="ninja-layout2"></i></button>
 				<button data-action="toggle-add-content" data-popover="addcontent" data-label="Add content"><i class="ninja-document-add"></i>Add ...</button>
-				<button data-action="import-content"><i class="ninja-folder-outline-add"></i>Import zip</button>
+				<?php if(0){ ?><button data-action="import-content"><i class="ninja-folder-outline-add"></i>Import zip</button><?php } ?>
 			</div>
 			<div id="fields" class="flex-v"></div>
 		</div>
 		<div id="scroll-area"><ol id="nav-item-list"></ol></div>
 		<div id="preview"></div>
 		<div id="propertyBar"></div>
-		<div id="split-h" data-min="240"></div><div id="split-v" data-min="16"></div>
+		<!--div id="split-h" data-min="240"></div><div id="split-v" data-min="16"></div-->
 		<video id="popover_videoElement" hidden></video>
 		<audio id="popover_audioElement" hidden></audio>
 		<input type="file" id="pageAudioUpload" style="display:none" onchange="popover_audioUpload(this.files[0])" accept="audio/*;video/*;capture=microphone,camera" />
@@ -312,7 +296,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 				</div>
 <?php } ?>
 				<div class="progress-button elastic" data-destination="publish">
-					<button><span><i class="ninja-upload"></i> Save to server</span></button>
+					<button><span><i class="ninja-upload"></i> Save to library</span></button>
 					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
 					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
@@ -396,6 +380,8 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		</div>
 	</div>
 
+<?php if (0) { ?>
+
 	<div class="modal import-content">
 		<div class="modal-box tabbed-content">
 		<header>
@@ -440,6 +426,7 @@ echo implode(PHP_EOL, $css), PHP_EOL;
 		</section>
 		</div>
 	</div>
+<?php } ?>
 
 	<div class="modal message">
 		<div class="modal-box">

@@ -342,6 +342,11 @@
 			return null;
 		}
 
+		_hasFileId = function() {
+			return (_getFileId()!==null);
+		}
+
+
 		// we want two splitters which work by modifying CSS variables:
 		// 1. the splitter between the fields and the preview
 		// 2. the splitter between the preview and the timeline
@@ -430,6 +435,7 @@
 			Observe: _observer,
 			Select: _select,
 			CurrentFile: _getFileId,
+			IsPreviewing: _hasFileId,
 			CreateSplitPane: _initPaneSplitters
 		}
 

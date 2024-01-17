@@ -38,6 +38,21 @@ section#change-settings{
     overflow-y: auto;
 }
 
+section#library {
+	width: 25vw;
+	border-right: 1px solid var(--edge);
+}
+body.add-documents.library-open > section:not(.page-fixed-top):not(#library):not(#feedback) {
+	left: 25vw;
+	width: calc(75vw - 1px);
+}
+body.add-documents.library-open #preview,
+body.add-documents.library-open #fields {
+	width: calc(75vw - var(--navPaneWidth));
+}
+
+
+
 body.waiting {
 	cursor: progress;
 }

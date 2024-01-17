@@ -1,5 +1,12 @@
-function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
+// Configure localForage first
+localforage.setDriver(localforage.INDEXEDDB);
+localforage.config({
+	name: 'DocumentNinja'
+});
 
+
+function isSafari() { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent); }
+function isJSON(b){try{var a=JSON.parse(b);if(a&&"object"===typeof a)return!0}catch(c){}return!1};
 function dec2hex(d) {return Number(d).toString(16);}
 function hex2dec(h) {return parseInt(h,16);}
 
@@ -284,6 +291,14 @@ function randomIntFromInterval(min = 1, max = 10) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function fileExtension(filename) {
+	return filename.substring(filename.lastIndexOf('.')+1, filename.length) || filename
+}
+
+const escapeHtml = (unsafe) => {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+}
+
 /*!
  handlebars v4.0.5 runtime
 
@@ -464,37 +479,65 @@ function _bgImage(data) {
 // 	return '';
 // })
 
+// if audio is a file, Safari won't play it, it must be a data url for all browsers to play it (jan 2024)
+// the routine that calls this is highly synchonous, so we can't use async/await
+function prepareAudioSrc(mp3) {
+	let d = true, i = 0;
+	if (mp3 && typeof mp3 === "string" && mp3.indexOf('base64,')!==-1) return mp3;
+	while (d) {
+		if (mp3 instanceof File && i === 0) {
+			const fr = new FileReader();
+			fr.onload = function() {
+				// console.log('fr.result', fr.result);
+				mp3 = fr.result;
+				d = false;
+			}
+			fr.readAsDataURL(mp3);
+		} else if (mp3 instanceof Blob) {
+			mp3 = URL.createObjectURL(mp3);
+			d = false;
+		}
+		if (i++ > 10000) d = false; // some timeout/runaway condition
+	}
+	// console.log('i got to', i);
+	return mp3;
+}
+
 // convert a dataurl (e.g. image, audio, video) to an objecturl (blob:https://server/guid)
-function dataUrlToObjectUrl(data) {
-	if (data instanceof Blob) {
-		blob = data;
-	} else {
+// File is an instance of Blob, and seems
+function dataUrlToObjectUrl(data,mime) {
+	let blob;
+	if (typeof data === "string") { // data url (legacy)
 		const spl = data.split(',');
 		const binary = atob(spl[1]);
-		const mime = spl[0].split(':')[0].split(';')[0];
+		const mime = spl[0].split(':')[1].split(';')[0];
 		let ar = []; for (let i=0; i<binary.length; i++) { ar.push(binary.charCodeAt(i)); }
-		var blob = new Blob([new Uint8Array(ar)],{type: mime});
+		blob = new File([new Uint8Array(ar)],  mime.replace(/\//,'.'), {type: mime});
+	} else if (data instanceof File) { // File object, uploaded content
+		blob = data;
+	} else { // maybe a blob or an arraybuffer ... convert it to a File, which allows mixed content for its fileBits
+		blob = new File([data], mime.replace(/\//,'.'), { type: mime });
 	}
-	return URL.createObjectURL(blob);
+	return isSafari() ? blob : URL.createObjectURL(blob); // safari will use a srcObject, other browsers will use a src
 }
 
-Element.prototype.empty = function () {
-	while (this.firstChild) {
-		this.removeChild(this.firstChild);
-	}
-	return this;
-}
-
-Element.prototype.remove = function() {
-	this.parentElement.removeChild(this);
-}
-NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-	for(var i = 0, len = this.length; i < len; i++) {
-		if(this[i] && this[i].parentElement) {
-			this[i].parentElement.removeChild(this[i]);
-		}
-	}
-}
+// TODO: check if this is still needed
+// Element.prototype.empty = function () {
+// 	while (this.firstChild) {
+// 		this.removeChild(this.firstChild);
+// 	}
+// 	return this;
+// }
+// Element.prototype.remove = function() {
+// 	this.parentElement.removeChild(this);
+// }
+// NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+// 	for(var i = 0, len = this.length; i < len; i++) {
+// 		if(this[i] && this[i].parentElement) {
+// 			this[i].parentElement.removeChild(this[i]);
+// 		}
+// 	}
+// }
 
 // function isInDOMTree(a){return!!findUltimateAncestor(a).body}
 // function findUltimateAncestor(a){for(;a.parentNode;)a=a.parentNode;return a};
@@ -628,10 +671,6 @@ var darkOrLight = function(red, green, blue) {
 // A4 = 1 : 1 / sqrt(2)
 function aspectRatio(b,c,a,d){a=Math.min(a/b,d/c);return{width:b*a,height:c*a}};
 
-// rename the local storage app name
-localforage.config({
-	name: 'DocumentNinja'
-});
 
 // javscript Clone an object (not DOM)
 function Clone(a){var b;if(null==a||"object"!=typeof a)return a;if(a instanceof Date)return b=new Date,b.setTime(a.getTime()),b;if(a instanceof Array){b=[];for(var c=0,d=a.length;c<d;c++)b[c]=Clone(a[c]);return b}if(a instanceof Object){b={};for(c in a)a.hasOwnProperty(c)&&(b[c]=Clone(a[c]));return b}throw Error("Unable to copy obj! Its type isn't supported.");};
@@ -842,11 +881,15 @@ function handleProperty(tgt) {
 		switch (tgt.dataset.action) {
 			case "page-media":
 				let mp3 = get_property(obj, "payload.mp3", false);
-				if (mp3) mp3 = dataUrlToObjectUrl(mp3);
+				// if (mp3) mp3 = prepareAudioSrc(mp3);
+				if (mp3) mp3 = dataUrlToObjectUrl(mp3,'audio/mp3');  // 2024.01.17 - Safari (17) seems to choke on playing media from object urls
 				let mp4 = get_property(obj, 'payload.mp4', false);
-				if (mp4) mp4 = dataUrlToObjectUrl(mp4);
+				if (mp4) mp4 = dataUrlToObjectUrl(mp4,'video/mp4');
+				// let mt = (mp3) ? "audio/mp3" : (mp4) ? "video/mp4" : '';
 				if (mp3 || mp4) {
 					d.mediaUrl = mp3 || mp4;
+					if (isSafari() && typeof d.mediaUrl !== 'string') d.srcObject = true;
+					// d.mediaType = mt;
 					d.showActions = false;
 					d.showMedia = true;
 					tgt.dataset.init = "page-media";
@@ -861,6 +904,8 @@ function handleProperty(tgt) {
 
 		}
 
+		// console.dir(d);
+
 		const video = document.getElementById('video-overlay');
 		if (video) video.parentNode.removeChild(video);
 
@@ -870,6 +915,7 @@ function handleProperty(tgt) {
 
 		const container = document.getElementById('propertyContainer');
 		container.innerHTML = Handlebars.templates['properties-' + tgt.dataset.propertybar](d);
+		if (d.hasOwnProperty('srcObject')) container.querySelector('#pageMediaPlayer').srcObject = d.mediaUrl;
 
 		if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);
 
@@ -1176,6 +1222,38 @@ function popover_audioNavToggle(state) {
 	persistProperty(id, "autoNav", state);
 }
 
+// inject a blob as the audio file for the current page if it doesn't already have page audio
+function importAudioToCurrentPage_noOverwrite(blob, this_fileid) {
+	var id = DocNinja.filePreview.CurrentFile();
+	localforage.getItem(id).then(function (obj) {
+		if (!Supports(obj, 'media')) {
+			_finishConversion({
+				status: "error",
+				error: "The selected page does not support audio.",
+				fileInfo: null,
+				fileId: this_fileid
+			}) ; // can't apply audio to this page type
+		}
+		if (!obj.payload.hasOwnProperty('mp3') ) {
+			const fr = new FileReader();
+			fr.onloadend = function(e) {
+				popover_saveMedia({
+					"payload.mp3": e.target.result, // legacy: stored as either a File or a dataurl
+					"payload.cursor": undefined
+				});
+			}
+			fr.readAsDataURL(new Blob([blob],{type: 'audio/mp3'}));
+		} else {
+			_finishConversion({
+				status: "error",
+				error: "The selected page already has page audio; file was not imported.",
+				fileInfo: null,
+				fileId: this_fileid
+			});
+		}
+	});
+}
+
 function popover_saveMedia(data) {
 	var id = DocNinja.filePreview.CurrentFile();
 	persistProperty(id, data).then(() => {
@@ -1464,13 +1542,15 @@ function performAction(tgt, e) {
 		attrib = tgt.getAttribute("data-action");
 
 	// for every rule there is always an exception
-	switch (attrib) {
-		case "remove-saved-course":
-		case "download-saved-course":
-			break;
-		default:
-			hideOverlays();
-	}
+	// 2024.01.16 - moved to importer plugin
+	// switch (attrib) {
+	// 	case "remove-saved-course":
+	// 	case "download-saved-course":
+	// 		break;
+	// 	default:
+	// 		hideOverlays();
+	// }
+	hideOverlays();
 
 	DocNinja.routines.Statistics(attrib);
 
@@ -1765,7 +1845,8 @@ function performAction(tgt, e) {
 				closePopover();
 				localforage.setItem(id, obj).then(function() {
 					// DocNinja.PurityControl.Nav.Check();
-					document.querySelector('.timeline-display').innerHTML = "";
+					document.querySelector('#propertyContainer').innerHTML = "";
+					// document.querySelector('.timeline-display').innerHTML = "";
 					window.setItemOrder();
 				});
 			});
@@ -1853,63 +1934,64 @@ function performAction(tgt, e) {
 			});
 			break;
 
-		case "remove-saved-course":
-			var fn = tgt.closest("tr").dataset.src,
-					fd = new URLSearchParams({
-						"action": "removecourse",
-						"name": fn
-					});
-			fetch(App.Warehouse + "?hash=" + App.Hash, {
-				method: "POST",
-				body: fd
-			}).then(function(response) {
-				if (response.ok) {
-					return response.json()
-				}
-				throw resposne;
-			}).then(function(json) {
-				tgt.closest("tbody").removeChild(tgt.closest("tr"));
-			}).catch(function(msg) {
-				console.dir(msg);
-				alert("There was a problem removing the file " + fn);
-			});
-			break;
+		// 2024.01.16 - this is now handled by the importer plugin
+		// case "remove-saved-course":
+		// 	var fn = tgt.closest("tr").dataset.src,
+		// 			fd = new URLSearchParams({
+		// 				"action": "removecourse",
+		// 				"name": fn
+		// 			});
+		// 	fetch(App.Warehouse + "?hash=" + App.Hash, {
+		// 		method: "POST",
+		// 		body: fd
+		// 	}).then(function(response) {
+		// 		if (response.ok) {
+		// 			return response.json()
+		// 		}
+		// 		throw resposne;
+		// 	}).then(function(json) {
+		// 		tgt.closest("tbody").removeChild(tgt.closest("tr"));
+		// 	}).catch(function(msg) {
+		// 		console.dir(msg);
+		// 		alert("There was a problem removing the file " + fn);
+		// 	});
+		// 	break;
 
-		case "import-saved-course":
-			var fn = tgt.closest("tr").dataset.src;
-			DocNinja.fileConversion.HandleServerImport(fn);
-			break;
+		// case "import-saved-course":
+		// 	var fn = tgt.closest("tr").dataset.src;
+		// 	DocNinja.fileConversion.HandleServerImport(fn);
+		// 	break;
 
-		case "download-saved-course":
-			var fn = tgt.closest("tr").dataset.src,
-					fd = new URLSearchParams({
-						"action": "loadcourse",
-						"name": fn
-					});
-			fetch(App.Warehouse + "?hash=" + App.Hash, {
-				method: "POST",
-				body: fd
-			}).then(function(response) {
-				if (response.ok) {
-					return response.blob();
-				}
-				throw response;
-			}).then(function(blob) {
-				for (const el of document.querySelectorAll('a[data-done]')) el.parentNode.removeChild(el);
-				var url = URL.createObjectURL(blob),
-						a = document.createElement('a');
-				a.dataset.done = true;
-				a.href = url;
-				a.style = 'display:none';
-				a.download = fn;
-				document.body.appendChild(a);
-				a.click();
+		// case "download-saved-course":
+		// 	var fn = tgt.closest("tr").dataset.src,
+		// 			fd = new URLSearchParams({
+		// 				"action": "loadcourse",
+		// 				"name": fn
+		// 			});
+		// 	fetch(App.Warehouse + "?hash=" + App.Hash, {
+		// 		method: "POST",
+		// 		body: fd
+		// 	}).then(function(response) {
+		// 		if (response.ok) {
+		// 			return response.blob();
+		// 		}
+		// 		throw response;
+		// 	}).then(function(blob) {
+		// 		for (const el of document.querySelectorAll('a[data-done]')) el.parentNode.removeChild(el);
+		// 		var url = URL.createObjectURL(blob),
+		// 				a = document.createElement('a');
+		// 		a.dataset.done = true;
+		// 		a.href = url;
+		// 		a.style = 'display:none';
+		// 		a.download = fn;
+		// 		document.body.appendChild(a);
+		// 		a.click();
 
-			}).catch(function(bloop) {
-				console.dir(bloop);
-				alert("Sorry an error occurred accessing this course.");
-			});
-			break;			
+		// 	}).catch(function(bloop) {
+		// 		console.dir(bloop);
+		// 		alert("Sorry an error occurred accessing this course.");
+		// 	});
+		// 	break;			
 
 
 		default:
@@ -1921,6 +2003,7 @@ function performAction(tgt, e) {
 					for (index in DocNinja.options.actions[group]) {
 						var v = DocNinja.options.actions[group][index];
 						if (typeof v === 'function') break; // not 'return'
+						// console.log('performaction defalt for ', index, ' group ', group, ' v is ', v, 'attrib is ', attrib);
 						if (v.hasOwnProperty("handler") && v.handler === attrib) { // e.g. view, edit, compile, etc (quizbuilder, markdown, etc)
 							closePopover();
 							if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndpop);

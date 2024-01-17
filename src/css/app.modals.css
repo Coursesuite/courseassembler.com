@@ -31,7 +31,7 @@ body[class*='modal-'] .modal > .modal-box {
 	background-color: white;
 	box-shadow: 5px 5px 0 rgba(0,0,0,.5);
 	width: 50%;
-	min-width: 530px;
+	min-width: fit-content;
 	color: #333;
 	text-shadow: none;
 }

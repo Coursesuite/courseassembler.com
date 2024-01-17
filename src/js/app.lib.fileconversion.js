@@ -81,7 +81,7 @@
 		_failure = function (liElem, err) {
 			if (err) err = "\n" + err;
 			if (!DocNinja.options.MUTED) playSound(DocNinja.options.sndfail);
-			alert("Sorry, this document type was not able to be converted." + err + "\n\nFor more information on convertable document types please consult the documentation.");
+			alert("Sorry, this document type was not able to be converted.\n" + err + "\n\nFor more information on convertable document types please consult the documentation.");
 			liElem.remove();
 			checkDummyItem();
 		};
@@ -188,6 +188,8 @@
 
 			engagement('beginConversion', kind);
 
+			// console.log("beginConversion", kind, subtype, extn, mime, name, this_fileid, drop, raw, liElem, e);
+
 			// todo: regexp match the raw.files[0].type instead and call conversion from a library
 			switch (kind) {
 				case "markdown":
@@ -214,54 +216,82 @@
 
 				case "image":
 					const imgExt = raw.files[0].name.trimUntilExtn().toLowerCase();
-					if (["ai","avg","psd","tiff","webp","ps","wps","azw","bmp","nef","raw","xps"].includes(imgExt)) {
-
-						liElem.setAttribute("data-converted","false");
-						DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");
-
-						_performConversion({
-							name: raw.files[0].name,
-							type: raw.files[0].type,
-							blob: dataURItoBlob(drop.result),  // convert the base64 string to a Blob
-							fileId: this_fileid, // string ref to dom node
-							original: drop.result
-						}, "img");
-
-					} else if (DocNinja.options.AUTOOPTIMISE && imgExt !== "gif") {
-						new AutoScaler(drop.result, {
-							maxWidth: window.innerWidth,
-							maxHeight: window.inerHeight,
-							quality: 0.9,
-							format: raw.files[0].type,
-							onComplete: function (scaledImage) {
-								fileinfo = {
-									payload: {
-										name: md5(scaledImage) + "." + raw.files[0].name.trimUntilExtn(),
-										image: scaledImage
-									},
-									format: scaledImage.split(";")[0].replace(/image\//,""), // raw.files[0].type.replace(/image\//,""),
-									name: name,
-									kind: "image"
-								}
-								return _success(liElem, fileinfo);
-							}
-						});
-					} else {
-						fileinfo = {
-							payload: {
-								name: md5(drop.result) + "." + raw.files[0].name.trimUntilExtn(),
-								image: drop.result
-							},
-							format: raw.files[0].type.replace(/image\//,""),
-							name: name,
-							kind: "image"
+					if (drop.result instanceof ArrayBuffer) { // typically from an import rather than a drop
+						const rdr = new FileReader();
+						rdr.onload = function(rdrE) {
+							_importImageAsDataUrl(rdrE.target.result, liElem, raw, name, this_fileid, imgExt);
 						}
-						return _success(liElem, fileinfo);
+						rdr.readAsDataURL(new Blob([drop.result], {type: raw.files[0].type}));
+					} else { // a regular drop/upload is already a dataurl
+						_importImageAsDataUrl(drop.result, liElem, raw, name, this_fileid, imgExt);
 					}
+					// if (["ai","avg","psd","tiff","webp","ps","wps","azw","bmp","nef","raw","xps"].includes(imgExt)) {
+
+					// 	liElem.setAttribute("data-converted","false");
+					// 	DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");
+
+					// 	_performConversion({
+					// 		name: raw.files[0].name,
+					// 		type: raw.files[0].type,
+					// 		blob: dataURItoBlob(drop.result),  // convert the base64 string to a Blob
+					// 		fileId: this_fileid, // string ref to dom node
+					// 		original: drop.result
+					// 	}, "img");
+
+					// } else if (DocNinja.options.AUTOOPTIMISE && imgExt !== "gif") {
+					// 	new AutoScaler(drop.result, {
+					// 		maxWidth: window.innerWidth,
+					// 		maxHeight: window.inerHeight,
+					// 		quality: 0.9,
+					// 		format: raw.files[0].type,
+					// 		onComplete: function (scaledImage) {
+					// 			fileinfo = {
+					// 				payload: {
+					// 					name: md5(scaledImage) + "." + raw.files[0].name.trimUntilExtn(),
+					// 					image: scaledImage
+					// 				},
+					// 				format: scaledImage.split(";")[0].replace(/image\//,""), // raw.files[0].type.replace(/image\//,""),
+					// 				name: name,
+					// 				kind: "image"
+					// 			}
+					// 			return _success(liElem, fileinfo);
+					// 		}
+					// 	});
+					// } else {
+					// 	let img = (drop.result instanceof ArrayBuffer) ? new Uint8Array(drop.result) : drop.result;
+					// 	console.log(drop.result instanceof ArrayBuffer, img);
+					// 	fileinfo = {
+					// 		payload: {
+					// 			name: md5(drop.result) + "." + raw.files[0].name.trimUntilExtn(),
+					// 			image: drop.result
+					// 		},
+					// 		format: raw.files[0].type.replace(/image\//,""),
+					// 		name: name,
+					// 		kind: "image"
+					// 	}
+					// 	return _success(liElem, fileinfo);
+					// }
 					break;
 
 				case "text":
-					var rawHtml = (drop.result.indexOf('base64') === -1) ? drop.result : Base64.decode(drop.result.split("base64,")[1]);
+					let rawHtml = '';
+					if (drop.result instanceof ArrayBuffer) {
+						const td = new TextDecoder("utf-8");
+						// sanitize the untrusted input - https://stackoverflow.com/a/6234804/6850747
+						// this ensures that the text is not interpreted as HTML
+						const rawText = td.decode(drop.result);
+						if (rawText.toLowerCase().indexOf('<!doctype') !== 0) { // seems to be text, possibly php, escape it and process it as plain text (note zero index not -1)
+							rawHtml = $('<span>').text(document.createTextNode(rawText).textContent).html(); // or escapeHtml(...)
+							subtype = "plain";
+						} else { // first line is a doctype, assume html, let it through
+							rawHtml = rawText;
+						}
+					} else if (drop.result.indexOf('base64,') !== -1) { // it's a dataurl
+						rawHtml = Base64.decode(drop.result.split("base64,")[1]);
+					} else { // it's a regular string
+						rawHtml = drop.result;
+						// rawHtml = (drop.result.indexOf('base64,') === -1) ? drop.result : Base64.decode(drop.result.split("base64,")[1]);
+					}
 					if ("plain"===subtype) rawHtml = DocNinja.PurityControl.Conversion.TextToHtml({
 						title: name,
 						html: rawHtml
@@ -312,12 +342,16 @@
 					break;
 
 				case "audio":
-					_finishConversion({
-						status: "error",
-						error: "You can't embed audio files directly. Try attach audio to an existing page.",
-						fileInfo: null,
-						fileId: this_fileid
-					});
+					if (drop.result instanceof ArrayBuffer && DocNinja.filePreview.IsPreviewing() ) { // importing a file and previewing a page - attach the audio to the page
+						importAudioToCurrentPage_noOverwrite(drop.result, this_fileid);
+					} else {
+						_finishConversion({
+							status: "error",
+							error: "You can't embed audio files directly. Try attach audio to an existing page.",
+							fileInfo: null,
+							fileId: this_fileid
+						});
+					}
 					break;
 
 				case "video": // if the mimedb has gotten us this far it is a browser-supported type
@@ -472,10 +506,10 @@
 				DocNinja.navItems.appendChild(li);
 				reader.onload = function (e) {
 					_beginConversion(reader,
-					                 {"files":[{name: name, type: "application/zip", extension: "zip"} ]},
+					                 {"files":[{name: name, type: blob.type, extension: fileExtension(name) } ]}, // {name: name, type: "application/zip", extension: "zip"}
 					                 li,
-					                 "application",
-					                 "zip"
+					                 blob.type.split("/")[0],
+					                 blob.type.split("/")[1],
 					                );
 					reader = null;
 				}
@@ -589,6 +623,53 @@
 			}
 			return result;
 
+		}
+
+		_importImageAsDataUrl = function(dropResult, liElem, raw, name, this_fileid, imgExt) {
+			if (["ai","avg","psd","tiff","webp","ps","wps","azw","bmp","nef","raw","xps"].includes(imgExt)) {
+
+				liElem.setAttribute("data-converted","false");
+				DocNinja.PurityControl.Nav.Update(liElem, {"name": raw.files[0].name, "depth": 0}, "conversion");
+
+				_performConversion({
+					name: raw.files[0].name,
+					type: raw.files[0].type,
+					blob: dataURItoBlob(dropResult),  // convert the base64 string to a Blob
+					fileId: this_fileid, // string ref to dom node
+					original: dropResult
+				}, "img");
+
+			} else if (DocNinja.options.AUTOOPTIMISE && imgExt !== "gif") {
+				new AutoScaler(dropResult, {
+					maxWidth: window.innerWidth,
+					maxHeight: window.inerHeight,
+					quality: 0.9,
+					format: raw.files[0].type,
+					onComplete: function (scaledImage) {
+						fileinfo = {
+							payload: {
+								name: md5(scaledImage) + "." + raw.files[0].name.trimUntilExtn(),
+								image: scaledImage
+							},
+							format: scaledImage.split(";")[0].replace(/image\//,""), // raw.files[0].type.replace(/image\//,""),
+							name: name,
+							kind: "image"
+						}
+						return _success(liElem, fileinfo);
+					}
+				});
+			} else {
+				fileinfo = {
+					payload: {
+						name: md5(dropResult) + "." + raw.files[0].name.trimUntilExtn(),
+						image: dropResult
+					},
+					format: raw.files[0].type.replace(/image\//,""),
+					name: name,
+					kind: "image"
+				}
+				return _success(liElem, fileinfo);
+			}
 		}
 
 		return {

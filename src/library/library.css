@@ -1,0 +1,89 @@
+:root {
+    --radius: .5rem;
+    --edge: #00000020;
+    --fill: white;
+    --text: #333;
+    --form: #888;
+    --pad: .25rem;
+}
+body {
+    color: var(--base);
+    margin: var(--pad);
+    background: #e8e8e8;
+    font-size: 14px;
+}
+
+
+#upload-course::-webkit-file-upload-button {
+  visibility: hidden;
+}
+#upload-course::before {
+  font-family: 'courseassembler';
+  content: '\ec8c';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+#upload-course:hover::before {
+  border-color: black;
+}
+#upload-course:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+p.info { color: var(--text); }
+p.form { color: var(--form); }
+
+/* grid that has first line all the way across, the second line has first two spans left justified, and last span right justified */
+.lib-course {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "title title size" "date date actions";
+    grid-gap: var(--pad);
+    align-items: center;
+    border-bottom: 1px solid var(--edge);
+    padding: var(--pad);
+    background-image: linear-gradient(to bottom, white, var(--edge));
+    border-radius: var(--radius);
+}
+.lib-title {
+    display: block;
+    font-weight: bold;
+    grid-area: title;
+}
+.lib-date {
+    font-size: 0.8rem;
+    margin-right: .25rem;
+    grid-area: date;
+}
+.lib-filemeta {
+    font-size: 0.8rem;
+    grid-area: size;
+    justify-self: end;
+}
+/* .lib-filesize::before {
+    content: '[';
+}
+.lib-filesize::after {
+    content: ']';
+} */
+.lib-actions {
+    font-size: 0.8rem;
+    grid-area: actions;
+    justify-self: end;
+    white-space: nowrap;
+}
+
+button>i:empty {
+    margin:0;
+}

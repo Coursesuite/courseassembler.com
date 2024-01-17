@@ -12,6 +12,9 @@ button {
 	white-space: nowrap;
     transition: border-color .25s ease-in, color .25s ease-in;
 }
+.wrappable {
+	white-space: normal;
+}
 .button-like.thin {
 	margin: 0 0.25rem;
 	padding: 0.125rem .5rem;
@@ -26,6 +29,7 @@ button > i, .button-like > i{
 	margin-right: .5em;
 	color: currentcolor;
 }
+button.m0>i{margin-right:0}
 button[hidden], .button-like[hidden] {
 	display: none !important;
 	pointer-events: none;
