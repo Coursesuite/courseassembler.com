@@ -40,8 +40,13 @@
 	// load a navigation style (base theme)
 	methods.selectTheme = function(name) {
 		if (!name.length) return;
-		$("input[name='template']").val(name);
-		$("#nav-selection figure").removeClass("selected").filter("[data-name='" + name + "']").addClass("selected");
+		document.querySelector("input[name='template']").value = name;
+		const fig = document.querySelector('#nav-selection figure');
+		if (fig) {
+			fig.classList.remove('selected');
+			Array.from(fig.querySelectorAll(`[data-name='${name}']`)).forEach((v)=>v.classList.add('selected'));
+		}
+		// $("#nav-selection figure").removeClass("selected").filter("[data-name='" + name + "']").addClass("selected");
 		return new Promise(function(resolve, reject) {
 			methods.load(name)
 			.then(selectDefaultPreset)
@@ -56,7 +61,7 @@
 		const theme = atob(src);
 		const container = document.querySelector('.themePreviewOptions');
 		const details = container.querySelector("details");
-		$("input[name='selected_theme']").val(preset);
+		document.querySelector("input[name='selected_theme']").value = preset;
 		if (details) details.parentNode.removeChild(details);
 		container.appendChild(
 			fragmentFromString(
