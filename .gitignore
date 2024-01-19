@@ -28,14 +28,26 @@ yarn-error.log*
 /vendor
 composer.lock
 
+.vscode
+.VSCodeCounter
+
+src/.vscode
+src/.VSCodeCounter
+
+
 src/*/app.min.*.js
 src/*/*.map
 src/*/app.min.*.css
 src/*/edit.min.*.js
 src/*/edit.min.*.css
+src/node_modules
+src/library/reef*
+quiz/*
 
 # the app folder is published by the compile script, so don't check it in
 public/app/*
+public/app/index.php
+public/app/load.php
 
 src/preview/data/*
 
@@ -47,3 +59,12 @@ src/warehouse/*
 public/f.php
 public/unsubscribe.json
 public/subscribe.json
+src/.VSCodeCounter/2023-06-10_16-20-53/details.md
+src/.VSCodeCounter/2023-06-10_16-20-53/diff-details.md
+src/.VSCodeCounter/2023-06-10_16-20-53/diff.csv
+src/.VSCodeCounter/2023-06-10_16-20-53/diff.md
+src/.VSCodeCounter/2023-06-10_16-20-53/diff.txt
+src/.VSCodeCounter/2023-06-10_16-20-53/results.csv
+src/.VSCodeCounter/2023-06-10_16-20-53/results.json
+src/.VSCodeCounter/2023-06-10_16-20-53/results.md
+src/.VSCodeCounter/2023-06-10_16-20-53/results.txt
