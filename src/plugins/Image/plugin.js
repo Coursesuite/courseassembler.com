@@ -126,7 +126,7 @@
 
 		// select defaults
 		options.settable.forEach((v)=> {
-			const setting = options.setup[v];
+			let setting = options.setup[v];
 			if ('bias'===v&&!/(left|right)/.test(setting)) setting+= ' left'; // set a bias if missing
 			var d = p.parentNode.querySelector(`a[data-settable="${v}"][data-setting="${setting}"]`);
 			// console.log('settable foreach', v, options.setup[v], setting, d);

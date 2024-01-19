@@ -41,6 +41,7 @@ function _onclick() {
                 "image": "https://images.unsplash.com/photo-1472740378865-80aab8e73251?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
             }
         };
+    console.trace(fileInfo);
     localforage.setItem(newId, fileInfo).then(function(obj) {
         DocNinja.PurityControl.Nav.Add(DocNinja.navItems, newId, fileInfo, null, "ready");
         window.setItemOrder();

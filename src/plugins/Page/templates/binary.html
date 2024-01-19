@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>binary</title>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+
+            <link href="https://unpkg.com/normalize.css" type="text/css" rel="stylesheet" />
+			<link rel="stylesheet" type="text/css" href="style.css">
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+            <script src="https://unpkg.com/sortablejs"></script>
+            <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+    	<main>
+    		<section class="template split-50">
+    			<div class="pane cover-image first"><img src="{{payload.image}}"></div>
+    			<div class="pane overflow light">
+    				<div class="padding">
+
+<h1>{{payload.header}}</h1>
+<p>{{{payload.question}}}</p>
+
+<div id="source" class="list-group clear-styling split-50 gaps">
+    <div class="list-group-item">
+        <label class="custom-input">True / Yes
+          <input type="radio" name="radio">
+          <span class="dot"></span>
+        </label>
+    </div>
+    <div class="list-group-item">
+        <label class="custom-input">False / No
+          <input type="radio" name="radio" checked="checked">
+          <span class="dot"></span>
+        </label>
+    </div>
+</div>
+
+					</div>
+					<div class="check">
+						<button>Check answer</button>
+					</div>
+    			</div>
+    		</section>
+    	</main>
+
+<script type="text/javascript">
+    let pressed = false;
+    document.addEventListener('mousedown',function() { pressed = true; });
+    document.addEventListener('mouseup', function() { checkSelection(2); pressed = false; })
+    document.addEventListener('selectionchange', function() { checkSelection(1); });
+    function checkSelection(fn) {
+
+        let selection = document.getSelection();
+        if (fn === 2) {
+            console.info(selection);
+        }
+        console.dir(selection);
+
+
+    }
+</script>
+    </body>
+</html>

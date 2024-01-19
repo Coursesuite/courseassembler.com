@@ -61,7 +61,7 @@
       <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
       --}}
       {{#compare mode "edit"}}
-      <script src="{{root}}/js/medium-editor/medium-editor.min.js"></script>
+      <script src="{{root}}/js/medium-editor/medium-editor.js"></script>
       <script src="{{root}}/js/medium-editor/custom-html.js"></script>
       <script src="{{root}}/js/medium-editor/autolist.js"></script>
       <script src="{{root}}/js/medium-editor/toolbar-states.js"></script>
@@ -87,7 +87,7 @@
                 const app = (()=>{for(var a=self,b=0;null==a.DocNinja&&null!==a.parent&&a.parent!==a;){if(7<++b)return null;a=a.parent}return a})();
                 app.DocNinja.Plugins.ImageSelector(document.querySelector('main'), {
                   attribution: '#attribution',
-                  settable: ['position','size','source','gradient','bias'],
+                  settable: ['position','size','source','bias'],
                   setup: {bias:'{{payload.bias}}',size:'{{payload.size}}',position:'{{payload.position}}'}
                 });
                 var editor = new MediumEditor('#editor', {
@@ -103,18 +103,6 @@
                       htmlToInsert: "<hr>"
                     }),
                     "autolist": new AutoList(),
-                    // 'toolbar_states': new MediumEditorToolbarStates({
-                    //     states: {
-                    //         default: {
-                    //             buttons: ['bold', 'italic', 'anchor', 'h1', 'h2', 'h3', 'quote', 'unorderedlist', 'orderedlist', "customHtml"]
-                    //         },
-                    //         alternate: {
-                    //             buttons: ['h1', 'h2', 'h3', 'quote'],
-                    //             nodeNames: ['H1', 'H2', 'H3', 'P', 'BLOCKQUOTE']
-                    //         }
-                    //     },
-                    //     hideClass: 'hide-me'
-                    // })
                   }
                 });
                 editor.setContent(`{{{payload.html}}}`);

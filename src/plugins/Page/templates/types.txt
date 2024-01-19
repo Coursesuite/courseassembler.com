@@ -1,0 +1,9 @@
+	<div class="ga-item"><a data-action='add-kc-choice'><i class="ninja-education"></i>True/False page</a></div>
+	<div class="ga-item"><a data-action='add-kc-choice'><i class="ninja-education"></i>Single Choice page</a></div>
+	<div class="ga-item"><a data-action='add-kc-choices'><i class="ninja-education"></i>Multiple Choices page</a></div>
+	<div class="ga-item"><a data-action='add-kc-classify-v'><i class="ninja-education"></i>Classify (stack)</a></div>
+	<div class="ga-item"><a data-action='add-kc-classify-h'><i class="ninja-education"></i>Classify (column)</a></div>
+	<div class="ga-item"><a data-action='add-kc-fillin'><i class="ninja-education"></i>Fill in the blanks</a></div>
+	<div class="ga-item"><a data-action='add-kc-connect'><i class="ninja-education"></i>Connect lists</a></div>
+	<div class="ga-item"><a data-action='add-kc-reorder'><i class="ninja-education"></i>Reorder list</a></div>
+	<div class="ga-item"><a data-action='add-kc-sort'><i class="ninja-education"></i>Sort lists</a></div>
