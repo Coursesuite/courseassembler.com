@@ -673,9 +673,9 @@ templates['properties-media'] = template({"1":function(container,depth0,helpers,
 
   return "<audio id=\"pageMediaPlayer\" controls src=\""
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"mediaUrl") || (depth0 != null ? lookupProperty(depth0,"mediaUrl") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"mediaUrl","hash":{},"data":data,"loc":{"start":{"line":36,"column":42},"end":{"line":36,"column":54}}}) : helper)))
-    + "\"></audio>\n<label for=\"pageAudioNav\" class=\"button-like mb-0 wrappable\"><input id=\"pageAudioNav\" type=\"checkbox\" onchange=\"popover_audioNavToggle(this.checked)\""
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"autoNav") : depth0),{"name":"if","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":37,"column":149},"end":{"line":37,"column":179}}})) != null ? stack1 : "")
-    + "> Automatically load next page after media plays</label>\n<button data-action=\"trash-page-audio\"><i class=\"ninja-discard\"></i>Remove media</button>\n";
+    + "\"></audio>\n<label for=\"pageAudioNav\" class=\"mb-0\"><input id=\"pageAudioNav\" type=\"checkbox\" onchange=\"popover_audioNavToggle(this.checked)\""
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"autoNav") : depth0),{"name":"if","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":37,"column":127},"end":{"line":37,"column":157}}})) != null ? stack1 : "")
+    + "> Show next page after media ends</label>\n<button data-action=\"trash-page-audio\"><i class=\"ninja-discard\"></i>Remove media</button>\n";
 },"10":function(container,depth0,helpers,partials,data) {
     return " checked";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
