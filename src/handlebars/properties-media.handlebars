@@ -34,7 +34,7 @@
 
 {{#if showMedia}}
 <audio id="pageMediaPlayer" controls src="{{mediaUrl}}"></audio>
-<label for="pageAudioNav" class="button-like mb-0 wrappable"><input id="pageAudioNav" type="checkbox" onchange="popover_audioNavToggle(this.checked)"{{#if autoNav}} checked{{/if}}> Automatically load next page after media plays</label>
+<label for="pageAudioNav" class="mb-0"><input id="pageAudioNav" type="checkbox" onchange="popover_audioNavToggle(this.checked)"{{#if autoNav}} checked{{/if}}> Show next page after media ends</label>
 <button data-action="trash-page-audio"><i class="ninja-discard"></i>Remove media</button>
 {{/if}}
 
