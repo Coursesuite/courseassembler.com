@@ -20,6 +20,8 @@ It ceased commercial operation in 2024. The entire source code is available here
 
 It has a PHP based backend which in turn connects to services via api (mostly CloudConvert, NoEmbed, and internal services). It was running happily on php 7.4 on apache/mariadb. Hasn't been tested on php 8 or above.
 
+You could toss away most of the 'public' folder and just keep the app, and modify the `load.php` file to remove any need for licence keys. I think the licence key verifier might have a code switch in it for turning it off.
+
 ## coding philosophy
 
 This grew out of an idea from 2013, which got more complicated over time, without ever having the time to do a proper ground-up rewrite. It was initially a component of ['coursesuite.ninja'](https://github.com/Coursesuite/coursesuite.ninja) which offered white-labelling of the tool and integration with direct-to-moodle course creation (which in turn used https://github.com/Coursesuite/coursesuite_repository). When code files got too big, I broke them up into multiple scripts. I used a self-registering namespace because I couldn't guarentee the order of loading and functions need to load in a particular order and `import` or `node_modules` wasn't even a thing when I started the project, let alone tree-shaking compilers.
