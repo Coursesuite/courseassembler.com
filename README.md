@@ -2,6 +2,16 @@
 
 Hello. This is what remains of CourseAssembler.com. It's the source code, which you might be able to massage into a working system for yourself. Maybe. This was production code up until the day we had to wrap up the company.
 
+## how it worked
+
+Users would hit www.courseassembler.com and use the store to buy a licence key. This used *FastSpring* as a payment gateway provider. Users could purchase a subscription or X-days worth of access. This would create a licence key in a database with a start and end date on it.
+
+The front-end public website uses a simple router for loading pages dynamically. It has no WordPress or management tool, it's mostly files in folders that are dynamically served using simple routers and file-system readers.
+
+Launching the app just opened the www.courseassembler.com/app/?hash=KEY path which would run the javascript app in your browser. It was designer with desktop-browsers in mind ONLY.
+
+The app would call out to other back end services to do the grunt work, but most of the execution and file storage is clientside.
+
 ## Code
 
 CourseAssembler was a web site that allows you to upload Office-style documents and download a SCORM-ready elearning package (also H5P). It does this by utilising services to convert the content to HTML, then splits the documents into multiple pages, adding menus and code to handle completion, add per-page audio or video, add quizzes, markdown pages, etc. It can maintain the video/audio in PowerPoint files on the conversion output but not transitions/effects.
